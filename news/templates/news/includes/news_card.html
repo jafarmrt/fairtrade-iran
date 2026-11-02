@@ -1,0 +1,12 @@
+{% load wagtailcore_tags wagtailimages_tags date_tags %}
+<article class="card news-card">
+    {% if item.cover_image %}<a class="news-card__image" href="{% pageurl item %}" tabindex="-1" aria-hidden="true">{% image item.cover_image fill-640x360 loading="lazy" %}</a>{% endif %}
+    <div class="news-card__body">
+        <p class="news-meta"><span class="tag tag--{{ item.kind }}">{{ item.kind_label }}</span> <time datetime="{{ item.date|date:'Y-m-d' }}">{{ item.date|jdate }}</time></p>
+        <h3><a href="{% pageurl item %}">{{ item.title }}</a></h3>
+        {% if item.is_event and item.event_start %}
+        <p class="news-event-line">{{ item.event_start|jdatetime }}{% if item.event_location %} · {{ item.event_location }}{% endif %}</p>
+        {% endif %}
+        {% if item.intro %}<p>{{ item.intro|truncatewords:30 }}</p>{% endif %}
+    </div>
+</article>

@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+{% block extra_meta %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<header class="page-header">
+    <div class="container"><h1>{{ page.title }}</h1></div>
+</header>
+<section class="section">
+    <div class="container prose">
+        {% if page.thank_you_text %}{{ page.thank_you_text|richtext }}
+        {% else %}<p>{% if IS_EN %}Your complaint has been received and passed to the Supervisory Commission.{% else %}شکایت شما ثبت شد و به کمیسیون نظارتی رسید.{% endif %}</p>{% endif %}
+        {% if complaint %}
+        <p class="tracking-code">{% if IS_EN %}Tracking code:{% else %}کد پیگیری:{% endif %} <strong dir="ltr">{{ complaint.tracking_code }}</strong></p>
+        <p>{% if IS_EN %}Please keep this code. If you contact the commission about this complaint, quote it.{% else %}این کد را نگه دارید و در صورت پیگیری با کمیسیون به آن اشاره کنید.{% endif %}</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

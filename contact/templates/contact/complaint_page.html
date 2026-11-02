@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+{% block extra_meta %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<header class="page-header">
+    <div class="container"><h1>{{ page.title }}</h1></div>
+</header>
+<section class="section">
+    <div class="container contact-layout">
+        <div>
+            {% if page.intro %}<div class="prose">{{ page.intro|richtext }}</div>{% endif %}
+            <form class="form" action="{% pageurl page %}" method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}
+                {% include "contact/includes/form_fields.html" %}
+                <button class="btn btn--primary" type="submit">{% if IS_EN %}Submit complaint{% else %}ثبت شکایت{% endif %}</button>
+            </form>
+        </div>
+        {% if page.privacy_note %}
+        <aside class="contact-aside">
+            <div class="card card--note">
+                <h2>{% if IS_EN %}Confidentiality{% else %}محرمانگی{% endif %}</h2>
+                <div class="prose">{{ page.privacy_note|richtext }}</div>
+            </div>
+        </aside>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

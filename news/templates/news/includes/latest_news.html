@@ -1,0 +1,16 @@
+{% load wagtailcore_tags news_tags site_tags %}
+{% latest_news 3 as news_items %}
+{% if news_items %}
+{% page_of_type "news.NewsIndexPage" as news_index %}
+<section class="section">
+    <div class="container">
+        <div class="section__head">
+            <h2>{% if IS_EN %}Latest news{% else %}تازه‌ترین خبرها{% endif %}</h2>
+            {% if news_index %}<a class="btn btn--outline" href="{% pageurl news_index %}">{% if IS_EN %}All news{% else %}همه خبرها{% endif %}</a>{% endif %}
+        </div>
+        <div class="grid grid--news">
+            {% for item in news_items %}{% include "news/includes/news_card.html" %}{% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
