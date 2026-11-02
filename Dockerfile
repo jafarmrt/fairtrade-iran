@@ -27,4 +27,8 @@ USER wagtail
 RUN SECRET_KEY=collectstatic-only python manage.py collectstatic --noinput
 
 EXPOSE 8000
+# Healthy once gunicorn listens, i.e. after migrations have finished, so
+# "docker compose up --wait" and nginx wait for a ready app.
+HEALTHCHECK --interval=5s --timeout=3s --start-period=120s --retries=3 \
+    CMD ["python", "-c", "import socket; socket.create_connection(('127.0.0.1', 8000), 2)"]
 CMD ["sh", "-c", "python manage.py migrate --noinput && gunicorn fairtrade.wsgi:application --bind 0.0.0.0:${PORT} --workers 3 --timeout 60"]

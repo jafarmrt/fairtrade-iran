@@ -149,8 +149,8 @@ openssl rand -hex 24       # برای POSTGRES_PASSWORD (فقط حروف و عد
 ## ۵. راه‌اندازی اول
 
 ```bash
-docker compose up -d --build
-docker compose ps            # همه باید Up باشند
+docker compose up -d --build --wait    # تا آماده شدن سایت صبر می‌کند (بار اول تا یکی دو دقیقه)
+docker compose ps                      # همه باید Up باشند
 docker compose exec web python manage.py seed_content
 docker compose exec web python manage.py createsuperuser
 ```
@@ -251,7 +251,7 @@ ls backups/
 cd /opt/fairtrade-iran
 docker compose run --rm backup now
 git pull
-docker compose up -d --build
+docker compose up -d --build --wait
 ```
 
 تغییرات پایگاه داده (migration) هنگام روشن شدن سایت خودکار اجرا می‌شود. اگر صفحهٔ تازه‌ای به محتوای اولیه اضافه شده، `docker compose exec web python manage.py seed_content` را هم بزنید.

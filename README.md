@@ -33,7 +33,7 @@ DJANGO_SETTINGS_MODULE=fairtrade.settings.dev python manage.py test
 
 ```bash
 cp .env.example .env      # fill in SECRET_KEY, hosts, database password, email
-docker compose up -d --build
+docker compose up -d --build --wait
 docker compose exec web python manage.py seed_content
 docker compose exec web python manage.py createsuperuser
 ./deploy/init-https.sh admin@example.ir example.ir www.example.ir   # once, then set COMPOSE_FILE in .env
