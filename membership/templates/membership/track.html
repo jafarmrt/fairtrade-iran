@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailroutablepage_tags membership_tags %}
+{% block title %}{% if IS_EN %}Track your application{% else %}پیگیری درخواست عضویت{% endif %}{% endblock %}
+{% block body_class %}membership{% endblock %}
+{% block content %}
+<header class="page-header"><div class="container">
+    <p class="eyebrow"><a href="{% routablepageurl page 'index_route' %}">{{ page.title }}</a></p>
+    <h1>{% if IS_EN %}Track your application{% else %}پیگیری درخواست عضویت{% endif %}</h1>
+    {% include "membership/includes/subnav.html" with current="track" %}
+</div></header>
+<section class="section"><div class="container">
+    {% if error %}<div class="notice notice--error" role="alert">{{ error }}</div>{% endif %}
+    {% if sent %}<div class="notice notice--ok" role="status">{% if IS_EN %}Thank you. We received your reply and documents.{% else %}سپاس. پاسخ و مدارک شما دریافت شد.{% endif %}</div>{% endif %}
+
+    {% if application %}
+        <div class="card track-card">
+            <div class="track-card__head">
+                <div>
+                    <div class="muted">{{ application.member_type_display }} · <span dir="ltr">{{ application.tracking_code }}</span></div>
+                    <h2>{% if IS_EN and application.name_en %}{{ application.name_en }}{% else %}{{ application.name }}{% endif %}</h2>
+                </div>
+                <span class="status-badge status-badge--{{ application.status }}">{{ application.status_display }}</span>
+            </div>
+            <dl class="fee-list">
+                <div><dt>{% if IS_EN %}Submitted{% else %}تاریخ ثبت{% endif %}</dt><dd>{{ application.submitted_at|jdate }}</dd></div>
+                {% if application.deadline and not application.is_closed %}
+                <div><dt>{% if application.status == 'trial' or application.status == 'trial_extended' %}{% if IS_EN %}Trial ends{% else %}پایان دوره آزمایشی{% endif %}{% elif IS_EN %}Next step expected by{% else %}مهلت مرحله فعلی{% endif %}</dt><dd>{{ application.deadline|jdate }}</dd></div>
+                {% endif %}
+            </dl>
+            {% with events=application.public_events %}{% if events %}
+            <h3>{% if IS_EN %}Messages from the House{% else %}پیام‌های خانه{% endif %}</h3>
+            <ul class="timeline">
+                {% for event in events %}
+                <li><div class="muted">{{ event.created_at|jdate }}{% if event.to_status %} · {{ event.to_status_display }}{% endif %}</div><p>{{ event.message|linebreaksbr }}</p></li>
+                {% endfor %}
+            </ul>
+            {% endif %}{% endwith %}
+
+            {% if resubmit_form %}
+            <h3>{% if IS_EN %}Send your reply and documents{% else %}ارسال پاسخ و مدارک{% endif %}</h3>
+            <form class="form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}<input type="hidden" name="step" value="resubmit">
+                {{ resubmit_form.non_field_errors }}
+                {% for field in resubmit_form %}{% include "membership/includes/field.html" %}{% endfor %}
+                <button class="btn btn--primary" type="submit">{% if IS_EN %}Send{% else %}ارسال{% endif %}</button>
+            </form>
+            {% endif %}
+            {% if application.certificate_or_none %}
+            <p><a href="{% routablepageurl page 'certificate_check' %}?number={{ application.certificate_or_none.number }}">{% if IS_EN %}Your membership certificate{% else %}گواهی عضویت شما{% endif %}: <span dir="ltr">{{ application.certificate_or_none.number }}</span></a></p>
+            {% endif %}
+            <form method="post" class="track-logout">{% csrf_token %}<input type="hidden" name="step" value="logout">
+                <button class="linklike" type="submit">{% if IS_EN %}Look up another application{% else %}پیگیری پرونده دیگر{% endif %}</button></form>
+        </div>
+    {% else %}
+        {% if page.track_intro %}<div class="prose">{{ page.track_intro|richtext }}</div>{% endif %}
+        <form class="form" method="post">
+            {% csrf_token %}<input type="hidden" name="step" value="lookup">
+            {% for field in lookup_form %}{% include "membership/includes/field.html" %}{% endfor %}
+            <button class="btn btn--primary" type="submit">{% if IS_EN %}Show status{% else %}نمایش وضعیت{% endif %}</button>
+        </form>
+    {% endif %}
+</div></section>
+{% endblock %}

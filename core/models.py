@@ -119,6 +119,35 @@ class MembershipSettings(BaseGenericSetting):
     trial_period_months = models.PositiveSmallIntegerField(_("دوره آزمایشی (ماه)"), default=3)
 
     applications_open = models.BooleanField(_("پذیرش درخواست عضویت فعال است"), default=True)
+    reminder_days_before = models.PositiveSmallIntegerField(
+        _("یادآوری مهلت (روز پیش از پایان)"), default=2,
+        help_text=_("دبیرخانه و کمیسیون این تعداد روز پیش از پایان مهلت هر پرونده ایمیل یادآوری می‌گیرند"),
+    )
+    max_upload_mb = models.PositiveSmallIntegerField(_("حداکثر حجم هر فایل پیوست (مگابایت)"), default=10)
+    allowed_upload_extensions = models.CharField(
+        _("پسوندهای مجاز پیوست"), max_length=200, default="pdf, jpg, jpeg, png, docx, odt",
+        help_text=_("با ویرگول جدا کنید"),
+    )
+
+    certificate_prefix = models.CharField(
+        _("پیشوند شماره گواهی"), max_length=20, default="FTH",
+        help_text=_("شماره گواهی به شکل پیشوند-سال-شماره ساخته می‌شود، مثلاً FTH-1405-0001"),
+    )
+    certificate_title = models.CharField(_("عنوان گواهی (فارسی)"), max_length=200, default="گواهی عضویت")
+    certificate_title_en = models.CharField(_("عنوان گواهی (انگلیسی)"), max_length=200, default="Certificate of Membership")
+    certificate_text = models.TextField(
+        _("متن گواهی (فارسی)"), blank=True,
+        help_text=_("می‌توانید از {name}، {type} و {date} در متن استفاده کنید"),
+    )
+    certificate_text_en = models.TextField(_("متن گواهی (انگلیسی)"), blank=True)
+    certificate_signatory = models.CharField(_("نام امضاکننده گواهی (فارسی)"), max_length=120, blank=True)
+    certificate_signatory_en = models.CharField(_("نام امضاکننده گواهی (انگلیسی)"), max_length=120, blank=True)
+    certificate_signatory_title = models.CharField(_("سمت امضاکننده (فارسی)"), max_length=120, blank=True, default="دبیر اجرایی")
+    certificate_signatory_title_en = models.CharField(_("سمت امضاکننده (انگلیسی)"), max_length=120, blank=True, default="Executive Secretary")
+    certificate_validity_months = models.PositiveSmallIntegerField(
+        _("اعتبار گواهی (ماه)"), null=True, blank=True, default=12,
+        help_text=_("خالی بگذارید اگر گواهی تاریخ انقضا ندارد"),
+    )
 
     fee_panels = [
         MultiFieldPanel(
@@ -140,11 +169,23 @@ class MembershipSettings(BaseGenericSetting):
         FieldPanel("secretariat_review_days"),
         FieldPanel("commission_review_days"),
         FieldPanel("trial_period_months"),
+        FieldPanel("reminder_days_before"),
+        FieldPanel("max_upload_mb"),
+        FieldPanel("allowed_upload_extensions"),
+    ]
+    certificate_panels = [
+        FieldPanel("certificate_prefix"),
+        FieldPanel("certificate_validity_months"),
+        FieldPanel("certificate_title"), FieldPanel("certificate_title_en"),
+        FieldPanel("certificate_text"), FieldPanel("certificate_text_en"),
+        FieldPanel("certificate_signatory"), FieldPanel("certificate_signatory_en"),
+        FieldPanel("certificate_signatory_title"), FieldPanel("certificate_signatory_title_en"),
     ]
     edit_handler = TabbedInterface([
         ObjectList(fee_panels, heading=_("مبالغ")),
         ObjectList(bank_panels, heading=_("حساب بانکی")),
         ObjectList(process_panels, heading=_("فرایند و مهلت‌ها")),
+        ObjectList(certificate_panels, heading=_("گواهی عضویت")),
     ])
 
     class Meta:
@@ -159,3 +200,10 @@ class MembershipSettings(BaseGenericSetting):
     @property
     def has_bank_details(self):
         return bool(self.card_number or self.sheba)
+
+    @property
+    def upload_extensions(self):
+        return [e.strip().lstrip(".").lower() for e in self.allowed_upload_extensions.split(",") if e.strip()]
+
+    def tr(self, field):
+        return BilingualMixin.tr(self, field)

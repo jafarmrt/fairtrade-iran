@@ -1,0 +1,17 @@
+{% load membership_tags %}
+<section class="panel summary nice-padding" style="margin-bottom:2rem">
+    <h2>پرونده‌های عضویت نیازمند اقدام شما</h2>
+    <table class="listing">
+        <thead><tr><th>متقاضی</th><th>وضعیت</th><th>مهلت</th></tr></thead>
+        <tbody>
+        {% for a in applications %}
+        <tr>
+            <td><a href="{% url 'membership_applications:detail' a.pk %}">{{ a.name }}</a> <small dir="ltr">{{ a.tracking_code }}</small></td>
+            <td>{{ a.get_status_display }}</td>
+            <td>{% if a.deadline %}<span{% if a.is_overdue %} style="color:#b42318;font-weight:700"{% endif %}>{{ a.deadline|jdate_fa }}</span>{% else %}-{% endif %}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <p><a href="{% url 'membership_applications:index' %}?status=mine">همه پرونده‌های من</a></p>
+</section>

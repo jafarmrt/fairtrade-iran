@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailroutablepage_tags membership_tags site_tags %}
+{% block title %}{% if IS_EN %}Check a membership certificate{% else %}استعلام گواهی عضویت{% endif %}{% endblock %}
+{% block body_class %}membership{% endblock %}
+{% block content %}
+<header class="page-header"><div class="container">
+    <p class="eyebrow"><a href="{% routablepageurl page 'index_route' %}">{{ page.title }}</a></p>
+    <h1>{% if IS_EN %}Check a membership certificate{% else %}استعلام گواهی عضویت{% endif %}</h1>
+    {% include "membership/includes/subnav.html" with current="certificate" %}
+</div></header>
+<section class="section"><div class="container">
+    {% if page.certificate_intro %}<div class="prose">{{ page.certificate_intro|richtext }}</div>{% endif %}
+    <form class="form form--inline" method="get">
+        <div class="form-row">
+            <label for="cert-number">{% if IS_EN %}Certificate number{% else %}شماره گواهی{% endif %}</label>
+            <input type="text" id="cert-number" name="number" value="{{ number }}" dir="ltr" placeholder="FTH-1405-0001" required>
+        </div>
+        <button class="btn btn--primary" type="submit">{% if IS_EN %}Check{% else %}استعلام{% endif %}</button>
+    </form>
+
+    {% if searched %}
+        {% if certificate %}
+        <div class="card cert-result {% if certificate.is_valid %}cert-result--valid{% else %}cert-result--invalid{% endif %}" role="status">
+            <p class="cert-result__state">
+                {% if certificate.revoked %}{% if IS_EN %}This certificate has been revoked.{% else %}این گواهی باطل شده است.{% endif %}
+                {% elif certificate.is_expired %}{% if IS_EN %}This certificate has expired.{% else %}اعتبار این گواهی به پایان رسیده است.{% endif %}
+                {% else %}{% if IS_EN %}This certificate is valid.{% else %}این گواهی معتبر است.{% endif %}{% endif %}
+            </p>
+            <dl class="fee-list">
+                <div><dt>{% if IS_EN %}Member{% else %}عضو{% endif %}</dt><dd>{% tr certificate "name" %}</dd></div>
+                <div><dt>{% if IS_EN %}Membership group{% else %}گروه عضویت{% endif %}</dt><dd>{{ certificate.member_type_display }}</dd></div>
+                <div><dt>{% if IS_EN %}Certificate number{% else %}شماره گواهی{% endif %}</dt><dd dir="ltr">{{ certificate.number }}</dd></div>
+                <div><dt>{% if IS_EN %}Issued{% else %}تاریخ صدور{% endif %}</dt><dd>{{ certificate.issued_on|jdate }}</dd></div>
+                {% if certificate.valid_until %}<div><dt>{% if IS_EN %}Valid until{% else %}اعتبار تا{% endif %}</dt><dd>{{ certificate.valid_until|jdate }}</dd></div>{% endif %}
+            </dl>
+        </div>
+        {% else %}
+        <div class="notice notice--error" role="status">{% if IS_EN %}No certificate with this number was found.{% else %}گواهی با این شماره پیدا نشد.{% endif %}</div>
+        {% endif %}
+    {% endif %}
+</div></section>
+{% endblock %}
