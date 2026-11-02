@@ -1,0 +1,67 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags site_tags %}
+{% block body_class %}page-shop{% endblock %}
+{% block content %}
+<header class="page-header">
+    <div class="container">
+        <h1>{{ page.title }}</h1>
+        {% if page.intro %}<div class="lead prose">{{ page.intro|richtext }}</div>{% endif %}
+    </div>
+</header>
+
+<section class="section">
+    <div class="container">
+        {% if categories|length > 1 %}
+        <nav class="chips" aria-label="{% if IS_EN %}Categories{% else %}دسته‌بندی‌ها{% endif %}">
+            <a href="{% pageurl page %}"{% if not filters.category %} aria-current="true"{% endif %}>{% if IS_EN %}All{% else %}همه{% endif %}</a>
+            {% for category in categories %}
+            <a href="?category={{ category.slug|urlencode }}"{% if filters.category == category.slug %} aria-current="true"{% endif %}>{% tr category "name" %}</a>
+            {% endfor %}
+        </nav>
+        {% endif %}
+
+        <form class="filters" method="get" role="search">
+            {% if filters.category %}<input type="hidden" name="category" value="{{ filters.category }}">{% endif %}
+            <div class="filters__field filters__field--grow">
+                <label for="f-q">{% if IS_EN %}Search{% else %}جستجو{% endif %}</label>
+                <input id="f-q" type="search" name="q" value="{{ filters.q }}" placeholder="{% if IS_EN %}Product or producer{% else %}نام محصول یا تولیدکننده{% endif %}">
+            </div>
+            {% if producers %}
+            <div class="filters__field">
+                <label for="f-member">{% if IS_EN %}Producer{% else %}تولیدکننده{% endif %}</label>
+                <select id="f-member" name="member">
+                    <option value="">{% if IS_EN %}All{% else %}همه{% endif %}</option>
+                    {% for member in producers %}<option value="{{ member.slug }}"{% if filters.member == member.slug %} selected{% endif %}>{% tr member "name" %}</option>{% endfor %}
+                </select>
+            </div>
+            {% endif %}
+            {% if regions %}
+            <div class="filters__field">
+                <label for="f-region">{% if IS_EN %}Region{% else %}منطقه{% endif %}</label>
+                <select id="f-region" name="region">
+                    <option value="">{% if IS_EN %}All{% else %}همه{% endif %}</option>
+                    {% for region in regions %}<option value="{{ region.pk }}"{% if filters.region == region.pk|stringformat:"s" %} selected{% endif %}>{% tr region "name" %}</option>{% endfor %}
+                </select>
+            </div>
+            {% endif %}
+            <div class="filters__field filters__field--check">
+                <label><input type="checkbox" name="in_stock" value="1"{% if filters.in_stock %} checked{% endif %}> {% if IS_EN %}In stock only{% else %}فقط موجودها{% endif %}</label>
+            </div>
+            <div class="filters__actions">
+                <button class="btn btn--primary" type="submit">{% if IS_EN %}Filter{% else %}نمایش{% endif %}</button>
+                {% if querystring %}<a class="btn btn--outline" href="{% pageurl page %}">{% if IS_EN %}Clear{% else %}پاک کردن{% endif %}</a>{% endif %}
+            </div>
+        </form>
+
+        {% if products.object_list %}
+            <p class="result-count">{% if IS_EN %}{{ products.paginator.count }} product{{ products.paginator.count|pluralize }}{% else %}{{ products.paginator.count }} محصول{% endif %}</p>
+            <div class="grid grid--products">
+                {% for product in products %}{% include "products/includes/product_card.html" %}{% endfor %}
+            </div>
+            {% include "includes/pagination.html" with items=products %}
+        {% else %}
+            <p class="empty">{% if querystring %}{% if IS_EN %}No products match these filters.{% else %}محصولی با این مشخصات پیدا نشد.{% endif %}{% else %}{% if IS_EN %}Products will be added soon.{% else %}محصولات اعضا به‌زودی اضافه می‌شوند.{% endif %}{% endif %}</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

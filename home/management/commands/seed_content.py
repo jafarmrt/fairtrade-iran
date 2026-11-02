@@ -21,6 +21,7 @@ from wagtail.models import Collection, CollectionViewRestriction, Locale, Page, 
 
 from core.models import MembershipSettings, SiteSettings
 from home.models import HomePage
+from members.seed import seed_directory
 from pages.models import Principle, PrinciplesPage, StandardPage
 
 from . import seed_data as data
@@ -46,6 +47,7 @@ class Command(BaseCommand):
         self.ensure_principles(home_fa, home_en)
         self.ensure_settings()
         self.ensure_groups_and_collections()
+        seed_directory(self, home_fa, home_en)
         self.stdout.write(self.style.SUCCESS("Starting content is in place."))
 
     # ---- languages and home pages ----

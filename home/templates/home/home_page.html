@@ -31,7 +31,10 @@
 </section>
 {% endif %}
 
-{% block home_sections %}{% endblock %}
+{% block home_sections %}
+{% include "products/includes/home_featured.html" %}
+{% include "members/includes/home_featured.html" %}
+{% endblock %}
 
 {% if page.body %}
 <section class="section section--alt">

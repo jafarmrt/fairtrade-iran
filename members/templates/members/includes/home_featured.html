@@ -1,0 +1,20 @@
+{% load wagtailcore_tags site_tags directory_tags %}
+{% featured_members as members %}
+{% if members %}
+{% with conf=settings.members.DirectorySettings %}
+<section class="section section--alt home-members">
+    <div class="container">
+        <div class="section__head">
+            <div>
+                <h2>{% tr conf "home_title" %}</h2>
+                {% tr conf "home_text" as text %}{% if text %}<p class="muted">{{ text }}</p>{% endif %}
+            </div>
+            {% members_index as index %}{% if index %}<a class="btn btn--outline" href="{% pageurl index %}">{% if IS_EN %}All members{% else %}همه اعضا{% endif %}</a>{% endif %}
+        </div>
+        <div class="grid grid--cards">
+            {% for member in members %}{% include "members/includes/member_card.html" %}{% endfor %}
+        </div>
+    </div>
+</section>
+{% endwith %}
+{% endif %}

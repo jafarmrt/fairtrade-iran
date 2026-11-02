@@ -1,0 +1,7 @@
+{% if items.paginator.num_pages > 1 %}
+<nav class="pagination" aria-label="{% if IS_EN %}Pages{% else %}صفحه‌ها{% endif %}">
+    {% if items.has_previous %}<a href="?{% if querystring %}{{ querystring }}&amp;{% endif %}page={{ items.previous_page_number }}" rel="prev">{% if IS_EN %}Previous{% else %}قبلی{% endif %}</a>{% endif %}
+    <span>{% if IS_EN %}Page {{ items.number }} of {{ items.paginator.num_pages }}{% else %}صفحه {{ items.number }} از {{ items.paginator.num_pages }}{% endif %}</span>
+    {% if items.has_next %}<a href="?{% if querystring %}{{ querystring }}&amp;{% endif %}page={{ items.next_page_number }}" rel="next">{% if IS_EN %}Next{% else %}بعدی{% endif %}</a>{% endif %}
+</nav>
+{% endif %}

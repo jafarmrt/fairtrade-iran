@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags site_tags directory_tags %}
+{% block body_class %}page-member{% endblock %}
+{% block title %}{% tr member "name" %}{% endblock %}
+{% block extra_meta %}{% tr member "summary" as summary %}{% if summary %}<meta name="description" content="{{ summary }}">{% endif %}{% endblock %}
+{% block content %}
+{% tr member "name" as member_name %}
+<header class="page-header profile-header">
+    <div class="container profile-header__inner">
+        {% if member.logo %}<div class="profile-header__logo">{% image member.logo max-160x160 %}</div>{% endif %}
+        <div>
+            <p class="breadcrumb"><a href="{% pageurl page %}">{{ page.title }}</a></p>
+            <h1>{{ member_name }}</h1>
+            <p class="member-card__meta">
+                <span>{{ member.type_label }}</span>
+                {% if member.region %}<span>{% tr member.region "name" %}{% tr member "city" as city %}{% if city %}، {{ city }}{% endif %}</span>{% endif %}
+            </p>
+            <p class="badges">
+                {% if member.is_founding %}<span class="badge badge--gold">{% if IS_EN %}Founding member{% else %}عضو مؤسس{% endif %}</span>{% endif %}
+                {% if member.is_trial and directory_settings.show_trial_badge %}<span class="badge">{{ member.status_label }}</span>{% endif %}
+            </p>
+        </div>
+    </div>
+</header>
+{% if member.cover_image %}<div class="page-cover">{% image member.cover_image fill-1600x500 %}</div>{% endif %}
+
+<section class="section">
+    <div class="container profile">
+        <div class="prose">
+            {% tr member "summary" as summary %}{% if summary %}<p class="lead">{{ summary }}</p>{% endif %}
+            {% tr member "story" as story %}{% if story %}{{ story|richtext }}{% endif %}
+        </div>
+        <aside class="card profile__contact">
+            <h2 class="h3">{% if IS_EN %}Contact and buy{% else %}ارتباط و خرید{% endif %}</h2>
+            <ul class="link-list">
+                {% if member.website_url %}<li><a href="{{ member.website_url }}" rel="noopener" target="_blank">{% if IS_EN %}Website or online shop{% else %}وب‌سایت یا فروشگاه اینترنتی{% endif %}</a></li>{% endif %}
+                {% if member.instagram_url %}<li><a href="{{ member.instagram_url }}" rel="noopener" target="_blank">{% if IS_EN %}Instagram{% else %}اینستاگرام{% endif %}</a></li>{% endif %}
+                {% if member.public_phone %}<li><a href="tel:{{ member.public_phone }}" dir="ltr">{{ member.public_phone }}</a></li>{% endif %}
+                {% if member.public_email %}<li><a href="mailto:{{ member.public_email }}">{{ member.public_email }}</a></li>{% endif %}
+            </ul>
+            {% if not member.website_url and not member.instagram_url and not member.public_phone and not member.public_email %}
+                <p class="muted">{% if IS_EN %}Contact details will be added soon.{% else %}اطلاعات تماس به‌زودی اضافه می‌شود.{% endif %}</p>
+            {% endif %}
+        </aside>
+    </div>
+</section>
+
+{% if products %}
+<section class="section section--alt">
+    <div class="container">
+        <div class="section__head">
+            <h2>{% if IS_EN %}Products by {{ member_name }}{% else %}محصولات {{ member_name }}{% endif %}</h2>
+            {% shop_index as shop %}{% if shop %}<a href="{% pageurl shop %}?member={{ member.slug|urlencode }}">{% if IS_EN %}See all in the shop{% else %}همه در فروشگاه{% endif %}</a>{% endif %}
+        </div>
+        <div class="grid grid--products">
+            {% for product in products|slice:":8" %}{% include "products/includes/product_card.html" %}{% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
