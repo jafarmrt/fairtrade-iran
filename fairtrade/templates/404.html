@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{% if IS_EN %}Page not found{% else %}صفحه پیدا نشد{% endif %}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+<h1>{% if IS_EN %}Page not found{% else %}صفحه پیدا نشد{% endif %}</h1>
+<p class="lead">{% if IS_EN %}The page you are looking for does not exist or has moved.{% else %}صفحه‌ای که دنبالش هستید وجود ندارد یا جابه‌جا شده است.{% endif %}</p>
+</div></section>
+<section class="section"><div class="container"><a class="btn btn--primary" href="/{{ LANG }}/">{% if IS_EN %}Back to home{% else %}بازگشت به صفحه اصلی{% endif %}</a></div></section>
+{% endblock %}

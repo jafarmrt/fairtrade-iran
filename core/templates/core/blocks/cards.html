@@ -1,0 +1,2 @@
+<section>{% if value.heading %}<h2>{{ value.heading }}</h2>{% endif %}
+<div class="grid">{% for card in value.cards %}<div class="card"><h3>{{ card.title }}</h3><p>{{ card.text|linebreaksbr }}</p></div>{% endfor %}</div></section>

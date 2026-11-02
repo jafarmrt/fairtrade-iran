@@ -1,0 +1,45 @@
+{% load static wagtailcore_tags wagtailimages_tags site_tags %}
+{% with s=settings.core.SiteSettings %}
+{% tr s "site_name" as site_name %}
+<footer class="site-footer">
+    <div class="container">
+        <div class="site-footer__grid">
+            <div>
+                <div class="site-footer__logo">
+                    {% if s.logo_light %}{% image s.logo_light height-128 as flogo %}<img src="{{ flogo.url }}" alt="{{ site_name }}" height="64" width="{{ flogo.width }}">
+                    {% else %}<img src="{% static 'img/logo-white.png' %}" alt="{{ site_name }}" height="64" width="118">{% endif %}
+                </div>
+                {% tr s "footer_text" as footer_text %}
+                {% if footer_text %}<p>{{ footer_text|linebreaksbr }}</p>{% endif %}
+            </div>
+
+            <div>
+                <h2>{% if IS_EN %}Pages{% else %}صفحه‌ها{% endif %}</h2>
+                <ul>
+                    {% nav_pages as menu %}
+                    {% for item in menu %}<li><a href="{% pageurl item %}">{{ item.title }}</a></li>{% endfor %}
+                </ul>
+            </div>
+
+            {% if s.address or s.phone or s.email or s.instagram_url or s.telegram_url or s.linkedin_url or s.aparat_url %}
+            <div>
+                <h2>{% if IS_EN %}Contact{% else %}تماس{% endif %}</h2>
+                <ul>
+                    {% tr s "address" as address %}
+                    {% if address %}<li>{{ address|linebreaksbr }}</li>{% endif %}
+                    {% if s.phone %}<li><a href="tel:{{ s.phone }}" dir="ltr">{{ s.phone }}</a></li>{% endif %}
+                    {% if s.email %}<li><a href="mailto:{{ s.email }}">{{ s.email }}</a></li>{% endif %}
+                </ul>
+                <div class="social">
+                    {% if s.instagram_url %}<a href="{{ s.instagram_url }}" rel="noopener">Instagram</a>{% endif %}
+                    {% if s.telegram_url %}<a href="{{ s.telegram_url }}" rel="noopener">Telegram</a>{% endif %}
+                    {% if s.linkedin_url %}<a href="{{ s.linkedin_url }}" rel="noopener">LinkedIn</a>{% endif %}
+                    {% if s.aparat_url %}<a href="{{ s.aparat_url }}" rel="noopener">{% if IS_EN %}Aparat{% else %}آپارات{% endif %}</a>{% endif %}
+                </div>
+            </div>
+            {% endif %}
+        </div>
+        <div class="site-footer__bottom">© {% now "Y" %} {{ site_name }}</div>
+    </div>
+</footer>
+{% endwith %}

@@ -1,0 +1,40 @@
+{% load static wagtailcore_tags wagtailimages_tags site_tags %}
+{% localized_home as home %}
+{% tr settings.core.SiteSettings "site_name" as site_name %}
+<header class="site-header">
+    <div class="container site-header__inner">
+        <a class="site-logo" href="{% if home %}{% pageurl home %}{% else %}/{% endif %}">
+            {% with s=settings.core.SiteSettings %}
+                {% if IS_EN and s.logo_en %}
+                    {% image s.logo_en height-96 as logo %}<img src="{{ logo.url }}" alt="{{ site_name }}" height="48" width="{{ logo.width }}">
+                {% elif s.logo %}
+                    {% image s.logo height-96 as logo %}<img src="{{ logo.url }}" alt="{{ site_name }}" height="48" width="{{ logo.width }}">
+                {% else %}
+                    <img src="{% static 'img/logo-navy.png' %}" alt="{{ site_name }}" height="48" width="89">
+                {% endif %}
+            {% endwith %}
+            <span class="site-logo__text">{{ site_name }}</span>
+        </a>
+
+        <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">
+            {% if IS_EN %}Menu{% else %}منو{% endif %}
+        </button>
+
+        <nav class="main-nav" id="main-nav" aria-label="{% if IS_EN %}Main{% else %}منوی اصلی{% endif %}">
+            <ul>
+                {% nav_pages as menu %}
+                {% for item in menu %}
+                <li><a href="{% pageurl item %}"{% if page.pk == item.pk %} aria-current="page"{% endif %}>{{ item.title }}</a></li>
+                {% endfor %}
+            </ul>
+        </nav>
+
+        <div class="header-actions">
+            {% if IS_EN %}
+                <a class="lang-switch" href="{% translation_url 'fa' %}" lang="fa" hreflang="fa">فارسی</a>
+            {% else %}
+                <a class="lang-switch" href="{% translation_url 'en' %}" lang="en" hreflang="en">English</a>
+            {% endif %}
+        </div>
+    </div>
+</header>

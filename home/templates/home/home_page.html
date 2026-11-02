@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+{% load static wagtailcore_tags wagtailimages_tags site_tags %}
+{% block body_class %}page-home{% endblock %}
+{% block title %}{% tr settings.core.SiteSettings "site_name" %}{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="container hero__grid">
+        <div>
+            {% tr settings.core.SiteSettings "tagline" as tagline %}
+            {% if tagline %}<p class="eyebrow" style="color:var(--gold)">{{ tagline }}</p>{% endif %}
+            <h1>{{ page.hero_title|default:page.title }}</h1>
+            {% if page.hero_text %}<p class="hero__text">{{ page.hero_text }}</p>{% endif %}
+            <div class="hero__actions">
+                {% if page.hero_cta_page %}<a class="btn btn--primary" href="{% pageurl page.hero_cta_page %}">{{ page.hero_cta_text|default:page.hero_cta_page.title }}</a>{% endif %}
+                {% for child in page.get_children.live.in_menu|slice:":1" %}
+                    {% if child.pk != page.hero_cta_page_id %}<a class="btn btn--light" href="{% pageurl child %}">{{ child.title }}</a>{% endif %}
+                {% endfor %}
+            </div>
+        </div>
+        <div class="hero__image">
+            {% if page.hero_image %}{% image page.hero_image fill-720x540 %}
+            {% else %}<img class="hero__logo" src="{% static 'img/logo-white.png' %}" alt="" width="801" height="433">{% endif %}
+        </div>
+    </div>
+</section>
+
+{% if page.intro %}
+<section class="section">
+    <div class="container prose">{{ page.intro|richtext }}</div>
+</section>
+{% endif %}
+
+{% block home_sections %}{% endblock %}
+
+{% if page.body %}
+<section class="section section--alt">
+    <div class="container">{% include_block page.body %}</div>
+</section>
+{% endif %}
+{% endblock %}

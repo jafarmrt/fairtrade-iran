@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+{% block content %}
+<header class="page-header">
+    <div class="container">
+        <h1>{{ page.title }}</h1>
+        {% if page.intro %}<div class="lead">{{ page.intro|richtext }}</div>{% endif %}
+    </div>
+</header>
+<section class="section">
+    <div class="container">
+        <ol class="principles">
+            {% for p in page.principles.all %}
+            <li class="principle"><h3>{{ p.title }}</h3>{% if p.description %}<p>{{ p.description }}</p>{% endif %}</li>
+            {% endfor %}
+        </ol>
+        {% if page.outro %}<div class="prose" style="margin-top:32px">{{ page.outro|richtext }}</div>{% endif %}
+    </div>
+</section>
+{% endblock %}
