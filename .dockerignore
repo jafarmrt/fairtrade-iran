@@ -7,3 +7,5 @@ media
 private_media
 staticfiles
 .env
+backups
+docs

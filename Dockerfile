@@ -5,14 +5,17 @@ ENV PYTHONUNBUFFERED=1 \
     PORT=8000 \
     DJANGO_SETTINGS_MODULE=fairtrade.settings.production
 
-RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
-        libjpeg62-turbo zlib1g libwebp7 \
-    && rm -rf /var/lib/apt/lists/* \
-    && useradd --create-home wagtail
+# Pillow and psycopg ship self-contained wheels, so no Debian packages are
+# needed. That keeps the build working where Debian mirrors are slow or blocked.
+RUN useradd --create-home wagtail
+
+# Optional PyPI mirror for servers that cannot reach pypi.org, e.g.
+#   docker compose build --build-arg PIP_INDEX_URL=https://mirror.example/simple
+ARG PIP_INDEX_URL=https://pypi.org/simple
 
 WORKDIR /app
 COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir --index-url "${PIP_INDEX_URL}" -r requirements.txt
 
 COPY --chown=wagtail:wagtail . .
 RUN mkdir -p /app/media /app/private_media /app/staticfiles \

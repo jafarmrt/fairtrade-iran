@@ -29,16 +29,21 @@ DJANGO_SETTINGS_MODULE=fairtrade.settings.dev python manage.py test
 
 ## Deploy with Docker
 
+راهنمای کامل فارسی استقرار روی سرور (VPS ایران یا خارج، HTTPS، پشتیبان‌گیری و بازگردانی): [docs/deploy-fa.md](docs/deploy-fa.md)
+
 ```bash
 cp .env.example .env      # fill in SECRET_KEY, hosts, database password, email
 docker compose up -d --build
 docker compose exec web python manage.py seed_content
 docker compose exec web python manage.py createsuperuser
+./deploy/init-https.sh admin@example.ir example.ir www.example.ir   # once, then set COMPOSE_FILE in .env
 ```
 
-The stack is PostgreSQL + the app (gunicorn, static files via WhiteNoise) + nginx for uploaded media. It runs the same on a server inside Iran or abroad. Put HTTPS in front of nginx (for example with the host's certificate or a CDN) and keep `USE_HTTPS=1`.
+The stack is PostgreSQL + the app (gunicorn, static files via WhiteNoise) + nginx + a backup job, and runs the same on a server inside Iran or abroad. `docker-compose.https.yml` adds HTTPS with a Let's Encrypt certificate that renews itself.
 
-**Backups:** back up the `pgdata`, `media` and `private_media` volumes daily, to storage outside the server.
+**Backups:** the `backup` service dumps the database and archives the `media` and `private_media` volumes into `./backups/` every day (`BACKUP_TIME`, kept for `BACKUP_KEEP_DAYS`). Copy `./backups/` off the server regularly. Restore with `./deploy/restore.sh backups/<date-time>`.
+
+**CI:** GitHub Actions runs the tests against PostgreSQL, checks migrations, runs `seed_content` twice, and builds and starts the Docker stack on every push to `main` and every pull request.
 
 ## What the admin panel controls
 

@@ -9,3 +9,4 @@ db.sqlite3
 fairtrade/settings/local.py
 .env
 .DS_Store
+/backups/
