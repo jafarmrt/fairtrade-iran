@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+{% load site_tags %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block title %}{% if IS_EN %}Test gateway{% else %}درگاه آزمایشی{% endif %}{% endblock %}
+{% block content %}
+<header class="page-header"><div class="container">
+    <h1>{% if IS_EN %}Test payment gateway{% else %}درگاه پرداخت آزمایشی{% endif %}</h1>
+</div></header>
+<section class="section"><div class="container container--narrow">
+    <div class="notice notice--error" role="alert">{% if IS_EN %}This is not a real bank. No money is moved. Switch to a real gateway in the admin before going live.{% else %}این یک بانک واقعی نیست و پولی جابه‌جا نمی‌شود. پیش از راه‌اندازی، در تنظیمات پرداخت درگاه واقعی را انتخاب کنید.{% endif %}</div>
+    <div class="card">
+        <dl class="fee-list">
+            <div><dt>{% if IS_EN %}For{% else %}بابت{% endif %}</dt><dd>{{ payment.description }}</dd></div>
+            <div><dt>{% if IS_EN %}Amount{% else %}مبلغ{% endif %}</dt><dd>{{ payment.amount|money }} {% if IS_EN %}rials{% else %}ریال{% endif %}</dd></div>
+        </dl>
+        <form method="post" action="{% url 'payments:callback' payment.uid %}" class="panel-actions">
+            <input type="hidden" name="authority" value="{{ payment.authority }}">
+            <button class="btn btn--primary" name="result" value="ok" type="submit">{% if IS_EN %}Pay{% else %}پرداخت موفق{% endif %}</button>
+            <button class="btn btn--outline" name="result" value="cancel" type="submit">{% if IS_EN %}Cancel{% else %}انصراف{% endif %}</button>
+        </form>
+    </div>
+</div></section>
+{% endblock %}

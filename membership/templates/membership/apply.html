@@ -50,6 +50,7 @@
                 {% if fee %}
                     <p>{% if IS_EN %}Application fee:{% else %}هزینه درخواست:{% endif %} <strong>{% include "membership/includes/fee.html" with amount=fee %}</strong>
                     <span class="muted">({% if IS_EN %}non-refundable, whatever the outcome{% else %}مستقل از نتیجه و غیرقابل استرداد{% endif %})</span></p>
+                    {% if form.pay_online %}<p class="notice">{% if IS_EN %}You can pay online right after submitting this form, or pay by bank transfer and attach the receipt here.{% else %}می‌توانید بلافاصله پس از ثبت این فرم آنلاین بپردازید، یا به حساب زیر واریز کنید و رسید را همین‌جا پیوست کنید.{% endif %}</p>{% endif %}
                     {% if page.payment_text %}<div class="prose">{{ page.payment_text|richtext }}</div>{% endif %}
                     {% include "membership/includes/bank.html" %}
                     {% include "membership/includes/field.html" with field=form.receipt %}

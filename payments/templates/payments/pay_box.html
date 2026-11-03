@@ -1,0 +1,17 @@
+{% load site_tags membership_tags %}{# Online payment box. Context: pay (PaymentSettings), amount, step (POST value), payment_state. #}
+{% if payment_state == 'ok' %}
+<div class="notice notice--ok" role="status">{% if IS_EN %}Payment received. Thank you.{% else %}پرداخت انجام شد. سپاس.{% endif %}</div>
+{% elif payment_state == 'failed' %}
+<div class="notice notice--error" role="alert">{% if IS_EN %}The payment was not completed. You can try again or pay by bank transfer.{% else %}پرداخت انجام نشد. می‌توانید دوباره بکوشید یا از راه واریز به حساب بپردازید.{% endif %}</div>
+{% endif %}
+{% if pay %}
+<section class="card pay-online">
+    <div>
+        <h2 class="h3">{{ title }}{% if title_suffix %} {{ title_suffix|fa_digits }}{% endif %}</h2>
+        {% tr pay "note" as note %}{% if note %}<p class="muted">{{ note }}</p>{% endif %}
+    </div>
+    <form method="post">{% csrf_token %}<input type="hidden" name="step" value="{{ step }}">{% if extra_name %}<input type="hidden" name="{{ extra_name }}" value="{{ extra_value }}">{% endif %}
+        <button class="btn btn--primary btn--large" type="submit">{% tr pay "button_label" %} · {{ amount|money|fa_digits }} {% if IS_EN %}rials{% else %}ریال{% endif %}</button>
+    </form>
+</section>
+{% endif %}

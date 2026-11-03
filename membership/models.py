@@ -398,6 +398,16 @@ class EmailTemplate(models.Model):
         STANDING_CANCEL = "standing_cancel", "به عضو: لغو عضویت"
         STANDING_REINSTATE = "standing_reinstate", "به عضو: بازگشت عضویت پس از اعتراض"
         STANDING_DIGEST = "standing_digest", "به دبیرخانه/کمیسیون: گزارش روزانه حق عضویت و تعلیق‌ها"
+        ORDER_PLACED = "order_placed", "فروشگاه، به خریدار: سفارش ثبت شد"
+        ORDER_SELLER_NEW = "order_seller_new", "فروشگاه، به فروشنده: سفارش تازه"
+        ORDER_STAFF_NEW = "order_staff_new", "فروشگاه، به کارکنان: سفارش تازه"
+        ORDER_RECEIPT = "order_receipt", "فروشگاه، به کارکنان: رسید پرداخت به حساب خانه"
+        ORDER_SELLER_RECEIPT = "order_seller_receipt", "فروشگاه، به فروشنده: خریدار پرداخت را خبر داد"
+        ORDER_PAID = "order_paid", "فروشگاه، به خریدار: پرداخت تأیید شد"
+        ORDER_SELLER_PAID = "order_seller_paid", "فروشگاه، به فروشنده: پرداخت شد، ارسال کنید"
+        ORDER_REJECTED = "order_rejected", "فروشگاه، به خریدار: پرداخت تأیید نشد"
+        ORDER_SHIPPED = "order_shipped", "فروشگاه، به خریدار: سفارش ارسال شد"
+        ORDER_CANCELLED = "order_cancelled", "فروشگاه، به خریدار و فروشنده: سفارش لغو شد"
 
     event = models.CharField("رویداد", max_length=40, choices=Event.choices, unique=True)
     active = models.BooleanField("ارسال شود", default=True)
@@ -409,7 +419,9 @@ class EmailTemplate(models.Model):
                   "{track_url} {admin_url} {certificate_number} {certificate_url} {site_name} {list}؛ "
                   "برای ایمیل‌های پنل اعضا: {name} {username} {set_password_url} {panel_url} {product} {member} {admin_url} {site_name}؛ "
                   "برای حق عضویت و وضعیت عضو: {name} {year} {amount} {due_date} {suspend_date} {bank} {panel_url} "
-                  "{decision} {reason} {message} {until} {appeal_until} {reapply_after} {decision_reference} {list}",
+                  "{decision} {reason} {message} {until} {appeal_until} {reapply_after} {decision_reference} {list}؛ "
+                  "برای سفارش‌های فروشگاه: {name} {code} {member} {details} {total} {payment} {payment_mode} {buyer} "
+                  "{address} {tracking} {message} {order_url} {panel_url} {admin_url} {status} {site_name}",
     )
     body_en = models.TextField("متن (انگلیسی)", blank=True)
 

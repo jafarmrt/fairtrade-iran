@@ -22,6 +22,7 @@ urlpatterns = [
     path("sitemap.xml", sitemap, {"sitemaps": {"pages": AllLanguagesSitemap}}, name="sitemap"),
     path("", include("contact.urls")),
     path("", include("appeals.urls")),
+    path("", include("payments.urls")),
 ]
 
 if settings.DEBUG:

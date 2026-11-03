@@ -20,6 +20,12 @@ from .forms import PanelPasswordResetForm, ProductForm, ProfileForm
 from .models import PanelSettings
 from .onboarding import notify_product_review
 
+
+def todo_orders(member):
+    from shop.panel_views import todo_q
+
+    return todo_q(member)
+
 UPLOAD_COLLECTION = "تصاویر اعضا"
 LOGIN_URL = reverse_lazy("panel:login")
 
@@ -90,6 +96,7 @@ def dashboard(request):
             "review": products.filter(needs_review=True).count(),
         }
         member.open_dues = member.dues.filter(status__in=("unpaid", "pending")).order_by("due_date").first()
+        member.todo_orders = todo_orders(member).count()
         member.public_url = member.get_url() if member.is_published and not member.is_inactive else ""
         member.assembly_seat = (member.assembly_seats.filter(assembly__status__in=("invited", "in_session"))
                                 .select_related("assembly").order_by("assembly__starts_at").first())

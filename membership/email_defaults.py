@@ -271,4 +271,77 @@ DEFAULT_EMAILS = {
         "این موارد به اقدام شما نیاز دارند:\n\n{list}\n\nفهرست کامل:\n{admin_url}",
         "", "",
     ),
+    # ---- shop orders (shop app) ----
+    "order_placed": (
+        "سفارش {code} ثبت شد",
+        "{name} گرامی،\n\nسفارش شما با کد {code} ثبت شد. سپاس که از تولیدکنندگان تجارت عادلانه خرید می‌کنید.\n\n"
+        "{details}\n\nجمع کل: {total}\n\nهر تولیدکننده سهم خود را جداگانه آماده و ارسال می‌کند. "
+        "برای پرداخت، فرستادن رسید و پیگیری سفارش:\n{order_url}" + SIGN_FA,
+        "Order {code} placed",
+        "Dear {name},\n\nYour order {code} has been placed. Thank you for buying from fair trade producers.\n\n"
+        "{details}\n\nTotal: {total}\n\nEach producer prepares and ships its part separately. To pay, send "
+        "your receipt and follow your order:\n{order_url}" + SIGN_EN,
+    ),
+    "order_seller_new": (
+        "سفارش تازه {code} از سایت خانه",
+        "سفارش تازه‌ای برای «{member}» در سایت خانه ثبت شد.\n\n{details}\n\nخریدار: {buyer}\nنشانی: {address}\n"
+        "پرداخت: {payment_mode}\n\n{message}\n\nپس از تأیید پرداخت خبرتان می‌کنیم. جزئیات در پنل اعضا:\n{panel_url}",
+        "", "",
+    ),
+    "order_staff_new": (
+        "سفارش تازه در فروشگاه: {code}",
+        "سفارش تازه‌ای در فروشگاه ثبت شد.\n\nخریدار: {buyer}\nنشانی: {address}\n\n{details}\n\n"
+        "جمع کل: {total}\n\nفهرست سفارش‌ها:\n{admin_url}",
+        "", "",
+    ),
+    "order_receipt": (
+        "رسید پرداخت سفارش {code}",
+        "خریدار سفارش {code} ({member}) اطلاعات پرداخت را فرستاد و منتظر تأیید است.\n\n{message}\n\n"
+        "بررسی و تأیید:\n{admin_url}",
+        "", "",
+    ),
+    "order_seller_receipt": (
+        "خریدار سفارش {code} پرداخت را خبر داد",
+        "خریدار سفارش {code} اطلاعات واریز به حساب شما را فرستاد.\n\n{message}\n\nپس از دیدن واریز در حساب، "
+        "پرداخت را در پنل اعضا تأیید کنید تا خریدار خبردار شود:\n{panel_url}",
+        "", "",
+    ),
+    "order_paid": (
+        "پرداخت سفارش {code} تأیید شد",
+        "{name} گرامی،\n\nپرداخت سفارش {code} از «{member}» تأیید شد و سفارش آماده ارسال می‌شود.\n\n{details}\n\n"
+        "پیگیری سفارش:\n{order_url}" + SIGN_FA,
+        "Payment for order {code} confirmed",
+        "Dear {name},\n\nPayment for order {code} from {member} is confirmed; the order is being prepared.\n\n"
+        "{details}\n\nFollow your order:\n{order_url}" + SIGN_EN,
+    ),
+    "order_seller_paid": (
+        "سفارش {code} پرداخت شد؛ لطفاً ارسال کنید",
+        "پرداخت سفارش {code} تأیید شد. لطفاً سفارش را آماده و ارسال کنید و کد رهگیری را در پنل اعضا ثبت کنید.\n\n"
+        "{details}\n\nخریدار: {buyer}\nنشانی: {address}\n\n{panel_url}",
+        "", "",
+    ),
+    "order_rejected": (
+        "پرداخت سفارش {code} تأیید نشد",
+        "{name} گرامی،\n\nپرداختی که برای سفارش {code} فرستادید تأیید نشد:\n\n{message}\n\n"
+        "لطفاً اطلاعات درست را از صفحه سفارش بفرستید:\n{order_url}" + SIGN_FA,
+        "Payment for order {code} not confirmed",
+        "Dear {name},\n\nThe payment you reported for order {code} could not be confirmed:\n\n{message}\n\n"
+        "Please send the right details from your order page:\n{order_url}" + SIGN_EN,
+    ),
+    "order_shipped": (
+        "سفارش {code} ارسال شد",
+        "{name} گرامی،\n\nسفارش {code} از «{member}» ارسال شد.\nکد رهگیری مرسوله: {tracking}\n\n{message}\n\n"
+        "پیگیری سفارش:\n{order_url}" + SIGN_FA,
+        "Order {code} shipped",
+        "Dear {name},\n\nOrder {code} from {member} has been shipped.\nTracking code: {tracking}\n\n{message}\n\n"
+        "Follow your order:\n{order_url}" + SIGN_EN,
+    ),
+    "order_cancelled": (
+        "سفارش {code} لغو شد",
+        "سفارش {code} ({member}) لغو شد.\n\n{message}\n\nاگر مبلغی پرداخت شده باشد، بازگردانده می‌شود. "
+        "پیگیری:\n{order_url}" + SIGN_FA,
+        "Order {code} cancelled",
+        "Order {code} ({member}) has been cancelled.\n\n{message}\n\nAny amount already paid will be refunded. "
+        "Details:\n{order_url}" + SIGN_EN,
+    ),
 }

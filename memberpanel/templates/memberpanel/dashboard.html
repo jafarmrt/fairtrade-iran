@@ -36,6 +36,11 @@
             <p><a href="{% url 'panel:assembly' m.pk a.pk %}">{% if a.in_session %}{% if IS_EN %}Attend and vote{% else %}حضور و رأی‌گیری{% endif %}{% else %}{% if IS_EN %}Invitation and agenda{% else %}دعوت‌نامه و دستور جلسه{% endif %}{% endif %}</a></p>
         </div>
         {% endwith %}{% endif %}
+        {% if m.todo_orders %}
+        <div class="notice panel-dues">
+            <p>{% if IS_EN %}{{ m.todo_orders }} order(s) need your action.{% else %}{{ m.todo_orders|fa_digits }} سفارش منتظر اقدام شماست.{% endif %} <a href="{% url 'panel:orders' m.pk %}">{% if IS_EN %}See orders{% else %}دیدن سفارش‌ها{% endif %}</a></p>
+        </div>
+        {% endif %}
         {% if m.is_inactive %}
             <p class="notice notice--error">{% if m.status == 'cancelled' %}{% if IS_EN %}This membership has been cancelled.{% else %}این عضویت لغو شده است.{% endif %}{% else %}{% if IS_EN %}This membership is suspended{% if m.suspended_until %} until {{ m.suspended_until|jdate }}{% endif %}.{% else %}این عضویت{% if m.suspended_until %} تا {{ m.suspended_until|jdate }}{% endif %} تعلیق شده است.{% endif %}{% endif %}
             <a href="{% url 'panel:membership' m.pk %}">{% if IS_EN %}Details{% else %}جزئیات{% endif %}</a>

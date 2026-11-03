@@ -41,6 +41,9 @@ class Category(BilingualMixin, models.Model):
         super().save(*args, **kwargs)
 
 
+RESERVED_SLUGS = {"cart", "checkout", "order", "orders"}
+
+
 class Product(BilingualMixin, index.Indexed, ClusterableModel):
     member = models.ForeignKey(
         Member, verbose_name="تولیدکننده", on_delete=models.CASCADE, related_name="products",
@@ -67,6 +70,11 @@ class Product(BilingualMixin, index.Indexed, ClusterableModel):
                                   help_text="مثلاً «قیمت بر اساس سفارش» یا «هر کیلوگرم»")
     price_note_en = models.CharField("توضیح قیمت (انگلیسی)", max_length=120, blank=True)
     in_stock = models.BooleanField("موجود است", default=True)
+    stock_quantity = models.PositiveIntegerField(
+        "تعداد موجود", null=True, blank=True,
+        help_text="برای فروش از سبد خرید. اگر خالی باشد محدودیتی ندارد؛ با هر سفارش کم می‌شود و "
+                  "با رسیدن به صفر، محصول ناموجود می‌شود.",
+    )
     purchase_url = models.URLField(
         "لینک خرید مستقیم", blank=True,
         help_text="صفحه همین محصول در فروشگاه یا اینستاگرام تولیدکننده. اگر خالی باشد، "
@@ -107,7 +115,7 @@ class Product(BilingualMixin, index.Indexed, ClusterableModel):
         ], heading="انگلیسی"),
         ObjectList([
             MultiFieldPanel([
-                FieldPanel("price"), FieldPanel("price_note"), FieldPanel("in_stock"),
+                FieldPanel("price"), FieldPanel("price_note"), FieldPanel("in_stock"), FieldPanel("stock_quantity"),
             ], heading="قیمت و موجودی"),
             FieldPanel("purchase_url"),
             FieldPanel("is_published"),
@@ -128,6 +136,8 @@ class Product(BilingualMixin, index.Indexed, ClusterableModel):
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = unique_slug(self, self.name_en or self.name)
+        if self.slug in RESERVED_SLUGS:  # these are routes of the shop page (cart, checkout, ...)
+            self.slug = unique_slug(self, self.slug + "-product")
         super().save(*args, **kwargs)
 
     @property
@@ -138,6 +148,22 @@ class Product(BilingualMixin, index.Indexed, ClusterableModel):
     @property
     def direct_purchase_url(self):
         return self.purchase_url or self.member.purchase_url
+
+    @property
+    def available_quantity(self):
+        """How many can be ordered now: 0 if out of stock, None for no limit."""
+        if not self.in_stock:
+            return 0
+        return self.stock_quantity
+
+    def can_add_to_cart(self, shop=None):
+        """Sold through the site's cart: price set, in stock, and the producer sells through the site."""
+        from shop.models import Seller
+
+        shop = shop or ShopSettings.load()
+        if not shop.cart_active or not self.price or self.available_quantity == 0:
+            return False
+        return Seller.mode_for(self.member) != Seller.Mode.NONE and not self.member.is_inactive
 
     @classmethod
     def visible(cls):
@@ -195,6 +221,58 @@ class ShopSettings(BaseGenericSetting):
     out_of_stock_label = models.CharField("متن ناموجود (فارسی)", max_length=40, default="ناموجود")
     out_of_stock_label_en = models.CharField("متن ناموجود (انگلیسی)", max_length=40, default="Out of stock")
 
+    # ---- cart and checkout ----
+    cart_enabled = models.BooleanField(
+        "سبد خرید فعال است", default=True,
+        help_text="محصولاتی که قیمت دارند و تولیدکننده‌شان «فروش از سایت» دارد، دکمه «افزودن به سبد» می‌گیرند. "
+                  "شیوه فروش هر تولیدکننده در «فروشگاه > فروشندگان» تعیین می‌شود.",
+    )
+    cart_enabled_en = models.BooleanField(
+        "سبد خرید در نسخه انگلیسی", default=False,
+        help_text="خریداران خارجی معمولاً نمی‌توانند ریالی بپردازند؛ برای آنها دکمه خرید مستقیم و درخواست سفارش می‌ماند",
+    )
+    add_to_cart_label = models.CharField("متن دکمه افزودن به سبد (فارسی)", max_length=60, default="افزودن به سبد خرید")
+    add_to_cart_label_en = models.CharField("متن دکمه افزودن به سبد (انگلیسی)", max_length=60, default="Add to cart")
+    commission_percent = models.DecimalField(
+        "کارمزد خانه (درصد)", max_digits=5, decimal_places=2, default=0,
+        help_text="سهم خانه از مبلغ کالاهای هر سفارش (بدون هزینه ارسال). برای هر فروشنده می‌توان درصد جداگانه گذاشت. "
+                  "در فروش با پرداخت به خانه از سهم تولیدکننده کم می‌شود؛ در پرداخت مستقیم، تولیدکننده آن را به خانه می‌پردازد.",
+    )
+    payment_days = models.PositiveSmallIntegerField(
+        "مهلت پرداخت سفارش (روز)", default=3,
+        help_text="سفارشی که تا این مدت پرداخت یا رسیدش فرستاده نشود، خودکار لغو و موجودی‌اش برگردانده می‌شود. ۰ یعنی لغو خودکار نشود.",
+    )
+    checkout_text = RichTextField(
+        "توضیح صفحه ثبت سفارش (فارسی)", blank=True,
+        default="<p>سفارش هر تولیدکننده جداگانه آماده و ارسال می‌شود. پس از ثبت سفارش، راهنمای پرداخت را می‌بینید "
+                "و به ایمیل و تلفن همراه شما هم فرستاده می‌شود.</p>",
+    )
+    checkout_text_en = RichTextField(
+        "توضیح صفحه ثبت سفارش (انگلیسی)", blank=True,
+        default="<p>Each producer prepares and ships its part of your order separately. After you place the order "
+                "you will see how to pay; we also send it to your e-mail and phone.</p>",
+    )
+    terms_text = RichTextField(
+        "شرایط خرید، ارسال و بازگشت کالا (فارسی)", blank=True,
+        help_text="در صفحه ثبت سفارش نمایش داده می‌شود و خریدار باید آن را بپذیرد",
+    )
+    terms_text_en = RichTextField("شرایط خرید، ارسال و بازگشت کالا (انگلیسی)", blank=True)
+    order_notification_email = models.EmailField(
+        "ایمیل اعلان سفارش‌ها", blank=True,
+        help_text="سفارش‌های تازه و رسیدهای پرداخت به خانه به این نشانی خبر داده می‌شود؛ "
+                  "اگر خالی باشد، به دبیرخانه فرستاده می‌شود",
+    )
+    notify_staff_all_orders = models.BooleanField(
+        "از همه سفارش‌ها به کارکنان خبر داده شود", default=True,
+        help_text="اگر خاموش باشد، کارکنان فقط از سفارش‌هایی که پولشان به خانه واریز می‌شود خبردار می‌شوند",
+    )
+
+    # House account for orders paid to the House (empty: the account in membership settings)
+    account_holder = models.CharField("نام صاحب حساب فروشگاه", max_length=120, blank=True)
+    bank_name = models.CharField("نام بانک", max_length=80, blank=True)
+    card_number = models.CharField("شماره کارت", max_length=30, blank=True)
+    sheba = models.CharField("شماره شبا", max_length=40, blank=True)
+
     show_on_home = models.BooleanField("نمایش محصولات منتخب در صفحه اصلی", default=True)
     home_title = models.CharField("عنوان بخش در صفحه اصلی (فارسی)", max_length=120, default="محصولات اعضا")
     home_title_en = models.CharField("عنوان بخش در صفحه اصلی (انگلیسی)", max_length=120, default="Members' products")
@@ -214,6 +292,17 @@ class ShopSettings(BaseGenericSetting):
             FieldPanel("out_of_stock_label"), FieldPanel("out_of_stock_label_en"),
         ], heading="قیمت"),
         ObjectList([
+            FieldPanel("cart_enabled"), FieldPanel("cart_enabled_en"),
+            FieldPanel("add_to_cart_label"), FieldPanel("add_to_cart_label_en"),
+            FieldPanel("commission_percent"), FieldPanel("payment_days"),
+            FieldPanel("checkout_text"), FieldPanel("checkout_text_en"),
+            FieldPanel("terms_text"), FieldPanel("terms_text_en"),
+            FieldPanel("order_notification_email"), FieldPanel("notify_staff_all_orders"),
+        ], heading="سبد خرید و سفارش"),
+        ObjectList([
+            FieldPanel("account_holder"), FieldPanel("bank_name"), FieldPanel("card_number"), FieldPanel("sheba"),
+        ], heading="حساب خانه برای فروش", help_text="اگر خالی بماند، حساب «تنظیمات عضویت» نشان داده می‌شود"),
+        ObjectList([
             FieldPanel("show_on_home"), FieldPanel("home_title"), FieldPanel("home_title_en"),
             FieldPanel("home_text"), FieldPanel("home_text_en"), FieldPanel("home_count"),
             FieldPanel("per_page"),
@@ -229,6 +318,22 @@ class ShopSettings(BaseGenericSetting):
     @property
     def prices_visible(self):
         return self.show_prices and (self.show_prices_en or not is_english())
+
+    @property
+    def cart_active(self):
+        return self.cart_enabled and (self.cart_enabled_en or not is_english())
+
+    def house_account(self):
+        """The account buyers pay into for orders paid to the House."""
+        if self.card_number or self.sheba:
+            return self
+        from core.models import MembershipSettings
+
+        return MembershipSettings.load()
+
+    @property
+    def has_bank_details(self):
+        return bool(self.card_number or self.sheba)
 
 
 class ProductIndexPage(RoutablePageMixin, Page):
@@ -302,17 +407,45 @@ class ProductIndexPage(RoutablePageMixin, Page):
             "querystring": querystring_without_page(request),
         })
 
+    # ---- cart and orders (shop app); declared before product_detail so these words are not product slugs ----
+
+    @re_path(r"^cart/$", name="cart")
+    def cart(self, request):
+        from shop.views import cart_view
+
+        return cart_view(self, request)
+
+    @re_path(r"^checkout/$", name="checkout")
+    def checkout(self, request):
+        from shop.views import checkout
+
+        return checkout(self, request)
+
+    @re_path(r"^orders/$", name="orders")
+    def orders(self, request):
+        from shop.views import lookup
+
+        return lookup(self, request)
+
+    @re_path(r"^order/(?P<code>[-A-Za-z0-9]+)/$", name="order")
+    def order(self, request, code):
+        from shop.views import order_view
+
+        return order_view(self, request, code)
+
     @re_path(r"^(?P<slug>[-\w]+)/$", name="product_detail")
     def product_detail(self, request, slug):
         product = Product.visible().filter(slug=slug).first()
         if product is None:
             raise Http404
         related = Product.visible().filter(member=product.member).exclude(pk=product.pk)[:4]
+        shop = ShopSettings.load(request_or_site=request)
         return self.render(
             request,
             template="products/product_detail.html",
             context_overrides={
                 "product": product,
+                "sellable": product.can_add_to_cart(shop),
                 "related": related,
                 "routable_suffix": self.reverse_subpage("product_detail", kwargs={"slug": slug}),
             },
