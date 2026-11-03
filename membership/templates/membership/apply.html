@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailroutablepage_tags site_tags membership_tags %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
 {% block title %}{% if IS_EN %}Membership application: {{ member_type_label }}{% else %}درخواست عضویت: {{ member_type_label }}{% endif %}{% endblock %}
 {% block body_class %}membership{% endblock %}
 {% block content %}

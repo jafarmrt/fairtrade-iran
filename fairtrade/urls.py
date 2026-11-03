@@ -4,7 +4,11 @@ from django.contrib import admin
 from django.urls import include, path
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
+from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
+
+from core import views as core_views
+from core.sitemaps import AllLanguagesSitemap
 
 from search import views as search_views
 
@@ -13,6 +17,9 @@ urlpatterns = [
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("i18n/", include("django.conf.urls.i18n")),
+    path("robots.txt", core_views.robots_txt, name="robots_txt"),
+    path("favicon.ico", core_views.favicon, name="favicon"),
+    path("sitemap.xml", sitemap, {"sitemaps": {"pages": AllLanguagesSitemap}}, name="sitemap"),
     path("", include("contact.urls")),
 ]
 

@@ -2,7 +2,6 @@
 {% load wagtailcore_tags wagtailimages_tags site_tags directory_tags %}
 {% block body_class %}page-product{% endblock %}
 {% block title %}{% tr product "name" %}{% endblock %}
-{% block extra_meta %}{% tr product "summary" as summary %}{% if summary %}<meta name="description" content="{{ summary }}">{% endif %}{% endblock %}
 {% block content %}
 {% tr product "name" as product_name %}
 {% tr product.member "name" as member_name %}

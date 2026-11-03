@@ -1,10 +1,5 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailimages_tags date_tags %}
-{% block extra_meta %}
-<meta property="og:title" content="{{ page.title }}">
-{% if page.intro %}<meta property="og:description" content="{{ page.intro }}">{% endif %}
-{% if page.cover_image %}{% image page.cover_image fill-1200x630 as og %}<meta property="og:image" content="{{ request.scheme }}://{{ request.get_host }}{{ og.url }}">{% endif %}
-{% endblock %}
 {% block content %}
 <header class="page-header">
     <div class="container">

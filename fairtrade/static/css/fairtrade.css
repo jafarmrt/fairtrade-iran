@@ -351,6 +351,8 @@ html[lang="en"] .step::before { content: counter(step); }
 .site-footer li { margin-bottom: 6px; }
 .site-footer__logo img { height: 64px; width: auto; }
 .site-footer__bottom { border-top: 1px solid rgba(255, 255, 255, 0.15); margin-top: 32px; padding-top: 16px; font-size: 0.875rem; }
+.site-footer__badges { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 24px; }
+.site-footer__badges img { background: #fff; border-radius: 8px; padding: 4px; }
 .social { display: flex; gap: 12px; flex-wrap: wrap; }
 
 .empty { color: var(--text-muted); padding: 24px; border: 1px dashed var(--line); border-radius: var(--radius); text-align: center; }

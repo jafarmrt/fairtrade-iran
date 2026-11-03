@@ -10,6 +10,7 @@ so edits made in the admin panel are never overwritten.
 """
 
 import os
+from urllib.parse import urlparse
 
 from django.conf import settings
 from django.contrib.auth.models import Group, Permission
@@ -91,6 +92,13 @@ class Command(BaseCommand):
         elif site.root_page_id != home_fa.id:
             site.root_page = home_fa
             site.site_name = settings.WAGTAIL_SITE_NAME
+            site.save()
+
+        # Full links (sitemap, e-mails) use the Site's address: take it from SITE_URL once.
+        site_url = urlparse(os.environ.get("SITE_URL", ""))
+        if site_url.hostname and site.hostname == "localhost" and site_url.hostname != "localhost":
+            site.hostname = site_url.hostname
+            site.port = site_url.port or (443 if site_url.scheme == "https" else 80)
             site.save()
 
         home_fa = fresh(home_fa)

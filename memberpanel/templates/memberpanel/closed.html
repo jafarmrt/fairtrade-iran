@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
 {% block title %}{% if IS_EN %}Member panel{% else %}پنل اعضا{% endif %}{% endblock %}
 {% block content %}
 <header class="page-header"><div class="container"><h1>{% if IS_EN %}Member panel{% else %}پنل اعضا{% endif %}</h1></div></header>

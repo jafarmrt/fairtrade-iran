@@ -314,6 +314,19 @@ class MemberIndexPage(RoutablePageMixin, Page):
 
         return cls.objects.live().filter(locale=Locale.get_active()).first()
 
+    def get_sitemap_urls(self, request=None):
+        urls = super().get_sitemap_urls(request)
+        base = self.get_full_url(request)
+        english = self.locale.language_code == "en"
+        for member in Member.visible():
+            if english and not member.name_en:
+                continue
+            urls.append({
+                "location": base + self.reverse_subpage("member_detail", kwargs={"slug": member.slug}),
+                "lastmod": member.updated_at,
+            })
+        return urls
+
     @re_path(r"^$", name="member_list")
     def member_list(self, request):
         members = Member.visible()

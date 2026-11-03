@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags wagtailroutablepage_tags membership_tags site_tags %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
 {% block title %}{% if IS_EN %}Check a membership certificate{% else %}استعلام گواهی عضویت{% endif %}{% endblock %}
 {% block body_class %}membership{% endblock %}
 {% block content %}

@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags site_tags %}
+{% load static wagtailcore_tags wagtailimages_tags site_tags seo_tags %}
 {% with s=settings.core.SiteSettings %}
 {% tr s "site_name" as site_name %}
 <footer class="site-footer">
@@ -39,6 +39,7 @@
             </div>
             {% endif %}
         </div>
+        {% seo_settings as seo %}{% if seo.footer_badges %}<div class="site-footer__badges">{{ seo.footer_badges|safe }}</div>{% endif %}
         <div class="site-footer__bottom">© {% now "Y" %} {{ site_name }}</div>
     </div>
 </footer>

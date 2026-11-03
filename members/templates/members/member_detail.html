@@ -2,7 +2,6 @@
 {% load wagtailcore_tags wagtailimages_tags site_tags directory_tags %}
 {% block body_class %}page-member{% endblock %}
 {% block title %}{% tr member "name" %}{% endblock %}
-{% block extra_meta %}{% tr member "summary" as summary %}{% if summary %}<meta name="description" content="{{ summary }}">{% endif %}{% endblock %}
 {% block content %}
 {% tr member "name" as member_name %}
 <header class="page-header profile-header">
