@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load wagtailcore_tags %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
 {% block title %}{% if IS_EN %}Search{% else %}جستجو{% endif %}{% endblock %}
 {% block content %}
 <header class="page-header"><div class="container">

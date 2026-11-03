@@ -233,6 +233,9 @@ class ComplaintPage(Page):
     class Meta:
         verbose_name = "صفحه ثبت شکایت محرمانه"
 
+    def get_sitemap_urls(self, request=None):
+        return []  # the complaint form is marked noindex
+
     def get_form(self, data=None, files=None):
         from .forms import ComplaintForm
 

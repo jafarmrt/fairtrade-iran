@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
 {% block body_class %}member-panel{% endblock %}
 {% block title %}{% block panel_title %}{% if IS_EN %}Member panel{% else %}پنل اعضا{% endif %}{% endblock %}{% endblock %}
 {% block content %}

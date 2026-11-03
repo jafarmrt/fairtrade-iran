@@ -247,6 +247,19 @@ class ProductIndexPage(RoutablePageMixin, Page):
     def for_active_locale(cls):
         return cls.objects.live().filter(locale=Locale.get_active()).first()
 
+    def get_sitemap_urls(self, request=None):
+        urls = super().get_sitemap_urls(request)
+        base = self.get_full_url(request)
+        english = self.locale.language_code == "en"
+        for product in Product.visible():
+            if english and not product.name_en:
+                continue
+            urls.append({
+                "location": base + self.reverse_subpage("product_detail", kwargs={"slug": product.slug}),
+                "lastmod": product.updated_at,
+            })
+        return urls
+
     @re_path(r"^$", name="product_list")
     def product_list(self, request):
         products = Product.visible()

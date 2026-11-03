@@ -307,3 +307,67 @@ class MembershipSettings(BaseGenericSetting):
 
     def tr(self, field):
         return BilingualMixin.tr(self, field)
+
+
+@register_setting(icon="globe")
+class SeoSettings(BaseGenericSetting):
+    """How the site appears in search engines and when links are shared; analytics and trust badges."""
+
+    allow_indexing = models.BooleanField(
+        _("اجازه نمایش در موتورهای جستجو"), default=True,
+        help_text=_("روی سرور آزمایشی خاموش کنید تا گوگل آن را فهرست نکند"),
+    )
+    default_description = models.TextField(
+        _("توضیح پیش‌فرض سایت (فارسی)"), max_length=300, blank=True,
+        default="خانه تجارت عادلانه ایران؛ شبکه تولیدکنندگان، صنعتگران و نهادهای حامی تجارت عادلانه. "
+                "معرفی اعضا، فروشگاه محصولات، اخبار و عضویت.",
+        help_text=_("برای صفحه‌هایی که توضیح جستجو ندارند؛ حدود ۱۵۰ نویسه"),
+    )
+    default_description_en = models.TextField(
+        _("توضیح پیش‌فرض سایت (انگلیسی)"), max_length=300, blank=True,
+        default="Fair Trade House of Iran: a network of producers, artisans and support organisations "
+                "practising fair trade. Members, shop, news and membership.",
+    )
+    share_image = models.ForeignKey(
+        "wagtailimages.Image", verbose_name=_("تصویر پیش‌فرض اشتراک‌گذاری"), null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="+",
+        help_text=_("وقتی لینک سایت در تلگرام، واتس‌اپ یا لینکدین فرستاده می‌شود؛ ترجیحاً ۱۲۰۰×۶۳۰ پیکسل"),
+    )
+    site_icon = models.ForeignKey(
+        "wagtailimages.Image", verbose_name=_("آیکون سایت (فاوآیکون)"), null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="+",
+        help_text=_("تصویر مربعی، دست‌کم ۵۱۲×۵۱۲ پیکسل؛ در زبانه مرورگر و صفحه اصلی گوشی نمایش داده می‌شود"),
+    )
+    google_site_verification = models.CharField(
+        _("کد تأیید گوگل سرچ کنسول"), max_length=120, blank=True,
+        help_text=_("فقط مقدار content از تگ متای google-site-verification"),
+    )
+    bing_site_verification = models.CharField(_("کد تأیید بینگ"), max_length=120, blank=True)
+    head_code = models.TextField(
+        _("کد آمار بازدید"), blank=True,
+        help_text=_("کد اسکریپتی که سرویس آمار (مثلاً Umami، Matomo یا گوگل آنالیتیکس) می‌دهد؛ "
+                    "در همه صفحه‌های عمومی سایت در بخش head قرار می‌گیرد. فقط کد سرویس‌های مطمئن را اینجا بگذارید."),
+    )
+    footer_badges = models.TextField(
+        _("کد نمادهای اعتماد"), blank=True,
+        help_text=_("کدی که اینماد یا ساماندهی برای نمایش نماد می‌دهد؛ در پانویس همه صفحه‌ها نمایش داده می‌شود"),
+    )
+    robots_extra = models.TextField(
+        _("قواعد اضافه robots.txt"), blank=True,
+        help_text=_("در صورت نیاز؛ هر قاعده در یک خط، مثلاً Disallow: /fa/some-page/"),
+    )
+
+    panels = [
+        MultiFieldPanel([FieldPanel("allow_indexing"), FieldPanel("default_description"),
+                         FieldPanel("default_description_en")], heading=_("موتورهای جستجو")),
+        MultiFieldPanel([FieldPanel("share_image"), FieldPanel("site_icon")], heading=_("تصویرها")),
+        MultiFieldPanel([FieldPanel("google_site_verification"), FieldPanel("bing_site_verification"),
+                         FieldPanel("head_code"), FieldPanel("robots_extra")], heading=_("ابزارها و آمار")),
+        MultiFieldPanel([FieldPanel("footer_badges")], heading=_("نمادهای اعتماد (اینماد، ساماندهی)")),
+    ]
+
+    class Meta:
+        verbose_name = _("سئو، آمار و نمادها")
+
+    def tr(self, field):
+        return BilingualMixin.tr(self, field)
