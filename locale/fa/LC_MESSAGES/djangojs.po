@@ -1,0 +1,271 @@
+# Persian translations for the Wagtail admin, completing and correcting the ones Wagtail ships.
+# Edit here, then run: python manage.py build_translations  (see locale/README.md)
+msgid ""
+msgstr ""
+"Project-Id-Version: fairtrade-iran (Wagtail 7.4 admin, Persian)\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "%(num)s error"
+msgid_plural "%(num)s errors"
+msgstr[0] "%(num)s خطا"
+msgstr[1] "%(num)s خطا"
+
+msgid "%(num)s min"
+msgid_plural "%(num)s mins"
+msgstr[0] "%(num)s دقیقه"
+msgstr[1] "%(num)s دقیقه"
+
+msgid "%(num)s pixel"
+msgid_plural "%(num)s pixels"
+msgstr[0] "%(num)s پیکسل"
+msgstr[1] "%(num)s پیکسل"
+
+msgid "%(time_zone_option)s: %(localized_time_zone_label)s"
+msgstr "%(time_zone_option)s: %(localized_time_zone_label)s"
+
+msgid "(%(number)s new items in this menu)"
+msgstr "(%(number)s مورد تازه در این منو)"
+
+msgid "(1 new item in this menu)"
+msgstr "(یک مورد تازه در این منو)"
+
+msgid "(New)"
+msgstr "(تازه)"
+
+msgid "A network error occurred."
+msgstr "اتصال به اینترنت دچار مشکل شد."
+
+msgid "A server error occurred."
+msgstr "خطایی در سرور پیش آمد."
+
+msgid "Actions"
+msgstr "کارها"
+
+msgid "Add"
+msgstr "افزودن"
+
+msgid "Add a comment"
+msgstr "افزودن یادداشت"
+
+msgid "Alt text"
+msgstr "متن جایگزین"
+
+msgid "Are you sure?"
+msgstr "مطمئن هستید؟"
+
+msgid "Autosave in progress…"
+msgstr "در حال ذخیرهٔ خودکار…"
+
+msgid "Blocks"
+msgstr "بلوک‌ها"
+
+msgid "Broken link"
+msgstr "پیوند خراب"
+
+msgid "Cancel"
+msgstr "انصراف"
+
+msgid "Changes have been autosaved."
+msgstr "تغییرات به‌طور خودکار ذخیره شد."
+
+msgid "Character count:"
+msgstr "تعداد نویسه‌ها:"
+
+msgid "Close"
+msgstr "بستن"
+
+msgid "Collapse all"
+msgstr "بستن همه"
+
+msgid "Comment"
+msgstr "یادداشت"
+
+msgid "Complex"
+msgstr "دشوار"
+
+msgid "Dashboard"
+msgstr "پیشخوان"
+
+msgid "Decorative image"
+msgstr "تصویر تزئینی"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "Delete error"
+msgstr "خطا در حذف"
+
+msgid "Deleting"
+msgstr "در حال حذف"
+
+msgid "Drag"
+msgstr "کشیدن"
+
+msgid "Duplicate"
+msgstr "تکثیر"
+
+msgid "Edit"
+msgstr "ویرایش"
+
+msgid "Edit '%(title)s'"
+msgstr "ویرایش «%(title)s»"
+
+msgid "Enter your comments..."
+msgstr "یادداشت خود را بنویسید..."
+
+msgid "Enter your reply..."
+msgstr "پاسخ خود را بنویسید..."
+
+msgid "Error while sending preview data."
+msgstr "خطا در فرستادن داده‌های پیش‌نمایش."
+
+msgid "Expand all"
+msgstr "بازکردن همه"
+
+msgid "Fair"
+msgstr "متوسط"
+
+msgid "Focus comment"
+msgstr "رفتن به یادداشت"
+
+msgid "Good"
+msgstr "خوب"
+
+msgid "Horizontal line"
+msgstr "خط افقی"
+
+msgid "Insert a block"
+msgstr "افزودن بلوک"
+
+msgid "Line break"
+msgstr "رفتن به سطر بعد"
+
+msgid "Loading…"
+msgstr "در حال بارگیری…"
+
+msgid "Main menu"
+msgstr "منوی اصلی"
+
+msgid "Missing document"
+msgstr "سند پیدا نشد"
+
+msgid "More actions"
+msgstr "کارهای بیشتر"
+
+msgid "Move down"
+msgstr "پایین بردن"
+
+msgid "Move up"
+msgstr "بالا بردن"
+
+msgid "No"
+msgstr "خیر"
+
+msgid "No results"
+msgstr "نتیجه‌ای پیدا نشد"
+
+msgid "Page"
+msgstr "صفحه"
+
+msgid "Page explorer"
+msgstr "فهرست صفحه‌ها"
+
+msgid "Pages"
+msgstr "صفحه‌ها"
+
+msgid "Pin toolbar"
+msgstr "ثابت‌کردن نوار ابزار"
+
+msgid "Preview"
+msgstr "پیش‌نمایش"
+
+msgid "Reload saved content"
+msgstr "بارگیری دوبارهٔ محتوای ذخیره‌شده"
+
+msgid "Reload the page"
+msgstr "بارگیری دوبارهٔ صفحه"
+
+msgid "Reply"
+msgstr "پاسخ"
+
+msgid "Report this error to your website administrator with the following information:"
+msgstr "این خطا را با اطلاعات زیر به مسئول فنی سایت گزارش دهید:"
+
+msgid "Resolve"
+msgstr "حل شد"
+
+msgid "Retry"
+msgstr "تلاش دوباره"
+
+msgid "Save"
+msgstr "ذخیره"
+
+msgid "Save error"
+msgstr "خطا در ذخیره"
+
+msgid "Saving..."
+msgstr "در حال ذخیره..."
+
+msgid "Search"
+msgstr "جست‌وجو"
+
+msgid "Search options…"
+msgstr "جست‌وجوی گزینه‌ها…"
+
+msgid "See all"
+msgstr "دیدن همه"
+
+msgid "Server Error"
+msgstr "خطای سرور"
+
+msgid "Settings"
+msgstr "تنظیمات"
+
+msgid "Show error"
+msgstr "نمایش خطا"
+
+msgid "Show latest content"
+msgstr "نمایش آخرین محتوا"
+
+msgid "Split block"
+msgstr "شکستن بلوک"
+
+msgid "The editor just crashed. Content has been reset to the last saved version."
+msgstr "ویرایشگر دچار خطا شد. محتوا به آخرین نسخهٔ ذخیره‌شده برگردانده شد."
+
+msgid "The maximum number of items is %(max_num)d"
+msgstr "بیشترین تعداد موارد %(max_num)d است"
+
+msgid "The minimum number of items is %(min_num)d"
+msgstr "کمترین تعداد موارد %(min_num)d است"
+
+msgid "This field is required."
+msgstr "پرکردن این فیلد لازم است."
+
+msgid "Toggle section"
+msgstr "باز و بسته کردن بخش"
+
+msgid "Toggle side panel"
+msgstr "باز و بسته کردن پنل کناری"
+
+msgid "Toggle sidebar"
+msgstr "باز و بسته کردن منوی کناری"
+
+msgid "Unfocus comment"
+msgstr "خروج از یادداشت"
+
+msgid "Unpin toolbar"
+msgstr "آزادکردن نوار ابزار"
+
+msgid "View child pages of '%(title)s'"
+msgstr "دیدن زیرصفحه‌های «%(title)s»"
+
+msgid "Write something or type ‘/’ to insert a block"
+msgstr "چیزی بنویسید یا برای افزودن بلوک «/» را بزنید"
+
+msgid "Yes"
+msgstr "بله"

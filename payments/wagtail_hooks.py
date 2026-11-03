@@ -16,4 +16,4 @@ class PaymentViewSet(SnippetViewSet):
                    "provider", "mobile", "email", "error"]
     search_fields = ["description", "ref_id", "authority", "mobile", "email"]
 
-# Registered in the admin menu by shop/wagtail_hooks.py, in the «فروش و پرداخت» group.
+# Registered in the admin menu by shop/wagtail_hooks.py, in the «فروشگاه» group.

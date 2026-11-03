@@ -1,0 +1,17 @@
+{% extends "wagtailadmin/login.html" %}
+{% load admin_tags i18n %}
+{% comment %}
+Sign-in page in the house's colours with its logo and name, instead of Wagtail's.
+The colours and font come from static/css/admin.css.
+{% endcomment %}
+{% block branding_login %}{% admin_brand as brand %}<img class="ft-login-logo" src="{{ brand.logo }}" alt="" width="160"><span class="ft-login-name">{{ brand.name }}</span><span class="ft-login-title">{% if LANGUAGE_CODE == "en" %}Admin sign-in{% else %}ورود به پنل مدیریت{% endif %}</span>{% endblock %}
+{% block below_login %}
+    <p class="ft-login-help">
+        {% if LANGUAGE_CODE == "en" %}
+            Members sign in to the <a href="/en/panel/login/">member area</a> instead.
+        {% else %}
+            اعضای خانه از <a href="/fa/panel/login/">پنل اعضا</a> وارد می‌شوند. حساب پنل مدیریت را دبیرخانه می‌سازد.
+        {% endif %}
+    </p>
+{% endblock %}
+{% block branding_logo %}{% endblock %}

@@ -31,7 +31,6 @@ CACHE_HINT_HEADER = "X-PWA-Cache"
 # ones are listed for both languages.
 NEVER_CACHE_PREFIXES = (
     "/admin/",
-    "/django-admin/",
     "/documents/",
     "/two-factor/",
     "/i18n/",

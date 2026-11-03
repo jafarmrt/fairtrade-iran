@@ -17,8 +17,8 @@ class SmsTemplateViewSet(SnippetViewSet):
 
 class SmsGroup(ViewSetGroup):
     menu_label = "پیامک"
+    menu_name = "sms"  # the order of the main menu is set in core/wagtail_hooks.py
     menu_icon = "mail"
-    menu_order = 160
     items = (SmsTemplateViewSet, SmsAdminViewSet)
 
 

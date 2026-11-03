@@ -1,0 +1,17 @@
+{% load wagtailadmin_tags membership_tags %}
+{% if shortcuts %}
+<section class="ft-shortcuts" aria-labelledby="ft-shortcuts-title">
+    <h2 id="ft-shortcuts-title" class="w-h2" dir="auto">کارهای پرکاربرد</h2>
+    <ul class="ft-shortcuts__grid">
+        {% for s in shortcuts %}
+        <li class="ft-shortcuts__item">
+            <a href="{{ s.url }}"{% if s.new_tab %} target="_blank" rel="noopener"{% endif %}>
+                {% icon name=s.icon %}
+                <span dir="auto">{{ s.label }}{% if s.hint %}<small>{{ s.hint }}</small>{% endif %}</span>
+                {% if s.badge %}<span class="ft-shortcuts__badge">{{ s.badge|fa_digits }}<span class="w-sr-only"> مورد منتظر رسیدگی</span></span>{% endif %}
+            </a>
+        </li>
+        {% endfor %}
+    </ul>
+</section>
+{% endif %}

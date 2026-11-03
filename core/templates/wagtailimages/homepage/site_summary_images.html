@@ -1,0 +1,12 @@
+{% load i18n wagtailadmin_tags membership_tags %}
+{% comment %}Wagtail's dashboard count, with Persian digits on the Persian admin.{% endcomment %}
+<li>
+    {% icon name="image" %}
+    <a href="{% url 'wagtailimages:index' %}">
+        {% blocktrans trimmed count counter=total_images with total_images|fa_digits as total %}
+            {{ total }} Image <span class="w-sr-only">created in {{ site_name }}</span>
+        {% plural %}
+            {{ total }} Images <span class="w-sr-only">created in {{ site_name }}</span>
+        {% endblocktrans %}
+    </a>
+</li>

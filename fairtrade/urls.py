@@ -1,6 +1,5 @@
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
-from django.contrib import admin
 from django.urls import include, path, re_path
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
@@ -15,7 +14,6 @@ from core.sitemaps import AllLanguagesSitemap
 from search import views as search_views
 
 urlpatterns = [
-    path("django-admin/", admin.site.urls),
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("i18n/", include("django.conf.urls.i18n")),

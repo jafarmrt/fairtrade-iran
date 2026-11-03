@@ -197,7 +197,7 @@ class ProductImage(Orderable):
         verbose_name_plural = "تصاویر محصول"
 
 
-@register_setting(icon="pick")
+@register_setting(icon="tag")
 class ShopSettings(BaseGenericSetting):
     """Wording and behaviour of the shop, edited by the market development working group."""
 

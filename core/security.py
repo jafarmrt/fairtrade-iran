@@ -12,7 +12,7 @@ import re
 import secrets
 from urllib.parse import urlsplit
 
-SKIP_PREFIXES = ("/admin/", "/django-admin/", "/static/", "/media/")
+SKIP_PREFIXES = ("/admin/", "/static/", "/media/")
 URL_IN_CODE = re.compile(r"""(?:src|href|action)\s*=\s*["']?(https://[^"'\s>]+)""", re.I)
 SCRIPT_TAG = re.compile(r"<script(?![^>]*\bnonce\s*=)", re.I)
 

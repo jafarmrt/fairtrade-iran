@@ -7,14 +7,11 @@ from wagtail.snippets.views.snippets import SnippetViewSet
 
 from members.models import Member
 
-from .admin_views import StandingViewSet
 from .models import Dues, DuesPayment
 from .services import COMMISSION, SECRETARIAT, user_bodies
 
-
-@hooks.register("register_admin_viewset")
-def register_standing_viewset():
-    return StandingViewSet()
+# «وضعیت اعضا و حق عضویت» (admin_views.StandingViewSet) is registered in the «عضویت» menu group
+# by membership/wagtail_hooks.py.
 
 
 class DuesViewSet(SnippetViewSet):

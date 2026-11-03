@@ -64,7 +64,7 @@ def index(request):
         sales=Sum("total"), commission=Sum("commission"))
     return TemplateResponse(request, "shop/admin/index.html", {
         "page_title": "سفارش‌های فروشگاه",
-        "header_icon": "pick",
+        "header_icon": "clipboard-list",
         "orders": qs[:500],
         "show": show,
         "q": q,
@@ -131,7 +131,7 @@ def report(request):
     prev, nxt = add_months(jy, jm, -1), add_months(jy, jm, 1)
     return TemplateResponse(request, "shop/admin/report.html", {
         "page_title": persian_digits(f"گزارش فروش {month_name(jm)} {jy}"),
-        "header_icon": "pick",
+        "header_icon": "clipboard-list",
         "month_label": f"{month_name(jm)} {jy}",
         "month_key": f"{jy}-{jm:02d}",
         "prev_key": f"{prev[0]}-{prev[1]:02d}",
@@ -179,7 +179,7 @@ def detail(request, pk):
     purchase = order.purchase
     return TemplateResponse(request, "shop/admin/detail.html", {
         "page_title": f"سفارش {order.code}",
-        "header_icon": "pick",
+        "header_icon": "clipboard-list",
         "order": order,
         "purchase": purchase,
         "siblings": purchase.orders.exclude(pk=order.pk).select_related("member"),
@@ -207,7 +207,7 @@ class OrdersMenuItem(MenuItem):
 
 class OrdersViewSet(ViewSet):
     name = "shop_orders"
-    icon = "pick"
+    icon = "clipboard-list"
     menu_label = "سفارش‌های فروشگاه"
     menu_order = 105
 

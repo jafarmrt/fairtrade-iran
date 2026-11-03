@@ -5,7 +5,6 @@ from core.models import SeoSettings
 
 PRIVATE_PATHS = [
     "/admin/",
-    "/django-admin/",
     "/fa/panel/",
     "/en/panel/",
     "/fa/search/",

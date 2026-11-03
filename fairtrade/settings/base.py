@@ -65,7 +65,7 @@ INSTALLED_APPS = [
     "modelcluster",
     "taggit",
     # Django
-    "django.contrib.admin",
+    "django.contrib.admin",  # not served (no /django-admin/ URL): everything is in the Wagtail admin
     "django.contrib.auth",
     "django.contrib.contenttypes",
     "django.contrib.sessions",
@@ -185,6 +185,16 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 25 * 1024 * 1024
 
 WAGTAIL_SITE_NAME = "خانه تجارت عادلانه ایران"
 WAGTAILADMIN_BASE_URL = os.environ.get("SITE_URL", "http://localhost:8000")
+# The site stays on Wagtail's long-term support releases, so the admin only
+# announces a new LTS version (and only to superusers), not every feature release.
+WAGTAIL_ENABLE_UPDATE_CHECK = "lts"
+# The English "what's new in Wagtail" banner on the dashboard means nothing to our editors.
+WAGTAIL_ENABLE_WHATS_NEW_BANNER = False
+# Sign-in form with a Persian label on the password field (see core/admin_forms.py).
+WAGTAILADMIN_USER_LOGIN_FORM = "core.admin_forms.AdminLoginForm"
+# No pictures from gravatar.com: it is often blocked in Iran (broken images, slow pages)
+# and would send a hash of each editor's e-mail abroad. Editors can upload a picture in their account.
+WAGTAIL_GRAVATAR_PROVIDER_URL = None
 WAGTAILSEARCH_BACKENDS = {"default": {"BACKEND": "wagtail.search.backends.database"}}
 # Photos on the site are served as WebP (much smaller on Iranian mobile networks). Share
 # images (og:image) and icons ask for JPEG/PNG explicitly. Set IMAGES_WEBP=0 to turn it off.

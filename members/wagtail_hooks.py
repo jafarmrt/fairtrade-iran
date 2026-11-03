@@ -4,7 +4,6 @@ from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 
 from memberpanel.models import LoginMobile
-from products.models import Category, Product
 
 from .models import Member, Region
 
@@ -18,7 +17,7 @@ class MemberFilterSet(WagtailFilterSet):
 class MemberViewSet(SnippetViewSet):
     model = Member
     icon = "group"
-    menu_label = "اعضا"
+    menu_label = "پروفایل اعضا"
     list_display = [
         "name", "name_en",
         Column("get_member_type_display", label="نوع عضویت", sort_key="member_type"),
@@ -41,33 +40,6 @@ class RegionViewSet(SnippetViewSet):
     list_display = ["name", "name_en", "sort_order"]
 
 
-class ProductFilterSet(WagtailFilterSet):
-    class Meta:
-        model = Product
-        fields = ["member", "category", "in_stock", "is_published", "needs_review", "is_featured"]
-
-
-class ProductViewSet(SnippetViewSet):
-    model = Product
-    icon = "pick"
-    menu_label = "محصولات"
-    list_display = [
-        "name", "name_en", "member", "category", "price",
-        BooleanColumn("in_stock", label="موجود است"),
-        BooleanColumn("is_published", label="نمایش در سایت"),
-        BooleanColumn("needs_review", label="در انتظار بررسی"),
-    ]
-    filterset_class = ProductFilterSet
-    search_fields = ["name", "name_en", "summary"]
-
-
-class CategoryViewSet(SnippetViewSet):
-    model = Category
-    icon = "tag"
-    menu_label = "دسته‌بندی محصولات"
-    list_display = ["name", "name_en", "sort_order"]
-
-
 class LoginMobileViewSet(SnippetViewSet):
     model = LoginMobile
     icon = "mobile-alt"
@@ -77,11 +49,12 @@ class LoginMobileViewSet(SnippetViewSet):
 
 
 class DirectoryGroup(SnippetViewSetGroup):
-    items = (MemberViewSet, ProductViewSet, CategoryViewSet, RegionViewSet, LoginMobileViewSet)
+    """«اعضا» in the admin menu. Products and categories are in «فروشگاه» (shop/wagtail_hooks.py)."""
+
+    items = (MemberViewSet, RegionViewSet, LoginMobileViewSet)
     menu_icon = "group"
-    menu_label = "اعضا و فروشگاه"
-    menu_name = "directory"
-    menu_order = 150
+    menu_label = "اعضا"
+    menu_name = "directory"  # the order of the main menu is set in core/wagtail_hooks.py
 
 
 register_snippet(DirectoryGroup)

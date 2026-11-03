@@ -24,7 +24,7 @@
     <tbody>
     {% for log in logs %}
     <tr>
-        <td dir="ltr">{{ log.created|date:"Y-m-d H:i" }}</td>
+        <td>{{ log.created|date:"SHORT_DATETIME_FORMAT" }}</td>
         <td>{{ log.event }}</td>
         <td dir="ltr">{{ log.recipient }}</td>
         <td class="sms-text">{{ log.text|linebreaksbr }}</td>

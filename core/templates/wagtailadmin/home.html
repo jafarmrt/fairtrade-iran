@@ -1,0 +1,3 @@
+{% extends "wagtailadmin/home.html" %}
+{% load admin_tags %}
+{% block branding_welcome %}{% admin_brand as brand %}{{ brand.name }}{% endblock %}

@@ -1,0 +1,4 @@
+{% extends "wagtailadmin/base.html" %}
+{% load admin_tags %}
+{% comment %}The house's logo (Settings > تنظیمات سایت > لوگوی روشن) instead of Wagtail's bird in the side menu.{% endcomment %}
+{% block branding_logo %}{% admin_brand as brand %}<img class="ft-sidebar-logo" src="{{ brand.logo_light }}" alt="{{ brand.name }}">{% endblock %}
