@@ -5,6 +5,16 @@ import django.db.models.deletion
 from django.db import migrations, models
 
 
+def number_principles(apps, schema_editor):
+    """Principles made by seed_content had no sort order, so their order could change on PostgreSQL
+    after an edit; number them in the order they were created."""
+    Principle = apps.get_model("pages", "Principle")
+    page_ids = Principle.objects.filter(sort_order__isnull=True).values_list("page_id", flat=True).distinct()
+    for page_id in page_ids:
+        for i, principle in enumerate(Principle.objects.filter(page_id=page_id).order_by("sort_order", "pk")):
+            Principle.objects.filter(pk=principle.pk).update(sort_order=i)
+
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -64,4 +74,5 @@ class Migration(migrations.Migration):
                 verbose_name="آیکون",
             ),
         ),
+        migrations.RunPython(number_principles, migrations.RunPython.noop),
     ]

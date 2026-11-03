@@ -51,6 +51,15 @@ class PrincipleColoursTests(TestCase):
         self.assertContains(response, "principle__icon--image")
         self.assertNotContains(response, principles.ICONS["opportunity"][1])
 
+    def test_order_stays_after_editing(self):
+        """Seeded principles are numbered, so editing one does not move it (PostgreSQL)."""
+        page = self.page()
+        self.assertEqual(list(page.principles.values_list("sort_order", flat=True)), list(range(10)))
+        first = page.principles.first()
+        first.description = "ویرایش شد"
+        first.save()
+        self.assertEqual(self.page().principles.first().pk, first.pk)
+
     def test_readable_ink_on_every_colour(self):
         for colour in principles.WFTO_COLOURS:
             ink = principles.ink_for(colour)

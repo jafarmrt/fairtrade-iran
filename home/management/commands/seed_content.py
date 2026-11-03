@@ -137,7 +137,7 @@ class Command(BaseCommand):
         page_fa = PrinciplesPage.objects.filter(locale=home_fa.locale).first()
         if page_fa is None:
             page_fa = PrinciplesPage(show_in_menus=True, **data.PRINCIPLES_PAGE["fa"])
-            page_fa.principles = [Principle(title=t, description=d) for t, d in data.PRINCIPLES_FA]
+            page_fa.principles = [Principle(title=t, description=d, sort_order=i) for i, (t, d) in enumerate(data.PRINCIPLES_FA)]
             fresh(home_fa).add_child(instance=page_fa)
             page_fa.save_revision().publish()
             self.stdout.write("Created principles page (fa)")
@@ -146,7 +146,7 @@ class Command(BaseCommand):
             page_en = page_fa.copy_for_translation(home_en.locale).specific
             for field, value in data.PRINCIPLES_PAGE["en"].items():
                 setattr(page_en, field, value)
-            page_en.principles = [Principle(title=t, description=d) for t, d in data.PRINCIPLES_EN]
+            page_en.principles = [Principle(title=t, description=d, sort_order=i) for i, (t, d) in enumerate(data.PRINCIPLES_EN)]
             page_en.save_revision().publish()
             self.stdout.write("Created principles page (en)")
 
