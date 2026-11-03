@@ -71,12 +71,17 @@ class Member(BilingualMixin, index.Indexed, ClusterableModel):
     TRIAL = "trial"
     OFFICIAL = "official"
     SUSPENDED = "suspended"
+    CANCELLED = "cancelled"
     STATUS_CHOICES = [
         (TRIAL, "عضو آزمایشی"),
         (OFFICIAL, "عضو رسمی"),
         (SUSPENDED, "تعلیق‌شده"),
+        (CANCELLED, "عضویت لغوشده"),
     ]
-    STATUS_LABELS_EN = {TRIAL: "Trial member", OFFICIAL: "Full member", SUSPENDED: "Suspended"}
+    STATUS_LABELS_EN = {TRIAL: "Trial member", OFFICIAL: "Full member", SUSPENDED: "Suspended",
+                        CANCELLED: "Membership cancelled"}
+    # Not shown on the public site; no logo, services or panel editing (sections 1.7 and 1.8).
+    INACTIVE_STATUSES = (SUSPENDED, CANCELLED)
 
     name = models.CharField("نام (فارسی)", max_length=160)
     name_en = models.CharField(
@@ -123,6 +128,17 @@ class Member(BilingualMixin, index.Indexed, ClusterableModel):
     is_featured = models.BooleanField("نمایش در صفحه اصلی", default=False)
     sort_order = models.PositiveSmallIntegerField("ترتیب نمایش", default=100,
                                                   help_text="عدد کوچک‌تر زودتر نمایش داده می‌شود")
+
+    suspended_until = models.DateField(
+        "پایان تعلیق", null=True, blank=True,
+        help_text="با ثبت رأی تعلیق در «وضعیت اعضا» پر می‌شود؛ در این روز دبیرخانه برای رفع تعلیق یا لغو یادآوری می‌گیرد",
+    )
+    status_before_suspension = models.CharField(
+        "وضعیت پیش از تعلیق", max_length=20, choices=STATUS_CHOICES[:2], blank=True,
+        help_text="با رفع تعلیق، عضو به این وضعیت برمی‌گردد",
+    )
+    cancelled_on = models.DateField("تاریخ لغو عضویت", null=True, blank=True)
+    reapply_after = models.DateField("امکان درخواست دوباره از", null=True, blank=True)
 
     managers = models.ManyToManyField(
         settings.AUTH_USER_MODEL, verbose_name="کاربرانی که این عضو را مدیریت می‌کنند", blank=True,
@@ -180,6 +196,13 @@ class Member(BilingualMixin, index.Indexed, ClusterableModel):
             FieldPanel("managers"),
             FieldPanel("application"),
         ], heading="نمایش و دسترسی"),
+        ObjectList([
+            FieldPanel("suspended_until"),
+            FieldPanel("status_before_suspension"),
+            FieldPanel("cancelled_on"),
+            FieldPanel("reapply_after"),
+        ], heading="تعلیق و لغو",
+            help_text="این‌ها را بهتر است از «وضعیت اعضا و حق عضویت» با ثبت رأی تغییر دهید تا ایمیل و سابقه ثبت شود"),
     ])
 
     class Meta:
@@ -208,6 +231,10 @@ class Member(BilingualMixin, index.Indexed, ClusterableModel):
         return self.status == self.TRIAL
 
     @property
+    def is_inactive(self):
+        return self.status in self.INACTIVE_STATUSES
+
+    @property
     def purchase_url(self):
         """Where the "direct purchase" button sends buyers: the member's own shop or site, else Instagram."""
         return self.website_url or self.instagram_url
@@ -215,7 +242,7 @@ class Member(BilingualMixin, index.Indexed, ClusterableModel):
     @classmethod
     def visible(cls):
         """Members to show on the public site in the current language."""
-        qs = cls.objects.filter(is_published=True).exclude(status=cls.SUSPENDED).select_related("region", "logo", "cover_image")
+        qs = cls.objects.filter(is_published=True).exclude(status__in=cls.INACTIVE_STATUSES).select_related("region", "logo", "cover_image")
         if is_english():
             qs = qs.exclude(name_en="")
         return qs

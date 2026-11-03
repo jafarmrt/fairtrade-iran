@@ -11,6 +11,8 @@ DAILY_JOBS_TIME="${DAILY_JOBS_TIME:-08:00}"
 run_jobs() {
     echo "[scheduler] $(date '+%Y-%m-%d %H:%M'): membership_reminders"
     python manage.py membership_reminders || echo "[scheduler] membership_reminders FAILED"
+    echo "[scheduler] $(date '+%Y-%m-%d %H:%M'): membership_standing"
+    python manage.py membership_standing || echo "[scheduler] membership_standing FAILED"
 }
 
 if [ "${1:-}" = "now" ]; then

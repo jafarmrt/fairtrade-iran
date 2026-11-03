@@ -58,10 +58,9 @@ def new_tracking_code():
 
 @register_setting(icon="pick")
 class AppealSettings(BaseGenericSetting):
+    # The appeal window itself is MembershipSettings.appeal_days (تنظیمات عضویت), shared with the
+    # appeal deadline written on suspension and cancellation notices.
     enabled = models.BooleanField("ثبت اعتراض از پنل اعضا فعال است", default=True)
-    window_days = models.PositiveSmallIntegerField(
-        "مهلت ثبت اعتراض پس از ابلاغ رأی (روز)", default=30, help_text="سند ارکان، بند ۸-۲: ۳۰ روز",
-    )
     decision_days = models.PositiveSmallIntegerField(
         "مهلت رأی دبیر مجمع پس از دریافت اعتراض (روز)", default=30, help_text="سند ارکان، بند ۸-۲: ۳۰ روز",
     )
@@ -131,7 +130,7 @@ class AppealSettings(BaseGenericSetting):
 
     edit_handler = TabbedInterface([
         ObjectList([
-            FieldPanel("enabled"), FieldPanel("window_days"), FieldPanel("decision_days"),
+            FieldPanel("enabled"), FieldPanel("decision_days"),
             FieldPanel("extra_recipients"),
         ], heading="مهلت‌ها و اعلان"),
         ObjectList([
@@ -190,6 +189,11 @@ class Appeal(models.Model):
         "membership.MembershipApplication", verbose_name="پرونده عضویت", null=True, blank=True,
         on_delete=models.SET_NULL, related_name="appeals",
         help_text="برای متقاضیانی که پیش از دوره آزمایشی رد شده‌اند و از صفحه پیگیری درخواست اعتراض کرده‌اند",
+    )
+    standing_decision = models.ForeignKey(
+        "standing.Decision", verbose_name="رأی ثبت‌شده در سایت", null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="appeals",
+        help_text="اگر رأی نقض شود، دبیرخانه «بازگشت عضویت» یا «رفع تعلیق» را در وضعیت عضو ثبت می‌کند",
     )
     member_name = models.CharField("نام عضو هنگام ثبت", max_length=200, editable=False)
     submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="ثبت‌کننده", null=True, blank=True,

@@ -5,6 +5,7 @@
 <div class="panel-layout">
 <form class="form panel-form" method="post" enctype="multipart/form-data" novalidate>
     {% csrf_token %}
+    {% if standing_decision %}<input type="hidden" name="ref" value="{{ standing_decision.pk }}">{% endif %}
     {% with s=appeal_settings %}{% if IS_EN and s.intro_en %}<div class="prose">{{ s.intro_en|richtext }}</div>{% elif not IS_EN and s.intro %}<div class="prose">{{ s.intro|richtext }}</div>{% endif %}{% endwith %}
     {% if form.errors %}<div class="notice notice--error" role="alert">{% if IS_EN %}Please correct the fields marked below.{% else %}لطفاً موارد مشخص‌شده را اصلاح کنید.{% endif %}</div>{% endif %}
     {{ form.non_field_errors }}

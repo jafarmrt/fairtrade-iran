@@ -10,13 +10,21 @@ from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect
 
 from contact.models import Complaint, notify_commission
-from core.models import is_english
+from core.models import MembershipSettings, is_english
 from memberpanel.views import member_view, render, t
 from membership.jalali import parse_date
 
 from . import notifications
 from .forms import AppealForm, PanelComplaintForm
 from .models import Appeal, AppealSettings
+
+
+# standing.Decision kinds members may appeal (governance doc 8.2) -> appeal form values
+STANDING_MAP = {
+    "warning": {"decision": "warning"},
+    "suspend": {"decision": "suspension"},
+    "cancel": {"decision": "revocation"},
+}
 
 
 def _settings(request):
@@ -67,6 +75,13 @@ def appeal_new(request, member):
     if not settings.enabled:
         raise Http404
     initial = {"email": request.user.email}
+    ref = request.GET.get("ref") or request.POST.get("ref")
+    standing_decision = member.decisions.filter(pk=ref).first() if ref and ref.isdigit() else None
+    if standing_decision is not None:
+        initial.update(STANDING_MAP.get(standing_decision.kind, {}))
+        initial["decision_body"] = standing_decision.decided_by if standing_decision.decided_by in Appeal.Body.values else "other"
+        initial["decision_date"] = standing_decision.decided_on
+        initial["decision_reference"] = standing_decision.decision_reference
     if request.GET.get("decision") in Appeal.Decision.values:
         initial["decision"] = request.GET["decision"]
     if request.GET.get("body") in Appeal.Body.values:
@@ -74,13 +89,14 @@ def appeal_new(request, member):
     if parse_date(request.GET.get("date")):
         initial["decision_date"] = parse_date(request.GET["date"])
     form = AppealForm(request.POST or None, request.FILES or None, initial=initial,
-                      window_days=settings.window_days)
+                      window_days=MembershipSettings.load(request_or_site=request).appeal_days)
     if request.method == "POST" and form.is_valid():
         with transaction.atomic():
             appeal = form.save(commit=False)
             appeal.member = member
             appeal.member_name = member.name
             appeal.submitted_by = request.user
+            appeal.standing_decision = standing_decision
             appeal.language = "en" if is_english() else "fa"
             appeal.save()
             transaction.on_commit(lambda: notifications.submitted(appeal))
@@ -91,6 +107,7 @@ def appeal_new(request, member):
         return redirect("panel:appeals", member_id=member.pk)
     return render(request, "appeals/appeal_form.html", {
         "member": member, "form": form, "current": "appeals", "appeal_settings": settings,
+        "standing_decision": standing_decision,
     })
 
 

@@ -59,9 +59,9 @@ def member_view(editing=True):
         @wraps(view)
         def wrapper(request, member_id, *args, **kwargs):
             member = get_object_or_404(request.user.managed_members.all(), pk=member_id)
-            if editing and member.status == Member.SUSPENDED:
-                messages.error(request, t("عضویت این مجموعه تعلیق شده و ویرایش آن ممکن نیست.",
-                                          "This membership is suspended, so it cannot be edited."))
+            if editing and member.is_inactive:
+                messages.error(request, t("عضویت این مجموعه تعلیق یا لغو شده و ویرایش آن ممکن نیست.",
+                                          "This membership is suspended or cancelled, so it cannot be edited."))
                 return redirect("panel:dashboard")
             return view(request, member, *args, **kwargs)
         return wrapper
@@ -86,7 +86,8 @@ def dashboard(request):
             "live": products.filter(is_published=True, needs_review=False).count(),
             "review": products.filter(needs_review=True).count(),
         }
-        member.public_url = member.get_url() if member.is_published and member.status != Member.SUSPENDED else ""
+        member.open_dues = member.dues.filter(status__in=("unpaid", "pending")).order_by("due_date").first()
+        member.public_url = member.get_url() if member.is_published and not member.is_inactive else ""
     return render(request, "memberpanel/dashboard.html", {"members": members, "current": "dashboard"})
 
 
@@ -120,7 +121,7 @@ def profile(request, member):
 def product_list(request, member):
     products = member.products.all().select_related("category").prefetch_related("images__image")
     settings = PanelSettings.load(request_or_site=request)
-    can_add = member.status != Member.SUSPENDED and (
+    can_add = not member.is_inactive and (
         not settings.max_products or products.count() < settings.max_products)
     return render(request, "memberpanel/product_list.html",
                   {"member": member, "products": products, "can_add": can_add, "current": "products"})
@@ -269,32 +270,28 @@ class PasswordChangeView(auth_views.PasswordChangeView):
 APPEALABLE_STATUSES = {"rejected": "rejection", "not_accepted": "rejection"}
 
 
-@member_view(editing=False)
-def membership_file(request, member):
+def membership_record(request, member):
+    """The membership file and certificate, shown on the panel's membership page."""
     import datetime
 
     from django.utils import timezone
 
     from appeals.models import AppealSettings
+    from core.models import MembershipSettings
 
     application = member.application
     certificate = application.certificate_or_none if application else None
     events = []
-    appeal_settings = AppealSettings.load(request_or_site=request)
     if application:
-        cutoff = timezone.localdate() - datetime.timedelta(days=appeal_settings.window_days)
+        enabled = AppealSettings.load(request_or_site=request).enabled
+        window = MembershipSettings.load(request_or_site=request).appeal_days
+        cutoff = timezone.localdate() - datetime.timedelta(days=window)
         for event in application.public_events():
             day = timezone.localtime(event.created_at).date()
-            event.appeal_decision = (
-                APPEALABLE_STATUSES.get(event.to_status, "")
-                if appeal_settings.enabled and day >= cutoff else ""
-            )
+            event.appeal_decision = APPEALABLE_STATUSES.get(event.to_status, "") if enabled and day >= cutoff else ""
             event.day = day
             events.append(event)
-    return render(request, "memberpanel/membership_file.html", {
-        "member": member, "application": application, "certificate": certificate, "events": events,
-        "appeals": member.appeals.all()[:5], "current": "file",
-    })
+    return {"application": application, "certificate": certificate, "file_events": events}
 
 
 @member_view(editing=False)

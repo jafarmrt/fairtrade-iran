@@ -35,7 +35,9 @@ def appeal_state(application):
     has_profile = Member.objects.filter(application=application).exists()
     if not settings.enabled or application.status not in APPEALABLE or appeals or has_profile:
         return False, None, appeals
-    deadline = decision_date(application) + datetime.timedelta(days=settings.window_days)
+    from core.models import MembershipSettings
+
+    deadline = decision_date(application) + datetime.timedelta(days=MembershipSettings.load().appeal_days)
     return deadline >= timezone.localdate(), deadline, appeals
 
 

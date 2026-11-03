@@ -385,6 +385,19 @@ class EmailTemplate(models.Model):
         STATUS_WITHDRAWN = "status_withdrawn", "به متقاضی: بایگانی پرونده"
         PANEL_INVITE = "panel_invite", "به عضو تازه: دعوت به پنل اعضا"
         PANEL_PRODUCT_REVIEW = "panel_product_review", "به کارکنان: محصول تازه از پنل اعضا در انتظار بررسی"
+        DUES_ISSUED = "dues_issued", "به عضو: صورت‌حساب حق عضویت سالانه"
+        DUES_REMINDER = "dues_reminder", "به عضو: یادآوری پرداخت حق عضویت"
+        DUES_WARNING = "dues_warning", "به عضو: اخطار کتبی عدم پرداخت حق عضویت"
+        DUES_RECEIPT_STAFF = "dues_receipt_staff", "به دبیرخانه: رسید تازه حق عضویت"
+        DUES_CONFIRMED = "dues_confirmed", "به عضو: تأیید پرداخت حق عضویت"
+        DUES_REJECTED = "dues_rejected", "به عضو: رسید حق عضویت پذیرفته نشد"
+        STANDING_NOTICE = "standing_notice", "به عضو: تذکر کتبی"
+        STANDING_WARNING = "standing_warning", "به عضو: اخطار کتبی"
+        STANDING_SUSPEND = "standing_suspend", "به عضو: تعلیق عضویت"
+        STANDING_LIFT = "standing_lift", "به عضو: رفع تعلیق"
+        STANDING_CANCEL = "standing_cancel", "به عضو: لغو عضویت"
+        STANDING_REINSTATE = "standing_reinstate", "به عضو: بازگشت عضویت پس از اعتراض"
+        STANDING_DIGEST = "standing_digest", "به دبیرخانه/کمیسیون: گزارش روزانه حق عضویت و تعلیق‌ها"
 
     event = models.CharField("رویداد", max_length=40, choices=Event.choices, unique=True)
     active = models.BooleanField("ارسال شود", default=True)
@@ -394,7 +407,9 @@ class EmailTemplate(models.Model):
         "متن (فارسی)",
         help_text="می‌توانید از این‌ها استفاده کنید: {name} {code} {type} {status} {deadline} {message} "
                   "{track_url} {admin_url} {certificate_number} {certificate_url} {site_name} {list}؛ "
-                  "برای ایمیل‌های پنل اعضا: {name} {username} {set_password_url} {panel_url} {product} {member} {admin_url} {site_name}",
+                  "برای ایمیل‌های پنل اعضا: {name} {username} {set_password_url} {panel_url} {product} {member} {admin_url} {site_name}؛ "
+                  "برای حق عضویت و وضعیت عضو: {name} {year} {amount} {due_date} {suspend_date} {bank} {panel_url} "
+                  "{decision} {reason} {message} {until} {appeal_until} {reapply_after} {decision_reference} {list}",
     )
     body_en = models.TextField("متن (انگلیسی)", blank=True)
 

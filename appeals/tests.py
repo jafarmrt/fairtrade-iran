@@ -76,7 +76,7 @@ class MembershipFileTests(CaseTestCase):
         Certificate.objects.create(application=application, number="FT-1405-0001", name=self.member.name,
                                    member_type="producer")
         for lang in ("fa", "en"):
-            response = self.client.get(f"/{lang}/panel/{self.member.pk}/file/")
+            response = self.client.get(f"/{lang}/panel/{self.member.pk}/membership/")
             self.assertContains(response, application.tracking_code)
             self.assertContains(response, "FT-1405-0001")
             self.assertContains(response, f"/panel/{self.member.pk}/certificate/")
@@ -93,15 +93,15 @@ class MembershipFileTests(CaseTestCase):
         application = self.make_application()
         ApplicationEvent.objects.create(application=application, action="x", to_status=Status.NOT_ACCEPTED,
                                         message="دوره آزمایشی موفق نبود.")
-        response = self.client.get(f"/fa/panel/{self.member.pk}/file/")
+        response = self.client.get(f"/fa/panel/{self.member.pk}/membership/")
         self.assertContains(response, "?decision=rejection")
 
     def test_other_members_file_is_hidden(self):
-        self.assertEqual(self.client.get(f"/fa/panel/{self.other.pk}/file/").status_code, 404)
+        self.assertEqual(self.client.get(f"/fa/panel/{self.other.pk}/membership/").status_code, 404)
         self.assertEqual(self.client.get(f"/fa/panel/{self.other.pk}/certificate/").status_code, 404)
 
     def test_file_without_application(self):
-        self.assertEqual(self.client.get(f"/en/panel/{self.member.pk}/file/").status_code, 200)
+        self.assertEqual(self.client.get(f"/en/panel/{self.member.pk}/membership/").status_code, 200)
 
 
 class ComplaintTests(CaseTestCase):
@@ -170,8 +170,10 @@ class AppealTests(CaseTestCase):
         self.assertContains(response, "cannot be in the future")
 
     def test_window_is_editable(self):
-        settings = AppealSettings.load()
-        settings.window_days = 60
+        from core.models import MembershipSettings
+
+        settings = MembershipSettings.load()
+        settings.appeal_days = 60
         settings.save()
         late = (timezone.localdate() - datetime.timedelta(days=45)).isoformat()
         self.client.post(f"/en/panel/{self.member.pk}/appeals/new/", self.appeal_data(decision_date=late))
@@ -190,6 +192,23 @@ class AppealTests(CaseTestCase):
         response = self.client.get(f"/fa/panel/{self.member.pk}/appeals/new/?decision=rejection&date=2026-11-01")
         self.assertContains(response, 'value="rejection" selected')
         self.assertContains(response, "۱۴۰۵/۰۸/۱۰")
+
+    def test_appeal_a_recorded_decision(self):
+        from standing.models import Decision
+
+        decision = Decision.objects.create(
+            member=self.member, kind="suspend", reason="dues", decided_by="secretariat",
+            decided_on=timezone.localdate() - datetime.timedelta(days=2),
+            appeal_until=timezone.localdate() + datetime.timedelta(days=28), message="تعلیق برای بدهی")
+        page = self.client.get(f"/fa/panel/{self.member.pk}/membership/")
+        self.assertContains(page, f"?ref={decision.pk}")
+        form = self.client.get(f"/fa/panel/{self.member.pk}/appeals/new/?ref={decision.pk}")
+        self.assertContains(form, 'value="suspension" selected')
+        self.assertContains(form, 'value="secretariat" selected')
+        data = self.appeal_data(ref=str(decision.pk))
+        self.client.post(f"/fa/panel/{self.member.pk}/appeals/new/", data)
+        self.assertEqual(Appeal.objects.get().standing_decision, decision)
+        self.assertNotContains(self.client.get(f"/fa/panel/{self.member.pk}/membership/"), f"?ref={decision.pk}")
 
     def test_ruling_needs_reasons_and_emails_member(self):
         self.client.post(f"/fa/panel/{self.member.pk}/appeals/new/", self.appeal_data())

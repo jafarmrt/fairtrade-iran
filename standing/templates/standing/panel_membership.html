@@ -1,0 +1,94 @@
+{% extends "memberpanel/base.html" %}
+{% load wagtailcore_tags membership_tags site_tags %}
+{% block heading %}{% if IS_EN %}Membership and fees{% else %}عضویت و حق عضویت{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-layout">
+<div>
+    <section class="card standing-status{% if member.is_inactive %} standing-status--inactive{% endif %}">
+        <h2 class="h3">{% if IS_EN %}Membership status{% else %}وضعیت عضویت{% endif %}</h2>
+        <p class="badges"><span class="badge{% if member.status == 'official' %} badge--gold{% endif %}">{{ member.status_label }}</span>
+            <span class="badge">{{ member.type_label }}</span></p>
+        <dl class="standing-facts">
+            {% if member.joined_on %}<div><dt>{% if IS_EN %}Member since{% else %}عضو از{% endif %}</dt><dd>{{ member.joined_on|jdate }}</dd></div>{% endif %}
+            {% if member.status == 'suspended' and member.suspended_until %}<div><dt>{% if IS_EN %}Suspended until{% else %}تعلیق تا{% endif %}</dt><dd>{{ member.suspended_until|jdate }}</dd></div>{% endif %}
+            {% if member.status == 'cancelled' %}
+                {% if member.cancelled_on %}<div><dt>{% if IS_EN %}Cancelled on{% else %}تاریخ لغو{% endif %}</dt><dd>{{ member.cancelled_on|jdate }}</dd></div>{% endif %}
+                {% if member.reapply_after %}<div><dt>{% if IS_EN %}You may apply again from{% else %}درخواست دوباره از{% endif %}</dt><dd>{{ member.reapply_after|jdate }}</dd></div>{% endif %}
+            {% endif %}
+        </dl>
+        {% if member.is_inactive %}
+            {% if IS_EN and ms.suspended_text_en %}<div class="prose">{{ ms.suspended_text_en|richtext }}</div>{% elif not IS_EN and ms.suspended_text %}<div class="prose">{{ ms.suspended_text|richtext }}</div>{% endif %}
+        {% endif %}
+    </section>
+
+    <section class="standing-section">
+        <h2 class="h3">{% if IS_EN %}Annual membership fee{% else %}حق عضویت سالانه{% endif %}</h2>
+        {% if dues_list %}
+        <div class="table-scroll">
+        <table class="standing-table">
+            <thead><tr>
+                <th>{% if IS_EN %}Year{% else %}سال{% endif %}</th>
+                <th>{% if IS_EN %}Amount (rials){% else %}مبلغ (ریال){% endif %}</th>
+                <th>{% if IS_EN %}Due by{% else %}مهلت{% endif %}</th>
+                <th>{% if IS_EN %}Status{% else %}وضعیت{% endif %}</th>
+            </tr></thead>
+            <tbody>
+            {% for d in dues_list %}
+            <tr>
+                <td>{{ d.year|fa_digits }}</td>
+                <td>{{ d.amount|money|fa_digits }}</td>
+                <td>{{ d.due_date|jdate }}</td>
+                <td><span class="badge{% if d.status == 'paid' or d.status == 'waived' %} badge--ok{% elif d.is_overdue %} badge--error{% elif d.status == 'pending' %} badge--gold{% endif %}">{{ d.status_display }}</span>
+                    {% if d.is_overdue and d.status == 'unpaid' %}<small class="standing-overdue">{% if IS_EN %}Overdue{% else %}گذشته از مهلت{% endif %}</small>{% endif %}
+                    {% for p in d.payments.all %}{% if p.status == 'rejected' and p.staff_message and forloop.first %}<p class="standing-msg" dir="auto"><strong>{% if IS_EN %}Receipt not accepted:{% else %}رسید پذیرفته نشد:{% endif %}</strong> {{ p.staff_message|linebreaksbr }}</p>{% endif %}{% endfor %}
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        </div>
+        {% else %}
+        <div class="notice">{% if IS_EN %}No membership fee is due at the moment.{% else %}در حال حاضر حق عضویتی برای پرداخت ندارید.{% endif %}</div>
+        {% endif %}
+    </section>
+
+    {% if can_pay %}
+    <section class="standing-section">
+        <h2 class="h3">{% if IS_EN %}Send a payment receipt{% else %}ارسال رسید پرداخت{% endif %}</h2>
+        {% if IS_EN and ms.dues_text_en %}<div class="prose">{{ ms.dues_text_en|richtext }}</div>{% elif not IS_EN and ms.dues_text %}<div class="prose">{{ ms.dues_text|richtext }}</div>{% endif %}
+        {% include "membership/includes/bank.html" %}
+        <form class="form panel-form" method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            {% if form.errors %}<div class="notice notice--error" role="alert">{% if IS_EN %}Please correct the fields marked below.{% else %}لطفاً موارد مشخص‌شده را اصلاح کنید.{% endif %}</div>{% endif %}
+            {{ form.non_field_errors }}
+            <fieldset class="panel-fieldset">
+                <legend>{% if IS_EN %}Payment{% else %}پرداخت{% endif %}</legend>
+                {% for field in form.hidden_fields %}{{ field }}{% endfor %}
+                {% for field in form.visible_fields %}{% include "memberpanel/includes/field.html" %}{% endfor %}
+            </fieldset>
+            <button class="btn btn--primary" type="submit">{% if IS_EN %}Send receipt{% else %}ارسال رسید{% endif %}</button>
+        </form>
+    </section>
+    {% endif %}
+
+    {% if decisions %}
+    <section class="standing-section">
+        <h2 class="h3">{% if IS_EN %}Notices and decisions{% else %}تذکرها، اخطارها و آرا{% endif %}</h2>
+        <ul class="standing-history">
+            {% for dec in decisions %}
+            <li>
+                <p><strong>{{ dec.kind_display }}</strong> · {{ dec.decided_on|jdate }}</p>
+                <p class="muted">{% if IS_EN %}Reason{% else %}دلیل{% endif %}: {{ dec.reason_display }}{% if dec.ends_on %} · {% if IS_EN %}until{% else %}تا{% endif %} {{ dec.ends_on|jdate }}{% endif %}{% if dec.reapply_after %} · {% if IS_EN %}may apply again from{% else %}درخواست دوباره از{% endif %} {{ dec.reapply_after|jdate }}{% endif %}</p>
+                {% if dec.message %}<p dir="auto">{{ dec.message|linebreaksbr }}</p>{% endif %}
+                {% if dec.appeal_until %}<p class="muted">{% if IS_EN %}Appeal deadline{% else %}مهلت اعتراض{% endif %}: {{ dec.appeal_until|jdate }}{% if dec.can_appeal %} · <a href="{% url 'panel:appeal_new' member.pk %}?ref={{ dec.pk }}">{% if IS_EN %}Appeal this decision{% else %}اعتراض به این رأی{% endif %}</a>{% endif %}</p>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+    </section>
+    {% endif %}
+
+    {% include "memberpanel/includes/membership_record.html" %}
+</div>
+{% include "memberpanel/includes/help.html" %}
+</div>
+{% endblock %}

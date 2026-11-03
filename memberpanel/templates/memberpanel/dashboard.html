@@ -1,5 +1,5 @@
 {% extends "memberpanel/base.html" %}
-{% load wagtailcore_tags wagtailimages_tags %}
+{% load wagtailcore_tags wagtailimages_tags membership_tags site_tags %}
 {% block heading %}{% if IS_EN %}Welcome{% else %}خوش آمدید{% endif %}{% if user.first_name %}{% if IS_EN %}, {% else %}، {% endif %}{{ user.first_name }}{% endif %}{% endblock %}
 {% block panel_content %}
 {% with s=panel_settings %}
@@ -23,18 +23,26 @@
             <div><dt>{% if IS_EN %}On the site{% else %}در سایت{% endif %}</dt><dd>{{ m.panel_counts.live }}</dd></div>
             <div><dt>{% if IS_EN %}Awaiting review{% else %}در انتظار بررسی{% endif %}</dt><dd>{{ m.panel_counts.review }}</dd></div>
         </dl>
-        {% if m.status == 'suspended' %}
-            <p class="notice notice--error">{% if IS_EN %}This membership is suspended. Please contact the secretariat.{% else %}این عضویت تعلیق شده است. لطفاً با دبیرخانه تماس بگیرید.{% endif %}</p>
-            <p class="panel-actions">
-                <a class="btn btn--outline" href="{% url 'panel:membership_file' m.pk %}">{% if IS_EN %}Membership file{% else %}پرونده عضویت{% endif %}</a>
-                <a href="{% url 'panel:appeals' m.pk %}">{% if IS_EN %}Appeal a decision{% else %}اعتراض به رأی{% endif %}</a>
-            </p>
+        {% if m.open_dues %}
+        <div class="notice panel-dues{% if m.open_dues.is_overdue %} notice--error{% endif %}">
+            <p>{% if IS_EN %}Membership fee {{ m.open_dues.year }}: {{ m.open_dues.amount|money }} rials, due by {{ m.open_dues.due_date|jdate }}{% else %}حق عضویت سال {{ m.open_dues.year|fa_digits }}: {{ m.open_dues.amount|money|fa_digits }} ریال، مهلت {{ m.open_dues.due_date|jdate }}{% endif %} · <strong>{{ m.open_dues.status_display }}</strong></p>
+            {% if m.open_dues.can_pay %}<p><a href="{% url 'panel:membership' m.pk %}">{% if IS_EN %}Pay and send the receipt{% else %}پرداخت و ارسال رسید{% endif %}</a></p>{% endif %}
+        </div>
+        {% endif %}
+        {% if m.is_inactive %}
+            <p class="notice notice--error">{% if m.status == 'cancelled' %}{% if IS_EN %}This membership has been cancelled.{% else %}این عضویت لغو شده است.{% endif %}{% else %}{% if IS_EN %}This membership is suspended{% if m.suspended_until %} until {{ m.suspended_until|jdate }}{% endif %}.{% else %}این عضویت{% if m.suspended_until %} تا {{ m.suspended_until|jdate }}{% endif %} تعلیق شده است.{% endif %}{% endif %}
+            <a href="{% url 'panel:membership' m.pk %}">{% if IS_EN %}Details{% else %}جزئیات{% endif %}</a>
+            · <a href="{% url 'panel:appeals' m.pk %}">{% if IS_EN %}Appeal a decision{% else %}اعتراض به رأی{% endif %}</a></p>
         {% else %}
         <p class="panel-actions">
             <a class="btn btn--primary" href="{% url 'panel:profile' m.pk %}">{% if IS_EN %}Edit profile{% else %}ویرایش پروفایل{% endif %}</a>
             <a class="btn btn--outline" href="{% url 'panel:products' m.pk %}">{% if IS_EN %}Products{% else %}محصولات{% endif %}</a>
-            <a class="btn btn--outline" href="{% url 'panel:membership_file' m.pk %}">{% if IS_EN %}Membership file{% else %}پرونده عضویت{% endif %}</a>
+            <a class="btn btn--outline" href="{% url 'panel:membership' m.pk %}">{% if IS_EN %}Membership and fees{% else %}عضویت و حق عضویت{% endif %}</a>
             {% if m.public_url %}<a href="{{ m.public_url }}">{% if IS_EN %}View public page{% else %}دیدن صفحه عمومی{% endif %}</a>{% endif %}
+        </p>
+        <p class="panel-actions panel-actions--minor">
+            <a href="{% url 'panel:complaints' m.pk %}">{% if IS_EN %}File a complaint{% else %}ثبت شکایت{% endif %}</a>
+            <a href="{% url 'panel:appeals' m.pk %}">{% if IS_EN %}Appeal a decision{% else %}اعتراض به رأی{% endif %}</a>
         </p>
         <p class="panel-actions panel-actions--minor">
             <a href="{% url 'panel:complaints' m.pk %}">{% if IS_EN %}File a complaint{% else %}ثبت شکایت{% endif %}</a>

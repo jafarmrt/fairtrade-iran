@@ -224,8 +224,10 @@ def ensure_permissions(secretariat, commission, board):
                       "delete_applicationquestion", "view_applicationquestion")
                 + perms("emailtemplate", "add_emailtemplate", "change_emailtemplate", "view_emailtemplate")
                 + perms("certificate", "change_certificate", "view_certificate"))
+    dues = list(Permission.objects.filter(content_type__app_label="standing", codename__in=[
+        "view_dues", "change_dues", "view_duespayment", "view_decision"]))
     for group, extra in (
-        (secretariat, perms("membershipapplication", "secretariat_actions") + snippets),
+        (secretariat, perms("membershipapplication", "secretariat_actions") + snippets + dues),
         (commission, perms("membershipapplication", "commission_actions") + perms("certificate", "view_certificate")),
         (board, perms("certificate", "view_certificate")),
     ):

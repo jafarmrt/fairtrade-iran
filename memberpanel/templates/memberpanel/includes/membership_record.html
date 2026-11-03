@@ -1,32 +1,18 @@
-{% extends "memberpanel/base.html" %}
 {% load membership_tags %}
-{% block heading %}{% if IS_EN %}Membership file{% else %}پرونده عضویت{% endif %}{% endblock %}
-{% block panel_content %}
-<div class="panel-layout">
-<div>
-    <div class="card track-card">
-        <div class="track-card__head">
-            <div>
-                <div class="muted">{{ member.type_label }}</div>
-                <h2>{% if IS_EN and member.name_en %}{{ member.name_en }}{% else %}{{ member.name }}{% endif %}</h2>
-            </div>
-            <span class="status-badge status-badge--{% if member.status == 'official' %}member{% elif member.status == 'suspended' %}rejected{% else %}{{ member.status }}{% endif %}">{{ member.status_label }}</span>
-        </div>
+{% if application %}
+<section class="standing-section">
+    <h2 class="h3">{% if IS_EN %}Membership file{% else %}پرونده عضویت{% endif %}</h2>
+    <div class="card">
         <dl class="fee-list">
-            {% if member.joined_on %}<div><dt>{% if IS_EN %}Member since{% else %}تاریخ عضویت{% endif %}</dt><dd>{{ member.joined_on|jdate }}</dd></div>{% endif %}
-            {% if application %}
             <div><dt>{% if IS_EN %}Application code{% else %}کد پرونده{% endif %}</dt><dd><span dir="ltr" class="mono">{{ application.tracking_code }}</span></dd></div>
             <div><dt>{% if IS_EN %}Applied on{% else %}تاریخ درخواست{% endif %}</dt><dd>{{ application.submitted_at|jdate }}</dd></div>
             <div><dt>{% if IS_EN %}File status{% else %}وضعیت پرونده{% endif %}</dt><dd>{{ application.status_display }}</dd></div>
             {% if application.trial_starts_on %}<div><dt>{% if IS_EN %}Trial period{% else %}دوره آزمایشی{% endif %}</dt><dd>{{ application.trial_starts_on|jdate }} – {{ application.trial_ends_on|jdate }}</dd></div>{% endif %}
-            {% endif %}
         </dl>
-        {% if member.status == 'suspended' %}<p class="notice notice--error">{% if IS_EN %}This membership is suspended. If you disagree with the decision, you can <a href="{% url 'panel:appeals' member.pk %}">appeal it</a>.{% else %}این عضویت تعلیق شده است. اگر با این رأی موافق نیستید، می‌توانید <a href="{% url 'panel:appeals' member.pk %}">اعتراض کنید</a>.{% endif %}</p>{% endif %}
-
-        {% if events %}
-        <h3>{% if IS_EN %}Decisions and messages{% else %}رأی‌ها و پیام‌های خانه{% endif %}</h3>
+        {% if file_events %}
+        <h3 class="panel-subhead">{% if IS_EN %}Admission decisions and messages{% else %}رأی‌ها و پیام‌های پذیرش{% endif %}</h3>
         <ul class="timeline">
-            {% for event in events %}
+            {% for event in file_events %}
             <li>
                 <div class="muted">{{ event.created_at|jdate }}{% if event.to_status %} · {{ event.to_status_display }}{% endif %}</div>
                 <p>{{ event.message|linebreaksbr }}</p>
@@ -35,22 +21,13 @@
             {% endfor %}
         </ul>
         {% endif %}
-        {% if not application %}<p class="muted">{% if IS_EN %}Your profile is not linked to an online membership file. For the details of your membership, please contact the secretariat.{% else %}پروفایل شما به پرونده عضویت برخط وصل نیست. برای جزئیات عضویت با دبیرخانه تماس بگیرید.{% endif %}</p>{% endif %}
     </div>
+</section>
+{% endif %}
 
-    {% if appeals %}
-    <div class="card track-card panel-file-block">
-        <h3>{% if IS_EN %}Your appeals{% else %}اعتراض‌های شما{% endif %}</h3>
-        <ul class="link-list">
-            {% for a in appeals %}<li><span dir="ltr" class="mono">{{ a.tracking_code }}</span> · {{ a.decision_display }} · <span class="status-badge status-badge--appeal-{{ a.status }}">{{ a.status_display }}</span></li>{% endfor %}
-        </ul>
-        <p><a href="{% url 'panel:appeals' member.pk %}">{% if IS_EN %}All appeals{% else %}همه اعتراض‌ها{% endif %}</a></p>
-    </div>
-    {% endif %}
-</div>
-
-<aside class="card cert-result {% if certificate %}{% if certificate.is_valid %}cert-result--valid{% else %}cert-result--invalid{% endif %}{% endif %}">
+<section class="standing-section">
     <h2 class="h3">{% if IS_EN %}Membership certificate{% else %}گواهی عضویت{% endif %}</h2>
+    <div class="card cert-result {% if certificate %}{% if certificate.is_valid %}cert-result--valid{% else %}cert-result--invalid{% endif %}{% endif %}">
     {% if certificate %}
         <p class="cert-result__state">{% if certificate.revoked %}{% if IS_EN %}Revoked{% else %}باطل شده{% endif %}{% elif certificate.is_expired %}{% if IS_EN %}Expired{% else %}منقضی شده{% endif %}{% else %}{% if IS_EN %}Valid{% else %}معتبر{% endif %}{% endif %}</p>
         <dl class="fee-list">
@@ -66,6 +43,5 @@
     {% else %}
         <p class="muted">{% if IS_EN %}The certificate is issued once you become a full member.{% else %}گواهی پس از ثبت عضویت رسمی صادر می‌شود.{% endif %}</p>
     {% endif %}
-</aside>
-</div>
-{% endblock %}
+    </div>
+</section>

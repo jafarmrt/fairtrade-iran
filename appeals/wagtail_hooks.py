@@ -55,6 +55,7 @@ class AppealViewSet(ModelViewSet):
             FieldRowPanel([FieldPanel("tracking_code", read_only=True), FieldPanel("submitted_at", read_only=True)]),
             FieldPanel("member", read_only=True),
             FieldPanel("application", read_only=True),
+            FieldPanel("standing_decision", read_only=True),
             FieldRowPanel([FieldPanel("email", read_only=True), FieldPanel("phone", read_only=True)]),
         ], heading="معترض"),
         MultiFieldPanel([
