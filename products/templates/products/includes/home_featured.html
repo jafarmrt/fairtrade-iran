@@ -1,0 +1,20 @@
+{% load wagtailcore_tags site_tags directory_tags %}
+{% featured_products as products %}
+{% if products %}
+{% with conf=settings.products.ShopSettings %}
+<section class="section home-products">
+    <div class="container">
+        <div class="section__head">
+            <div>
+                <h2>{% tr conf "home_title" %}</h2>
+                {% tr conf "home_text" as text %}{% if text %}<p class="muted">{{ text }}</p>{% endif %}
+            </div>
+            {% shop_index as index %}{% if index %}<a class="btn btn--outline" href="{% pageurl index %}">{% if IS_EN %}Visit the shop{% else %}ورود به فروشگاه{% endif %}</a>{% endif %}
+        </div>
+        <div class="grid grid--products">
+            {% for product in products %}{% include "products/includes/product_card.html" %}{% endfor %}
+        </div>
+    </div>
+</section>
+{% endwith %}
+{% endif %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags site_tags %}
+{% block body_class %}page-members{% endblock %}
+{% block content %}
+<header class="page-header">
+    <div class="container">
+        <h1>{{ page.title }}</h1>
+        {% if page.intro %}<div class="lead prose">{{ page.intro|richtext }}</div>{% endif %}
+    </div>
+</header>
+
+<section class="section">
+    <div class="container">
+        <form class="filters" method="get" role="search">
+            <div class="filters__field filters__field--grow">
+                <label for="f-q">{% if IS_EN %}Search{% else %}جستجو{% endif %}</label>
+                <input id="f-q" type="search" name="q" value="{{ filters.q }}" placeholder="{% if IS_EN %}Name or keyword{% else %}نام یا کلیدواژه{% endif %}">
+            </div>
+            <div class="filters__field">
+                <label for="f-type">{% if IS_EN %}Member type{% else %}نوع عضویت{% endif %}</label>
+                <select id="f-type" name="type">
+                    <option value="">{% if IS_EN %}All{% else %}همه{% endif %}</option>
+                    {% for key, label in type_options %}<option value="{{ key }}"{% if filters.type == key %} selected{% endif %}>{{ label }}</option>{% endfor %}
+                </select>
+            </div>
+            {% if regions %}
+            <div class="filters__field">
+                <label for="f-region">{% if IS_EN %}Region{% else %}منطقه{% endif %}</label>
+                <select id="f-region" name="region">
+                    <option value="">{% if IS_EN %}All{% else %}همه{% endif %}</option>
+                    {% for region in regions %}<option value="{{ region.pk }}"{% if filters.region == region.pk|stringformat:"s" %} selected{% endif %}>{% tr region "name" %}</option>{% endfor %}
+                </select>
+            </div>
+            {% endif %}
+            <div class="filters__field">
+                <label for="f-status">{% if IS_EN %}Membership{% else %}وضعیت{% endif %}</label>
+                <select id="f-status" name="status">
+                    <option value="">{% if IS_EN %}All{% else %}همه{% endif %}</option>
+                    <option value="founding"{% if filters.status == "founding" %} selected{% endif %}>{% if IS_EN %}Founding members{% else %}اعضای مؤسس{% endif %}</option>
+                    <option value="official"{% if filters.status == "official" %} selected{% endif %}>{% if IS_EN %}Full members{% else %}اعضای رسمی{% endif %}</option>
+                    <option value="trial"{% if filters.status == "trial" %} selected{% endif %}>{% if IS_EN %}Trial members{% else %}اعضای آزمایشی{% endif %}</option>
+                </select>
+            </div>
+            <div class="filters__actions">
+                <button class="btn btn--primary" type="submit">{% if IS_EN %}Filter{% else %}نمایش{% endif %}</button>
+                {% if querystring %}<a class="btn btn--outline" href="{% pageurl page %}">{% if IS_EN %}Clear{% else %}پاک کردن{% endif %}</a>{% endif %}
+            </div>
+        </form>
+
+        {% if members.object_list %}
+            <p class="result-count">{% if IS_EN %}{{ members.paginator.count }} member{{ members.paginator.count|pluralize }}{% else %}{{ members.paginator.count }} عضو{% endif %}</p>
+            <div class="grid grid--cards">
+                {% for member in members %}{% include "members/includes/member_card.html" %}{% endfor %}
+            </div>
+            {% include "includes/pagination.html" with items=members %}
+        {% else %}
+            <p class="empty">{% if IS_EN %}No members match these filters.{% else %}عضوی با این مشخصات پیدا نشد.{% endif %}</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

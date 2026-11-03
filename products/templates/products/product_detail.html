@@ -1,0 +1,64 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags site_tags directory_tags %}
+{% block body_class %}page-product{% endblock %}
+{% block title %}{% tr product "name" %}{% endblock %}
+{% block extra_meta %}{% tr product "summary" as summary %}{% if summary %}<meta name="description" content="{{ summary }}">{% endif %}{% endblock %}
+{% block content %}
+{% tr product "name" as product_name %}
+{% tr product.member "name" as member_name %}
+{% with shop=settings.products.ShopSettings %}
+<section class="section">
+    <div class="container">
+        <p class="breadcrumb">
+            <a href="{% pageurl page %}">{{ page.title }}</a>
+            {% if product.category %}<span aria-hidden="true">/</span> <a href="{% pageurl page %}?category={{ product.category.slug|urlencode }}">{% tr product.category "name" %}</a>{% endif %}
+        </p>
+        <div class="product">
+            <div class="product__gallery">
+                {% for item in product.images.all %}
+                    <figure class="{% if forloop.first %}product__main{% else %}product__thumb{% endif %}">
+                        {% if forloop.first %}{% image item.image fill-800x800 %}{% else %}{% image item.image fill-200x200 loading="lazy" %}{% endif %}
+                        {% if item.caption and forloop.first %}<figcaption>{{ item.caption }}</figcaption>{% endif %}
+                    </figure>
+                {% empty %}
+                    <div class="product__main"><span class="placeholder placeholder--large">{{ product_name|first }}</span></div>
+                {% endfor %}
+            </div>
+            <div class="product__info">
+                <h1>{{ product_name }}</h1>
+                <p class="product-card__maker">
+                    {% if IS_EN %}By{% else %}تولید{% endif %} <a href="{% item_url product.member %}">{{ member_name }}</a>
+                    {% if product.member.region %}· {% tr product.member.region "name" %}{% endif %}
+                </p>
+                {% include "products/includes/price.html" %}
+                {% if not product.in_stock %}<p class="badge">{% tr shop "out_of_stock_label" %}</p>{% endif %}
+                {% tr product "summary" as summary %}{% if summary %}<p class="lead">{{ summary }}</p>{% endif %}
+
+                {% if product.direct_purchase_url %}
+                <div class="buy-box">
+                    <a class="btn btn--primary btn--large" href="{{ product.direct_purchase_url }}" rel="noopener" target="_blank">{% tr shop "direct_purchase_label" %}</a>
+                    {% tr shop "purchase_note" as note %}{% if note %}<p class="muted">{{ note }}</p>{% endif %}
+                </div>
+                {% endif %}
+
+                {% tr product "description" as description %}
+                {% if description %}<div class="prose">{{ description|richtext }}</div>{% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+{% endwith %}
+
+{% if related %}
+<section class="section section--alt">
+    <div class="container">
+        <div class="section__head">
+            <h2>{% if IS_EN %}More from {{ member_name }}{% else %}محصولات دیگر {{ member_name }}{% endif %}</h2>
+        </div>
+        <div class="grid grid--products">
+            {% for product in related %}{% include "products/includes/product_card.html" %}{% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}

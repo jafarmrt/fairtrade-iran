@@ -30,6 +30,8 @@ INSTALLED_APPS = [
     "news",
     "archive",
     "contact",
+    "members",
+    "products",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
