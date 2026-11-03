@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags %}
+{% load wagtailcore_tags principle_tags %}
 {% block content %}
 <header class="page-header">
     <div class="container">
@@ -11,7 +11,15 @@
     <div class="container">
         <ol class="principles">
             {% for p in page.principles.all %}
-            <li class="principle"><h3>{{ p.title }}</h3>{% if p.description %}<p>{{ p.description }}</p>{% endif %}</li>
+            {% principle_colour p forloop.counter as colour %}
+            <li class="principle" style="--principle-colour:{{ colour }}">
+                {% principle_badge p forloop.counter %}
+                <div class="principle__body">
+                    <p class="principle__number">{% if IS_EN %}Principle {{ forloop.counter }}{% else %}اصل {{ forloop.counter|fa_digits }}{% endif %}</p>
+                    <h3>{{ p.title }}</h3>
+                    {% if p.description %}<p>{{ p.description }}</p>{% endif %}
+                </div>
+            </li>
             {% endfor %}
         </ol>
         {% if page.outro %}<div class="prose" style="margin-top:32px">{{ page.outro|richtext }}</div>{% endif %}

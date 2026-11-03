@@ -237,23 +237,27 @@ p { margin: 0 0 1em; }
 .card h3 { margin-bottom: 0.4em; }
 .card p:last-child { margin-bottom: 0; }
 
-.principles { counter-reset: principle; list-style: none; padding: 0; margin: 0;
+.principles { list-style: none; padding: 0; margin: 0;
   display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
+/* Each principle has its WFTO colour (set in the admin, or by number) */
 .principle {
-  counter-increment: principle; position: relative;
+  --principle-colour: var(--gold);
+  display: flex; gap: 16px; align-items: flex-start;
   background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius);
-  padding: 20px; padding-inline-start: 72px; box-shadow: var(--shadow);
+  border-top: 4px solid var(--principle-colour);
+  padding: 20px; box-shadow: var(--shadow);
 }
-.principle::before {
-  content: counter(principle, persian);
-  position: absolute; inset-inline-start: 18px; top: 18px;
-  width: 40px; height: 40px; border-radius: 50%;
+.principle__icon {
+  flex-shrink: 0; width: 64px; height: 64px; border-radius: 16px;
   display: grid; place-items: center;
-  background: var(--navy); color: var(--gold); font-weight: 700; font-size: 1.1rem;
 }
-html[lang="en"] .principle::before { content: counter(principle); }
+.principle__icon--image { padding: 8px; }
+.principle__icon img { width: 100%; height: 100%; object-fit: contain; }
+.principle__body { min-width: 0; }
+.principle__number { margin: 0 0 2px; font-size: 0.85rem; font-weight: 700; color: var(--text-muted); }
 .principle h3 { margin-bottom: 0.3em; }
 .principle p { margin: 0; color: var(--text-muted); }
+.principle p.principle__number { margin-bottom: 2px; }
 
 .quote {
   border-inline-start: 4px solid var(--gold); background: var(--tint);
