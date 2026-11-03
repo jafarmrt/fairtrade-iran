@@ -212,6 +212,11 @@ class Command(BaseCommand):
             commission.permissions.add(
                 Permission.objects.get(content_type__app_label="contact", codename=codename)
             )
+        shop_perms = list(Permission.objects.filter(content_type__app_label="shop", codename__in=[
+            "manage_orders", "view_order", "add_seller", "change_seller", "view_seller"]))
+        shop_perms += list(Permission.objects.filter(content_type__app_label="payments", codename="view_payment"))
+        for name in (data.SECRETARIAT, data.MARKET):
+            groups[name].permissions.add(*shop_perms)
         secretary = groups[data.ASSEMBLY_SECRETARY]
         for codename in ("view_appeal", "change_appeal"):
             secretary.permissions.add(

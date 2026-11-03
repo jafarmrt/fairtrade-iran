@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags site_tags %}
+{% load static wagtailcore_tags wagtailimages_tags site_tags shop_tags membership_tags %}
 {% localized_home as home %}
 {% tr settings.core.SiteSettings "site_name" as site_name %}
 <header class="site-header">
@@ -30,6 +30,9 @@
         </nav>
 
         <div class="header-actions">
+            {% cart_link as cart %}{% if cart %}
+                <a class="cart-link" href="{{ cart.url }}" aria-label="{% if IS_EN %}Cart, {{ cart.count }} items{% else %}سبد خرید، {{ cart.count }} کالا{% endif %}">{% if IS_EN %}Cart{% else %}سبد خرید{% endif %} <span class="cart-link__count">{% if IS_EN %}{{ cart.count }}{% else %}{{ cart.count|fa_digits }}{% endif %}</span></a>
+            {% endif %}
             {% if settings.memberpanel.PanelSettings.enabled %}
                 <a class="panel-link" href="{% url 'panel:dashboard' %}">{% if user.is_authenticated and user.managed_members.exists %}{% if IS_EN %}My panel{% else %}پنل من{% endif %}{% else %}{% if IS_EN %}Members' login{% else %}ورود اعضا{% endif %}{% endif %}</a>
             {% endif %}

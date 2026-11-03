@@ -29,6 +29,9 @@
                 <div><dt>{% if application.status == 'trial' or application.status == 'trial_extended' %}{% if IS_EN %}Trial ends{% else %}پایان دوره آزمایشی{% endif %}{% elif IS_EN %}Next step expected by{% else %}مهلت مرحله فعلی{% endif %}</dt><dd>{{ application.deadline|jdate }}</dd></div>
                 {% endif %}
             </dl>
+            {% if fee_online or payment_state %}
+            {% if IS_EN %}{% with title="Pay the application fee" %}{% include "payments/pay_box.html" with step="pay_fee" amount=application.fee_amount %}{% endwith %}{% else %}{% with title="پرداخت هزینه درخواست" %}{% include "payments/pay_box.html" with step="pay_fee" amount=application.fee_amount %}{% endwith %}{% endif %}
+            {% endif %}
             {% with events=application.public_events %}{% if events %}
             <h3>{% if IS_EN %}Messages from the House{% else %}پیام‌های خانه{% endif %}</h3>
             <ul class="timeline">

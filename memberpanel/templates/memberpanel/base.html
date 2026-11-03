@@ -13,6 +13,8 @@
         {% if member %}
         <a href="{% url 'panel:profile' member.pk %}"{% if current == 'profile' %} aria-current="page"{% endif %}>{% if IS_EN %}Profile{% else %}پروفایل{% endif %}</a>
         <a href="{% url 'panel:products' member.pk %}"{% if current == 'products' %} aria-current="page"{% endif %}>{% if IS_EN %}Products{% else %}محصولات{% endif %}</a>
+        <a href="{% url 'panel:orders' member.pk %}"{% if current == 'orders' %} aria-current="page"{% endif %}>{% if IS_EN %}Orders{% else %}سفارش‌ها{% endif %}</a>
+        <a href="{% url 'panel:selling' member.pk %}"{% if current == 'selling' %} aria-current="page"{% endif %}>{% if IS_EN %}Selling{% else %}تنظیمات فروش{% endif %}</a>
         <a href="{% url 'panel:membership' member.pk %}"{% if current == 'membership' %} aria-current="page"{% endif %}>{% if IS_EN %}Membership and fees{% else %}عضویت و حق عضویت{% endif %}</a>
         <a href="{% url 'panel:complaints' member.pk %}"{% if current == 'complaints' %} aria-current="page"{% endif %}>{% if IS_EN %}Complaints{% else %}شکایت{% endif %}</a>
         <a href="{% url 'panel:appeals' member.pk %}"{% if current == 'appeals' %} aria-current="page"{% endif %}>{% if IS_EN %}Appeals{% else %}اعتراض{% endif %}</a>

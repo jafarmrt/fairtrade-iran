@@ -1,0 +1,21 @@
+{% extends "memberpanel/base.html" %}
+{% load site_tags membership_tags %}
+{% block heading %}{% if IS_EN %}Selling settings{% else %}تنظیمات فروش{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="card card--note">
+    <p><strong>{% if IS_EN %}How you sell through the site:{% else %}شیوه فروش شما از سایت:{% endif %}</strong> {{ seller.get_mode_display }}
+    {% if seller.mode != 'none' %}· {% if IS_EN %}House commission{% else %}کارمزد خانه{% endif %}: {{ commission|floatformat:"-2"|fa_digits }}{% if IS_EN %}%{% else %}٪{% endif %}{% endif %}</p>
+    <p class="muted">{% if IS_EN %}The secretariat sets the selling mode and commission. Products need a price to be sold through the cart; set "number in stock" on a product to stop orders when it runs out.{% else %}شیوه فروش و کارمزد را دبیرخانه تعیین می‌کند. محصول برای فروش از سبد خرید باید قیمت داشته باشد؛ با پر کردن «تعداد موجود» در هر محصول، با تمام شدن موجودی سفارش هم بسته می‌شود.{% endif %}</p>
+</div>
+<form class="form panel-form" method="post" novalidate>
+    {% csrf_token %}
+    {% if form.errors %}<div class="notice notice--error" role="alert">{% if IS_EN %}Please correct the fields marked below.{% else %}لطفاً موارد مشخص‌شده را اصلاح کنید.{% endif %}</div>{% endif %}
+    {% for legend, fields in fieldsets %}
+    <fieldset class="panel-fieldset">
+        <legend>{{ legend }}</legend>
+        {% for field in fields %}{% include "memberpanel/includes/field.html" %}{% endfor %}
+    </fieldset>
+    {% endfor %}
+    <button class="btn btn--primary" type="submit">{% if IS_EN %}Save{% else %}ذخیره{% endif %}</button>
+</form>
+{% endblock %}

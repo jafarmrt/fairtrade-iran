@@ -37,6 +37,7 @@ LABELS = {
     "price_note": ("توضیح قیمت (فارسی)", "Price note (Persian)"),
     "price_note_en": ("توضیح قیمت (انگلیسی)", "Price note (English)"),
     "in_stock": ("موجود است", "In stock"),
+    "stock_quantity": ("تعداد موجود", "Number in stock"),
     "purchase_url": ("لینک خرید مستقیم", "Direct purchase link"),
     "is_published": ("در سایت نمایش داده شود", "Show on the website"),
     "new_images": ("افزودن تصویر", "Add photos"),
@@ -54,7 +55,12 @@ HELP = {
                     "The \"Buy from the producer\" button links here."),
     "product_name_en": ("اگر خالی باشد، این محصول در نسخه انگلیسی سایت نمایش داده نمی‌شود.",
                         "If empty, this product is not shown on the English site."),
-    "price": ("اگر خالی باشد قیمت نمایش داده نمی‌شود.", "Leave empty to hide the price."),
+    "price": ("اگر خالی باشد قیمت نمایش داده نمی‌شود و محصول از سبد خرید فروخته نمی‌شود.",
+              "Leave empty to hide the price; then the product cannot be bought through the cart."),
+    "stock_quantity": ("برای فروش از سبد خرید: با هر سفارش کم می‌شود و با رسیدن به صفر، محصول ناموجود می‌شود. "
+                       "خالی یعنی بدون محدودیت.",
+                       "For cart sales: goes down with each order; at zero the product shows as out of stock. "
+                       "Leave empty for no limit."),
     "price_note": ("مثلاً «قیمت بر اساس سفارش» یا «هر کیلوگرم».", "e.g. \"price on request\" or \"per kilo\"."),
     "purchase_url": ("صفحه همین محصول در فروشگاه یا اینستاگرام شما. اگر خالی باشد، وب‌سایت یا اینستاگرام شما استفاده می‌شود.",
                      "This product's page in your shop or Instagram. If empty, your website or Instagram is used."),
@@ -164,7 +170,7 @@ class ProductForm(RichTextAsPlainMixin, forms.ModelForm):
     class Meta:
         model = Product
         fields = ["name", "name_en", "category", "summary", "summary_en", "price", "price_note",
-                  "price_note_en", "in_stock", "purchase_url", "is_published"]
+                  "price_note_en", "in_stock", "stock_quantity", "purchase_url", "is_published"]
 
     def __init__(self, *args, max_images=6, **kwargs):
         super().__init__(*args, **kwargs)
@@ -188,7 +194,7 @@ class ProductForm(RichTextAsPlainMixin, forms.ModelForm):
     groups = [
         ("محصول", "Product", ["name", "category", "summary", "description_text"]),
         ("انگلیسی", "English", ["name_en", "summary_en", "description_en_text", "price_note_en"]),
-        ("قیمت و فروش", "Price and sales", ["price", "price_note", "in_stock", "purchase_url", "is_published"]),
+        ("قیمت و فروش", "Price and sales", ["price", "price_note", "in_stock", "stock_quantity", "purchase_url", "is_published"]),
     ]
 
     def grouped(self):

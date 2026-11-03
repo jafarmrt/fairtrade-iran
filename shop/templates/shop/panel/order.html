@@ -1,0 +1,95 @@
+{% extends "memberpanel/base.html" %}
+{% load site_tags membership_tags %}
+{% block heading %}{% if IS_EN %}Order{% else %}سفارش{% endif %} <span dir="ltr" class="mono">{{ order.code }}</span>{% endblock %}
+{% block panel_content %}
+<p><a href="{% url 'panel:orders' member.pk %}">{% if IS_EN %}← All orders{% else %}→ همه سفارش‌ها{% endif %}</a></p>
+<div class="panel-layout panel-layout--order">
+<div>
+    <section class="card">
+        <p class="badges"><span class="badge{% if order.status == 'paid' %} badge--gold{% elif order.status == 'shipped' or order.status == 'completed' %} badge--ok{% elif order.status == 'cancelled' %} badge--error{% endif %}">{{ order.status_display }}</span>
+            <span class="badge">{% if order.is_house %}{% if IS_EN %}Paid to the House{% else %}پرداخت به خانه{% endif %}{% else %}{% if IS_EN %}Paid to you directly{% else %}پرداخت مستقیم به شما{% endif %}{% endif %}</span></p>
+        <div class="table-scroll">
+        <table class="cart-table">
+            <tbody>{% for item in order.items.all %}<tr><td>{{ item.tr_name }}</td><td class="num">{{ item.quantity|fa_digits }} × {{ item.unit_price|money|fa_digits }}</td><td class="num">{{ item.line_total|money|fa_digits }}</td></tr>{% endfor %}</tbody>
+            <tfoot>
+                <tr><td colspan="2">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}</td><td class="num">{{ order.shipping|money|fa_digits }}</td></tr>
+                <tr class="cart-table__total"><td colspan="2">{% if IS_EN %}Total{% else %}جمع{% endif %}</td><td class="num">{{ order.total|money|fa_digits }}</td></tr>
+                {% if order.commission %}
+                <tr><td colspan="2">{% if IS_EN %}House commission ({{ order.commission_percent|floatformat:"-2" }}%){% else %}کارمزد خانه ({{ order.commission_percent|floatformat:"-2"|fa_digits }}٪){% endif %}</td><td class="num">{{ order.commission|money|fa_digits }}</td></tr>
+                <tr><td colspan="2">{% if order.is_house %}{% if IS_EN %}Your share, paid to you by the House{% else %}سهم شما که خانه واریز می‌کند{% endif %}{% else %}{% if IS_EN %}Commission you owe the House{% else %}کارمزدی که به خانه می‌پردازید{% endif %}{% endif %}</td><td class="num">{% if order.is_house %}{{ order.producer_share|money|fa_digits }}{% else %}{{ order.commission|money|fa_digits }}{% endif %}</td></tr>
+                {% endif %}
+            </tfoot>
+        </table>
+        </div>
+        {% if order.settled_at %}<p class="notice notice--ok">{% if order.is_house %}{% if IS_EN %}The House paid your share on {{ order.settled_at|jdate }}.{% else %}خانه سهم شما را در {{ order.settled_at|jdate }} واریز کرد.{% endif %}{% else %}{% if IS_EN %}Commission settled on {{ order.settled_at|jdate }}.{% else %}کارمزد در {{ order.settled_at|jdate }} تسویه شد.{% endif %}{% endif %}{% if order.settlement_reference %} <span dir="ltr" class="mono">{{ order.settlement_reference }}</span>{% endif %}</p>{% endif %}
+    </section>
+
+    {% if order.status == 'payment_review' and not order.is_house %}
+    <section class="card panel-case">
+        <h2 class="h3">{% if IS_EN %}Check the payment{% else %}بررسی پرداخت خریدار{% endif %}</h2>
+        <dl class="fee-list">
+            {% if order.payment_reference %}<div><dt>{% if IS_EN %}Reference{% else %}شماره پیگیری{% endif %}</dt><dd dir="ltr" class="mono">{{ order.payment_reference }}</dd></div>{% endif %}
+            {% if order.receipt %}<div><dt>{% if IS_EN %}Receipt{% else %}رسید{% endif %}</dt><dd><a href="{% url 'panel:order_receipt' member.pk order.pk %}">{% if IS_EN %}Download{% else %}دریافت فایل{% endif %}</a></dd></div>{% endif %}
+        </dl>
+        {% if order.payer_note %}<p dir="auto">{{ order.payer_note|linebreaksbr }}</p>{% endif %}
+        <form method="post" class="form">{% csrf_token %}
+            <div class="form-row"><label for="reject-msg">{% if IS_EN %}Message to the buyer (needed if you do not confirm){% else %}پیام به خریدار (برای تأیید نکردن لازم است){% endif %}</label><textarea id="reject-msg" name="message" rows="2"></textarea></div>
+            <div class="panel-actions">
+                <button class="btn btn--primary" name="action" value="confirm" type="submit">{% if IS_EN %}I received the money{% else %}واریز را دریافت کردم{% endif %}</button>
+                <button class="btn btn--outline" name="action" value="reject" type="submit">{% if IS_EN %}Not received{% else %}واریزی نرسیده{% endif %}</button>
+            </div>
+        </form>
+    </section>
+    {% elif order.status == 'awaiting_payment' %}
+    <p class="notice">{% if order.is_house %}{% if IS_EN %}Waiting for the buyer to pay the House. Do not ship yet.{% else %}منتظر پرداخت خریدار به حساب خانه؛ هنوز ارسال نکنید.{% endif %}{% else %}{% if IS_EN %}Waiting for the buyer to pay you.{% else %}منتظر واریز خریدار به حساب شما.{% endif %}{% endif %}</p>
+    {% if not order.is_house %}
+    <form method="post">{% csrf_token %}<input type="hidden" name="message" value=""><button class="btn btn--outline" name="action" value="confirm" type="submit">{% if IS_EN %}The buyer has paid me{% else %}خریدار به من پرداخت کرده است{% endif %}</button></form>
+    {% endif %}
+    {% elif order.status == 'payment_review' %}
+    <p class="notice">{% if IS_EN %}The House is checking the buyer's payment.{% else %}خانه در حال بررسی پرداخت خریدار است.{% endif %}</p>
+    {% endif %}
+
+    {% if order.status == 'paid' %}
+    <section class="card panel-case">
+        <h2 class="h3">{% if IS_EN %}Ship the order{% else %}ارسال سفارش{% endif %}</h2>
+        <form method="post" class="form">{% csrf_token %}
+            <div class="form-row"><label for="tracking">{% if IS_EN %}Tracking code{% else %}کد رهگیری مرسوله{% endif %}</label><input id="tracking" type="text" name="tracking_code" dir="ltr"></div>
+            <div class="form-row"><label for="ship-msg">{% if IS_EN %}Message to the buyer (optional){% else %}پیام به خریدار (اختیاری){% endif %}</label><textarea id="ship-msg" name="message" rows="2" placeholder="{% if IS_EN %}e.g. sent by post, arrives in 3 days{% else %}مثلاً با پست پیشتاز فرستاده شد{% endif %}"></textarea></div>
+            <button class="btn btn--primary" name="action" value="ship" type="submit">{% if IS_EN %}Mark as shipped{% else %}ثبت ارسال و خبر به خریدار{% endif %}</button>
+        </form>
+    </section>
+    {% elif order.status == 'shipped' %}
+    <section class="card">
+        <p>{% if IS_EN %}Shipped on {{ order.shipped_at|jdate }}{% else %}ارسال در {{ order.shipped_at|jdate }}{% endif %}{% if order.tracking_code %} · <span dir="ltr" class="mono">{{ order.tracking_code }}</span>{% endif %}</p>
+        <form method="post">{% csrf_token %}<button class="btn btn--outline" name="action" value="complete" type="submit">{% if IS_EN %}Delivered{% else %}تحویل خریدار شد{% endif %}</button></form>
+    </section>
+    {% endif %}
+
+    {% if can_cancel %}
+    <details class="panel-case">
+        <summary>{% if IS_EN %}Cancel this order{% else %}لغو این سفارش{% endif %}</summary>
+        <form method="post" class="form">{% csrf_token %}
+            <div class="form-row"><label for="cancel-msg">{% if IS_EN %}Reason (sent to the buyer){% else %}دلیل (برای خریدار فرستاده می‌شود){% endif %}</label><textarea id="cancel-msg" name="message" rows="2" required></textarea></div>
+            <button class="btn btn--outline" name="action" value="cancel" type="submit">{% if IS_EN %}Cancel order{% else %}لغو سفارش{% endif %}</button>
+        </form>
+    </details>
+    {% endif %}
+</div>
+<aside>
+    <section class="card">
+        <h2 class="h3">{% if IS_EN %}Buyer{% else %}خریدار{% endif %}</h2>
+        <dl class="fee-list fee-list--wrap">
+            <div><dt>{% if IS_EN %}Name{% else %}نام{% endif %}</dt><dd>{{ purchase.buyer_name }}</dd></div>
+            <div><dt>{% if IS_EN %}Phone{% else %}تلفن{% endif %}</dt><dd dir="ltr">{{ purchase.phone }}</dd></div>
+            {% if purchase.email %}<div><dt>{% if IS_EN %}E-mail{% else %}ایمیل{% endif %}</dt><dd dir="ltr">{{ purchase.email }}</dd></div>{% endif %}
+            <div><dt>{% if IS_EN %}Address{% else %}نشانی{% endif %}</dt><dd>{{ purchase.full_address }}</dd></div>
+        </dl>
+        {% if purchase.note %}<p class="panel-case__answer" dir="auto">{{ purchase.note|linebreaksbr }}</p>{% endif %}
+    </section>
+    <section class="card">
+        <h2 class="h3">{% if IS_EN %}History{% else %}سابقه{% endif %}</h2>
+        <ul class="timeline">{% for e in events %}<li><div class="muted">{{ e.created_at|jdate }}</div><p>{{ e.action_display }}{% if e.message %}: {{ e.message|linebreaksbr }}{% endif %}</p></li>{% endfor %}</ul>
+    </section>
+</aside>
+</div>
+{% endblock %}
