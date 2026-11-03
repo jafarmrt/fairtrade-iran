@@ -10,6 +10,7 @@
 | `web` | خود سایت (Django و Wagtail) |
 | `nginx` | دریافت درخواست‌ها، HTTPS و فایل‌های بارگذاری‌شدهٔ عمومی |
 | `backup` | پشتیبان‌گیری خودکار روزانه |
+| `scheduler` | کارهای روزانهٔ سایت: ایمیل یادآوری مهلت پرونده‌های عضویت به دبیرخانه و کمیسیون |
 
 ---
 
@@ -139,6 +140,7 @@ openssl rand -hex 24       # برای POSTGRES_PASSWORD (فقط حروف و عد
 | `EMAIL_*` و `DEFAULT_FROM_EMAIL` | اطلاعات SMTP برای ارسال ایمیل (اعلان درخواست عضویت و فراموشی رمز) |
 | `BACKUP_TIME` | ساعت پشتیبان‌گیری روزانه به وقت تهران، پیش‌فرض `03:30` |
 | `BACKUP_KEEP_DAYS` | چند روز پشتیبان روی سرور بماند، پیش‌فرض `14` |
+| `DAILY_JOBS_TIME` | ساعت ارسال یادآوری‌های روزانهٔ عضویت به وقت تهران، پیش‌فرض `08:00` |
 
 `.env` رمزها را نگه می‌دارد. آن را هرگز در گیت نگذارید و جایی نفرستید (در `.gitignore` آمده است).
 
@@ -270,6 +272,7 @@ docker compose up -d --build --wait
 | ساختن کاربر مدیر تازه | `docker compose exec web python manage.py createsuperuser` |
 | تغییر رمز یک کاربر | `docker compose exec web python manage.py changepassword نام-کاربری` |
 | فضای دیسک | `df -h` و `du -sh backups/` |
+| ارسال فوری یادآوری‌های عضویت | `docker compose exec scheduler sh /app/deploy/scheduler.sh now` |
 | خاموش کردن همه | `docker compose down` (داده‌ها پاک نمی‌شوند) |
 
 > هرگز `docker compose down -v` نزنید: `-v` حجم‌های پایگاه داده و فایل‌ها را **پاک می‌کند**.
