@@ -181,6 +181,11 @@ DATA_UPLOAD_MAX_MEMORY_SIZE = 25 * 1024 * 1024
 WAGTAIL_SITE_NAME = "خانه تجارت عادلانه ایران"
 WAGTAILADMIN_BASE_URL = os.environ.get("SITE_URL", "http://localhost:8000")
 WAGTAILSEARCH_BACKENDS = {"default": {"BACKEND": "wagtail.search.backends.database"}}
+# Photos on the site are served as WebP (much smaller on Iranian mobile networks). Share
+# images (og:image) and icons ask for JPEG/PNG explicitly. Set IMAGES_WEBP=0 to turn it off.
+if os.environ.get("IMAGES_WEBP", "1") != "0":
+    WAGTAILIMAGES_FORMAT_CONVERSIONS = {"jpeg": "webp", "png": "webp", "bmp": "webp", "webp": "webp", "avif": "webp"}
+WAGTAILIMAGES_WEBP_QUALITY = 80
 WAGTAILDOCS_EXTENSIONS = ["csv", "docx", "odt", "pdf", "pptx", "rtf", "txt", "xlsx", "zip", "jpg", "png"]
 # Documents are served through Django so that collection privacy
 # (members only, board only, commission only) is always enforced.

@@ -90,7 +90,7 @@
             <summary>{% if IS_EN %}Return this order{% else %}درخواست مرجوعی{% endif %}</summary>
             <form method="post" class="form">{% csrf_token %}
                 <input type="hidden" name="step" value="return_request"><input type="hidden" name="order" value="{{ order.pk }}">
-                <p class="muted">{% if IS_EN %}You can ask to return it within {{ shop.return_days }} days of delivery.{% else %}تا {{ shop.return_days|fa_digits }} روز پس از تحویل می‌توانید درخواست مرجوعی بدهید.{% endif %}</p>
+                <p class="muted">{% if IS_EN %}You can ask to return it within {{ shop.return_days }} days of delivery.{% else %}تا {{ shop.return_days|fa_digits }} روز پس از تحویل می‌توانید درخواست مرجوعی بدهید.{% endif %}{% with legal=settings.core.SiteSettings.legal_pages %}{% if legal.returns %} <a href="{% pageurl legal.returns %}">{{ legal.returns.title }}</a>{% endif %}{% endwith %}</p>
                 <div class="form-row"><label for="reason-{{ order.pk }}">{% if IS_EN %}Why are you returning it?{% else %}دلیل مرجوعی{% endif %}</label><textarea id="reason-{{ order.pk }}" name="reason" rows="3" required></textarea></div>
                 <button class="btn btn--outline" type="submit">{% if IS_EN %}Send return request{% else %}ثبت درخواست مرجوعی{% endif %}</button>
             </form>

@@ -11,7 +11,16 @@ from .models import Order, OrderEvent, OrderItem, Purchase, Seller
 
 
 class OrderError(Exception):
-    pass
+    """A step that cannot be done now. str() is in the page's language (Persian when no English is given)."""
+
+    def __init__(self, fa, en=""):
+        super().__init__(fa)
+        self.fa, self.en = fa, en
+
+    def __str__(self):
+        from core.models import is_english
+
+        return self.en if (self.en and is_english()) else self.fa
 
 
 BUYER, SELLER, STAFF, SYSTEM = "buyer", "seller", "staff", "system"
@@ -40,13 +49,15 @@ def place_order(cart, buyer, language="fa", user=None):
     products = Product.visible().filter(pk__in=ids)
     groups = cart.groups(products)
     if not groups:
-        raise OrderError("سبد خرید خالی است یا محصولات آن دیگر فروخته نمی‌شوند.")
+        raise OrderError("سبد خرید خالی است یا محصولات آن دیگر فروخته نمی‌شوند.",
+                         "Your cart is empty, or its products are no longer sold.")
     short = [line for group in groups for line in group.lines if line.reduced or line.quantity <= 0]
     if short:
         for line in short:  # fix the cart, so the next try goes through
             cart.set(line.product.pk, line.quantity)
         line = short[0]
-        raise OrderError(f"از «{line.product.name}» فقط {line.quantity} عدد موجود است؛ سبد را به‌روز کردیم.")
+        raise OrderError(f"از «{line.product.name}» فقط {line.quantity} عدد موجود است؛ سبد را به‌روز کردیم.",
+                         f"Only {line.quantity} of “{line.product.tr('name')}” left; we updated your cart.")
 
     purchase = Purchase.objects.create(language=language, user=user if user and user.is_authenticated else None,
                                        **buyer)
@@ -101,9 +112,11 @@ def submit_payment(order, reference="", note="", receipt=None):
     """The buyer says they paid by bank transfer: reference number and/or receipt photo."""
     order = Order.objects.select_for_update().get(pk=order.pk)
     if order.status not in Order.OPEN:
-        raise OrderError("پرداخت این سفارش پیش‌تر بررسی شده یا سفارش بسته است.")
+        raise OrderError("پرداخت این سفارش پیش‌تر بررسی شده یا سفارش بسته است.",
+                         "The payment for this order was already checked, or the order is closed.")
     if not (reference.strip() or receipt):
-        raise OrderError("شماره پیگیری یا تصویر رسید را بفرستید.")
+        raise OrderError("شماره پیگیری یا تصویر رسید را بفرستید.",
+                         "Please send the reference number or a photo of the receipt.")
     order.payment_reference = reference.strip()[:100]
     order.payer_note = note.strip()
     if receipt:
@@ -120,7 +133,7 @@ def submit_payment(order, reference="", note="", receipt=None):
 def confirm_payment(order, user, by=STAFF, message=""):
     order = Order.objects.select_for_update().get(pk=order.pk)
     if order.status not in Order.OPEN:
-        raise OrderError("این سفارش در انتظار پرداخت نیست.")
+        raise OrderError("این سفارش در انتظار پرداخت نیست.", "This order is not waiting for payment.")
     order.status = Order.Status.PAID
     order.paid_at = timezone.now()
     order.save()
@@ -133,9 +146,10 @@ def confirm_payment(order, user, by=STAFF, message=""):
 def reject_payment(order, user, message, by=STAFF):
     order = Order.objects.select_for_update().get(pk=order.pk)
     if order.status != Order.Status.PAYMENT_REVIEW:
-        raise OrderError("رسیدی برای بررسی در این سفارش نیست.")
+        raise OrderError("رسیدی برای بررسی در این سفارش نیست.", "There is no receipt to check on this order.")
     if not message.strip():
-        raise OrderError("بنویسید چرا پرداخت تأیید نشد؛ این پیام برای خریدار فرستاده می‌شود.")
+        raise OrderError("بنویسید چرا پرداخت تأیید نشد؛ این پیام برای خریدار فرستاده می‌شود.",
+                         "Please write why the payment is not confirmed; this is sent to the buyer.")
     order.status = Order.Status.AWAITING_PAYMENT
     order.save()
     log(order, "reject_payment", by, user, message.strip())
@@ -172,7 +186,7 @@ def paid_online(purchase, payment):
 def ship(order, user, tracking_code="", message="", by=SELLER):
     order = Order.objects.select_for_update().get(pk=order.pk)
     if order.status != Order.Status.PAID:
-        raise OrderError("فقط سفارش پرداخت‌شده را می‌توان ارسال کرد.")
+        raise OrderError("فقط سفارش پرداخت‌شده را می‌توان ارسال کرد.", "Only a paid order can be shipped.")
     order.status = Order.Status.SHIPPED
     order.shipped_at = timezone.now()
     order.tracking_code = tracking_code.strip()[:100]
@@ -187,7 +201,8 @@ def ship(order, user, tracking_code="", message="", by=SELLER):
 def complete(order, user, by=SELLER):
     order = Order.objects.select_for_update().get(pk=order.pk)
     if order.status != Order.Status.SHIPPED:
-        raise OrderError("فقط سفارش ارسال‌شده را می‌توان تحویل‌شده ثبت کرد.")
+        raise OrderError("فقط سفارش ارسال‌شده را می‌توان تحویل‌شده ثبت کرد.",
+                         "Only a shipped order can be marked as delivered.")
     order.status = Order.Status.COMPLETED
     order.completed_at = timezone.now()
     order.save()
@@ -205,11 +220,13 @@ def seller_can_cancel(order):
 def cancel(order, user, reason, by=STAFF):
     order = Order.objects.select_for_update().get(pk=order.pk)
     if order.status not in Order.CANCELLABLE:
-        raise OrderError("سفارش ارسال‌شده یا بسته را نمی‌توان لغو کرد.")
+        raise OrderError("سفارش ارسال‌شده یا بسته را نمی‌توان لغو کرد.", "A shipped or closed order cannot be cancelled.")
     if by == SELLER and not seller_can_cancel(order):
-        raise OrderError("این سفارش پرداخت شده است؛ برای لغو و بازگرداندن پول با دبیرخانه تماس بگیرید.")
+        raise OrderError("این سفارش پرداخت شده است؛ برای لغو و بازگرداندن پول با دبیرخانه تماس بگیرید.",
+                         "This order is paid; please contact the secretariat to cancel it and refund the buyer.")
     if not reason.strip():
-        raise OrderError("دلیل لغو را بنویسید؛ برای خریدار فرستاده می‌شود.")
+        raise OrderError("دلیل لغو را بنویسید؛ برای خریدار فرستاده می‌شود.",
+                         "Please write the reason; it is sent to the buyer.")
     was_paid = order.status == Order.Status.PAID
     order.status = Order.Status.CANCELLED
     order.cancelled_at = timezone.now()
@@ -226,9 +243,10 @@ def request_return(order, reason):
     """The buyer asks to return a shipped or delivered order (within ShopSettings.return_days)."""
     order = Order.objects.select_for_update().get(pk=order.pk)
     if not order.can_request_return():
-        raise OrderError("برای این سفارش دیگر نمی‌توان درخواست مرجوعی داد.")
+        raise OrderError("برای این سفارش دیگر نمی‌توان درخواست مرجوعی داد.",
+                         "A return can no longer be requested for this order.")
     if not reason.strip():
-        raise OrderError("دلیل مرجوعی را بنویسید.")
+        raise OrderError("دلیل مرجوعی را بنویسید.", "Please write why you are returning it.")
     order.return_requested_at = timezone.now()
     order.return_reason = reason.strip()
     order.save(update_fields=["return_requested_at", "return_reason"])
@@ -247,11 +265,14 @@ def refund(order, user, amount, reference="", message="", restock=True, by=STAFF
     """Record that the goods came back (or the order was undone after payment) and the money was paid back."""
     order = Order.objects.select_for_update().get(pk=order.pk)
     if order.status not in Order.REFUNDABLE:
-        raise OrderError("فقط سفارش پرداخت‌شده را می‌توان مرجوع و بازپرداخت کرد.")
+        raise OrderError("فقط سفارش پرداخت‌شده را می‌توان مرجوع و بازپرداخت کرد.",
+                         "Only a paid order can be returned and refunded.")
     if not can_record_refund(order, by):
-        raise OrderError("بازپرداخت سفارش‌هایی که به حساب خانه پرداخت شده‌اند را دبیرخانه ثبت می‌کند.")
+        raise OrderError("بازپرداخت سفارش‌هایی که به حساب خانه پرداخت شده‌اند را دبیرخانه ثبت می‌کند.",
+                         "Refunds of orders paid to the House are recorded by the secretariat.")
     if amount is None or amount <= 0 or amount > order.total:
-        raise OrderError("مبلغ بازپرداخت باید بیشتر از صفر و حداکثر برابر مبلغ سفارش باشد.")
+        raise OrderError("مبلغ بازپرداخت باید بیشتر از صفر و حداکثر برابر مبلغ سفارش باشد.",
+                         "The refund must be more than zero and at most the order total.")
     order.status = Order.Status.RETURNED
     order.refunded_at = timezone.now()
     order.refund_amount = amount

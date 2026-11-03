@@ -40,7 +40,10 @@
             {% endif %}
         </div>
         {% seo_settings as seo %}{% if seo.footer_badges %}<div class="site-footer__badges">{{ seo.footer_badges|with_nonce:CSP_NONCE }}</div>{% endif %}
-        <div class="site-footer__bottom">© {% now "Y" %} {{ site_name }}</div>
+        <div class="site-footer__bottom">
+            <span>© {% now "Y" %} {{ site_name }}</span>
+            {% with legal=s.legal_pages %}{% if legal %}<ul class="site-footer__legal">{% for key, p in legal.items %}<li><a href="{% pageurl p %}">{{ p.title }}</a></li>{% endfor %}</ul>{% endif %}{% endwith %}
+        </div>
     </div>
 </footer>
 {% endwith %}

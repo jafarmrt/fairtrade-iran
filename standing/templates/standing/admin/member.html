@@ -33,7 +33,7 @@
         <tr class="st-payment">
             <td colspan="5">
                 <strong>{% if p.recorded_by_staff %}پرداخت ثبت‌شده توسط دبیرخانه{% else %}رسید عضو{% endif %}:</strong>
-                {{ p.amount|amount }} · شماره پیگیری: <span dir="ltr">{{ p.reference|default:"-" }}</span> · تاریخ واریز: {{ p.paid_on_text|default:"-" }}
+                {{ p.amount|amount }}{% if p.amount < d.amount %} <strong class="st-overdue">(کمتر از مبلغ حق عضویت؛ {{ d.amount|amount }})</strong>{% elif p.amount > d.amount %} <strong class="st-soon">(بیشتر از مبلغ حق عضویت)</strong>{% endif %} · شماره پیگیری: <span dir="ltr">{{ p.reference|default:"-" }}</span> · تاریخ واریز: {{ p.paid_on_text|default:"-" }}
                 · فرستاده در {{ p.submitted_at|jdate_fa:"short" }}{% if p.submitted_by %} ({{ p.submitted_by.email|default:p.submitted_by.get_username }}){% endif %}
                 {% if p.receipt %} · <a href="{% url 'standing:receipt' p.pk %}">دریافت رسید</a>{% endif %}
                 · <strong>{{ p.get_status_display }}</strong>{% if p.reviewed_by %} ({{ p.reviewed_by.get_full_name|default:p.reviewed_by.get_username }}){% endif %}

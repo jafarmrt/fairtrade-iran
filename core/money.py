@@ -44,6 +44,17 @@ def number(value, unit=RIAL, lang=None):
     return persian_digits(text).replace(",", "٬").replace(".", "٫")
 
 
+def parse_amount(value, mode=None):
+    """An amount typed in the display unit ('۲۰۰٬۰۰۰' tomans) as rials, or None when nothing usable was typed."""
+    from core.iran import only_digits
+
+    digits = only_digits(value)
+    if not digits:
+        return None
+    amount = int(digits)
+    return amount * 10 if primary_unit(mode) == TOMAN else amount
+
+
 def primary_unit(mode=None):
     return RIAL if (mode or display_mode()) == RIAL else TOMAN
 

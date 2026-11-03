@@ -52,6 +52,7 @@ class Command(BaseCommand):
                 home.save_revision().publish()
         self.ensure_principles(home_fa, home_en)
         self.ensure_settings()
+        self.ensure_legal_pages(home_fa, home_en)
         self.ensure_groups_and_collections()
         self.ensure_editorial_workflow(home_fa, home_en)
         self.ensure_news(home_fa, home_en)
@@ -115,10 +116,10 @@ class Command(BaseCommand):
             self.stdout.write("Created English home page")
         return home_fa, home_en.specific
 
-    def ensure_page(self, home_fa, home_en, model, content, order_hint=""):
+    def ensure_page(self, home_fa, home_en, model, content, order_hint="", in_menu=True):
         page_fa = model.objects.filter(locale=home_fa.locale, slug=content["fa"]["slug"]).first()
         if page_fa is None:
-            page_fa = model(show_in_menus=True, **content["fa"])
+            page_fa = model(show_in_menus=in_menu, **content["fa"])
             fresh(home_fa).add_child(instance=page_fa)
             page_fa.save_revision().publish()
             self.stdout.write(f"Created {order_hint} page (fa)")
@@ -167,6 +168,21 @@ class Command(BaseCommand):
         if changed:
             site_settings.save()
         MembershipSettings.load()
+
+    def ensure_legal_pages(self, home_fa, home_en):
+        """Privacy, terms and returns pages (outside the menu), linked from SiteSettings unless staff chose others."""
+        site_settings = SiteSettings.load()
+        changed = False
+        for field, content in (("privacy_page", data.PRIVACY), ("terms_page", data.TERMS),
+                               ("returns_page", data.RETURNS)):
+            if getattr(site_settings, f"{field}_id") is not None:
+                continue
+            page_fa, _ = self.ensure_page(fresh(home_fa), fresh(home_en), StandardPage, content,
+                                          order_hint=content["fa"]["slug"], in_menu=False)
+            setattr(site_settings, field, page_fa)
+            changed = True
+        if changed:
+            site_settings.save()
 
     def load_image(self, filename, title):
         existing = Image.objects.filter(title=title).first()
