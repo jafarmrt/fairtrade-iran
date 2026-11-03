@@ -55,7 +55,7 @@ class PwaTests(TestCase):
     def test_head_links_manifest_and_install_banner(self):
         response = self.client.get("/fa/")
         self.assertContains(response, '<link rel="manifest" href="/fa/manifest.webmanifest">')
-        self.assertContains(response, 'name="theme-color" content="#1a1c46"')
+        self.assertContains(response, 'name="theme-color" content="#1c1f4a"')
         self.assertContains(response, 'register("/sw.js"')
         self.assertContains(response, 'class="install-banner"')
         self.assertContains(self.client.get("/en/"), 'href="/en/manifest.webmanifest"')
