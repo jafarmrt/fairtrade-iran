@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags site_tags directory_tags wholesale_tags %}
+{% load wagtailcore_tags wagtailimages_tags wagtailroutablepage_tags site_tags directory_tags wholesale_tags %}
 {% block body_class %}page-product{% endblock %}
 {% block title %}{% tr product "name" %}{% endblock %}
 {% block content %}
@@ -33,7 +33,22 @@
                 {% if not product.in_stock %}<p class="badge">{% tr shop "out_of_stock_label" %}</p>{% endif %}
                 {% tr product "summary" as summary %}{% if summary %}<p class="lead">{{ summary }}</p>{% endif %}
 
-                {% if product.direct_purchase_url %}
+                {% if sellable %}
+                <form class="buy-box cart-add" method="post" action="{% routablepageurl page 'cart' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="add"><input type="hidden" name="product" value="{{ product.pk }}"><input type="hidden" name="next" value="product">
+                    <div class="cart-add__row">
+                        <label class="cart-add__qty"><span>{% if IS_EN %}Quantity{% else %}تعداد{% endif %}</span>
+                            <input type="number" name="quantity" value="1" min="1" max="{% if product.stock_quantity %}{{ product.stock_quantity }}{% else %}99{% endif %}" inputmode="numeric"></label>
+                        <button class="btn btn--primary btn--large" type="submit">{% tr shop "add_to_cart_label" %}</button>
+                    </div>
+                    {% with seller=product.member.seller %}
+                    <p class="muted">{% if seller.mode == 'producer' %}{% if IS_EN %}You pay the producer directly; the House records and follows the order.{% else %}مبلغ را مستقیم به تولیدکننده می‌پردازید؛ خانه سفارش را ثبت و پیگیری می‌کند.{% endif %}{% else %}{% if IS_EN %}You pay the Fair Trade House, which pays the producer.{% else %}مبلغ را به خانه تجارت عادلانه می‌پردازید و خانه سهم تولیدکننده را به او می‌رساند.{% endif %}{% endif %}
+                    {% tr seller "shipping_note" as ship_note %}{% if ship_note %}<br>{{ ship_note }}{% endif %}</p>
+                    {% endwith %}
+                    {% if product.direct_purchase_url %}<p class="cart-add__alt"><a href="{{ product.direct_purchase_url }}" rel="noopener" target="_blank">{% if IS_EN %}Or buy directly from the producer{% else %}یا خرید مستقیم از تولیدکننده{% endif %}</a></p>{% endif %}
+                </form>
+                {% elif product.direct_purchase_url %}
                 <div class="buy-box">
                     <a class="btn btn--primary btn--large" href="{{ product.direct_purchase_url }}" rel="noopener" target="_blank">{% tr shop "direct_purchase_label" %}</a>
                     {% tr shop "purchase_note" as note %}{% if note %}<p class="muted">{{ note }}</p>{% endif %}

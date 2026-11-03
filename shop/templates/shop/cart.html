@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailroutablepage_tags site_tags membership_tags %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block body_class %}page-shop page-cart{% endblock %}
+{% block title %}{% if IS_EN %}Your cart{% else %}سبد خرید{% endif %}{% endblock %}
+{% block content %}
+<header class="page-header"><div class="container">
+    <p class="breadcrumb"><a href="{% pageurl page %}">{{ page.title }}</a></p>
+    <h1>{% if IS_EN %}Your cart{% else %}سبد خرید{% endif %}</h1>
+</div></header>
+<section class="section"><div class="container">
+{% if groups %}
+    <form method="post" id="cart-form" class="cart">
+        {% csrf_token %}<input type="hidden" name="action" value="update">
+        {% for group in groups %}
+        <section class="card cart-group">
+            <h2 class="h3 cart-group__head">{% tr group.member "name" %}
+                <span class="badge{% if group.is_house %} badge--gold{% endif %}">{% if group.is_house %}{% if IS_EN %}Pay the House{% else %}پرداخت به خانه{% endif %}{% else %}{% if IS_EN %}Pay the producer{% else %}پرداخت به تولیدکننده{% endif %}{% endif %}</span></h2>
+            {% with editable=True %}{% include "shop/includes/group_lines.html" %}{% endwith %}
+            {% tr group.seller "shipping_note" as ship_note %}
+            <p class="muted cart-group__ship">{% if IS_EN %}Ships within {{ group.seller.prep_days }} working days.{% else %}ارسال تا {{ group.seller.prep_days|fa_digits }} روز کاری.{% endif %}{% if ship_note %} {{ ship_note }}{% endif %}</p>
+        </section>
+        {% endfor %}
+        <div class="cart-summary">
+            <p class="cart-summary__total"><span>{% if IS_EN %}Total{% else %}جمع کل{% endif %}</span> <strong>{{ cart_total|money|fa_digits }} {% tr shop "currency_label" %}</strong></p>
+            <div class="panel-actions">
+                <button class="btn btn--outline" type="submit">{% if IS_EN %}Update cart{% else %}به‌روزرسانی سبد{% endif %}</button>
+                <a class="btn btn--primary btn--large" href="{% routablepageurl page 'checkout' %}">{% if IS_EN %}Checkout{% else %}ادامه و ثبت سفارش{% endif %}</a>
+            </div>
+            {% if groups|length > 1 %}<p class="muted">{% if IS_EN %}Your cart has products from {{ groups|length }} producers. Each one ships its part separately.{% else %}سبد شما محصولاتی از {{ groups|length|fa_digits }} تولیدکننده دارد؛ هر کدام سهم خود را جداگانه ارسال می‌کند.{% endif %}</p>{% endif %}
+        </div>
+    </form>
+    {% for group in groups %}{% for line in group.lines %}
+    <form method="post" id="cart-remove-{{ line.product.pk }}" hidden>{% csrf_token %}<input type="hidden" name="action" value="remove"><input type="hidden" name="product" value="{{ line.product.pk }}"></form>
+    {% endfor %}{% endfor %}
+{% else %}
+    <div class="notice">{% if IS_EN %}Your cart is empty.{% else %}سبد خرید شما خالی است.{% endif %}</div>
+    <p class="panel-actions"><a class="btn btn--primary" href="{% pageurl page %}">{% if IS_EN %}Browse the shop{% else %}دیدن محصولات{% endif %}</a>
+        <a href="{% routablepageurl page 'orders' %}">{% if IS_EN %}Follow an order{% else %}پیگیری سفارش{% endif %}</a></p>
+{% endif %}
+</div></section>
+{% endblock %}

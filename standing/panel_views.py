@@ -1,7 +1,8 @@
 """The member's page in the member panel: standing, annual dues and receipts."""
 
 from django.contrib import messages
-from django.shortcuts import redirect
+from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 
 from core.models import MembershipSettings
 from memberpanel.views import member_view, membership_record, render, t
@@ -13,6 +14,13 @@ from .services import StandingError, submit_receipt
 
 @member_view(editing=False)
 def membership(request, member):
+    from payments.models import PaymentSettings
+    from payments.services import online_enabled, start_payment
+
+    online = online_enabled("dues")  # suspended members may pay too: paying lifts a suspension for unpaid dues
+    if request.method == "POST" and request.POST.get("step") == "pay_dues":
+        dues = get_object_or_404(member.dues.all(), pk=request.POST.get("dues"))
+        return start_payment(request, "dues", dues, reverse("panel:membership", kwargs={"member_id": member.pk}))
     form = ReceiptForm(request.POST or None, request.FILES or None, member=member)
     if request.method == "POST" and form.is_valid():
         data = form.cleaned_data
@@ -31,6 +39,9 @@ def membership(request, member):
         "form": form,
         "dues_list": dues,
         "can_pay": member.dues.filter(status=Dues.Status.UNPAID).exists(),
+        "online_dues": list(member.dues.filter(status=Dues.Status.UNPAID).order_by("year")) if online else [],
+        "pay": PaymentSettings.load() if online else None,
+        "payment_state": request.GET.get("payment"),
         "decisions": member.decisions.all().order_by("-created_at"),
         "ms": MembershipSettings.load(request_or_site=request),
         "current": "membership",

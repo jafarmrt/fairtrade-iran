@@ -1,0 +1,122 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load membership_tags site_tags %}
+{% block main_content %}
+<p><a href="{% url 'shop_orders:index' %}">← همه سفارش‌ها</a> · <a href="{% url 'wagtailsnippets_members_member:edit' order.member.pk %}">پروفایل تولیدکننده</a>
+{% if seller.pk %} · <a href="{% url 'wagtailsnippets_shop_seller:edit' seller.pk %}">تنظیمات فروش این تولیدکننده</a>{% endif %}</p>
+
+<div class="st-summary">
+    <div><strong>وضعیت:</strong> {{ order.get_status_display }}</div>
+    <div><strong>تولیدکننده:</strong> {{ order.member.name }}</div>
+    <div><strong>پرداخت به:</strong> {{ order.get_payment_mode_display }}{% if order.paid_online %} (آنلاین){% endif %}</div>
+    <div><strong>ثبت:</strong> {{ order.created_at|jdate_fa:"short" }}</div>
+    <div><strong>خریدار:</strong> {{ purchase.buyer_name }} · <span dir="ltr">{{ purchase.phone }}</span>{% if purchase.email %} · {{ purchase.email }}{% endif %}</div>
+    <div><strong>نشانی:</strong> {{ purchase.full_address }}</div>
+    {% if purchase.note %}<div><strong>توضیح خریدار:</strong> {{ purchase.note|linebreaksbr }}</div>{% endif %}
+    {% if siblings %}<div><strong>سفارش‌های دیگر همین خرید:</strong> {% for s in siblings %}<a href="{% url 'shop_orders:detail' s.pk %}" dir="ltr">{{ s.code }}</a> ({{ s.member.name }}){% if not forloop.last %}، {% endif %}{% endfor %}</div>{% endif %}
+</div>
+
+<section class="st-box">
+    <h2>اقلام و مبالغ</h2>
+    <table class="listing">
+        <thead><tr><th>محصول</th><th>قیمت واحد</th><th>تعداد</th><th>جمع</th></tr></thead>
+        <tbody>
+        {% for i in order.items.all %}<tr><td>{{ i.name }}</td><td>{{ i.unit_price|money|fa_digits }}</td><td>{{ i.quantity|fa_digits }}</td><td>{{ i.line_total|money|fa_digits }}</td></tr>{% endfor %}
+        <tr><td colspan="3">هزینه ارسال</td><td>{{ order.shipping|money|fa_digits }}</td></tr>
+        <tr><td colspan="3"><strong>مبلغ کل</strong></td><td><strong>{{ order.total|money|fa_digits }}</strong></td></tr>
+        <tr><td colspan="3">کارمزد خانه ({{ order.commission_percent|floatformat:"-2"|fa_digits }}٪ از جمع کالاها)</td><td>{{ order.commission|money|fa_digits }}</td></tr>
+        {% if order.is_house %}<tr><td colspan="3">سهم تولیدکننده برای واریز</td><td><strong>{{ order.producer_share|money|fa_digits }}</strong></td></tr>{% endif %}
+        </tbody>
+    </table>
+</section>
+
+<section class="st-box">
+    <h2>پرداخت</h2>
+    <p>شماره پیگیری: <span dir="ltr">{{ order.payment_reference|default:"-" }}</span>
+    {% if order.receipt %} · <a href="{% url 'shop_orders:receipt' order.pk %}">دریافت رسید</a>{% endif %}
+    {% if order.paid_at %} · تأیید پرداخت: {{ order.paid_at|jdate_fa:"short" }}{% endif %}</p>
+    {% if order.payer_note %}<p>توضیح خریدار: {{ order.payer_note|linebreaksbr }}</p>{% endif %}
+    {% if payments %}
+    <table class="listing">
+        <thead><tr><th>پرداخت آنلاین این خرید</th><th>مبلغ</th><th>وضعیت</th><th>شماره پیگیری</th><th>خطا</th></tr></thead>
+        <tbody>{% for p in payments %}<tr><td>{{ p.created_at|jdate_fa:"short" }} · {{ p.provider }}</td><td>{{ p.amount|money|fa_digits }}</td><td>{{ p.get_status_display }}</td><td dir="ltr">{{ p.ref_id|default:"-" }}</td><td>{{ p.error|default:"-" }}</td></tr>{% endfor %}</tbody>
+    </table>
+    {% endif %}
+    {% if order.is_open %}
+    <form method="post" class="st-form">{% csrf_token %}
+        <label>پیام به خریدار <textarea name="message" rows="2" placeholder="برای نپذیرفتن رسید لازم است"></textarea></label>
+        <div class="st-buttons">
+            <button class="button" name="action" value="confirm" type="submit">تأیید دریافت پرداخت</button>
+            {% if order.status == 'payment_review' %}<button class="button no" name="action" value="reject" type="submit">نپذیرفتن رسید</button>{% endif %}
+        </div>
+        {% if not order.is_house %}<p class="help">این سفارش مستقیم به تولیدکننده پرداخت می‌شود و معمولاً خود تولیدکننده در پنل تأیید می‌کند.</p>{% endif %}
+    </form>
+    {% endif %}
+</section>
+
+{% if order.status == 'paid' or order.status == 'shipped' %}
+<section class="st-box">
+    <h2>ارسال</h2>
+    {% if order.status == 'paid' %}
+    <p class="help">معمولاً تولیدکننده ارسال را در پنل اعضا ثبت می‌کند؛ اگر لازم شد، از این‌جا ثبت کنید.</p>
+    <form method="post" class="st-form">{% csrf_token %}
+        <label>کد رهگیری مرسوله <input type="text" name="tracking_code" dir="ltr"></label>
+        <label>پیام به خریدار <textarea name="message" rows="2"></textarea></label>
+        <button class="button" name="action" value="ship" type="submit">ثبت ارسال</button>
+    </form>
+    {% else %}
+    <p>ارسال در {{ order.shipped_at|jdate_fa:"short" }} · کد رهگیری: <span dir="ltr">{{ order.tracking_code|default:"-" }}</span></p>
+    <form method="post" class="st-inline">{% csrf_token %}<button class="button button-secondary" name="action" value="complete" type="submit">ثبت تحویل</button></form>
+    {% endif %}
+</section>
+{% endif %}
+
+{% if order.needs_settlement or order.settled_at %}
+<section class="st-box">
+    <h2>تسویه با تولیدکننده</h2>
+    {% if order.settled_at %}
+    <p>تسویه در {{ order.settled_at|jdate_fa:"short" }}{% if order.settlement_reference %} · شماره پیگیری: <span dir="ltr">{{ order.settlement_reference }}</span>{% endif %}</p>
+    {% else %}
+    <p class="help">{% if order.is_house %}سهم تولیدکننده ({{ order.producer_share|money|fa_digits }} ریال) را به حساب او واریز کنید و این‌جا ثبت کنید.{% if seller.sheba %} شبا: <span dir="ltr">{{ seller.sheba }}</span>{% endif %}{% if seller.card_number %} · کارت: <span dir="ltr">{{ seller.card_number }}</span>{% endif %}{% else %}تولیدکننده باید کارمزد خانه ({{ order.commission|money|fa_digits }} ریال) را بپردازد؛ پس از دریافت ثبت کنید.{% endif %}</p>
+    <form method="post" class="st-inline">{% csrf_token %}
+        <input type="text" name="reference" placeholder="شماره پیگیری واریز" dir="ltr">
+        <button class="button" name="action" value="settle" type="submit">ثبت تسویه</button>
+    </form>
+    {% endif %}
+</section>
+{% endif %}
+
+{% if order.status == 'awaiting_payment' or order.status == 'payment_review' or order.status == 'paid' %}
+<section class="st-box">
+    <details><summary>لغو سفارش</summary>
+    <form method="post" class="st-form">{% csrf_token %}
+        <label>دلیل لغو (برای خریدار و تولیدکننده فرستاده می‌شود) <textarea name="message" rows="2" required></textarea></label>
+        {% if order.status == 'paid' and order.is_house %}<p class="help">این سفارش پرداخت شده است؛ پس از لغو، مبلغ را به خریدار بازگردانید.</p>{% endif %}
+        <button class="button no" name="action" value="cancel" type="submit">لغو سفارش و بازگرداندن موجودی</button>
+    </form>
+    </details>
+</section>
+{% endif %}
+
+<section class="st-box">
+    <h2>سابقه</h2>
+    <table class="listing">
+        <thead><tr><th>تاریخ</th><th>اقدام</th><th>انجام‌دهنده</th><th>پیام</th></tr></thead>
+        <tbody>{% for e in events %}<tr><td>{{ e.created_at|jdate_fa:"short" }}</td><td>{{ e.action_display }}</td><td>{% if e.user %}{{ e.user.get_full_name|default:e.user.get_username }}{% else %}{{ e.by }}{% endif %}</td><td>{{ e.message|linebreaksbr }}</td></tr>{% endfor %}</tbody>
+    </table>
+    <form method="post" class="st-form">{% csrf_token %}
+        <label>یادداشت داخلی <textarea name="staff_note" rows="3">{{ order.staff_note }}</textarea></label>
+        <button class="button button-secondary" name="action" value="note" type="submit">ذخیره یادداشت</button>
+    </form>
+</section>
+<style>
+.st-summary { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:.75rem 1.5rem; padding:1rem 1.25rem; border:1px solid var(--w-color-border-furniture, #ddd); border-radius:8px; margin-block:1rem 1.5rem; }
+.st-box { margin-block:2rem; }
+.st-box h2 { margin-bottom:.75rem; }
+.st-form { display:flex; flex-direction:column; gap:.75rem; margin-top:.75rem; max-width:640px; }
+.st-form label { display:flex; flex-direction:column; gap:.25rem; font-weight:600; }
+.st-form button { align-self:flex-start; }
+.st-buttons { display:flex; flex-wrap:wrap; gap:.5rem; }
+.st-inline { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin-top:.5rem; }
+.st-inline input[type=text] { flex:1 1 220px; max-width:360px; }
+</style>
+{% endblock %}

@@ -14,6 +14,9 @@
     </div>
     <p>{% if IS_EN %}We have also sent it to {{ application.email }}. The secretariat will check your file by {{ application.deadline|jdate }}.{% else %}این کد به {{ application.email }} هم فرستاده شد. دبیرخانه تا {{ application.deadline|jdate }} کامل بودن پرونده را بررسی می‌کند.{% endif %}</p>
     {% endif %}
+    {% if fee_online or payment_state %}
+    {% if IS_EN %}{% with title="Pay the application fee" %}{% include "payments/pay_box.html" with step="pay_fee" amount=application.fee_amount %}{% endwith %}{% else %}{% with title="پرداخت هزینه درخواست" %}{% include "payments/pay_box.html" with step="pay_fee" amount=application.fee_amount %}{% endwith %}{% endif %}
+    {% endif %}
     {% if page.success_text %}<div class="prose">{{ page.success_text|richtext }}</div>{% endif %}
     <p><a class="btn btn--outline" href="{% routablepageurl page 'track' %}">{% if IS_EN %}Track your application{% else %}پیگیری درخواست{% endif %}</a></p>
 </div></section>

@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailroutablepage_tags membership_tags %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block body_class %}page-shop{% endblock %}
+{% block title %}{% if IS_EN %}Follow your order{% else %}پیگیری سفارش{% endif %}{% endblock %}
+{% block content %}
+<header class="page-header"><div class="container">
+    <p class="breadcrumb"><a href="{% pageurl page %}">{{ page.title }}</a></p>
+    <h1>{% if IS_EN %}Follow your order{% else %}پیگیری سفارش{% endif %}</h1>
+</div></header>
+<section class="section"><div class="container">
+    {% if error %}<div class="notice notice--error" role="alert">{{ error }}</div>{% endif %}
+    <form class="form" method="post" novalidate>
+        {% csrf_token %}
+        <div class="form-cols form-cols--2">
+        {% for field in form %}{% include "membership/includes/field.html" %}{% endfor %}
+        </div>
+        <button class="btn btn--primary" type="submit">{% if IS_EN %}Show my order{% else %}نمایش سفارش{% endif %}</button>
+    </form>
+    {% if recent %}
+    <h2 class="h3">{% if IS_EN %}Your recent orders on this device{% else %}سفارش‌های اخیر شما در این دستگاه{% endif %}</h2>
+    <ul>{% for p in recent %}<li><a href="{% routablepageurl page 'order' code=p.code %}"><span dir="ltr" class="mono">{{ p.code }}</span></a> · {{ p.created_at|jdate }}</li>{% endfor %}</ul>
+    {% endif %}
+</div></section>
+{% endblock %}

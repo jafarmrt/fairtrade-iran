@@ -1,0 +1,100 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailroutablepage_tags site_tags membership_tags %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block body_class %}page-shop page-order{% endblock %}
+{% block title %}{% if IS_EN %}Order {{ purchase.code }}{% else %}سفارش {{ purchase.code }}{% endif %}{% endblock %}
+{% block content %}
+<header class="page-header"><div class="container">
+    <p class="breadcrumb"><a href="{% pageurl page %}">{{ page.title }}</a> <span aria-hidden="true">/</span> <a href="{% routablepageurl page 'orders' %}">{% if IS_EN %}Orders{% else %}پیگیری سفارش{% endif %}</a></p>
+    <h1>{% if is_new %}{% if IS_EN %}Thank you, your order is placed{% else %}سپاس؛ سفارش شما ثبت شد{% endif %}{% else %}{% if IS_EN %}Your order{% else %}سفارش شما{% endif %}{% endif %}</h1>
+</div></header>
+<section class="section"><div class="container">
+    <div class="tracking-code">
+        <span>{% if IS_EN %}Order code{% else %}کد سفارش{% endif %}</span>
+        <strong dir="ltr">{{ purchase.code }}</strong>
+    </div>
+    {% if is_new %}<p>{% if IS_EN %}Keep this code. With it and your phone number you can come back to this page at any time.{% if purchase.email %} We have also e-mailed it to {{ purchase.email }}.{% endif %}{% else %}این کد را نگه دارید؛ با آن و شماره تلفنتان هر زمان می‌توانید به این صفحه برگردید.{% if purchase.email %} این کد به {{ purchase.email }} هم فرستاده شد.{% endif %}{% endif %}</p>{% endif %}
+
+    {% if payment_state == 'ok' and last_payment.is_paid %}
+    <div class="notice notice--ok" role="status">{% if IS_EN %}Payment received. Bank reference: {% else %}پرداخت انجام شد. شماره پیگیری بانک: {% endif %}<span dir="ltr" class="mono">{{ last_payment.ref_id }}</span></div>
+    {% elif payment_state == 'failed' %}
+    <div class="notice notice--error" role="alert">{% if IS_EN %}The payment was not completed. You can try again or pay by bank transfer below.{% else %}پرداخت انجام نشد. می‌توانید دوباره بکوشید یا از راه واریز به حساب در پایین بپردازید.{% endif %}</div>
+    {% endif %}
+
+    {% if online %}
+    <section class="card pay-online">
+        <div>
+            <h2 class="h3">{% if IS_EN %}Pay online{% else %}پرداخت آنلاین{% endif %}</h2>
+            <p class="muted">{% tr pay "note" %}</p>
+        </div>
+        <form method="post">{% csrf_token %}<input type="hidden" name="step" value="pay_online">
+            <button class="btn btn--primary btn--large" type="submit">{% tr pay "button_label" %} · {{ online_amount|money|fa_digits }} {% tr shop "currency_label" %}</button>
+        </form>
+    </section>
+    {% endif %}
+
+    {% for order in orders %}
+    <section class="card order-card" id="order-{{ order.pk }}">
+        <div class="order-card__head">
+            <div>
+                <div class="muted"><span dir="ltr" class="mono">{{ order.code }}</span> · {{ order.created_at|jdate }}</div>
+                <h2 class="h3">{% tr order.member "name" %}</h2>
+            </div>
+            <span class="badge{% if order.status == 'paid' or order.status == 'shipped' or order.status == 'completed' %} badge--ok{% elif order.status == 'cancelled' %} badge--error{% elif order.status == 'payment_review' %} badge--gold{% endif %}">{{ order.status_display }}</span>
+        </div>
+        <div class="table-scroll">
+        <table class="cart-table">
+            <tbody>
+            {% for item in order.items.all %}
+            <tr><td>{{ item.tr_name }}</td><td class="num">{{ item.quantity|fa_digits }} × {{ item.unit_price|money|fa_digits }}</td><td class="num">{{ item.line_total|money|fa_digits }}</td></tr>
+            {% endfor %}
+            </tbody>
+            <tfoot>
+                <tr><td colspan="2">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}</td><td class="num">{% if order.shipping %}{{ order.shipping|money|fa_digits }}{% else %}{% if IS_EN %}Free{% else %}رایگان{% endif %}{% endif %}</td></tr>
+                <tr class="cart-table__total"><td colspan="2">{% if IS_EN %}Total{% else %}جمع{% endif %}</td><td class="num">{{ order.total|money|fa_digits }} {% tr shop "currency_label" %}</td></tr>
+            </tfoot>
+        </table>
+        </div>
+
+        {% if order.status == 'awaiting_payment' %}
+        <div class="order-pay">
+            <h3 class="h3">{% if order.is_house %}{% if IS_EN %}Pay the Fair Trade House{% else %}پرداخت به حساب خانه تجارت عادلانه{% endif %}{% else %}{% if IS_EN %}Pay the producer directly{% else %}پرداخت مستقیم به حساب تولیدکننده{% endif %}{% endif %}</h3>
+            {% if order.is_house and online %}<p class="muted">{% if IS_EN %}Pay online above, or transfer {{ order.total|money }} rials to this account and send the reference below.{% else %}با دکمه پرداخت آنلاین بالا بپردازید، یا {{ order.total|money|fa_digits }} ریال به حساب زیر واریز کنید و شماره پیگیری را بفرستید.{% endif %}</p>
+            {% else %}<p class="muted">{% if IS_EN %}Transfer {{ order.total|money }} rials to this account, then send the reference number or a photo of the receipt.{% else %}{{ order.total|money|fa_digits }} ریال به حساب زیر واریز کنید و سپس شماره پیگیری یا تصویر رسید را بفرستید.{% endif %}</p>{% endif %}
+            {% with ms=order.account %}{% include "membership/includes/bank.html" %}{% if not ms.has_bank_details %}<p class="notice">{% if IS_EN %}The account details will be sent to you shortly.{% else %}شماره حساب به‌زودی برایتان فرستاده می‌شود.{% endif %}</p>{% endif %}{% endwith %}
+            {% if shop.payment_days %}<p class="muted">{% if IS_EN %}Unpaid orders are cancelled after {{ shop.payment_days }} days.{% else %}سفارشی که تا {{ shop.payment_days|fa_digits }} روز پرداخت نشود، لغو می‌شود.{% endif %}</p>{% endif %}
+            <details class="order-pay__form"{% if order.payment_form.errors %} open{% endif %}>
+                <summary>{% if IS_EN %}I have paid by bank transfer{% else %}واریز کردم؛ فرستادن اطلاعات پرداخت{% endif %}</summary>
+                <form class="form" method="post" enctype="multipart/form-data" novalidate>
+                    {% csrf_token %}<input type="hidden" name="step" value="payment_info">
+                    {{ order.payment_form.non_field_errors }}
+                    {% for field in order.payment_form.hidden_fields %}{{ field }}{% endfor %}
+                    {% for field in order.payment_form.visible_fields %}{% include "membership/includes/field.html" %}{% endfor %}
+                    <button class="btn btn--outline" type="submit">{% if IS_EN %}Send{% else %}ارسال{% endif %}</button>
+                </form>
+            </details>
+        </div>
+        {% elif order.status == 'payment_review' %}
+        <p class="notice">{% if order.is_house %}{% if IS_EN %}We are checking your payment.{% else %}پرداخت شما در حال بررسی است.{% endif %}{% else %}{% if IS_EN %}The producer is checking your payment.{% else %}تولیدکننده در حال بررسی پرداخت شماست.{% endif %}{% endif %}</p>
+        {% elif order.status == 'shipped' %}
+        <p class="notice notice--ok">{% if IS_EN %}Shipped on {{ order.shipped_at|jdate }}.{% else %}در {{ order.shipped_at|jdate }} ارسال شد.{% endif %}{% if order.tracking_code %} {% if IS_EN %}Tracking code:{% else %}کد رهگیری:{% endif %} <span dir="ltr" class="mono">{{ order.tracking_code }}</span>{% endif %}{% if order.shipping_message %}<br>{{ order.shipping_message|linebreaksbr }}{% endif %}</p>
+        {% elif order.status == 'cancelled' and order.cancel_reason %}
+        <p class="notice notice--error">{{ order.cancel_reason|linebreaksbr }}</p>
+        {% endif %}
+
+        {% with events=order.events.all %}{% if events|length > 1 %}
+        <details class="order-history"><summary>{% if IS_EN %}History{% else %}سابقه سفارش{% endif %}</summary>
+            <ul class="timeline">{% for e in events %}<li><div class="muted">{{ e.created_at|jdate }}</div><p>{{ e.action_display }}{% if e.message and e.action != 'note' and e.by != 'buyer' %}: {{ e.message }}{% endif %}</p></li>{% endfor %}</ul>
+        </details>
+        {% endif %}{% endwith %}
+    </section>
+    {% endfor %}
+
+    <dl class="fee-list order-buyer">
+        <div><dt>{% if IS_EN %}Ship to{% else %}ارسال به{% endif %}</dt><dd>{{ purchase.buyer_name }}</dd></div>
+        <div><dt>{% if IS_EN %}Address{% else %}نشانی{% endif %}</dt><dd class="wrap">{{ purchase.full_address }}</dd></div>
+        <div><dt>{% if IS_EN %}Phone{% else %}تلفن{% endif %}</dt><dd dir="ltr">{{ purchase.phone }}</dd></div>
+    </dl>
+    <p class="panel-actions"><a class="btn btn--outline" href="{% pageurl page %}">{% if IS_EN %}Back to the shop{% else %}بازگشت به فروشگاه{% endif %}</a></p>
+</div></section>
+{% endblock %}

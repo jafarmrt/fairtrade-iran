@@ -37,6 +37,8 @@ INSTALLED_APPS = [
     "memberpanel",
     "standing",
     "appeals",
+    "payments",
+    "shop",
     "wholesale",
     # Wagtail
     "wagtail.contrib.forms",
@@ -199,6 +201,13 @@ DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@localhost")
 # SMS_BACKEND (a dotted path) forces one backend, e.g. sms.backends.ConsoleBackend.
 SMS_API_KEY = os.environ.get("SMS_API_KEY", "")
 SMS_BACKEND = os.environ.get("SMS_BACKEND", "")
+
+# Online payment: gateway, merchant code and on/off are set in the admin
+# (Settings > تنظیمات پرداخت آنلاین). PAYMENT_MERCHANT_ID keeps the merchant code
+# out of the database if you prefer. The test gateway only works with DEBUG or
+# PAYMENT_ALLOW_TEST_GATEWAY=1 (for a staging server).
+PAYMENT_MERCHANT_ID = os.environ.get("PAYMENT_MERCHANT_ID", "")
+PAYMENT_ALLOW_TEST_GATEWAY = os.environ.get("PAYMENT_ALLOW_TEST_GATEWAY", "") == "1"
 
 LOGIN_URL = "/admin/login/"
 AUTHENTICATION_BACKENDS = [

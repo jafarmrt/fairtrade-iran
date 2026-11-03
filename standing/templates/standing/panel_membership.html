@@ -52,9 +52,13 @@
         {% endif %}
     </section>
 
+    {% if payment_state %}{% include "payments/pay_box.html" with pay=None %}{% endif %}
+    {% for d in online_dues %}
+    {% if IS_EN %}{% with title="Pay the membership fee for" %}{% include "payments/pay_box.html" with step="pay_dues" amount=d.amount extra_name="dues" extra_value=d.pk payment_state="" title_suffix=d.year %}{% endwith %}{% else %}{% with title="پرداخت حق عضویت سال" %}{% include "payments/pay_box.html" with step="pay_dues" amount=d.amount extra_name="dues" extra_value=d.pk payment_state="" title_suffix=d.year %}{% endwith %}{% endif %}
+    {% endfor %}
     {% if can_pay %}
     <section class="standing-section">
-        <h2 class="h3">{% if IS_EN %}Send a payment receipt{% else %}ارسال رسید پرداخت{% endif %}</h2>
+        <h2 class="h3">{% if online_dues %}{% if IS_EN %}Or pay by bank transfer and send the receipt{% else %}یا واریز به حساب و ارسال رسید{% endif %}{% else %}{% if IS_EN %}Send a payment receipt{% else %}ارسال رسید پرداخت{% endif %}{% endif %}</h2>
         {% if IS_EN and ms.dues_text_en %}<div class="prose">{{ ms.dues_text_en|richtext }}</div>{% elif not IS_EN and ms.dues_text %}<div class="prose">{{ ms.dues_text|richtext }}</div>{% endif %}
         {% include "membership/includes/bank.html" %}
         <form class="form panel-form" method="post" enctype="multipart/form-data" novalidate>

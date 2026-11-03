@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailroutablepage_tags site_tags membership_tags %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block body_class %}page-shop page-checkout{% endblock %}
+{% block title %}{% if IS_EN %}Checkout{% else %}ثبت سفارش{% endif %}{% endblock %}
+{% block content %}
+<header class="page-header"><div class="container">
+    <p class="breadcrumb"><a href="{% pageurl page %}">{{ page.title }}</a> <span aria-hidden="true">/</span> <a href="{% routablepageurl page 'cart' %}">{% if IS_EN %}Cart{% else %}سبد خرید{% endif %}</a></p>
+    <h1>{% if IS_EN %}Checkout{% else %}ثبت سفارش{% endif %}</h1>
+</div></header>
+<section class="section"><div class="container checkout">
+    <div class="checkout__form">
+        {% tr shop "checkout_text" as intro %}{% if intro %}<div class="prose">{{ intro|richtext }}</div>{% endif %}
+        <form class="form" method="post" novalidate>
+            {% csrf_token %}
+            {% if form.errors %}<div class="notice notice--error" role="alert">{% if IS_EN %}Please correct the fields marked below.{% else %}لطفاً موارد مشخص‌شده را اصلاح کنید.{% endif %}</div>{% endif %}
+            {{ form.non_field_errors }}
+            {% include "membership/includes/field.html" with field=form.buyer_name %}
+            <div class="form-cols form-cols--2">
+                {% include "membership/includes/field.html" with field=form.phone %}
+                {% include "membership/includes/field.html" with field=form.email %}
+                {% include "membership/includes/field.html" with field=form.province %}
+                {% include "membership/includes/field.html" with field=form.city %}
+            </div>
+            {% include "membership/includes/field.html" with field=form.address %}
+            {% include "membership/includes/field.html" with field=form.postal_code %}
+            {% include "membership/includes/field.html" with field=form.note %}
+            {% tr shop "terms_text" as terms %}{% if terms %}<div class="card card--note prose checkout__terms">{{ terms|richtext }}</div>{% endif %}
+            {% include "membership/includes/field.html" with field=form.accept_terms %}
+            <div class="visually-hidden" aria-hidden="true">{{ form.nickname }}</div>
+            <button class="btn btn--primary btn--large" type="submit">{% if IS_EN %}Place order{% else %}ثبت سفارش{% endif %}</button>
+            <p class="muted">{% if IS_EN %}You will see how to pay on the next page.{% else %}راهنمای پرداخت را در صفحه بعد می‌بینید.{% endif %}</p>
+        </form>
+    </div>
+    <aside class="checkout__summary">
+        <h2 class="h3">{% if IS_EN %}Your order{% else %}سفارش شما{% endif %}</h2>
+        {% for group in groups %}
+        <div class="card cart-group">
+            <h3 class="h3 cart-group__head">{% tr group.member "name" %}
+                <span class="badge{% if group.is_house %} badge--gold{% endif %}">{% if group.is_house %}{% if IS_EN %}Pay the House{% else %}پرداخت به خانه{% endif %}{% else %}{% if IS_EN %}Pay the producer{% else %}پرداخت به تولیدکننده{% endif %}{% endif %}</span></h3>
+            {% include "shop/includes/group_lines.html" %}
+        </div>
+        {% endfor %}
+        <p class="cart-summary__total"><span>{% if IS_EN %}Total{% else %}جمع کل{% endif %}</span> <strong>{{ cart_total|money|fa_digits }} {% tr shop "currency_label" %}</strong></p>
+    </aside>
+</div></section>
+{% endblock %}

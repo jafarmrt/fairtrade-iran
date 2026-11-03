@@ -1,0 +1,47 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load membership_tags site_tags %}
+{% block main_content %}
+{% if counts.todo %}<p class="help-block help-warning"><a href="?show=todo">{{ counts.todo|fa_digits }} رسید پرداخت به حساب خانه در انتظار بررسی است.</a></p>{% endif %}
+<div class="st-summary">
+    <div><strong>فروش پرداخت‌شده:</strong> {{ totals.sales|default:0|money|fa_digits }} ریال</div>
+    <div><strong>کارمزد خانه:</strong> {{ totals.commission|default:0|money|fa_digits }} ریال</div>
+    <div><strong>منتظر ارسال:</strong> {{ counts.ship|default:0|fa_digits }}</div>
+    <div><strong>تسویه‌نشده:</strong> {{ counts.settle|default:0|fa_digits }}</div>
+</div>
+<form method="get" class="st-filters">
+    <label>نمایش
+        <select name="show">{% for value, label in filters %}<option value="{{ value }}"{% if value == show %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+    </label>
+    <label>جست‌وجو <input type="search" name="q" value="{{ q }}" placeholder="کد سفارش، خریدار، تلفن یا تولیدکننده"></label>
+    <button class="button" type="submit">نمایش</button>
+    <a href="{% url 'wagtailsettings:edit' 'products' 'shopsettings' %}">تنظیمات فروشگاه و کارمزد</a>
+    <a href="{% url 'wagtailsettings:edit' 'payments' 'paymentsettings' %}">تنظیمات پرداخت آنلاین</a>
+</form>
+{% if orders %}
+<table class="listing">
+    <thead><tr><th>سفارش</th><th>تاریخ</th><th>خریدار</th><th>تولیدکننده</th><th>پرداخت به</th><th>مبلغ (ریال)</th><th>کارمزد</th><th>وضعیت</th><th>تسویه</th></tr></thead>
+    <tbody>
+    {% for o in orders %}
+    <tr>
+        <td><a href="{% url 'shop_orders:detail' o.pk %}" dir="ltr">{{ o.code }}</a></td>
+        <td>{{ o.created_at|jdate_fa:"short" }}</td>
+        <td>{{ o.purchase.buyer_name }}<br><small dir="ltr">{{ o.purchase.phone }}</small></td>
+        <td>{{ o.member.name }}</td>
+        <td>{% if o.is_house %}خانه{% if o.paid_online %} (آنلاین){% endif %}{% else %}تولیدکننده{% endif %}</td>
+        <td>{{ o.total|money|fa_digits }}</td>
+        <td>{{ o.commission|money|fa_digits }}</td>
+        <td>{% if o.status == 'payment_review' and o.is_house %}<strong class="st-soon">{{ o.get_status_display }}</strong>{% else %}{{ o.get_status_display }}{% endif %}</td>
+        <td>{% if o.settled_at %}{{ o.settled_at|jdate_fa:"short" }}{% elif o.needs_settlement %}<strong class="st-overdue">مانده</strong>{% else %}-{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}<p>سفارشی با این فیلتر نیست.</p>{% endif %}
+<style>
+.st-filters { display:flex; flex-wrap:wrap; gap:1rem; align-items:end; margin-block:1rem 1.5rem; }
+.st-filters label { display:flex; flex-direction:column; gap:.25rem; font-weight:600; }
+.st-summary { display:grid; grid-template-columns:repeat(auto-fill,minmax(220px,1fr)); gap:.75rem 1.5rem; padding:1rem 1.25rem; border:1px solid var(--w-color-border-furniture, #ddd); border-radius:8px; margin-block:1rem; }
+.st-overdue { color:#b42318; font-weight:700; }
+.st-soon { color:#a15c07; font-weight:700; }
+</style>
+{% endblock %}

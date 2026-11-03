@@ -125,12 +125,29 @@ def add_document(application, upload, kind, label):
     )
 
 
+def fee_payment_context(application):
+    """Whether the applicant can pay the application fee online now."""
+    from payments.models import PaymentSettings
+    from payments.purposes import get as purpose
+    from payments.services import online_enabled
+
+    can = bool(application) and online_enabled("application_fee") and purpose("application_fee").can_pay(application)
+    return {"fee_online": can, "pay": PaymentSettings.load() if can else None}
+
+
 def apply_done(page, request):
     code = request.session.get(SESSION_DONE)
     if not code:
         return redirect(page.url)
     application = MembershipApplication.objects.filter(tracking_code=code).first()
-    return render(page, request, "membership/apply_done.html", {"application": application})
+    if request.method == "POST" and request.POST.get("step") == "pay_fee" and application:
+        from payments.services import start_payment
+
+        return start_payment(request, "application_fee", application, page.url + page.reverse_subpage("apply_done"))
+    return render(page, request, "membership/apply_done.html", {
+        "application": application, "payment_state": request.GET.get("payment"),
+        **fee_payment_context(application),
+    })
 
 
 def track(page, request):
@@ -178,6 +195,10 @@ def track(page, request):
         appeal, appeal_context = submit(application, request.POST, request.FILES)
         if appeal is not None:
             return redirect(page.url + page.reverse_subpage("track") + "?appealed=1")
+    elif request.method == "POST" and request.POST.get("step") == "pay_fee" and application:
+        from payments.services import start_payment
+
+        return start_payment(request, "application_fee", application, page.url + page.reverse_subpage("track"))
     elif request.method == "POST" and request.POST.get("step") == "logout":
         request.session.pop(SESSION_TRACK, None)
         return redirect(page.url + page.reverse_subpage("track"))
@@ -195,6 +216,8 @@ def track(page, request):
         "error": error,
         "sent": request.GET.get("sent") == "1",
         "appealed": request.GET.get("appealed") == "1",
+        "payment_state": request.GET.get("payment"),
+        **fee_payment_context(application),
         **(appeal_context or {}),
     }, "track/")
 

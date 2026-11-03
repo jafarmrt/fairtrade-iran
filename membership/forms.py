@@ -92,9 +92,17 @@ class ApplicationForm(forms.Form):
                         "If the market development working group or a member referred you", en))
 
         self.fee = self.ms.application_fee_for(member_type)
+        self.pay_online = False
         if self.fee:
+            from payments.services import online_enabled
+
+            self.pay_online = online_enabled("application_fee")
             f["receipt"] = forms.FileField(
-                label=t("تصویر رسید پرداخت هزینه درخواست", "Receipt of the application fee payment", en))
+                label=t("تصویر رسید پرداخت هزینه درخواست", "Receipt of the application fee payment", en),
+                required=not self.pay_online,
+                help_text=t("اگر می‌خواهید پس از ثبت درخواست آنلاین بپردازید، خالی بگذارید.",
+                            "Leave empty if you prefer to pay online right after submitting.", en)
+                if self.pay_online else "")
             f["payment_reference"] = forms.CharField(
                 label=t("شماره پیگیری پرداخت", "Payment reference number", en), max_length=100, required=False)
 

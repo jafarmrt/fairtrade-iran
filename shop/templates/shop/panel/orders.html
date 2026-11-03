@@ -1,0 +1,40 @@
+{% extends "memberpanel/base.html" %}
+{% load site_tags membership_tags %}
+{% block heading %}{% if IS_EN %}Orders{% else %}سفارش‌ها{% endif %}{% endblock %}
+{% block panel_content %}
+{% if seller.mode == 'none' %}
+<div class="notice">{% if IS_EN %}Your products are not sold through the site's cart yet; buyers use your direct purchase link. To sell through the site, contact the secretariat.{% else %}محصولات شما هنوز از راه سبد خرید سایت فروخته نمی‌شوند و خریداران از لینک خرید مستقیم استفاده می‌کنند. برای فروش از سایت با دبیرخانه هماهنگ کنید.{% endif %}</div>
+{% else %}
+<p class="muted">{% if seller.mode == 'house' %}{% if IS_EN %}Buyers pay the House. Ship once an order is marked paid; the House then pays you your share.{% else %}خریداران به حساب خانه می‌پردازند. سفارش «پرداخت‌شده» را ارسال کنید؛ خانه سهم شما را پس از کسر کارمزد واریز می‌کند.{% endif %}{% else %}{% if IS_EN %}Buyers pay you directly. Confirm the payment once you see it in your account, then ship.{% else %}خریداران مستقیم به حساب شما واریز می‌کنند. پس از دیدن واریز، پرداخت را تأیید و سفارش را ارسال کنید.{% endif %}{% endif %}
+· <a href="{% url 'panel:selling' member.pk %}">{% if IS_EN %}Selling settings{% else %}تنظیمات فروش{% endif %}</a></p>
+{% endif %}
+<nav class="chips" aria-label="{% if IS_EN %}Filter{% else %}فیلتر{% endif %}">
+    {% for key, label in filters %}<a href="?show={{ key }}"{% if show == key %} aria-current="true"{% endif %}>{{ label }}</a>{% endfor %}
+</nav>
+{% if orders %}
+<div class="table-scroll">
+<table class="standing-table">
+    <thead><tr>
+        <th>{% if IS_EN %}Order{% else %}سفارش{% endif %}</th>
+        <th>{% if IS_EN %}Date{% else %}تاریخ{% endif %}</th>
+        <th>{% if IS_EN %}Items{% else %}اقلام{% endif %}</th>
+        <th>{% if IS_EN %}Total (rials){% else %}مبلغ (ریال){% endif %}</th>
+        <th>{% if IS_EN %}Status{% else %}وضعیت{% endif %}</th>
+    </tr></thead>
+    <tbody>
+    {% for o in orders %}
+    <tr>
+        <td><a href="{% url 'panel:order' member.pk o.pk %}"><span dir="ltr" class="mono">{{ o.code }}</span></a><br><small class="muted">{{ o.purchase.buyer_name }}</small></td>
+        <td>{{ o.created_at|jdate }}</td>
+        <td>{% for i in o.items.all %}{{ i.tr_name }} × {{ i.quantity|fa_digits }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</td>
+        <td>{{ o.total|money|fa_digits }}</td>
+        <td><span class="badge{% if o.status == 'paid' %} badge--gold{% elif o.status == 'shipped' or o.status == 'completed' %} badge--ok{% elif o.status == 'cancelled' %} badge--error{% endif %}">{{ o.status_display }}</span></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+</div>
+{% else %}
+<div class="notice">{% if IS_EN %}No orders here.{% else %}سفارشی در این بخش نیست.{% endif %}</div>
+{% endif %}
+{% endblock %}
