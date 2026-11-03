@@ -66,6 +66,7 @@ Pages (home, about, principles, and later news, members, shop) are edited under 
 | `pages/` | General content page and the Ten Principles page |
 | `search/` | Site search, limited to the current language |
 | `membership/` | Membership page, application forms, tracking, secretariat/commission workflow, certificates |
+| `memberpanel/` | Member panel: sign-in, profile and product editing for members, onboarding of new members |
 
 ## Access and privacy
 
@@ -108,3 +109,14 @@ python manage.py membership_reminders
 ```
 
 When the secretariat registers a full member, the signal `membership.workflow.member_registered` is sent (with `application` and `certificate`) so a members directory can create the public profile.
+
+## Member panel
+
+Members manage their own public profile and products at `/fa/panel/` (`/en/panel/`), app `memberpanel`.
+
+- **Who can use it:** any user listed under "کاربرانی که این عضو را مدیریت می‌کنند" on a member (Snippets → اعضا و فروشگاه → اعضا). They are added to the «اعضا» group automatically, so they can also open member-only documents. Sign-in works with e-mail or username.
+- **New members:** when the commission accepts a file for the trial period (or the secretariat registers a full member), the member profile is created from the application, a panel account is made for the applicant's e-mail and an invitation is sent with a link to choose a password. "Not accepted" suspends and hides the profile. The invitation text is the «دعوت به پنل اعضا» e-mail template.
+- **What members can change:** names, introductions and story (fa/en), region and city, logo and main photo, contact and shop links, and their products (text, price, stock, photos, show/hide, delete). Type, status, founding flag, featured and order stay with the secretariat. Every change is in the item's history in the admin.
+- **Review:** new products are hidden and marked «در انتظار بررسی» until staff untick it; the review address gets an e-mail. Filter products by that field in the admin.
+- **Settings → پنل اعضا:** switch the panel on/off, welcome/login/help texts, whether new products need review, limits on products and photos, whether members may delete, and how profiles are created for new members.
+- Photos uploaded from the panel go to the «تصاویر اعضا» image collection.

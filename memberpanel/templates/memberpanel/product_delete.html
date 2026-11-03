@@ -1,0 +1,12 @@
+{% extends "memberpanel/base.html" %}
+{% block heading %}{% if IS_EN %}Delete product{% else %}حذف محصول{% endif %}{% endblock %}
+{% block panel_content %}
+<form class="form" method="post">
+    {% csrf_token %}
+    <p>{% if IS_EN %}Delete «{% firstof product.name_en product.name %}» for good? You can also just hide it from the website by unticking "Show on the website".{% else %}«{{ product.name }}» برای همیشه حذف شود؟ می‌توانید به‌جای حذف، با برداشتن تیک «در سایت نمایش داده شود» آن را پنهان کنید.{% endif %}</p>
+    <p class="panel-actions">
+        <button class="btn btn--primary panel-delete-btn" type="submit">{% if IS_EN %}Delete{% else %}حذف شود{% endif %}</button>
+        <a href="{% url 'panel:product_edit' member.pk product.pk %}">{% if IS_EN %}Cancel{% else %}انصراف{% endif %}</a>
+    </p>
+</form>
+{% endblock %}

@@ -80,6 +80,14 @@ def translation_url(context, lang_code):
             url = translation.get_url(request)
             sub = context.get("routable_suffix")
             return url + sub if sub else url
+    match = getattr(request, "resolver_match", None)
+    if page is None and match is not None and match.url_name != "wagtail_serve":
+        # A plain Django view under i18n_patterns, such as the member panel or search.
+        from django.urls import translate_url
+
+        url = translate_url(request.get_full_path(), lang_code)
+        if url != request.get_full_path():
+            return url
     home = _localized_home(request)
     if home:
         translation = home.get_translation_or_none(target_locale)

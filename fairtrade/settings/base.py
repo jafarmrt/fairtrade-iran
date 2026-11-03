@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     "members",
     "products",
     "membership",
+    "memberpanel",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -188,3 +189,7 @@ EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "1") == "1"
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@localhost")
 
 LOGIN_URL = "/admin/login/"
+AUTHENTICATION_BACKENDS = [
+    "django.contrib.auth.backends.ModelBackend",
+    "memberpanel.backends.EmailBackend",  # sign in with e-mail as well as username
+]

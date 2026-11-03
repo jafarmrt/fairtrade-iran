@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block body_class %}member-panel{% endblock %}
+{% block title %}{% block panel_title %}{% if IS_EN %}Member panel{% else %}پنل اعضا{% endif %}{% endblock %}{% endblock %}
+{% block content %}
+<header class="page-header page-header--panel"><div class="container">
+    <p class="eyebrow"><a href="{% url 'panel:dashboard' %}">{% if IS_EN %}Member panel{% else %}پنل اعضا{% endif %}</a>{% if member %} · {% if IS_EN and member.name_en %}{{ member.name_en }}{% else %}{{ member.name }}{% endif %}{% endif %}</p>
+    <h1>{% block heading %}{% endblock %}</h1>
+    {% if user.is_authenticated %}
+    <nav class="filter-tabs panel-nav" aria-label="{% if IS_EN %}Member panel{% else %}پنل اعضا{% endif %}">
+        {% block panel_nav %}
+        <a href="{% url 'panel:dashboard' %}"{% if current == 'dashboard' %} aria-current="page"{% endif %}>{% if IS_EN %}Overview{% else %}پیشخوان{% endif %}</a>
+        {% if member %}
+        <a href="{% url 'panel:profile' member.pk %}"{% if current == 'profile' %} aria-current="page"{% endif %}>{% if IS_EN %}Profile{% else %}پروفایل{% endif %}</a>
+        <a href="{% url 'panel:products' member.pk %}"{% if current == 'products' %} aria-current="page"{% endif %}>{% if IS_EN %}Products{% else %}محصولات{% endif %}</a>
+        {% endif %}
+        <a href="{% url 'panel:password_change' %}"{% if current == 'password' %} aria-current="page"{% endif %}>{% if IS_EN %}Password{% else %}رمز عبور{% endif %}</a>
+        {% endblock %}
+        <form method="post" action="{% url 'panel:logout' %}" class="panel-nav__logout">{% csrf_token %}<button type="submit" class="linklike">{% if IS_EN %}Sign out{% else %}خروج{% endif %}</button></form>
+    </nav>
+    {% endif %}
+</div></header>
+<section class="section"><div class="container">
+    {% block panel_content %}{% endblock %}
+</div></section>
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends "memberpanel/base.html" %}
+{% load wagtailimages_tags %}
+{% block heading %}{% if IS_EN %}Edit your profile{% else %}ویرایش پروفایل{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-layout">
+<form class="form panel-form" method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% if form.errors %}<div class="notice notice--error" role="alert">{% if IS_EN %}Please correct the fields marked below.{% else %}لطفاً موارد مشخص‌شده را اصلاح کنید.{% endif %}</div>{% endif %}
+    {{ form.non_field_errors }}
+    {% for heading, fields in form.grouped %}
+    <fieldset class="panel-fieldset">
+        <legend>{{ heading }}</legend>
+        {% if forloop.counter == 3 %}
+        <div class="panel-current-images">
+            <figure>{% if member.logo %}{% image member.logo fill-120x120 alt="" %}{% else %}<span class="placeholder" aria-hidden="true">{{ member.name|first }}</span>{% endif %}<figcaption>{% if IS_EN %}Current logo{% else %}لوگوی فعلی{% endif %}</figcaption></figure>
+            <figure>{% if member.cover_image %}{% image member.cover_image fill-240x150 alt="" %}{% else %}<span class="placeholder" aria-hidden="true">—</span>{% endif %}<figcaption>{% if IS_EN %}Current main photo{% else %}تصویر اصلی فعلی{% endif %}</figcaption></figure>
+        </div>
+        {% endif %}
+        {% for field in fields %}{% include "memberpanel/includes/field.html" %}{% endfor %}
+    </fieldset>
+    {% endfor %}
+    <p class="muted">{% if IS_EN %}Membership type, status and how your profile is shown are set by the secretariat.{% else %}نوع و وضعیت عضویت و نحوه نمایش پروفایل را دبیرخانه تعیین می‌کند.{% endif %}</p>
+    <button class="btn btn--primary" type="submit">{% if IS_EN %}Save{% else %}ذخیره{% endif %}</button>
+</form>
+{% include "memberpanel/includes/help.html" %}
+</div>
+{% endblock %}

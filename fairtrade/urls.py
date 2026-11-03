@@ -25,6 +25,7 @@ if settings.DEBUG:
 
 urlpatterns += i18n_patterns(
     path("search/", search_views.search, name="search"),
+    path("panel/", include("memberpanel.urls")),
     path("", include(wagtail_urls)),
     prefix_default_language=True,
 )

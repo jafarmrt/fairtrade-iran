@@ -1,0 +1,2 @@
+{% load wagtailcore_tags %}
+{% with s=panel_settings %}{% if IS_EN and s.help_text_en %}<aside class="card card--note panel-help">{{ s.help_text_en|richtext }}</aside>{% elif not IS_EN and s.help_text %}<aside class="card card--note panel-help">{{ s.help_text|richtext }}</aside>{% endif %}{% endwith %}

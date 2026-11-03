@@ -43,7 +43,7 @@ class RegionViewSet(SnippetViewSet):
 class ProductFilterSet(WagtailFilterSet):
     class Meta:
         model = Product
-        fields = ["member", "category", "in_stock", "is_published", "is_featured"]
+        fields = ["member", "category", "in_stock", "is_published", "needs_review", "is_featured"]
 
 
 class ProductViewSet(SnippetViewSet):
@@ -54,6 +54,7 @@ class ProductViewSet(SnippetViewSet):
         "name", "name_en", "member", "category", "price",
         BooleanColumn("in_stock", label="موجود است"),
         BooleanColumn("is_published", label="نمایش در سایت"),
+        BooleanColumn("needs_review", label="در انتظار بررسی"),
     ]
     filterset_class = ProductFilterSet
     search_fields = ["name", "name_en", "summary"]

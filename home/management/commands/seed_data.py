@@ -215,6 +215,7 @@ COLLECTIONS = [
     ("اسناد اعضا", [MEMBERS_GROUP, SECRETARIAT, BOARD, COMMISSION]),
     ("اسناد هیئت مدیره", [BOARD, SECRETARIAT, COMMISSION]),
     ("اسناد کمیسیون نظارتی", [COMMISSION]),
+    ("تصاویر اعضا", []),  # photos members upload from the member panel
 ]
 
 

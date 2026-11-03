@@ -1,0 +1,27 @@
+{% extends "memberpanel/base.html" %}
+{% load wagtailcore_tags %}
+{% block heading %}{% if IS_EN %}Sign in to the member panel{% else %}ورود به پنل اعضا{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-auth">
+    {% with s=settings.memberpanel.PanelSettings %}
+    {% if IS_EN and s.login_intro_en %}<div class="prose">{{ s.login_intro_en|richtext }}</div>{% elif not IS_EN and s.login_intro %}<div class="prose">{{ s.login_intro|richtext }}</div>{% endif %}
+    {% endwith %}
+    <form class="form" method="post" novalidate>
+        {% csrf_token %}
+        {% if form.non_field_errors %}<div class="notice notice--error" role="alert">{% for e in form.non_field_errors %}{{ e }} {% endfor %}</div>{% endif %}
+        <div class="form-row">
+            <label for="id_username">{% if IS_EN %}E-mail or username{% else %}ایمیل یا نام کاربری{% endif %}</label>
+            <input type="text" name="username" id="id_username" dir="ltr" autocomplete="username" required autofocus value="{{ form.username.value|default:'' }}">
+        </div>
+        <div class="form-row">
+            <label for="id_password">{% if IS_EN %}Password{% else %}رمز عبور{% endif %}</label>
+            <input type="password" name="password" id="id_password" dir="ltr" autocomplete="current-password" required>
+        </div>
+        <input type="hidden" name="next" value="{{ next }}">
+        <p class="panel-actions">
+            <button class="btn btn--primary" type="submit">{% if IS_EN %}Sign in{% else %}ورود{% endif %}</button>
+            <a href="{% url 'panel:password_reset' %}">{% if IS_EN %}Forgot your password, or have none yet?{% else %}رمز را فراموش کرده‌اید یا هنوز رمز ندارید؟{% endif %}</a>
+        </p>
+    </form>
+</div>
+{% endblock %}

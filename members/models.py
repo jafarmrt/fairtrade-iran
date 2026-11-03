@@ -130,6 +130,12 @@ class Member(BilingualMixin, index.Indexed, ClusterableModel):
         help_text="برای پنل اعضا: این کاربران می‌توانند پروفایل و محصولات این عضو را ویرایش کنند",
     )
 
+    application = models.OneToOneField(
+        "membership.MembershipApplication", verbose_name="پرونده عضویت", null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="member_profile",
+        help_text="پرونده‌ای که این پروفایل از آن ساخته شده؛ وضعیت عضویت با تغییر وضعیت پرونده به‌روز می‌شود",
+    )
+
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
 
@@ -172,6 +178,7 @@ class Member(BilingualMixin, index.Indexed, ClusterableModel):
             FieldPanel("is_featured"),
             FieldPanel("sort_order"),
             FieldPanel("managers"),
+            FieldPanel("application"),
         ], heading="نمایش و دسترسی"),
     ])
 
