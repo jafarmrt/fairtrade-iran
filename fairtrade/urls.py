@@ -14,6 +14,7 @@ urlpatterns = [
     path("documents/", include(wagtaildocs_urls)),
     path("i18n/", include("django.conf.urls.i18n")),
     path("", include("contact.urls")),
+    path("", include("appeals.urls")),
 ]
 
 if settings.DEBUG:

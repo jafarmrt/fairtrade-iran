@@ -1,0 +1,37 @@
+{% extends "memberpanel/base.html" %}
+{% load wagtailcore_tags membership_tags %}
+{% block heading %}{% if IS_EN %}Appeals{% else %}اعتراض به رأی{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-layout">
+<div>
+    {% with s=appeal_settings %}{% if IS_EN and s.intro_en %}<div class="prose">{{ s.intro_en|richtext }}</div>{% elif not IS_EN and s.intro %}<div class="prose">{{ s.intro|richtext }}</div>{% endif %}{% endwith %}
+    {% if appeal_settings.enabled %}<p class="panel-actions"><a class="btn btn--primary" href="{% url 'panel:appeal_new' member.pk %}">{% if IS_EN %}File an appeal{% else %}ثبت اعتراض{% endif %}</a></p>{% endif %}
+
+    {% if appeals %}
+    <h2 class="h3">{% if IS_EN %}Your appeals{% else %}اعتراض‌های ثبت‌شده{% endif %}</h2>
+    <ul class="panel-cases">
+        {% for a in appeals %}
+        <li class="card panel-case">
+            <div class="track-card__head">
+                <div>
+                    <div class="muted"><span dir="ltr" class="mono">{{ a.tracking_code }}</span> · {{ a.submitted_at|jdate }}</div>
+                    <strong>{% if IS_EN %}Against: {% else %}اعتراض به: {% endif %}{{ a.decision_display }}</strong>
+                    <span class="muted">({{ a.decision_date|jdate }})</span>
+                </div>
+                <span class="status-badge status-badge--appeal-{{ a.status }}">{{ a.status_display }}</span>
+            </div>
+            <dl class="fee-list">
+                {% if not a.is_final and a.decide_by %}<div><dt>{% if IS_EN %}Ruling due by{% else %}مهلت صدور رأی{% endif %}</dt><dd>{{ a.decide_by|jdate }}</dd></div>{% endif %}
+                {% if a.hearing_date and not a.is_final %}<div><dt>{% if IS_EN %}Hearing{% else %}جلسه رسیدگی{% endif %}</dt><dd>{{ a.hearing_date|jdate }}</dd></div>{% endif %}
+                {% if a.ruled_on %}<div><dt>{% if IS_EN %}Ruling date{% else %}تاریخ رأی{% endif %}</dt><dd>{{ a.ruled_on|jdate }}</dd></div>{% endif %}
+                {% if a.attachment %}<div><dt>{% if IS_EN %}Attachment{% else %}پیوست{% endif %}</dt><dd><a href="{{ a.attachment_url }}">{% if IS_EN %}Download{% else %}دریافت{% endif %}</a></dd></div>{% endif %}
+            </dl>
+            {% if a.ruling and a.is_final %}<div class="panel-case__answer"><div class="muted">{% if IS_EN %}Ruling of the Assembly Secretary (final){% else %}رأی دبیر مجمع (قطعی){% endif %}</div><p>{{ a.ruling|linebreaksbr }}</p></div>{% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+</div>
+{% include "memberpanel/includes/help.html" %}
+</div>
+{% endblock %}

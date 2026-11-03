@@ -1,0 +1,35 @@
+{% extends "memberpanel/base.html" %}
+{% load wagtailcore_tags %}
+{% block heading %}{% if IS_EN %}File an appeal{% else %}ثبت اعتراض{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-layout">
+<form class="form panel-form" method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% with s=appeal_settings %}{% if IS_EN and s.intro_en %}<div class="prose">{{ s.intro_en|richtext }}</div>{% elif not IS_EN and s.intro %}<div class="prose">{{ s.intro|richtext }}</div>{% endif %}{% endwith %}
+    {% if form.errors %}<div class="notice notice--error" role="alert">{% if IS_EN %}Please correct the fields marked below.{% else %}لطفاً موارد مشخص‌شده را اصلاح کنید.{% endif %}</div>{% endif %}
+    {{ form.non_field_errors }}
+    <fieldset class="panel-fieldset">
+        <legend>{% if IS_EN %}The decision{% else %}رأی مورد اعتراض{% endif %}</legend>
+        {% include "memberpanel/includes/field.html" with field=form.decision %}
+        {% include "memberpanel/includes/field.html" with field=form.decision_body %}
+        {% include "memberpanel/includes/field.html" with field=form.decision_date %}
+        {% include "memberpanel/includes/field.html" with field=form.decision_reference %}
+    </fieldset>
+    <fieldset class="panel-fieldset">
+        <legend>{% if IS_EN %}Your appeal{% else %}اعتراض شما{% endif %}</legend>
+        {% include "memberpanel/includes/field.html" with field=form.grounds %}
+        {% include "memberpanel/includes/field.html" with field=form.attachment %}
+    </fieldset>
+    <fieldset class="panel-fieldset">
+        <legend>{% if IS_EN %}How to reach you{% else %}راه تماس{% endif %}</legend>
+        {% include "memberpanel/includes/field.html" with field=form.email %}
+        {% include "memberpanel/includes/field.html" with field=form.phone %}
+    </fieldset>
+    <p class="panel-actions">
+        <button class="btn btn--primary" type="submit">{% if IS_EN %}Send to the Assembly Secretary{% else %}ارسال به دبیر مجمع{% endif %}</button>
+        <a href="{% url 'panel:appeals' member.pk %}">{% if IS_EN %}Cancel{% else %}انصراف{% endif %}</a>
+    </p>
+</form>
+{% include "memberpanel/includes/help.html" %}
+</div>
+{% endblock %}

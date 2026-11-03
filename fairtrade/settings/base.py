@@ -35,6 +35,7 @@ INSTALLED_APPS = [
     "products",
     "membership",
     "memberpanel",
+    "appeals",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",

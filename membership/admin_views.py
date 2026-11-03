@@ -152,26 +152,20 @@ def download(request, pk):
     return response
 
 
-def certificate_print(request, pk):
-    if not (request.user.has_perm(VIEW_PERM) or request.user.has_perm("membership.change_certificate")):
-        raise PermissionDenied
-    certificate = get_object_or_404(Certificate, pk=pk)
-    lang = request.GET.get("lang", "fa")
+def certificate_context(certificate, lang):
+    """What the printable certificate shows; also used by the member panel."""
     ms = MembershipSettings.load()
     site_settings = SiteSettings.load()
     is_en = lang == "en"
     from .models import MEMBER_TYPE_EN
+    from .notifications import membership_page_url
 
     type_label = MEMBER_TYPE_EN.get(certificate.member_type) if is_en else certificate.get_member_type_display()
     name = (certificate.name_en or certificate.name) if is_en else certificate.name
     date = certificate.issued_on.strftime("%d %B %Y") if is_en else format_jalali(certificate.issued_on)
     text = (ms.certificate_text_en if is_en else ms.certificate_text) or ""
     text = text.replace("{name}", name).replace("{type}", type_label).replace("{date}", date)
-    check_url = ""
-    from .notifications import membership_page_url
-
-    check_url = membership_page_url(lang, f"certificate/?number={certificate.number}")
-    return TemplateResponse(request, "membership/admin/certificate_print.html", {
+    return {
         "certificate": certificate,
         "is_en": is_en,
         "name": name,
@@ -185,8 +179,16 @@ def certificate_print(request, pk):
         "signatory_title": ms.certificate_signatory_title_en if is_en else ms.certificate_signatory_title,
         "site_name": site_settings.site_name_en if is_en else site_settings.site_name,
         "logo": site_settings.logo_en if (is_en and site_settings.logo_en) else site_settings.logo,
-        "check_url": check_url,
-    })
+        "check_url": membership_page_url(lang, f"certificate/?number={certificate.number}"),
+    }
+
+
+def certificate_print(request, pk):
+    if not (request.user.has_perm(VIEW_PERM) or request.user.has_perm("membership.change_certificate")):
+        raise PermissionDenied
+    certificate = get_object_or_404(Certificate, pk=pk)
+    lang = request.GET.get("lang", "fa")
+    return TemplateResponse(request, "membership/admin/certificate_print.html", certificate_context(certificate, lang))
 
 
 class ApplicationMenuItem(MenuItem):
