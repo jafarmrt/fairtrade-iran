@@ -23,5 +23,8 @@
             <a href="{% url 'panel:password_reset' %}">{% if IS_EN %}Forgot your password, or have none yet?{% else %}رمز را فراموش کرده‌اید یا هنوز رمز ندارید؟{% endif %}</a>
         </p>
     </form>
+    {% if sms_login %}
+    <p class="panel-auth__alt"><a class="btn btn--outline" href="{% url 'panel:sms_login' %}{% if next %}?next={{ next|urlencode }}{% endif %}">{% if IS_EN %}Sign in with a code sent by SMS{% else %}ورود با کد پیامکی{% endif %}</a></p>
+    {% endif %}
 </div>
 {% endblock %}

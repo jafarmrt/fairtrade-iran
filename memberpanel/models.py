@@ -3,6 +3,7 @@ Settings of the member panel, where members edit their own profile and
 products. Everything here is edited in the admin panel (Settings → پنل اعضا).
 """
 
+from django.conf import settings
 from django.db import models
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, ObjectList, TabbedInterface
 from wagtail.contrib.settings.models import BaseGenericSetting, register_setting
@@ -65,6 +66,12 @@ class PanelSettings(BaseGenericSetting):
         "پروفایل‌های خودکار بلافاصله در سایت نمایش داده شوند", default=False,
         help_text="اگر خاموش باشد، کارکنان پس از بازبینی «نمایش در سایت» را روشن می‌کنند",
     )
+    sms_login = models.BooleanField(
+        "ورود با کد پیامکی", default=False,
+        help_text="اعضا با شماره موبایلی که در «شماره‌های موبایل ورود» ثبت شده، بدون رمز و با کد یک‌بارمصرف وارد پنل "
+                  "می‌شوند. ارسال پیامک هم باید در «تنظیمات پیامک» روشن باشد. متن پیامک در «متن‌های پیامک» است.",
+    )
+    sms_code_minutes = models.PositiveSmallIntegerField("اعتبار کد ورود (دقیقه)", default=5)
     invite_new_members = models.BooleanField(
         "برای عضو تازه حساب پنل ساخته و ایمیل دعوت فرستاده شود", default=True,
         help_text="متن ایمیل در «قالب‌های ایمیل عضویت» (دعوت به پنل اعضا) ویرایش می‌شود",
@@ -89,6 +96,10 @@ class PanelSettings(BaseGenericSetting):
             FieldPanel("publish_new_profiles"),
             FieldPanel("invite_new_members"),
         ], heading="اعضای تازه"),
+        ObjectList([
+            FieldPanel("sms_login"),
+            FieldPanel("sms_code_minutes"),
+        ], heading="ورود با پیامک"),
     ])
 
     class Meta:
@@ -96,3 +107,35 @@ class PanelSettings(BaseGenericSetting):
 
     def tr(self, field):
         return BilingualMixin.tr(self, field)
+
+
+class LoginMobile(models.Model):
+    """The mobile number a panel user signs in with by SMS code (one number per user, one user per number)."""
+
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, verbose_name="کاربر", on_delete=models.CASCADE,
+                                related_name="login_mobile")
+    mobile = models.CharField("شماره موبایل", max_length=11, unique=True, help_text="مثل ۰۹۱۲۳۴۵۶۷۸۹")
+    verified_at = models.DateTimeField("تأیید با کد پیامکی", null=True, blank=True, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    panels = [FieldPanel("user"), FieldPanel("mobile")]
+
+    class Meta:
+        verbose_name = "شماره موبایل ورود"
+        verbose_name_plural = "شماره‌های موبایل ورود"
+        ordering = ["user__username"]
+
+    def __str__(self):
+        return f"{self.user} · {self.mobile}"
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+
+        from core.iran import clean_mobile
+
+        try:
+            self.mobile = clean_mobile(self.mobile)
+        except ValidationError as e:
+            raise ValidationError({"mobile": e.messages})
+        if not self.mobile:
+            raise ValidationError({"mobile": "شماره موبایل را بنویسید."})

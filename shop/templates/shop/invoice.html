@@ -28,6 +28,7 @@
         <div>
             <h2>{% if IS_EN %}Seller{% else %}فروشنده{% endif %}</h2>
             <p><strong>{% tr order.member "name" %}</strong>{% tr order.member "city" as city %}{% if city %}، {{ city }}{% endif %}</p>
+            {% with m=order.member %}{% if m.legal_id or m.economic_code or m.registration_number %}<p class="muted">{% if m.legal_id %}{% if IS_EN %}National ID{% else %}شناسه ملی{% endif %}: <span dir="ltr">{{ m.legal_id }}</span> {% endif %}{% if m.economic_code %}{% if IS_EN %}Economic code{% else %}کد اقتصادی{% endif %}: <span dir="ltr">{{ m.economic_code }}</span> {% endif %}{% if m.registration_number %}{% if IS_EN %}Reg. no.{% else %}شماره ثبت{% endif %}: <span dir="ltr">{{ m.registration_number }}</span>{% endif %}</p>{% endif %}{% endwith %}
             <p class="muted">{% if order.is_house %}{% if IS_EN %}Sold through the Fair Trade House; payment to the House.{% else %}فروش از طریق خانه تجارت عادلانه؛ پرداخت به حساب خانه.{% endif %}{% else %}{% if IS_EN %}Payment directly to the producer.{% else %}پرداخت مستقیم به تولیدکننده.{% endif %}{% endif %}</p>
         </div>
         <div>

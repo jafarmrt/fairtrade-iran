@@ -141,6 +141,17 @@ class Member(BilingualMixin, index.Indexed, ClusterableModel):
     cancelled_on = models.DateField("تاریخ لغو عضویت", null=True, blank=True)
     reapply_after = models.DateField("امکان درخواست دوباره از", null=True, blank=True)
 
+    # ---- official identity (staff only; never shown on the public site) ----
+    national_id = models.CharField("کد ملی", max_length=10, blank=True,
+                                   help_text="برای عضو حقیقی یا مدیر مجموعه؛ ۱۰ رقم")
+    legal_id = models.CharField("شناسه ملی شخص حقوقی", max_length=11, blank=True,
+                                help_text="برای شرکت، تعاونی یا مؤسسه؛ ۱۱ رقم")
+    registration_number = models.CharField("شماره ثبت یا شماره پروانه", max_length=40, blank=True)
+    economic_code = models.CharField("کد اقتصادی", max_length=20, blank=True,
+                                     help_text="اگر داشته باشد، روی فاکتور فروش چاپ می‌شود")
+    official_address = models.TextField("نشانی رسمی", blank=True)
+    postal_code = models.CharField("کد پستی", max_length=10, blank=True)
+
     managers = models.ManyToManyField(
         settings.AUTH_USER_MODEL, verbose_name="کاربرانی که این عضو را مدیریت می‌کنند", blank=True,
         related_name="managed_members",
@@ -204,6 +215,13 @@ class Member(BilingualMixin, index.Indexed, ClusterableModel):
             FieldPanel("reapply_after"),
         ], heading="تعلیق و لغو",
             help_text="این‌ها را بهتر است از «وضعیت اعضا و حق عضویت» با ثبت رأی تغییر دهید تا ایمیل و سابقه ثبت شود"),
+        ObjectList([
+            FieldRowPanel([FieldPanel("national_id"), FieldPanel("legal_id")]),
+            FieldRowPanel([FieldPanel("registration_number"), FieldPanel("economic_code")]),
+            FieldPanel("official_address"),
+            FieldPanel("postal_code"),
+        ], heading="پرونده اداری",
+            help_text="فقط کارکنان این‌ها را می‌بینند؛ در سایت نمایش داده نمی‌شوند. کد اقتصادی و شناسه ملی روی فاکتور فروش می‌آید"),
     ])
 
     class Meta:
@@ -213,6 +231,23 @@ class Member(BilingualMixin, index.Indexed, ClusterableModel):
 
     def __str__(self):
         return self.name
+
+    def clean(self):
+        from django.core.exceptions import ValidationError
+
+        from core import iran
+
+        super().clean()
+        errors = {}
+        for field, cleaner in (("national_id", iran.clean_national_id), ("legal_id", iran.clean_legal_id),
+                               ("postal_code", iran.clean_postal_code)):
+            try:
+                setattr(self, field, cleaner(getattr(self, field)))
+            except ValidationError as e:
+                errors[field] = e.messages
+        self.economic_code = iran.only_digits(self.economic_code) if self.economic_code.strip() else ""
+        if errors:
+            raise ValidationError(errors)
 
     def save(self, *args, **kwargs):
         if not self.slug:

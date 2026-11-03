@@ -1,0 +1,34 @@
+{% extends "memberpanel/base.html" %}
+{% block heading %}{% if IS_EN %}Sign in with an SMS code{% else %}ورود با کد پیامکی{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-auth">
+    {% if error %}<div class="notice notice--error" role="alert">{{ error }}</div>{% endif %}
+    {% if sent_to %}
+    <p>{% if IS_EN %}If <span dir="ltr">{{ sent_to }}</span> is registered for the member panel, a six-digit code has been sent to it.{% else %}اگر شماره <span dir="ltr">{{ sent_to }}</span> برای پنل اعضا ثبت شده باشد، کد شش‌رقمی به آن فرستاده شد.{% endif %}</p>
+    <form class="form" method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="step" value="verify"><input type="hidden" name="next" value="{{ next }}">
+        <div class="form-row">
+            <label for="id_code">{% if IS_EN %}Code{% else %}کد{% endif %}</label>
+            <input type="text" name="code" id="id_code" dir="ltr" inputmode="numeric" autocomplete="one-time-code" maxlength="12" required autofocus>
+        </div>
+        <p class="panel-actions"><button class="btn btn--primary" type="submit">{% if IS_EN %}Sign in{% else %}ورود{% endif %}</button></p>
+    </form>
+    <form method="post" class="panel-actions">{% csrf_token %}<input type="hidden" name="step" value="restart"><input type="hidden" name="next" value="{{ next }}">
+        <button class="linklike" type="submit">{% if IS_EN %}Use another number or ask for a new code{% else %}شماره دیگر یا درخواست کد تازه{% endif %}</button>
+    </form>
+    {% else %}
+    <p class="muted">{% if IS_EN %}Enter the mobile number registered for your panel account. We will send you a one-time code.{% else %}شماره موبایلی را که برای حساب پنل شما ثبت شده بنویسید تا کد یک‌بارمصرف برایتان پیامک شود.{% endif %}</p>
+    <form class="form" method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="step" value="send"><input type="hidden" name="next" value="{{ next }}">
+        <div class="form-row">
+            <label for="id_mobile">{% if IS_EN %}Mobile number{% else %}شماره موبایل{% endif %}</label>
+            <input type="tel" name="mobile" id="id_mobile" dir="ltr" inputmode="tel" autocomplete="tel" placeholder="09123456789" value="{{ mobile }}" required autofocus>
+        </div>
+        <p class="panel-actions"><button class="btn btn--primary" type="submit">{% if IS_EN %}Send code{% else %}فرستادن کد{% endif %}</button></p>
+    </form>
+    {% endif %}
+    <p><a href="{% url 'panel:login' %}">{% if IS_EN %}Sign in with your password{% else %}ورود با رمز عبور{% endif %}</a></p>
+</div>
+{% endblock %}
