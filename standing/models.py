@@ -248,3 +248,11 @@ class Decision(models.Model):
     @property
     def reason_display(self):
         return _label(self.REASON_EN, self.reason, self.get_reason_display())
+
+    APPEALABLE_KINDS = {Kind.WARNING, Kind.SUSPEND, Kind.CANCEL}  # governance doc 8.2
+
+    @property
+    def can_appeal(self):
+        """Whether the member can still appeal this decision from the panel (appeals app)."""
+        return (self.kind in self.APPEALABLE_KINDS and self.appeal_until is not None
+                and self.appeal_until >= timezone.localdate() and not self.appeals.exists())

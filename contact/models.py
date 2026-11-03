@@ -169,7 +169,17 @@ class Complaint(models.Model):
     attachment = models.FileField("پیوست", upload_to=complaint_upload_to, storage=complaint_storage,
                                   blank=True, validators=[validate_attachment])
 
+    # Set when a member files the complaint from the member panel.
+    member = models.ForeignKey("members.Member", verbose_name="ثبت‌شده از پنل عضو", null=True, blank=True,
+                               on_delete=models.SET_NULL, related_name="complaints_filed")
+    submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="کاربر ثبت‌کننده", null=True, blank=True,
+                                     on_delete=models.SET_NULL, related_name="+")
+
     status = models.CharField("وضعیت", max_length=20, choices=Status.choices, default=Status.RECEIVED)
+    response = models.TextField(
+        "پاسخ به شاکی", blank=True,
+        help_text="اگر شکایت از پنل اعضا ثبت شده باشد، شاکی این متن و وضعیت را در پنل خود می‌بیند",
+    )
     commission_notes = models.TextField("یادداشت‌های کمیسیون", blank=True,
                                         help_text="فقط اعضای کمیسیون این یادداشت را می‌بینند")
 
@@ -180,6 +190,13 @@ class Complaint(models.Model):
 
     def __str__(self):
         return f"{self.tracking_code} – {self.subject_of_complaint}"
+
+    STATUS_EN = {"received": "Received", "reviewing": "Under review", "needs_info": "More information needed",
+                 "resolved": "Resolved", "dismissed": "Dismissed"}
+
+    @property
+    def status_display(self):
+        return self.STATUS_EN.get(self.status, self.status) if is_english() else self.get_status_display()
 
     @property
     def is_anonymous(self):
@@ -248,27 +265,38 @@ class ComplaintPage(Page):
         return response
 
     def recipients(self):
-        emails = set(
-            get_user_model().objects.filter(groups__name=COMMISSION_GROUP, is_active=True)
-            .exclude(email="").values_list("email", flat=True)
-        )
-        emails.update(a.strip() for a in self.extra_recipients.split(",") if a.strip())
-        return sorted(emails)
+        return commission_recipients(self.extra_recipients)
 
     def notify_commission(self, complaint):
-        link = site_root_url() + reverse("complaints:edit", args=[complaint.pk])
-        sms_notify_role("complaint_new", "commission", {"code": complaint.tracking_code, "admin_url": link})
-        to = self.recipients()
-        if not to:
-            return
-        EmailMessage(
-            subject=f"شکایت تازه ثبت شد: {complaint.tracking_code}",
-            body=(
-                "یک شکایت محرمانه تازه در سایت ثبت شد.\n"
-                f"کد پیگیری: {complaint.tracking_code}\n\n"
-                "برای حفظ محرمانگی، متن شکایت در این ایمیل نیامده است. "
-                f"برای خواندن آن وارد پنل مدیریت شوید:\n{link}\n"
-            ),
-            from_email=settings.DEFAULT_FROM_EMAIL,
-            to=to,
-        ).send(fail_silently=True)
+        notify_commission(complaint, self.recipients())
+
+
+def commission_recipients(extra=""):
+    emails = set(
+        get_user_model().objects.filter(groups__name=COMMISSION_GROUP, is_active=True)
+        .exclude(email="").values_list("email", flat=True)
+    )
+    emails.update(a.strip() for a in (extra or "").split(",") if a.strip())
+    return sorted(emails)
+
+
+def notify_commission(complaint, to=None):
+    """Tell the commission a complaint arrived. Only the tracking code goes in the e-mail."""
+    if to is None:
+        page = ComplaintPage.objects.first()
+        to = page.recipients() if page else commission_recipients()
+    link = site_root_url() + reverse("complaints:edit", args=[complaint.pk])
+    sms_notify_role("complaint_new", "commission", {"code": complaint.tracking_code, "admin_url": link})
+    if not to:
+        return
+    EmailMessage(
+        subject=f"شکایت تازه ثبت شد: {complaint.tracking_code}",
+        body=(
+            "یک شکایت محرمانه تازه در سایت ثبت شد.\n"
+            f"کد پیگیری: {complaint.tracking_code}\n\n"
+            "برای حفظ محرمانگی، متن شکایت در این ایمیل نیامده است. "
+            f"برای خواندن آن وارد پنل مدیریت شوید:\n{link}\n"
+        ),
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        to=to,
+    ).send(fail_silently=True)

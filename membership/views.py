@@ -138,6 +138,7 @@ def track(page, request):
     application = None
     lookup_form = TrackForm(is_en=is_en)
     resubmit_form = None
+    appeal_context = None
     error = ""
 
     session_id = request.session.get(SESSION_TRACK)
@@ -171,10 +172,20 @@ def track(page, request):
                 error = str(e)
             else:
                 return redirect(page.url + page.reverse_subpage("track") + "?sent=1")
+    elif request.method == "POST" and request.POST.get("step") == "appeal" and application:
+        from appeals.applicant import submit
+
+        appeal, appeal_context = submit(application, request.POST, request.FILES)
+        if appeal is not None:
+            return redirect(page.url + page.reverse_subpage("track") + "?appealed=1")
     elif request.method == "POST" and request.POST.get("step") == "logout":
         request.session.pop(SESSION_TRACK, None)
         return redirect(page.url + page.reverse_subpage("track"))
 
+    if application and appeal_context is None:
+        from appeals.applicant import tracking_context
+
+        appeal_context = tracking_context(application)
     if application and application.status in WAITING_FOR_APPLICANT and resubmit_form is None:
         resubmit_form = ResubmitForm(is_en=is_en)
     return render(page, request, "membership/track.html", {
@@ -183,6 +194,8 @@ def track(page, request):
         "resubmit_form": resubmit_form if application and application.status in WAITING_FOR_APPLICANT else None,
         "error": error,
         "sent": request.GET.get("sent") == "1",
+        "appealed": request.GET.get("appealed") == "1",
+        **(appeal_context or {}),
     }, "track/")
 
 

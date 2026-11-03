@@ -1,0 +1,41 @@
+{% extends "memberpanel/base.html" %}
+{% load wagtailcore_tags membership_tags %}
+{% block heading %}{% if IS_EN %}Complaints{% else %}شکایت{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-layout">
+<div>
+    {% with s=appeal_settings %}{% if IS_EN and s.complaint_intro_en %}<div class="prose">{{ s.complaint_intro_en|richtext }}</div>{% elif not IS_EN and s.complaint_intro %}<div class="prose">{{ s.complaint_intro|richtext }}</div>{% endif %}{% endwith %}
+
+    {% if complaints %}
+    <h2 class="h3">{% if IS_EN %}Your complaints{% else %}شکایت‌های شما{% endif %}</h2>
+    <ul class="panel-cases">
+        {% for c in complaints %}
+        <li class="card panel-case">
+            <div class="track-card__head">
+                <div>
+                    <div class="muted"><span dir="ltr" class="mono">{{ c.tracking_code }}</span> · {{ c.created_at|jdate }}</div>
+                    <strong>{{ c.subject_of_complaint }}</strong>
+                </div>
+                <span class="status-badge status-badge--complaint-{{ c.status }}">{{ c.status_display }}</span>
+            </div>
+            {% if c.response %}<div class="panel-case__answer"><div class="muted">{% if IS_EN %}Answer from the commission{% else %}پاسخ کمیسیون{% endif %}</div><p>{{ c.response|linebreaksbr }}</p></div>{% endif %}
+        </li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form class="form panel-form" method="post" enctype="multipart/form-data" novalidate>
+        {% csrf_token %}
+        <fieldset class="panel-fieldset">
+            <legend>{% if IS_EN %}New complaint{% else %}ثبت شکایت تازه{% endif %}</legend>
+            {% if form.errors %}<div class="notice notice--error" role="alert">{% if IS_EN %}Please correct the fields marked below.{% else %}لطفاً موارد مشخص‌شده را اصلاح کنید.{% endif %}</div>{% endif %}
+            {{ form.non_field_errors }}
+            {% for field in form %}{% include "memberpanel/includes/field.html" %}{% endfor %}
+            <p class="muted">{% if IS_EN %}Your name and e-mail are sent with the complaint so the commission can reach you. To complain anonymously, use the public complaint form instead.{% else %}نام و ایمیل شما همراه شکایت فرستاده می‌شود تا کمیسیون بتواند با شما تماس بگیرد. برای شکایت بی‌نام از فرم عمومی ثبت شکایت در سایت استفاده کنید.{% endif %}</p>
+        </fieldset>
+        <button class="btn btn--primary" type="submit">{% if IS_EN %}Send to the commission{% else %}ارسال به کمیسیون{% endif %}</button>
+    </form>
+</div>
+{% include "memberpanel/includes/help.html" %}
+</div>
+{% endblock %}

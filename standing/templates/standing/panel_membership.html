@@ -80,12 +80,14 @@
                 <p><strong>{{ dec.kind_display }}</strong> · {{ dec.decided_on|jdate }}</p>
                 <p class="muted">{% if IS_EN %}Reason{% else %}دلیل{% endif %}: {{ dec.reason_display }}{% if dec.ends_on %} · {% if IS_EN %}until{% else %}تا{% endif %} {{ dec.ends_on|jdate }}{% endif %}{% if dec.reapply_after %} · {% if IS_EN %}may apply again from{% else %}درخواست دوباره از{% endif %} {{ dec.reapply_after|jdate }}{% endif %}</p>
                 {% if dec.message %}<p dir="auto">{{ dec.message|linebreaksbr }}</p>{% endif %}
-                {% if dec.appeal_until %}<p class="muted">{% if IS_EN %}Appeal deadline{% else %}مهلت اعتراض{% endif %}: {{ dec.appeal_until|jdate }}</p>{% endif %}
+                {% if dec.appeal_until %}<p class="muted">{% if IS_EN %}Appeal deadline{% else %}مهلت اعتراض{% endif %}: {{ dec.appeal_until|jdate }}{% if dec.can_appeal %} · <a href="{% url 'panel:appeal_new' member.pk %}?ref={{ dec.pk }}">{% if IS_EN %}Appeal this decision{% else %}اعتراض به این رأی{% endif %}</a>{% endif %}</p>{% endif %}
             </li>
             {% endfor %}
         </ul>
     </section>
     {% endif %}
+
+    {% include "memberpanel/includes/membership_record.html" %}
 </div>
 {% include "memberpanel/includes/help.html" %}
 </div>

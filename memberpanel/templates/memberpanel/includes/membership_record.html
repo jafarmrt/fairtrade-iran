@@ -1,0 +1,47 @@
+{% load membership_tags %}
+{% if application %}
+<section class="standing-section">
+    <h2 class="h3">{% if IS_EN %}Membership file{% else %}پرونده عضویت{% endif %}</h2>
+    <div class="card">
+        <dl class="fee-list">
+            <div><dt>{% if IS_EN %}Application code{% else %}کد پرونده{% endif %}</dt><dd><span dir="ltr" class="mono">{{ application.tracking_code }}</span></dd></div>
+            <div><dt>{% if IS_EN %}Applied on{% else %}تاریخ درخواست{% endif %}</dt><dd>{{ application.submitted_at|jdate }}</dd></div>
+            <div><dt>{% if IS_EN %}File status{% else %}وضعیت پرونده{% endif %}</dt><dd>{{ application.status_display }}</dd></div>
+            {% if application.trial_starts_on %}<div><dt>{% if IS_EN %}Trial period{% else %}دوره آزمایشی{% endif %}</dt><dd>{{ application.trial_starts_on|jdate }} – {{ application.trial_ends_on|jdate }}</dd></div>{% endif %}
+        </dl>
+        {% if file_events %}
+        <h3 class="panel-subhead">{% if IS_EN %}Admission decisions and messages{% else %}رأی‌ها و پیام‌های پذیرش{% endif %}</h3>
+        <ul class="timeline">
+            {% for event in file_events %}
+            <li>
+                <div class="muted">{{ event.created_at|jdate }}{% if event.to_status %} · {{ event.to_status_display }}{% endif %}</div>
+                <p>{{ event.message|linebreaksbr }}</p>
+                {% if event.appeal_decision %}<p><a href="{% url 'panel:appeal_new' member.pk %}?decision={{ event.appeal_decision }}&amp;body=commission&amp;date={{ event.day|date:'Y-m-d' }}">{% if IS_EN %}Appeal this decision{% else %}اعتراض به این رأی{% endif %}</a></p>{% endif %}
+            </li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+    </div>
+</section>
+{% endif %}
+
+<section class="standing-section">
+    <h2 class="h3">{% if IS_EN %}Membership certificate{% else %}گواهی عضویت{% endif %}</h2>
+    <div class="card cert-result {% if certificate %}{% if certificate.is_valid %}cert-result--valid{% else %}cert-result--invalid{% endif %}{% endif %}">
+    {% if certificate %}
+        <p class="cert-result__state">{% if certificate.revoked %}{% if IS_EN %}Revoked{% else %}باطل شده{% endif %}{% elif certificate.is_expired %}{% if IS_EN %}Expired{% else %}منقضی شده{% endif %}{% else %}{% if IS_EN %}Valid{% else %}معتبر{% endif %}{% endif %}</p>
+        <dl class="fee-list">
+            <div><dt>{% if IS_EN %}Number{% else %}شماره{% endif %}</dt><dd><span dir="ltr" class="mono">{{ certificate.number }}</span></dd></div>
+            <div><dt>{% if IS_EN %}Issued{% else %}تاریخ صدور{% endif %}</dt><dd>{{ certificate.issued_on|jdate }}</dd></div>
+            {% if certificate.valid_until %}<div><dt>{% if IS_EN %}Valid until{% else %}اعتبار تا{% endif %}</dt><dd>{{ certificate.valid_until|jdate }}</dd></div>{% endif %}
+        </dl>
+        {% if certificate.revoked and certificate.revoked_reason %}<p>{{ certificate.revoked_reason }}</p>{% endif %}
+        {% if not certificate.revoked %}
+        <p class="panel-actions"><a class="btn btn--primary" href="{% url 'panel:certificate' member.pk %}" target="_blank" rel="noopener">{% if IS_EN %}View and print{% else %}دیدن و چاپ گواهی{% endif %}</a></p>
+        <p class="muted">{% if IS_EN %}Anyone can check this certificate with its number on the membership page.{% else %}هر کسی می‌تواند با شماره گواهی، اعتبار آن را در صفحه عضویت استعلام کند.{% endif %}</p>
+        {% endif %}
+    {% else %}
+        <p class="muted">{% if IS_EN %}The certificate is issued once you become a full member.{% else %}گواهی پس از ثبت عضویت رسمی صادر می‌شود.{% endif %}</p>
+    {% endif %}
+    </div>
+</section>
