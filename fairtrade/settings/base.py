@@ -212,6 +212,16 @@ PAYMENT_ALLOW_TEST_GATEWAY = os.environ.get("PAYMENT_ALLOW_TEST_GATEWAY", "") ==
 
 LOGIN_URL = "/admin/login/"
 AUTHENTICATION_BACKENDS = [
+    "core.throttle.ThrottleBackend",  # stops password guessing (too many failed sign-ins)
     "django.contrib.auth.backends.ModelBackend",
     "memberpanel.backends.EmailBackend",  # sign in with e-mail as well as username
 ]
+
+# Request limits (core/throttle.py) keep their counts in the cache. Development
+# and tests use memory; production uses files so all workers share the counts.
+CACHES = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache"}}
+
+SESSION_COOKIE_HTTPONLY = True
+SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
+
+TEST_RUNNER = "fairtrade.test_runner.TestRunner"

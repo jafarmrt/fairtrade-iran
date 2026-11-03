@@ -7,7 +7,7 @@
 <ul class="panel-products">
     {% for p in products %}
     <li class="panel-product">
-        <a class="panel-product__media" href="{% url 'panel:product_edit' member.pk p.pk %}">{% if p.main_image %}{% image p.main_image fill-120x120 alt="" %}{% else %}<span class="placeholder" aria-hidden="true">{{ p.name|first }}</span>{% endif %}</a>
+        <a class="panel-product__media" href="{% url 'panel:product_edit' member.pk p.pk %}">{% if p.main_image %}{% image p.main_image fill-120x120 alt="" %}{% else %}{% tr p "name" as initial_name %}<span class="placeholder" aria-hidden="true">{{ initial_name|first }}</span>{% endif %}</a>
         <div class="panel-product__body">
             <h2 class="h3"><a href="{% url 'panel:product_edit' member.pk p.pk %}">{% if IS_EN and p.name_en %}{{ p.name_en }}{% else %}{{ p.name }}{% endif %}</a></h2>
             <p class="badges">

@@ -11,7 +11,7 @@
     {% for m in members %}
     <article class="card panel-member">
         <div class="panel-member__head">
-            {% if m.logo %}{% image m.logo fill-80x80 class="panel-member__logo" alt="" %}{% else %}<span class="placeholder panel-member__logo" aria-hidden="true">{{ m.name|first }}</span>{% endif %}
+            {% if m.logo %}{% image m.logo fill-80x80 class="panel-member__logo" alt="" %}{% else %}{% tr m "name" as initial_name %}<span class="placeholder panel-member__logo" aria-hidden="true">{{ initial_name|first }}</span>{% endif %}
             <div>
                 <h2 class="h3">{% if IS_EN and m.name_en %}{{ m.name_en }}{% else %}{{ m.name }}{% endif %}</h2>
                 <p class="badges"><span class="badge{% if m.status == 'official' %} badge--gold{% endif %}">{{ m.status_label }}</span>

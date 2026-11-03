@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.http import Http404
 from django.shortcuts import redirect
 
+from core import throttle
 from core.models import is_english
 from payments.models import Payment, PaymentSettings
 from payments.services import online_enabled, start_payment
@@ -80,6 +81,8 @@ def checkout(page, request):
     if request.method == "POST" and form.is_valid():
         if form.cleaned_data.get("nickname"):
             return redirect(sub(page, "cart"))  # a bot filled the honeypot
+        if throttle.hit(request, "checkout"):
+            return throttle.throttled_response(request)
         try:
             purchase = services.place_order(cart, form.buyer(), language="en" if is_english() else "fa",
                                             user=request.user)
@@ -160,6 +163,8 @@ def order_view(page, request, code):
 def lookup(page, request):
     form = LookupForm(request.POST or None, initial={"code": request.GET.get("code", "")})
     error = ""
+    if request.method == "POST" and throttle.hit(request, "lookup"):
+        return throttle.throttled_response(request)
     if request.method == "POST" and form.is_valid():
         digits = lambda s: "".join(ch for ch in s if ch.isdigit())[-10:]  # noqa: E731
         purchase = Purchase.objects.filter(code=form.cleaned_data["code"]).first()

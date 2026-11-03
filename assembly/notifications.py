@@ -10,6 +10,7 @@ from django.utils import timezone, translation
 
 from core.jalali import format_jalali
 from core.models import SiteSettings
+from core.templating import fill
 from membership.jalali import persian_digits
 from membership.notifications import SafeDict, base_url
 from sms import notify as sms_notify
@@ -91,7 +92,7 @@ def _email(kind, member, lang, ctx, s):
         subject, body = getattr(s, f"{kind}_subject_en"), getattr(s, f"{kind}_body_en")
     values = SafeDict(str, ctx)
     try:
-        send_mail(subject.format_map(values).replace("\n", " "), body.format_map(values),
+        send_mail(fill(subject, values).replace("\n", " "), fill(body, values),
                   settings.DEFAULT_FROM_EMAIL, to)
     except Exception:  # an e-mail problem must never stop the assembly
         logger.exception("Could not send assembly e-mail %s", kind)

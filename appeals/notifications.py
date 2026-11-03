@@ -9,6 +9,7 @@ from django.urls import reverse
 from django.utils import translation
 
 from core.models import SiteSettings
+from core.templating import fill
 from membership.notifications import SafeDict, base_url, format_date
 
 from .models import SECRETARY_GROUP, AppealSettings
@@ -69,7 +70,7 @@ def to_member(appeal, kind):
     if lang == "en" and getattr(s, f"{kind}_subject_en") and getattr(s, f"{kind}_body_en"):
         subject, body = getattr(s, f"{kind}_subject_en"), getattr(s, f"{kind}_body_en")
     values = SafeDict(str, appeal_context(appeal, lang))
-    return _send(subject.format_map(values), body.format_map(values), [appeal.email] if appeal.email else [])
+    return _send(fill(subject, values), fill(body, values), [appeal.email] if appeal.email else [])
 
 
 def to_secretary(appeal):

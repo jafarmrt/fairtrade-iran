@@ -36,6 +36,24 @@
             var open = nav.classList.toggle("is-open");
             toggle.setAttribute("aria-expanded", open ? "true" : "false");
         });
+        // Fold the menu when its items do not fit on one line next to the logo.
+        var header = document.querySelector(".site-header");
+        var list = nav.querySelector("ul");
+        function overflows() {
+            var items = list.children, width = 0, gap = parseFloat(getComputedStyle(list).columnGap) || 0;
+            for (var i = 0; i < items.length; i++) width += items[i].getBoundingClientRect().width;
+            return width + gap * Math.max(items.length - 1, 0) > nav.clientWidth + 1;
+        }
+        function fit() {
+            header.classList.remove("site-header--tight", "site-header--compact");
+            if (window.innerWidth <= 900 || !overflows()) return;
+            header.classList.add("site-header--tight");
+            if (overflows()) header.classList.replace("site-header--tight", "site-header--compact");
+        }
+        var timer;
+        window.addEventListener("resize", function () { clearTimeout(timer); timer = setTimeout(fit, 100); });
+        if (document.fonts && document.fonts.ready) document.fonts.ready.then(fit);
+        fit();
     })();
     </script>
     {% block extra_js %}{% endblock %}

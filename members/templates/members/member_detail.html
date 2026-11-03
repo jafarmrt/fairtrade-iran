@@ -12,7 +12,7 @@
             <h1>{{ member_name }}</h1>
             <p class="member-card__meta">
                 <span>{{ member.type_label }}</span>
-                {% if member.region %}<span>{% tr member.region "name" %}{% tr member "city" as city %}{% if city %}، {{ city }}{% endif %}</span>{% endif %}
+                {% if member.region %}<span>{% tr member.region "name" %}{% tr member "city" as city %}{% if city %}{% if IS_EN %}, {% else %}، {% endif %}{{ city }}{% endif %}</span>{% endif %}
             </p>
             <p class="badges">
                 {% if member.is_founding %}<span class="badge badge--gold">{% if IS_EN %}Founding member{% else %}عضو مؤسس{% endif %}</span>{% endif %}

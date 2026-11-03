@@ -11,6 +11,7 @@ from django.urls import reverse
 from django.utils import timezone, translation
 
 from core.models import SiteSettings
+from core.templating import fill
 from sms import notify as sms_notify
 from sms import notify_role as sms_notify_role
 
@@ -103,7 +104,7 @@ def to_buyer(inquiry):
     values = SafeDict(name=inquiry.contact_name, company=inquiry.company, code=inquiry.tracking_code,
                       country=inquiry.country, items=items, site_name=site_name(lang))
     house = SiteSettings.load().notification_email
-    return _send(subject.format_map(values), body.format_map(values), [inquiry.email],
+    return _send(fill(subject, values), fill(body, values), [inquiry.email],
                  reply_to=[house] if house else None)
 
 
@@ -151,7 +152,7 @@ def to_producer(share):
         destination=inquiry.destination or "—", needed_by=inquiry.needed_by or "—",
         items=items_text(lines, False) or inquiry.other_products, panel_url=url, site_name=site_name("fa"),
     )
-    _send(s.producer_subject.format_map(context), s.producer_body.format_map(context), producer_emails(member))
+    _send(fill(s.producer_subject, context), fill(s.producer_body, context), producer_emails(member))
     if member.public_phone:
         sms_notify("wholesale_producer", member.public_phone, dict(context), lang="fa")
     share.notified_at = timezone.now()

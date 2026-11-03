@@ -14,7 +14,16 @@ USE_HTTPS = os.environ.get("USE_HTTPS", "1") == "1"
 SESSION_COOKIE_SECURE = USE_HTTPS
 CSRF_COOKIE_SECURE = USE_HTTPS
 SECURE_CONTENT_TYPE_NOSNIFF = True
-X_FRAME_OPTIONS = "SAMEORIGIN"
+X_FRAME_OPTIONS = "SAMEORIGIN"  # Wagtail's page preview needs frames from the same site
+# nginx sends HSTS; set SECURE_HSTS_SECONDS too if the site runs without the bundled nginx.
+SECURE_HSTS_SECONDS = int(os.environ.get("SECURE_HSTS_SECONDS", "0"))
+
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
+        "LOCATION": os.environ.get("CACHE_DIR", "/tmp/fairtrade-cache"),
+    }
+}
 
 LOGGING = {
     "version": 1,

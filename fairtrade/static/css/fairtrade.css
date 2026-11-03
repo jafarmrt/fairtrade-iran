@@ -101,10 +101,10 @@ p { margin: 0 0 1em; }
 .site-logo img { height: 48px; width: auto; }
 .site-logo__text { font-weight: 700; color: var(--navy); font-size: 0.95rem; line-height: 1.3; }
 
-.main-nav { margin-inline-start: auto; }
-.main-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 4px; flex-wrap: wrap; }
+.main-nav { margin-inline-start: auto; min-width: 0; }
+.main-nav ul { list-style: none; margin: 0; padding: 0; display: flex; gap: 2px; flex-wrap: nowrap; }
 .main-nav a {
-  display: block; padding: 8px 12px; border-radius: 8px;
+  display: block; padding: 8px 10px; border-radius: 8px; white-space: nowrap;
   color: var(--navy); text-decoration: none; font-weight: 500;
 }
 .main-nav a:hover, .main-nav a[aria-current="page"] { background: var(--gold-tint); color: var(--navy); }
@@ -120,6 +120,25 @@ p { margin: 0 0 1em; }
   display: none; background: none; border: 1px solid var(--line); border-radius: 8px;
   padding: 8px 10px; cursor: pointer; color: var(--navy); font: inherit;
 }
+
+/* The menu folds into the "Menu" button on narrow screens, and also on wider
+   ones when the admin's menu items do not fit on one line (the script in
+   base.html adds --tight, then --compact). */
+.site-header--tight .site-logo__text { display: none; }
+.site-header--compact .nav-toggle { display: inline-flex; margin-inline-start: auto; }
+.site-header--compact .main-nav {
+  display: none; position: absolute; inset-inline: 0; top: 100%;
+  background: var(--surface); border-bottom: 1px solid var(--line); padding: 8px 16px 16px;
+}
+.site-header--compact .main-nav.is-open { display: block; }
+@media (min-width: 901px) {
+  .site-header--compact .main-nav {
+    inset-inline: auto max(16px, calc((100% - var(--container)) / 2 + 24px));
+    min-width: 260px; border: 1px solid var(--line); border-top: 0; border-radius: 0 0 12px 12px;
+    box-shadow: 0 12px 24px rgba(27, 29, 72, 0.12);
+  }
+}
+.site-header--compact .main-nav ul { flex-direction: column; }
 
 @media (max-width: 900px) {
   .nav-toggle { display: inline-flex; margin-inline-start: auto; }

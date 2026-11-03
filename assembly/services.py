@@ -18,7 +18,6 @@ from .models import (
     GROUPS,
     TYPE_GROUP,
     AgendaItem,
-    AgendaItem,
     Assembly,
     AssemblyLog,
     AssemblySettings,

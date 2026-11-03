@@ -10,6 +10,7 @@ from django.template.response import TemplateResponse
 from django.utils import timezone
 
 from core.models import is_english
+from core.throttle import client_ip
 from memberpanel.views import member_view, render, t
 from products.models import Product
 from sms.phone import DIGITS
@@ -20,14 +21,6 @@ from .models import ProducerShare, WholesaleInquiry, WholesaleInquiryLine, Whole
 
 CLOSED_STATUSES = ("ordered", "closed", "spam")
 HONEYPOT_FIELD = "fax_number"  # hidden from people; "website" is a real field here
-
-
-def client_ip(request):
-    # nginx appends the address it saw to X-Forwarded-For, so the last entry is the one to trust.
-    forwarded = request.META.get("HTTP_X_FORWARDED_FOR", "")
-    if forwarded:
-        return forwarded.split(",")[-1].strip()
-    return request.META.get("REMOTE_ADDR", "")
 
 
 def catalogue_products():

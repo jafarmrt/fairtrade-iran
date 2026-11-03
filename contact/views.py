@@ -17,7 +17,11 @@ def complaint_file(request, pk):
     if not complaint.attachment:
         raise Http404
     ext = os.path.splitext(complaint.attachment.name)[1]
-    response = FileResponse(complaint.attachment.open("rb"), as_attachment=True,
+    try:
+        handle = complaint.attachment.open("rb")
+    except FileNotFoundError:
+        raise Http404
+    response = FileResponse(handle, as_attachment=True,
                             filename=f"complaint-{complaint.tracking_code}{ext}")
     response["Cache-Control"] = "private, no-store"
     response["X-Content-Type-Options"] = "nosniff"

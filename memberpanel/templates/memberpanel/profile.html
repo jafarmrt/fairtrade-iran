@@ -1,5 +1,5 @@
 {% extends "memberpanel/base.html" %}
-{% load wagtailimages_tags %}
+{% load wagtailimages_tags site_tags %}
 {% block heading %}{% if IS_EN %}Edit your profile{% else %}ویرایش پروفایل{% endif %}{% endblock %}
 {% block panel_content %}
 <div class="panel-layout">
@@ -12,7 +12,7 @@
         <legend>{{ heading }}</legend>
         {% if forloop.counter == 3 %}
         <div class="panel-current-images">
-            <figure>{% if member.logo %}{% image member.logo fill-120x120 alt="" %}{% else %}<span class="placeholder" aria-hidden="true">{{ member.name|first }}</span>{% endif %}<figcaption>{% if IS_EN %}Current logo{% else %}لوگوی فعلی{% endif %}</figcaption></figure>
+            <figure>{% if member.logo %}{% image member.logo fill-120x120 alt="" %}{% else %}{% tr member "name" as initial_name %}<span class="placeholder" aria-hidden="true">{{ initial_name|first }}</span>{% endif %}<figcaption>{% if IS_EN %}Current logo{% else %}لوگوی فعلی{% endif %}</figcaption></figure>
             <figure>{% if member.cover_image %}{% image member.cover_image fill-240x150 alt="" %}{% else %}<span class="placeholder" aria-hidden="true">—</span>{% endif %}<figcaption>{% if IS_EN %}Current main photo{% else %}تصویر اصلی فعلی{% endif %}</figcaption></figure>
         </div>
         {% endif %}

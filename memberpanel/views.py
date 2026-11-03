@@ -1,6 +1,8 @@
 from functools import wraps
 
+from django import forms
 from django.contrib import messages
+from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.decorators import login_required
 from django.db import transaction
@@ -12,8 +14,8 @@ from wagtail.images import get_image_model
 from wagtail.log_actions import log
 from wagtail.models import Collection
 
+from core import throttle
 from core.models import SiteSettings, is_english
-from members.models import Member
 from products.models import Product, ProductImage
 
 from .forms import PanelPasswordResetForm, ProductForm, ProfileForm
@@ -216,9 +218,22 @@ def product_delete(request, member, product_id):
 
 # ---- accounts ----
 
+class PanelAuthenticationForm(AuthenticationForm):
+    def clean(self):
+        name = (self.cleaned_data.get("username") or "").strip().lower()
+        if throttle.blocked("login_user", name) or throttle.blocked("login_ip", throttle.client_ip(self.request)):
+            raise forms.ValidationError(t(
+                "به دلیل تلاش‌های ناموفق پیاپی، ورود موقتاً بسته شده است. لطفاً ۱۵ دقیقه دیگر دوباره بکوشید "
+                "یا رمز عبور را بازیابی کنید.",
+                "Too many failed sign-in attempts. Please try again in 15 minutes, or reset your password."),
+                code="throttled")
+        return super().clean()
+
+
 class LoginView(auth_views.LoginView):
     template_name = "memberpanel/registration/login.html"
     redirect_authenticated_user = True
+    authentication_form = PanelAuthenticationForm
 
     def dispatch(self, request, *args, **kwargs):
         if not PanelSettings.load(request_or_site=request).enabled:
@@ -242,6 +257,9 @@ class PasswordResetView(auth_views.PasswordResetView):
     form_class = PanelPasswordResetForm
 
     def form_valid(self, form):
+        if throttle.hit(self.request, "password_reset"):
+            # Same page as a sent e-mail, so the limit does not reveal anything; just no more e-mails.
+            return redirect(self.get_success_url())
         self.extra_email_context = {"IS_EN": is_english(),
                                     "site_name": SiteSettings.load(request_or_site=self.request).tr("site_name")}
         return super().form_valid(form)
