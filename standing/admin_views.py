@@ -30,6 +30,7 @@ from .services import (
     can_view,
     decide,
     issue_by_hand,
+    period_for,
     record_payment,
     review_payment,
     user_bodies,
@@ -149,6 +150,8 @@ def member_detail(request, pk):
     dues = list(member.dues.all().prefetch_related("payments__submitted_by", "payments__reviewed_by"))
     for d in dues:
         d.suspend_on = d.suspension_date(ms)
+    current_year, _ = period_for(member, timezone.localdate(), ms)
+    can_issue = not member.dues.filter(year=current_year).exists() and member.status != Member.CANCELLED
     decision_form = DecisionForm(member=member, bodies=bodies) if available_kinds(member, bodies) else None
     return TemplateResponse(request, "standing/admin/member.html", {
         "page_title": f"وضعیت عضو: {member.name}",
@@ -162,6 +165,8 @@ def member_detail(request, pk):
         "ms": ms,
         "today": timezone.localdate(),
         "annual_fee": ms.annual_fee_for(member.member_type),
+        "can_issue": can_issue,
+        "current_year": current_year,
         "certificate": member.application.certificate_or_none if member.application else None,
     })
 

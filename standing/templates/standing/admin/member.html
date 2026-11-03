@@ -77,9 +77,9 @@
         </tbody>
     </table>
     {% else %}<p>هنوز حق عضویتی برای این عضو ثبت نشده است.</p>{% endif %}
-    {% if is_secretariat and member.status != 'cancelled' %}
+    {% if is_secretariat and can_issue %}
     <form method="post" class="st-inline">{% csrf_token %}
-        <button class="button button-secondary" name="action" value="issue" type="submit">ثبت حق عضویت سال جاری برای این عضو</button>
+        <button class="button button-secondary" name="action" value="issue" type="submit">ثبت حق عضویت سال {{ current_year|fa_digits }} برای این عضو</button>
         <span class="help">مهلت پرداخت از امروز {{ ms.dues_payment_days|fa_digits }} روز است. صدور خودکار سالانه در «تنظیمات عضویت» تنظیم می‌شود.</span>
     </form>
     {% endif %}
@@ -132,6 +132,7 @@
 .st-form button { align-self:flex-start; }
 .st-buttons { display:flex; flex-wrap:wrap; gap:.5rem; }
 .st-inline { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin-top:.5rem; }
+.st-inline input[type=text] { flex:1 1 220px; max-width:360px; min-height:auto; padding:.35rem .6rem; font-size:.9rem; }
 .st-overdue { color:#b42318; font-weight:700; }
 .st-soon { color:#a15c07; font-weight:700; }
 </style>

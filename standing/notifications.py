@@ -7,6 +7,8 @@ from core.models import MembershipSettings, SiteSettings
 from core.templatetags.site_tags import money
 from membership.jalali import persian_digits
 from membership.notifications import base_url, format_date, recipients_for, send
+from sms import notify as sms_notify
+from sms import notify_role as sms_notify_role
 
 
 def member_language(member):
@@ -80,9 +82,17 @@ def context_for(member, lang, dues=None, decision=None, message=""):
         return ctx
 
 
+def member_phone(member):
+    if member.application and member.application.phone:
+        return member.application.phone
+    return member.public_phone
+
+
 def to_member(member, event, **kwargs):
     lang = member_language(member)
-    return send(event, member_recipients(member), lang, context_for(member, lang, **kwargs))
+    context = context_for(member, lang, **kwargs)
+    sms_notify(event, member_phone(member), context, lang)  # only events registered in sms_events.py send
+    return send(event, member_recipients(member), lang, context)
 
 
 # ---- hooks ----
@@ -104,6 +114,7 @@ def receipt_received(payment):
     dues = payment.dues
     ctx = context_for(dues.member, "fa", dues=dues)
     ctx["message"] = payment.payer_note
+    sms_notify_role("dues_receipt_staff", "secretariat", ctx)
     return send("dues_receipt_staff", recipients_for("secretariat"), "fa", ctx)
 
 
@@ -118,8 +129,8 @@ def decision_made(decision, message_en=""):
     message = message_en if (lang == "en" and message_en) else decision.message
     if decision.kind == "warning" and decision.reason == "dues" and decision.dues_id:
         return dues_warning(decision.dues, decision)
-    return send(f"standing_{decision.kind}", member_recipients(member), lang,
-                context_for(member, lang, decision=decision, message=message))
+    event = f"standing_{decision.kind}"
+    return to_member(member, event, decision=decision, message=message)
 
 
 def staff_digest(role, lines):

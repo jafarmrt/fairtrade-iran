@@ -292,3 +292,17 @@ class AdminTests(StandingTestCase):
         out = io.StringIO()
         call_command("membership_standing", "--today", "2027-03-01", stdout=out)
         self.assertIn("Dues issued", out.getvalue())
+
+
+@override_settings(SMS_BACKEND="sms.backends.LocmemBackend")
+class SmsTests(StandingTestCase):
+    def test_suspension_sms(self):
+        from sms.backends import outbox
+        from sms.tests import enable
+
+        enable()
+        outbox.clear()
+        Member.objects.filter(pk=self.member.pk).update(public_phone="09121112233")
+        decide(self.fresh(), Decision.Kind.SUSPEND, Decision.Reason.DUES, user=self.secretary)
+        self.assertEqual(outbox[-1]["to"], ["09121112233"])
+        self.assertIn("تعلیق", outbox[-1]["text"])

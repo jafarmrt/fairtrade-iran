@@ -40,7 +40,7 @@
                 <td>{{ d.due_date|jdate }}</td>
                 <td><span class="badge{% if d.status == 'paid' or d.status == 'waived' %} badge--ok{% elif d.is_overdue %} badge--error{% elif d.status == 'pending' %} badge--gold{% endif %}">{{ d.status_display }}</span>
                     {% if d.is_overdue and d.status == 'unpaid' %}<small class="standing-overdue">{% if IS_EN %}Overdue{% else %}گذشته از مهلت{% endif %}</small>{% endif %}
-                    {% for p in d.payments.all %}{% if p.status == 'rejected' and p.staff_message and forloop.first %}<p class="standing-msg"><strong>{% if IS_EN %}Receipt not accepted:{% else %}رسید پذیرفته نشد:{% endif %}</strong> {{ p.staff_message|linebreaksbr }}</p>{% endif %}{% endfor %}
+                    {% for p in d.payments.all %}{% if p.status == 'rejected' and p.staff_message and forloop.first %}<p class="standing-msg" dir="auto"><strong>{% if IS_EN %}Receipt not accepted:{% else %}رسید پذیرفته نشد:{% endif %}</strong> {{ p.staff_message|linebreaksbr }}</p>{% endif %}{% endfor %}
                 </td>
             </tr>
             {% endfor %}
@@ -79,7 +79,7 @@
             <li>
                 <p><strong>{{ dec.kind_display }}</strong> · {{ dec.decided_on|jdate }}</p>
                 <p class="muted">{% if IS_EN %}Reason{% else %}دلیل{% endif %}: {{ dec.reason_display }}{% if dec.ends_on %} · {% if IS_EN %}until{% else %}تا{% endif %} {{ dec.ends_on|jdate }}{% endif %}{% if dec.reapply_after %} · {% if IS_EN %}may apply again from{% else %}درخواست دوباره از{% endif %} {{ dec.reapply_after|jdate }}{% endif %}</p>
-                {% if dec.message %}<p>{{ dec.message|linebreaksbr }}</p>{% endif %}
+                {% if dec.message %}<p dir="auto">{{ dec.message|linebreaksbr }}</p>{% endif %}
                 {% if dec.appeal_until %}<p class="muted">{% if IS_EN %}Appeal deadline{% else %}مهلت اعتراض{% endif %}: {{ dec.appeal_until|jdate }}</p>{% endif %}
             </li>
             {% endfor %}
