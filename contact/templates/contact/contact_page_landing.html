@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+{% block content %}
+<header class="page-header">
+    <div class="container"><h1>{{ page.title }}</h1></div>
+</header>
+<section class="section">
+    <div class="container prose">
+        {% if page.thank_you_text %}{{ page.thank_you_text|richtext }}
+        {% else %}<p>{% if IS_EN %}Thank you, your message has been sent.{% else %}سپاس؛ پیام شما فرستاده شد.{% endif %}</p>{% endif %}
+        <p><a href="{% pageurl page %}">{% if IS_EN %}Back to the contact page{% else %}بازگشت به صفحه تماس{% endif %}</a></p>
+    </div>
+</section>
+{% endblock %}

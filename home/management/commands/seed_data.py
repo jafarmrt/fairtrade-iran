@@ -216,3 +216,105 @@ COLLECTIONS = [
     ("اسناد هیئت مدیره", [BOARD, SECRETARIAT, COMMISSION]),
     ("اسناد کمیسیون نظارتی", [COMMISSION]),
 ]
+
+
+# ---- news, documents, contact ----
+
+NEWS_INDEX = {
+    "fa": {"title": "اخبار و رویدادها", "slug": "news",
+           "intro": "تازه‌ترین خبرها، رویدادها و نوشته‌های خانه تجارت عادلانه ایران و اعضایش."},
+    "en": {"title": "News and events", "slug": "news",
+           "intro": "The latest news, events and articles from the Fair Trade House of Iran and its members."},
+}
+
+FIRST_NEWS = {
+    "fa": {
+        "title": "وب‌سایت خانه تجارت عادلانه ایران راه‌اندازی شد",
+        "slug": "website-launch",
+        "kind": "news",
+        "intro": "از این پس خبرها، اسناد و فراخوان عضویت خانه را در این سایت منتشر می‌کنیم.",
+        "body": stream((
+            "paragraph",
+            "<p>وب‌سایت خانه تجارت عادلانه ایران راه‌اندازی شد. در این سایت می‌توانید با اصول ده‌گانه تجارت "
+            "عادلانه و اعضای خانه آشنا شوید، اسناد عمومی را بخوانید و برای عضویت درخواست دهید.</p>",
+        )),
+    },
+    "en": {
+        "title": "The Fair Trade House of Iran website is live",
+        "slug": "website-launch",
+        "intro": "From now on we will publish the House's news, documents and membership calls here.",
+        "body": stream((
+            "paragraph",
+            "<p>The Fair Trade House of Iran has launched its website. Here you can learn about the ten "
+            "principles of fair trade and our members, read our public documents and apply for membership.</p>",
+        )),
+    },
+}
+
+DOCUMENTS_PAGE = {
+    "fa": {"title": "اسناد", "slug": "documents",
+           "intro": "اساسنامه، آیین‌نامه‌ها، گزارش‌ها و دیگر اسناد خانه تجارت عادلانه ایران."},
+    "en": {"title": "Documents", "slug": "documents",
+           "intro": "Statutes, regulations, reports and other documents of the Fair Trade House of Iran."},
+}
+
+# (collection name, heading fa, heading en, description fa, description en, show to people without access)
+DOCUMENT_SECTIONS = [
+    ("اسناد عمومی", "اسناد عمومی", "Public documents",
+     "اسنادی که همه می‌توانند بخوانند.", "Documents anyone can read.", False),
+    ("اسناد اعضا", "ویژه اعضا", "For members",
+     "صورت‌جلسه‌ها و اسنادی که فقط اعضای خانه می‌بینند.", "Minutes and documents for members of the House.", True),
+    ("اسناد هیئت مدیره", "هیئت مدیره", "Board",
+     "اسناد هیئت مدیره.", "Board documents.", False),
+    ("اسناد کمیسیون نظارتی", "کمیسیون نظارتی", "Supervisory Commission",
+     "اسناد کمیسیون نظارتی.", "Supervisory Commission documents.", False),
+]
+
+COMPLAINT_PAGE = {
+    "fa": {
+        "title": "ثبت شکایت محرمانه",
+        "slug": "complaint",
+        "intro": "<p>اگر از رفتار یکی از اعضا یا از عملکرد خود خانه شکایتی دارید، آن را این‌جا ثبت کنید. "
+                 "طبق سند ارکان، رسیدگی به شکایات با <b>کمیسیون نظارتی</b> است که مستقل از هیئت مدیره کار می‌کند.</p>",
+        "privacy_note": "<p>شکایت شما فقط برای اعضای کمیسیون نظارتی قابل مشاهده است؛ نه هیئت مدیره، نه دبیرخانه "
+                        "و نه عضوی که از او شکایت کرده‌اید آن را نمی‌بینند.</p>"
+                        "<p>می‌توانید بی‌نام شکایت کنید. اگر راه تماسی بگذارید، کمیسیون نتیجه را به شما خبر می‌دهد.</p>",
+        "thank_you_text": "<p>شکایت شما ثبت شد و به کمیسیون نظارتی رسید. سپاس از این‌که به بهتر شدن خانه کمک می‌کنید.</p>",
+    },
+    "en": {
+        "title": "Make a confidential complaint",
+        "slug": "complaint",
+        "intro": "<p>If you have a complaint about one of our members or about the House itself, you can make it here. "
+                 "Under our governance document, complaints are handled by the <b>Supervisory Commission</b>, "
+                 "which works independently of the Board.</p>",
+        "privacy_note": "<p>Only members of the Supervisory Commission can read your complaint. The Board, the "
+                        "secretariat and the member you complain about cannot see it.</p>"
+                        "<p>You may stay anonymous. If you leave contact details, the commission will tell you the outcome.</p>",
+        "thank_you_text": "<p>Your complaint has been received by the Supervisory Commission. Thank you for helping the House improve.</p>",
+    },
+}
+
+CONTACT_PAGE = {
+    "fa": {
+        "title": "تماس با ما",
+        "slug": "contact",
+        "intro": "<p>پرسش، پیشنهاد یا درخواست همکاری دارید؟ پیامتان را بفرستید؛ دبیرخانه پاسخ می‌دهد.</p>",
+        "thank_you_text": "<p>سپاس؛ پیام شما به دبیرخانه رسید و به‌زودی پاسخ می‌دهیم.</p>",
+        "subject": "پیام تازه از فرم تماس سایت",
+    },
+    "en": {
+        "title": "Contact us",
+        "slug": "contact",
+        "intro": "<p>A question, a suggestion or an idea for working together? Send us a message and the secretariat will reply.</p>",
+        "thank_you_text": "<p>Thank you, your message has reached the secretariat. We will reply soon.</p>",
+        "subject": "New message from the website contact form (English)",
+    },
+}
+
+# (label fa, label en, field type, required)
+CONTACT_FIELDS = [
+    ("نام", "Name", "singleline", True),
+    ("ایمیل", "Email", "email", True),
+    ("موضوع", "Subject", "singleline", False),
+    ("پیام", "Message", "multiline", True),
+]

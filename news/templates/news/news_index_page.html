@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags date_tags %}
+{% block content %}
+<header class="page-header">
+    <div class="container">
+        <h1>{{ page.title }}</h1>
+        {% if page.intro %}<p class="lead">{{ page.intro }}</p>{% endif %}
+    </div>
+</header>
+<section class="section">
+    <div class="container">
+        <nav class="filter-tabs" aria-label="{% if IS_EN %}Filter by type{% else %}نوع مطلب{% endif %}">
+            <a href="{% pageurl page %}"{% if not kind %} aria-current="true"{% endif %}>{% if IS_EN %}All{% else %}همه{% endif %}</a>
+            {% for value, label_fa, label_en in kinds %}
+            <a href="{% pageurl page %}?kind={{ value }}"{% if kind == value %} aria-current="true"{% endif %}>{% if IS_EN %}{{ label_en }}{% else %}{{ label_fa }}{% endif %}</a>
+            {% endfor %}
+        </nav>
+
+        {% if upcoming_events %}
+        <div class="upcoming">
+            <h2>{% if IS_EN %}Upcoming events{% else %}رویدادهای پیش رو{% endif %}</h2>
+            <ul class="upcoming__list">
+                {% for event in upcoming_events %}
+                <li><a href="{% pageurl event %}">{{ event.title }}</a> <span>{{ event.event_start|jdatetime }}{% if event.event_location %} · {{ event.event_location }}{% endif %}</span></li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+
+        {% if items %}
+        <div class="grid grid--news">
+            {% for item in items %}{% include "news/includes/news_card.html" %}{% endfor %}
+        </div>
+        {% if items.has_other_pages %}
+        <nav class="pagination" aria-label="{% if IS_EN %}Pages{% else %}صفحه‌ها{% endif %}">
+            {% if items.has_previous %}<a class="btn btn--outline" href="?{% if kind %}kind={{ kind }}&amp;{% endif %}page={{ items.previous_page_number }}">{% if IS_EN %}Newer{% else %}جدیدتر{% endif %}</a>{% endif %}
+            <span>{% if IS_EN %}Page {{ items.number }} of {{ items.paginator.num_pages }}{% else %}صفحه {{ items.number }} از {{ items.paginator.num_pages }}{% endif %}</span>
+            {% if items.has_next %}<a class="btn btn--outline" href="?{% if kind %}kind={{ kind }}&amp;{% endif %}page={{ items.next_page_number }}">{% if IS_EN %}Older{% else %}قدیمی‌تر{% endif %}</a>{% endif %}
+        </nav>
+        {% endif %}
+        {% else %}
+        <p class="empty">{% if IS_EN %}Nothing has been published here yet.{% else %}هنوز مطلبی منتشر نشده است.{% endif %}</p>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}

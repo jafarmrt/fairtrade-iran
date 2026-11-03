@@ -27,6 +27,9 @@ INSTALLED_APPS = [
     "home",
     "pages",
     "search",
+    "news",
+    "archive",
+    "contact",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",
@@ -166,6 +169,9 @@ WAGTAILDOCS_EXTENSIONS = ["csv", "docx", "odt", "pdf", "pptx", "rtf", "txt", "xl
 # Documents are served through Django so that collection privacy
 # (members only, board only, commission only) is always enforced.
 WAGTAILDOCS_SERVE_METHOD = "serve_view"
+# Our document model adds English title/description and keeps the files
+# under PRIVATE_MEDIA_ROOT, so they cannot be fetched from /media/ directly.
+WAGTAILDOCS_DOCUMENT_MODEL = "archive.ArchiveDocument"
 
 
 # Email

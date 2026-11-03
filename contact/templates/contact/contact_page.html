@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags site_tags %}
+{% block content %}
+<header class="page-header">
+    <div class="container"><h1>{{ page.title }}</h1></div>
+</header>
+<section class="section">
+    <div class="container contact-layout">
+        <div>
+            {% if page.intro %}<div class="prose">{{ page.intro|richtext }}</div>{% endif %}
+            <form class="form" action="{% pageurl page %}" method="post" novalidate>
+                {% csrf_token %}
+                {% include "contact/includes/form_fields.html" %}
+                <button class="btn btn--primary" type="submit">{% if IS_EN %}Send{% else %}ارسال{% endif %}</button>
+            </form>
+        </div>
+        <aside class="contact-aside">
+            {% if page.show_contact_details %}
+            {% with s=settings.core.SiteSettings %}
+            {% tr s "address" as address %}
+            {% if address or s.phone or s.email %}
+            <div class="card">
+                <h2>{% if IS_EN %}Contact details{% else %}راه‌های تماس{% endif %}</h2>
+                <dl class="contact-details">
+                    {% if address %}<dt>{% if IS_EN %}Address{% else %}نشانی{% endif %}</dt><dd>{{ address|linebreaksbr }}</dd>{% endif %}
+                    {% if s.phone %}<dt>{% if IS_EN %}Phone{% else %}تلفن{% endif %}</dt><dd><a href="tel:{{ s.phone }}" dir="ltr">{{ s.phone }}</a></dd>{% endif %}
+                    {% if s.email %}<dt>{% if IS_EN %}Email{% else %}ایمیل{% endif %}</dt><dd><a href="mailto:{{ s.email }}">{{ s.email }}</a></dd>{% endif %}
+                </dl>
+            </div>
+            {% endif %}
+            {% endwith %}
+            {% endif %}
+            {% if page.complaint_page and page.complaint_page.live %}
+            <div class="card card--note">
+                <h2>{% if IS_EN %}Have a complaint?{% else %}شکایتی دارید؟{% endif %}</h2>
+                <p>{% if IS_EN %}Complaints about a member or about the House go confidentially to the independent Supervisory Commission.{% else %}شکایت از اعضا یا از خود خانه، به‌صورت محرمانه به کمیسیون نظارتی مستقل می‌رسد.{% endif %}</p>
+                <a class="btn btn--outline" href="{% pageurl page.complaint_page %}">{{ page.complaint_page.title }}</a>
+            </div>
+            {% endif %}
+        </aside>
+    </div>
+</section>
+{% endblock %}

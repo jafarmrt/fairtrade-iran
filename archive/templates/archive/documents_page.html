@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags site_tags date_tags %}
+{% block content %}
+<header class="page-header">
+    <div class="container">
+        <h1>{{ page.title }}</h1>
+        {% if page.intro %}<p class="lead">{{ page.intro }}</p>{% endif %}
+    </div>
+</header>
+<section class="section">
+    <div class="container">
+        {% for entry in sections %}
+        {% with section=entry.section %}
+        <section class="doc-section{% if not entry.allowed %} doc-section--locked{% endif %}" aria-labelledby="doc-section-{{ forloop.counter }}">
+            <h2 id="doc-section-{{ forloop.counter }}">{{ section.heading }}</h2>
+            {% if section.description %}<p class="doc-section__desc">{{ section.description }}</p>{% endif %}
+            {% if not entry.allowed %}
+                <p class="locked-note">
+                    {% if user.is_authenticated %}
+                        {% if IS_EN %}Your account does not have access to these documents.{% else %}حساب کاربری شما به این اسناد دسترسی ندارد.{% endif %}
+                    {% else %}
+                        {% if IS_EN %}These documents are available to members.{% else %}این اسناد ویژه اعضاست.{% endif %}
+                        <a href="{{ login_url }}?next={{ request.path|urlencode }}">{% if IS_EN %}Log in{% else %}ورود{% endif %}</a>
+                    {% endif %}
+                </p>
+            {% elif entry.documents %}
+                <ul class="doc-list">
+                    {% for doc in entry.documents %}
+                    <li class="doc-item">
+                        <a class="doc-item__link" href="{{ doc.url }}">
+                            <span class="doc-item__ext">{{ doc.file_extension|upper }}</span>
+                            <span class="doc-item__title">{% tr doc "title" %}</span>
+                        </a>
+                        {% tr doc "description" as desc %}
+                        {% if desc or doc.document_date %}
+                        <p class="doc-item__meta">{% if doc.document_date %}<time datetime="{{ doc.document_date|date:'Y-m-d' }}">{{ doc.document_date|jdate }}</time>{% endif %}{% if desc and doc.document_date %} · {% endif %}{{ desc }}</p>
+                        {% endif %}
+                    </li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p class="empty">{% if IS_EN %}No documents yet.{% else %}هنوز سندی بارگذاری نشده است.{% endif %}</p>
+            {% endif %}
+        </section>
+        {% endwith %}
+        {% empty %}
+        <p class="empty">{% if IS_EN %}No documents yet.{% else %}هنوز سندی بارگذاری نشده است.{% endif %}</p>
+        {% endfor %}
+    </div>
+</section>
+{% endblock %}

@@ -19,8 +19,11 @@ from django.db import transaction
 from wagtail.images.models import Image
 from wagtail.models import Collection, CollectionViewRestriction, Locale, Page, Site
 
+from archive.models import DocumentsPage, DocumentsSection
+from contact.models import ComplaintPage, ContactFormField, ContactPage
 from core.models import MembershipSettings, SiteSettings
 from home.models import HomePage
+from news.models import NewsIndexPage, NewsPage
 from pages.models import Principle, PrinciplesPage, StandardPage
 
 from . import seed_data as data
@@ -46,6 +49,9 @@ class Command(BaseCommand):
         self.ensure_principles(home_fa, home_en)
         self.ensure_settings()
         self.ensure_groups_and_collections()
+        self.ensure_news(home_fa, home_en)
+        self.ensure_documents_page(home_fa, home_en)
+        self.ensure_contact_pages(home_fa, home_en)
         self.stdout.write(self.style.SUCCESS("Starting content is in place."))
 
     # ---- languages and home pages ----
@@ -178,3 +184,86 @@ class Command(BaseCommand):
                     collection=collection, restriction_type=CollectionViewRestriction.GROUPS
                 )
                 restriction.groups.set([groups[g] for g in allowed_groups])
+
+        commission = groups[data.COMMISSION]
+        for codename in ("view_complaint", "change_complaint"):
+            commission.permissions.add(
+                Permission.objects.get(content_type__app_label="contact", codename=codename)
+            )
+
+    # ---- news, documents, contact ----
+
+    def ensure_translation(self, page_fa, locale_en, values, label):
+        """English copy of a Persian page, with the given fields replaced."""
+        page_fa = fresh(page_fa)
+        page_en = page_fa.get_translation_or_none(locale_en)
+        if page_en is not None:
+            return page_en.specific
+        page_en = page_fa.copy_for_translation(locale_en).specific
+        for field, value in values.items():
+            setattr(page_en, field, value)
+        page_en.save_revision().publish()
+        self.stdout.write(f"Created {label} (en)")
+        return page_en
+
+    def ensure_news(self, home_fa, home_en):
+        index_fa, index_en = self.ensure_page(home_fa, home_en, NewsIndexPage, data.NEWS_INDEX, order_hint="news")
+        item = NewsPage.objects.filter(locale=home_fa.locale, slug=data.FIRST_NEWS["fa"]["slug"]).first()
+        if item is None and not NewsPage.objects.exists():
+            item = NewsPage(**data.FIRST_NEWS["fa"])
+            fresh(index_fa).add_child(instance=item)
+            item.save_revision().publish()
+            self.stdout.write("Created first news item (fa)")
+        if item is not None:
+            self.ensure_translation(item, home_en.locale, data.FIRST_NEWS["en"], "first news item")
+
+    def ensure_documents_page(self, home_fa, home_en):
+        page_fa = DocumentsPage.objects.filter(locale=home_fa.locale).first()
+        if page_fa is None:
+            page_fa = DocumentsPage(show_in_menus=True, **data.DOCUMENTS_PAGE["fa"])
+            page_fa.sections = self.document_sections(lang=0)
+            fresh(home_fa).add_child(instance=page_fa)
+            page_fa.save_revision().publish()
+            self.stdout.write("Created documents page (fa)")
+        values = dict(data.DOCUMENTS_PAGE["en"], sections=self.document_sections(lang=1))
+        self.ensure_translation(page_fa, home_en.locale, values, "documents page")
+
+    def document_sections(self, lang):
+        root = Collection.get_first_root_node()
+        sections = []
+        for name, heading_fa, heading_en, desc_fa, desc_en, show_locked in data.DOCUMENT_SECTIONS:
+            collection = root.get_children().filter(name=name).first()
+            if collection is None:
+                continue
+            sections.append(DocumentsSection(
+                collection=collection,
+                heading=(heading_fa, heading_en)[lang],
+                description=(desc_fa, desc_en)[lang],
+                show_when_locked=show_locked,
+            ))
+        return sections
+
+    def ensure_contact_pages(self, home_fa, home_en):
+        complaint_fa = ComplaintPage.objects.filter(locale=home_fa.locale).first()
+        if complaint_fa is None:
+            complaint_fa = ComplaintPage(show_in_menus=False, **data.COMPLAINT_PAGE["fa"])
+            fresh(home_fa).add_child(instance=complaint_fa)
+            complaint_fa.save_revision().publish()
+            self.stdout.write("Created complaint page (fa)")
+        complaint_en = self.ensure_translation(complaint_fa, home_en.locale, data.COMPLAINT_PAGE["en"], "complaint page")
+
+        contact_fa = ContactPage.objects.filter(locale=home_fa.locale).first()
+        if contact_fa is None:
+            contact_fa = ContactPage(show_in_menus=True, complaint_page=complaint_fa, **data.CONTACT_PAGE["fa"])
+            contact_fa.form_fields = self.contact_fields(lang=0)
+            fresh(home_fa).add_child(instance=contact_fa)
+            contact_fa.save_revision().publish()
+            self.stdout.write("Created contact page (fa)")
+        values = dict(data.CONTACT_PAGE["en"], complaint_page=complaint_en, form_fields=self.contact_fields(lang=1))
+        self.ensure_translation(contact_fa, home_en.locale, values, "contact page")
+
+    def contact_fields(self, lang):
+        return [
+            ContactFormField(label=(label_fa, label_en)[lang], field_type=field_type, required=required)
+            for label_fa, label_en, field_type, required in data.CONTACT_FIELDS
+        ]
