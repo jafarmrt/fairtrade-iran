@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailroutablepage_tags membership_tags %}
+{% block body_class %}membership{% endblock %}
+{% block content %}
+<header class="page-header"><div class="container">
+    <h1>{% if IS_EN %}Application received{% else %}درخواست شما ثبت شد{% endif %}</h1>
+</div></header>
+<section class="section"><div class="container">
+    {% if application %}
+    <div class="tracking-code">
+        <span>{% if IS_EN %}Your tracking code{% else %}کد پیگیری شما{% endif %}</span>
+        <strong dir="ltr">{{ application.tracking_code }}</strong>
+    </div>
+    <p>{% if IS_EN %}We have also sent it to {{ application.email }}. The secretariat will check your file by {{ application.deadline|jdate }}.{% else %}این کد به {{ application.email }} هم فرستاده شد. دبیرخانه تا {{ application.deadline|jdate }} کامل بودن پرونده را بررسی می‌کند.{% endif %}</p>
+    {% endif %}
+    {% if page.success_text %}<div class="prose">{{ page.success_text|richtext }}</div>{% endif %}
+    <p><a class="btn btn--outline" href="{% routablepageurl page 'track' %}">{% if IS_EN %}Track your application{% else %}پیگیری درخواست{% endif %}</a></p>
+</div></section>
+{% endblock %}

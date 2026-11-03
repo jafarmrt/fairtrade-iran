@@ -1,0 +1,44 @@
+{% load static wagtailimages_tags %}<!DOCTYPE html>
+<html lang="{% if is_en %}en{% else %}fa{% endif %}" dir="{% if is_en %}ltr{% else %}rtl{% endif %}">
+<head>
+<meta charset="utf-8">
+<title>{{ title }} | {{ certificate.number }}</title>
+<style>
+@font-face { font-family: "Vazirmatn"; src: url("{% static 'fonts/Vazirmatn-Regular.woff2' %}") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Vazirmatn"; src: url("{% static 'fonts/Vazirmatn-Bold.woff2' %}") format("woff2"); font-weight: 700; }
+@page { size: A4 landscape; margin: 0; }
+body { margin: 0; font-family: {% if is_en %}Arial, sans-serif{% else %}"IRANSans", "Vazirmatn", Tahoma, sans-serif{% endif %}; color: #1a1c46; background: #eee; }
+.sheet { width: 297mm; height: 210mm; margin: 0 auto; background: #fff; box-sizing: border-box; padding: 14mm; }
+.frame { height: 100%; box-sizing: border-box; border: 3px solid #cf9d2b; outline: 1px solid #873319; outline-offset: -9px; padding: 14mm 18mm; display: flex; flex-direction: column; align-items: center; text-align: center; }
+.logo img { height: 28mm; width: auto; }
+h1 { font-size: 30pt; margin: 6mm 0 2mm; color: #873319; }
+.name { font-size: 24pt; font-weight: 700; margin: 6mm 0 2mm; }
+.type { font-size: 14pt; color: #5d6062; }
+.text { font-size: 13pt; line-height: 1.9; max-width: 200mm; margin: 6mm auto; white-space: pre-line; }
+.foot { margin-top: auto; width: 100%; display: flex; justify-content: space-between; align-items: end; font-size: 11pt; }
+.sign { text-align: center; min-width: 60mm; border-top: 1px solid #1a1c46; padding-top: 2mm; }
+.meta { text-align: start; }
+.toolbar { text-align: center; padding: 12px; }
+@media print { body { background: #fff; } .toolbar { display: none; } }
+</style>
+</head>
+<body>
+<div class="toolbar"><button onclick="window.print()">{% if is_en %}Print / save as PDF{% else %}چاپ / ذخیره به‌صورت PDF{% endif %}</button></div>
+<div class="sheet"><div class="frame">
+    <div class="logo">{% if logo %}{% image logo height-200 as l %}<img src="{{ l.url }}" alt="{{ site_name }}">{% else %}<img src="{% static 'img/logo-navy.png' %}" alt="{{ site_name }}">{% endif %}</div>
+    <h1>{{ title }}</h1>
+    <div class="name">{{ name }}</div>
+    <div class="type">{{ type_label }}</div>
+    {% if text %}<div class="text">{{ text }}</div>{% endif %}
+    <div class="foot">
+        <div class="meta">
+            <div>{% if is_en %}Certificate no.{% else %}شماره گواهی{% endif %}: <span dir="ltr">{{ certificate.number }}</span></div>
+            <div>{% if is_en %}Issued{% else %}تاریخ صدور{% endif %}: {{ date }}</div>
+            {% if valid_until %}<div>{% if is_en %}Valid until{% else %}اعتبار تا{% endif %}: {{ valid_until }}</div>{% endif %}
+            {% if check_url %}<div style="font-size:9pt">{% if is_en %}Verify at{% else %}استعلام{% endif %}: <span dir="ltr">{{ check_url }}</span></div>{% endif %}
+        </div>
+        <div class="sign">{{ signatory }}{% if signatory_title %}<br>{{ signatory_title }}{% endif %}<br>{{ site_name }}</div>
+    </div>
+</div></div>
+</body>
+</html>

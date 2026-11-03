@@ -1,0 +1,6 @@
+{% load wagtailroutablepage_tags %}
+<nav class="subnav" aria-label="{% if IS_EN %}Membership{% else %}عضویت{% endif %}">
+    <a href="{% routablepageurl page 'index_route' %}"{% if current == 'index' %} aria-current="page"{% endif %}>{% if IS_EN %}Membership{% else %}عضویت{% endif %}</a>
+    <a href="{% routablepageurl page 'track' %}"{% if current == 'track' %} aria-current="page"{% endif %}>{% if IS_EN %}Track your application{% else %}پیگیری درخواست{% endif %}</a>
+    <a href="{% routablepageurl page 'certificate_check' %}"{% if current == 'certificate' %} aria-current="page"{% endif %}>{% if IS_EN %}Check a certificate{% else %}استعلام گواهی عضویت{% endif %}</a>
+</nav>

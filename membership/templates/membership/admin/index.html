@@ -1,0 +1,43 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load membership_tags %}
+{% block main_content %}
+<form method="get" class="membership-filters">
+    <label>وضعیت
+        <select name="status">{% for value, label in status_filters %}<option value="{{ value }}"{% if value == status %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+    </label>
+    <label>نوع عضویت
+        <select name="type"><option value="">همه</option>{% for value, label in type_filters %}<option value="{{ value }}"{% if value == member_type %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+    </label>
+    <label>جست‌وجو <input type="search" name="q" value="{{ q }}" placeholder="نام، کد پیگیری، ایمیل، تلفن"></label>
+    <button class="button" type="submit">نمایش</button>
+</form>
+
+{% if applications %}
+<table class="listing">
+    <thead><tr><th>کد پیگیری</th><th>متقاضی</th><th>نوع</th><th>وضعیت</th><th>مهلت</th><th>تاریخ ثبت</th></tr></thead>
+    <tbody>
+    {% for a in applications %}
+        <tr>
+            <td><a href="{% url 'membership_applications:detail' a.pk %}" dir="ltr">{{ a.tracking_code }}</a></td>
+            <td><a href="{% url 'membership_applications:detail' a.pk %}">{{ a.name }}</a></td>
+            <td>{{ a.get_member_type_display }}</td>
+            <td>{{ a.get_status_display }}</td>
+            <td>{% if a.deadline and not a.is_closed %}
+                <span class="{% if a.is_overdue %}ms-overdue{% elif a.days_left is not None and a.days_left <= ms_soon|default:3 %}ms-soon{% endif %}">{{ a.deadline|jdate_fa }}</span>
+                {% if a.is_overdue %}<span class="ms-overdue">(گذشته از مهلت)</span>{% endif %}
+            {% else %}-{% endif %}</td>
+            <td>{{ a.submitted_at|jdate_fa:"short" }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>پرونده‌ای با این فیلتر نیست.</p>
+{% endif %}
+<style>
+.membership-filters { display:flex; flex-wrap:wrap; gap:1rem; align-items:end; margin-block:1rem 1.5rem; }
+.membership-filters label { display:flex; flex-direction:column; gap:.25rem; font-weight:600; }
+.ms-overdue { color:#b42318; font-weight:700; }
+.ms-soon { color:#a15c07; font-weight:700; }
+</style>
+{% endblock %}

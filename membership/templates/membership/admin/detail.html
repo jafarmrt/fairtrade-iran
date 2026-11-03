@@ -1,0 +1,131 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load membership_tags site_tags %}
+{% block main_content %}
+<p><a href="{% url 'membership_applications:index' %}">← فهرست پرونده‌ها</a></p>
+
+<div class="ms-summary">
+    <div><strong>وضعیت:</strong> {{ application.get_status_display }}</div>
+    <div><strong>نوع عضویت:</strong> {{ application.get_member_type_display }}</div>
+    <div><strong>مهلت اقدام:</strong>
+        {% if application.deadline and not application.is_closed %}<span class="{% if application.is_overdue %}ms-overdue{% endif %}">{{ application.deadline|jdate_fa }}{% if application.is_overdue %} (گذشته از مهلت){% elif application.days_left is not None %} ({{ application.days_left|fa_digits }} روز مانده){% endif %}</span>{% else %}-{% endif %}</div>
+    <div><strong>تاریخ ثبت:</strong> {{ application.submitted_at|jdate_fa }}</div>
+    {% if application.trial_starts_on %}<div><strong>دوره آزمایشی:</strong> {{ application.trial_starts_on|jdate_fa }} تا {{ application.trial_ends_on|jdate_fa }}</div>{% endif %}
+    {% if certificate %}<div><strong>گواهی:</strong> <span dir="ltr">{{ certificate.number }}</span>
+        · <a href="{% url 'membership_applications:certificate_print' certificate.pk %}" target="_blank">چاپ فارسی</a>
+        · <a href="{% url 'membership_applications:certificate_print' certificate.pk %}?lang=en" target="_blank">چاپ انگلیسی</a>
+        {% if certificate.revoked %}<span class="ms-overdue">(باطل شده)</span>{% endif %}</div>{% endif %}
+</div>
+
+{% if actions %}
+<section class="ms-box">
+    <h2>اقدام‌های شما</h2>
+    {% for item in actions %}
+    <details class="ms-action{% if item.action.style == 'warning' %} ms-action--warning{% endif %}">
+        <summary>{{ item.action.label }}</summary>
+        {% if item.blocked %}<p class="ms-overdue">{{ item.blocked }}</p>{% else %}
+        <form method="post">
+            {% csrf_token %}
+            <input type="hidden" name="action" value="{{ item.action.key }}">
+            {% if item.action.help %}<p class="help">{{ item.action.help }}</p>{% endif %}
+            {% if item.action.key == 'record_visit' %}
+                <label>تاریخ بازدید <input type="date" name="field_visit_date" required value="{{ application.field_visit_date|date:'Y-m-d' }}"></label>
+                <label>خلاصه گزارش بازدید <textarea name="field_visit_report" rows="3">{{ application.field_visit_report }}</textarea></label>
+            {% else %}
+                {% if item.action.target %}
+                <label>پیام به متقاضی{% if item.action.note_required %} (لازم){% endif %}
+                    <textarea name="message" rows="3"{% if item.action.note_required %} required{% endif %}></textarea>
+                    <small>در ایمیل متقاضی و صفحه پیگیری او نمایش داده می‌شود</small></label>
+                {% endif %}
+                {% if 'decision_reference' in item.action.fields %}
+                <label>شماره یا تاریخ صورتجلسه کمیسیون <input type="text" name="decision_reference"></label>
+                {% endif %}
+            {% endif %}
+            <label>یادداشت داخلی <textarea name="internal_note" rows="2"></textarea><small>فقط دبیرخانه و کمیسیون می‌بینند</small></label>
+            <button class="button{% if item.action.style == 'warning' %} no{% endif %}" type="submit">{{ item.action.label }}</button>
+        </form>
+        {% endif %}
+    </details>
+    {% endfor %}
+</section>
+{% elif not application.is_closed %}
+<p class="help">در این وضعیت اقدامی برای نقش شما نیست.</p>
+{% endif %}
+
+<section class="ms-box">
+    <h2>مشخصات متقاضی</h2>
+    <dl class="ms-dl">
+        <dt>نام</dt><dd>{{ application.name }}</dd>
+        {% if application.name_en %}<dt>نام انگلیسی</dt><dd dir="ltr">{{ application.name_en }}</dd>{% endif %}
+        {% if application.contact_person %}<dt>رابط</dt><dd>{{ application.contact_person }}</dd>{% endif %}
+        <dt>ایمیل</dt><dd><a href="mailto:{{ application.email }}">{{ application.email }}</a></dd>
+        <dt>تلفن</dt><dd dir="ltr">{{ application.phone }}</dd>
+        {% if application.city %}<dt>استان و شهر</dt><dd>{{ application.city }}</dd>{% endif %}
+        {% if application.address %}<dt>نشانی</dt><dd>{{ application.address|linebreaksbr }}</dd>{% endif %}
+        {% if application.website %}<dt>وب‌سایت / اینستاگرام</dt><dd dir="ltr">{{ application.website }}</dd>{% endif %}
+        {% if application.referred_by %}<dt>معرف</dt><dd>{{ application.referred_by }}</dd>{% endif %}
+        <dt>زبان فرم</dt><dd>{% if application.language == 'en' %}انگلیسی{% else %}فارسی{% endif %}</dd>
+        <dt>هزینه درخواست</dt><dd>{% if application.fee_amount %}{{ application.fee_amount|money }} ریال · شماره پیگیری: {{ application.payment_reference|default:"-" }} ·
+            {% if application.fee_confirmed %}<strong>دریافت تأیید شد ({{ application.fee_confirmed_at|jdate_fa }})</strong>{% else %}<span class="ms-overdue">هنوز تأیید نشده</span>{% endif %}{% else %}ندارد{% endif %}</dd>
+        <dt>تعهد به اصول ده‌گانه</dt><dd>{{ application.agreed_principles|yesno:"پذیرفته,نپذیرفته" }}</dd>
+        {% if application.is_producer %}<dt>پذیرش بازرسی</dt><dd>{{ application.agreed_inspections|yesno:"پذیرفته,نپذیرفته" }}</dd>
+        <dt>بازدید میدانی</dt><dd>{% if application.field_visit_date %}{{ application.field_visit_date|jdate_fa }}{% if application.field_visit_report %}<br>{{ application.field_visit_report|linebreaksbr }}{% endif %}{% else %}<span class="ms-overdue">هنوز ثبت نشده (برای تولیدکنندگان الزامی است)</span>{% endif %}</dd>{% endif %}
+    </dl>
+</section>
+
+{% if application.answers %}
+<section class="ms-box">
+    <h2>پاسخ‌های فرم</h2>
+    <dl class="ms-dl">
+        {% for answer in application.answers %}<dt>{{ answer.label }}</dt><dd>{{ answer.value|default:"-"|linebreaksbr }}</dd>{% endfor %}
+    </dl>
+</section>
+{% endif %}
+
+<section class="ms-box">
+    <h2>مدارک پیوست</h2>
+    {% if documents %}
+    <ul>
+        {% for d in documents %}
+        <li><a href="{% url 'membership_applications:download' d.pk %}">{{ d.label|default:d.original_name }}</a>
+            <small>({{ d.get_kind_display }}، {{ d.original_name }}، {{ d.uploaded_at|jdate_fa:"short" }})</small></li>
+        {% endfor %}
+    </ul>
+    {% else %}<p>مدرکی پیوست نشده است.</p>{% endif %}
+</section>
+
+<section class="ms-box">
+    <h2>تاریخچه پرونده</h2>
+    <table class="listing">
+        <thead><tr><th>تاریخ</th><th>کاربر</th><th>وضعیت جدید</th><th>پیام به متقاضی</th><th>یادداشت داخلی</th><th>صورتجلسه</th></tr></thead>
+        <tbody>
+        {% for e in events %}
+        <tr>
+            <td>{{ e.created_at|jdate_fa:"short" }} {{ e.created_at|time:"H:i" }}</td>
+            <td>{% if e.user %}{{ e.user.get_full_name|default:e.user.get_username }}{% elif e.action == 'applicant_resubmit' or e.action == 'submitted' %}متقاضی{% else %}-{% endif %}</td>
+            <td>{{ e.to_status_display|default:"-" }}</td>
+            <td>{{ e.message|linebreaksbr }}</td>
+            <td>{{ e.internal_note|linebreaksbr }}</td>
+            <td>{{ e.decision_reference }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</section>
+
+<style>
+.ms-summary { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:.75rem 1.5rem; padding:1rem 1.25rem; border:1px solid var(--w-color-border-furniture, #ddd); border-radius:8px; margin-block:1rem 1.5rem; }
+.ms-box { margin-block:2rem; }
+.ms-box h2 { margin-bottom:.75rem; }
+.ms-dl { display:grid; grid-template-columns:minmax(140px,220px) 1fr; gap:.5rem 1rem; }
+.ms-dl dt { font-weight:700; }
+.ms-dl dd { margin:0; }
+.ms-action { border:1px solid var(--w-color-border-furniture, #ddd); border-radius:8px; padding:.75rem 1rem; margin-bottom:.75rem; }
+.ms-action summary { cursor:pointer; font-weight:700; }
+.ms-action--warning summary { color:#b42318; }
+.ms-action form { display:flex; flex-direction:column; gap:.75rem; margin-top:.75rem; max-width:640px; }
+.ms-action label { display:flex; flex-direction:column; gap:.25rem; font-weight:600; }
+.ms-action label small { font-weight:400; }
+.ms-action button { align-self:flex-start; }
+.ms-overdue { color:#b42318; font-weight:700; }
+</style>
+{% endblock %}

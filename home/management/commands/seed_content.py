@@ -54,6 +54,7 @@ class Command(BaseCommand):
         self.ensure_documents_page(home_fa, home_en)
         self.ensure_contact_pages(home_fa, home_en)
         seed_directory(self, home_fa, home_en)
+        self.ensure_membership(home_fa, home_en)
         self.stdout.write(self.style.SUCCESS("Starting content is in place."))
 
     # ---- languages and home pages ----
@@ -163,6 +164,15 @@ class Command(BaseCommand):
             image = Image(title=title, file=ImageFile(fh, name=filename))
             image.save()
         return image
+
+    # ---- membership (page, form questions, e-mails, permissions) ----
+
+    def ensure_membership(self, home_fa, home_en):
+        from membership.seed import ensure_membership, ensure_permissions
+
+        ensure_membership(home_fa, home_en, self.stdout, fresh=fresh)
+        ensure_permissions(*(Group.objects.filter(name=n).first()
+                             for n in (data.SECRETARIAT, data.COMMISSION, data.BOARD)))
 
     # ---- groups and document collections ----
 

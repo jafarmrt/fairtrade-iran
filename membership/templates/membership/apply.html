@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailroutablepage_tags site_tags membership_tags %}
+{% block title %}{% if IS_EN %}Membership application: {{ member_type_label }}{% else %}درخواست عضویت: {{ member_type_label }}{% endif %}{% endblock %}
+{% block body_class %}membership{% endblock %}
+{% block content %}
+<header class="page-header">
+    <div class="container">
+        <p class="eyebrow"><a href="{% routablepageurl page 'index_route' %}">{{ page.title }}</a></p>
+        <h1>{% if IS_EN %}Apply as {{ member_type_label|lower }}{% else %}درخواست عضویت: {{ member_type_label }}{% endif %}</h1>
+        {% if type_text %}<p class="lead">{{ type_text }}</p>{% endif %}
+    </div>
+</header>
+<section class="section">
+    <div class="container">
+        {% if page.form_intro %}<div class="prose">{{ page.form_intro|richtext }}</div>{% endif %}
+
+        <form class="form application-form" method="post" enctype="multipart/form-data" novalidate>
+            {% csrf_token %}
+            {% if form.errors %}
+            <div class="notice notice--error" role="alert">{% if IS_EN %}Please correct the fields marked below.{% else %}لطفاً موارد مشخص‌شده را اصلاح کنید.{% endif %}
+                {{ form.non_field_errors }}</div>
+            {% endif %}
+
+            <fieldset>
+                <legend>{% if IS_EN %}About you{% else %}مشخصات متقاضی{% endif %}</legend>
+                {% include "membership/includes/field.html" with field=form.name %}
+                {% include "membership/includes/field.html" with field=form.name_en %}
+                {% if form.contact_person %}{% include "membership/includes/field.html" with field=form.contact_person %}{% endif %}
+                <div class="form-cols">
+                    {% include "membership/includes/field.html" with field=form.email %}
+                    {% include "membership/includes/field.html" with field=form.phone %}
+                </div>
+                {% include "membership/includes/field.html" with field=form.city %}
+                {% include "membership/includes/field.html" with field=form.address %}
+                {% include "membership/includes/field.html" with field=form.website %}
+            </fieldset>
+
+            {% if form.question_fields %}
+            <fieldset>
+                <legend>{% if IS_EN %}Your work{% else %}درباره فعالیت شما{% endif %}</legend>
+                {% for field in form %}{% if field.name in form.question_fields %}
+                    {% include "membership/includes/field.html" %}
+                {% endif %}{% endfor %}
+            </fieldset>
+            {% endif %}
+
+            <fieldset>
+                <legend>{% if IS_EN %}Application fee and documents{% else %}هزینه درخواست و مدارک{% endif %}</legend>
+                {% if fee %}
+                    <p>{% if IS_EN %}Application fee:{% else %}هزینه درخواست:{% endif %} <strong>{% include "membership/includes/fee.html" with amount=fee %}</strong>
+                    <span class="muted">({% if IS_EN %}non-refundable, whatever the outcome{% else %}مستقل از نتیجه و غیرقابل استرداد{% endif %})</span></p>
+                    {% if page.payment_text %}<div class="prose">{{ page.payment_text|richtext }}</div>{% endif %}
+                    {% include "membership/includes/bank.html" %}
+                    {% include "membership/includes/field.html" with field=form.receipt %}
+                    {% include "membership/includes/field.html" with field=form.payment_reference %}
+                {% endif %}
+                {% include "membership/includes/field.html" with field=form.documents %}
+                {% if page.privacy_text %}<p class="helptext">{{ page.privacy_text }}</p>{% endif %}
+            </fieldset>
+
+            <fieldset>
+                <legend>{% if IS_EN %}Commitments{% else %}تعهدها{% endif %}</legend>
+                {% if page.commitment_text %}<div class="commitment prose">{{ page.commitment_text|richtext }}</div>{% endif %}
+                {% include "membership/includes/field.html" with field=form.agreed_principles %}
+                {% if form.agreed_inspections %}{% include "membership/includes/field.html" with field=form.agreed_inspections %}{% endif %}
+            </fieldset>
+
+            <div class="hp" aria-hidden="true">{{ form.nickname }}</div>
+            <button class="btn btn--primary" type="submit">{% if IS_EN %}Send application{% else %}ارسال درخواست{% endif %}</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

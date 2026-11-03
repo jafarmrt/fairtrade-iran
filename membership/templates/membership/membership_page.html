@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailroutablepage_tags site_tags membership_tags %}
+{% block body_class %}membership{% endblock %}
+{% block content %}
+<header class="page-header">
+    <div class="container">
+        <h1>{{ page.title }}</h1>
+        {% if page.intro %}<p class="lead">{{ page.intro }}</p>{% endif %}
+        {% include "membership/includes/subnav.html" with current="index" %}
+    </div>
+</header>
+
+{% if page.body %}
+<section class="section">
+    <div class="container prose">{% include_block page.body %}</div>
+</section>
+{% endif %}
+
+<section class="section section--alt" id="types">
+    <div class="container">
+        <div class="section__head">
+            <h2>{% if IS_EN %}Who can join, and the fees{% else %}چه کسانی می‌توانند عضو شوند و هزینه‌ها{% endif %}</h2>
+        </div>
+        {% if not ms.applications_open %}
+            <div class="notice">{% if page.closed_text %}{{ page.closed_text|richtext }}{% else %}{% if IS_EN %}We are not accepting applications at the moment.{% else %}در حال حاضر درخواست عضویت پذیرفته نمی‌شود.{% endif %}{% endif %}</div>
+        {% endif %}
+        <div class="grid member-types">
+            {% for t in member_types %}
+            <article class="card member-type">
+                <h3>{{ t.label }}</h3>
+                {% if t.text %}<p>{{ t.text }}</p>{% endif %}
+                <dl class="fee-list">
+                    <div><dt>{% if IS_EN %}Application fee{% else %}هزینه درخواست{% endif %}</dt><dd>{% include "membership/includes/fee.html" with amount=t.application_fee %}</dd></div>
+                    <div><dt>{% if IS_EN %}Annual membership fee{% else %}حق عضویت سالانه{% endif %}</dt><dd>{% include "membership/includes/fee.html" with amount=t.annual_fee %}</dd></div>
+                </dl>
+                {% if ms.applications_open %}
+                <a class="btn btn--primary" href="{% routablepageurl page 'apply' t.code %}">{% if IS_EN %}Apply{% else %}ثبت درخواست{% endif %}<span class="visually-hidden">: {{ t.label }}</span></a>
+                {% endif %}
+            </article>
+            {% endfor %}
+        </div>
+        {% if page.fees_note %}<div class="prose fees-note">{{ page.fees_note|richtext }}</div>{% endif %}
+    </div>
+</section>
+
+{% if steps %}
+<section class="section" id="process">
+    <div class="container">
+        <h2>{% if page.process_heading %}{{ page.process_heading }}{% elif IS_EN %}How admission works{% else %}مراحل پذیرش{% endif %}</h2>
+        <ol class="steps">
+            {% for step in steps %}
+            <li class="step"><h3>{{ step.title }}</h3>{% if step.text %}<p>{{ step.text }}</p>{% endif %}</li>
+            {% endfor %}
+        </ol>
+    </div>
+</section>
+{% endif %}
+
+{% if page.conditions %}
+<section class="section section--alt">
+    <div class="container prose">
+        <h2>{% if IS_EN %}General conditions{% else %}شرایط عمومی پذیرش{% endif %}</h2>
+        {{ page.conditions|richtext }}
+    </div>
+</section>
+{% endif %}
+
+<section class="section">
+    <div class="container">
+        <div class="cta-band">
+            <div>
+                <h2>{% if IS_EN %}Already applied?{% else %}درخواست داده‌اید؟{% endif %}</h2>
+                <p>{% if IS_EN %}Follow your application with your tracking code, or check whether a membership certificate is valid.{% else %}وضعیت درخواست خود را با کد پیگیری ببینید، یا اعتبار یک گواهی عضویت را بررسی کنید.{% endif %}</p>
+            </div>
+            <div class="hero__actions">
+                <a class="btn btn--outline" href="{% routablepageurl page 'track' %}">{% if IS_EN %}Track application{% else %}پیگیری درخواست{% endif %}</a>
+                <a class="btn btn--outline" href="{% routablepageurl page 'certificate_check' %}">{% if IS_EN %}Check a certificate{% else %}استعلام گواهی{% endif %}</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
