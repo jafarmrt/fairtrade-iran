@@ -1,0 +1,54 @@
+{% extends "memberpanel/base.html" %}
+{% load membership_tags %}
+{% block heading %}{% if IS_EN %}Wholesale enquiry{% else %}درخواست سفارش عمده{% endif %} <span dir="ltr" class="mono">{{ inquiry.tracking_code }}</span>{% endblock %}
+{% block panel_content %}
+<div class="panel-layout">
+<div>
+    <p><a href="{% url 'panel:wholesale' member.pk %}">{% if IS_EN %}← All enquiries{% else %}→ همه درخواست‌ها{% endif %}</a></p>
+    <div class="card">
+        <h2 class="h3">{% if IS_EN %}The buyer{% else %}خریدار{% endif %}</h2>
+        <dl class="fee-list wh-buyer">
+            <div><dt>{% if IS_EN %}Received{% else %}تاریخ{% endif %}</dt><dd>{{ inquiry.created_at|jdate }}</dd></div>
+            <div><dt>{% if IS_EN %}Country{% else %}کشور{% endif %}</dt><dd>{{ inquiry.country }}{% if inquiry.city %}، {{ inquiry.city }}{% endif %}</dd></div>
+            <div><dt>{% if IS_EN %}Type of business{% else %}نوع کسب‌وکار{% endif %}</dt><dd>{{ inquiry.buyer_type_display }}</dd></div>
+            {% if show_contact %}
+            <div><dt>{% if IS_EN %}Company{% else %}شرکت{% endif %}</dt><dd>{{ inquiry.company }}</dd></div>
+            <div><dt>{% if IS_EN %}Contact{% else %}فرد رابط{% endif %}</dt><dd>{{ inquiry.contact_name }} · <a href="mailto:{{ inquiry.email }}" dir="ltr">{{ inquiry.email }}</a>{% if inquiry.phone %} · <span dir="ltr">{{ inquiry.phone }}</span>{% endif %}</dd></div>
+            {% if inquiry.website %}<div><dt>{% if IS_EN %}Website{% else %}وب‌سایت{% endif %}</dt><dd dir="ltr">{{ inquiry.website }}</dd></div>{% endif %}
+            {% endif %}
+            <div><dt>{% if IS_EN %}Delivery terms{% else %}شرایط تحویل{% endif %}</dt><dd dir="ltr">{{ inquiry.incoterm|default:"—" }}</dd></div>
+            {% if inquiry.destination %}<div><dt>{% if IS_EN %}Destination{% else %}مقصد{% endif %}</dt><dd>{{ inquiry.destination }}</dd></div>{% endif %}
+            {% if inquiry.needed_by %}<div><dt>{% if IS_EN %}Needed by{% else %}زمان مورد نیاز{% endif %}</dt><dd>{{ inquiry.needed_by }}</dd></div>{% endif %}
+        </dl>
+        {% if not show_contact %}<p class="muted">{% if IS_EN %}The House is in touch with the buyer and will pass on your answer.{% else %}ارتباط با خریدار با خانه است و پاسخ شما را به او می‌رساند.{% endif %}</p>{% endif %}
+
+        <h2 class="h3">{% if IS_EN %}Products requested{% else %}محصولات درخواستی{% endif %}</h2>
+        <ul class="wh-lines">
+            {% for line in lines %}<li>{{ line.product_name }}: <strong>{{ line.quantity }}</strong> {{ line.unit_display }}{% if line.note %} <span class="muted">({{ line.note }})</span>{% endif %}</li>{% empty %}<li class="muted">—</li>{% endfor %}
+        </ul>
+        {% if inquiry.other_products %}<h3 class="h3">{% if IS_EN %}Other products or custom orders{% else %}محصولات دیگر یا سفارش سفارشی{% endif %}</h3><p>{{ inquiry.other_products|linebreaksbr }}</p>{% endif %}
+        {% if inquiry.message %}<h3 class="h3">{% if IS_EN %}Buyer's notes{% else %}توضیحات خریدار{% endif %}</h3><p>{{ inquiry.message|linebreaksbr }}</p>{% endif %}
+    </div>
+
+    {% if form %}
+    <form class="form card" method="post" novalidate>
+        {% csrf_token %}
+        <h2 class="h3">{% if IS_EN %}Your answer{% else %}پاسخ شما{% endif %}</h2>
+        {% if share.replied_at %}<p class="muted">{% if IS_EN %}Last answered on {{ share.replied_at|jdate }}. You can change it.{% else %}آخرین پاسخ: {{ share.replied_at|jdate }}. می‌توانید آن را تغییر دهید.{% endif %}</p>{% endif %}
+        {% for field in form %}{% include "memberpanel/includes/field.html" %}{% endfor %}
+        <button class="btn btn--primary" type="submit">{% if IS_EN %}Send answer to the House{% else %}ارسال پاسخ به خانه{% endif %}</button>
+    </form>
+    {% else %}
+    <div class="card">
+        <h2 class="h3">{% if IS_EN %}Your answer{% else %}پاسخ شما{% endif %}</h2>
+        <p><span class="status-badge status-badge--wh-{{ share.status }}">{{ share.status_display }}</span></p>
+        {% if share.price_quote %}<p>{{ share.price_quote }}</p>{% endif %}
+        {% if share.lead_time %}<p>{{ share.lead_time }}</p>{% endif %}
+        {% if share.reply %}<p>{{ share.reply|linebreaksbr }}</p>{% endif %}
+        <p class="muted">{% if IS_EN %}This enquiry is closed.{% else %}این درخواست بسته شده است.{% endif %}</p>
+    </div>
+    {% endif %}
+</div>
+{% include "memberpanel/includes/help.html" %}
+</div>
+{% endblock %}

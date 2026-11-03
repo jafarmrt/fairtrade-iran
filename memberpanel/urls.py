@@ -3,6 +3,7 @@ from django.urls import path
 from appeals import views as appeal_views
 from shop import panel_views as shop_views
 from standing import panel_views as standing_views
+from wholesale import views as wholesale_views
 
 from . import views
 
@@ -31,4 +32,6 @@ urlpatterns = [
     path("<int:member_id>/complaints/", appeal_views.complaints, name="complaints"),
     path("<int:member_id>/appeals/", appeal_views.appeals, name="appeals"),
     path("<int:member_id>/appeals/new/", appeal_views.appeal_new, name="appeal_new"),
+    path("<int:member_id>/wholesale/", wholesale_views.inquiry_list, name="wholesale"),
+    path("<int:member_id>/wholesale/<int:share_id>/", wholesale_views.inquiry_detail, name="wholesale_detail"),
 ]

@@ -1,11 +1,13 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags site_tags %}
+{% load wagtailcore_tags site_tags wholesale_tags %}
 {% block body_class %}page-shop{% endblock %}
 {% block content %}
 <header class="page-header">
     <div class="container">
         <h1>{{ page.title }}</h1>
         {% if page.intro %}<div class="lead prose">{{ page.intro|richtext }}</div>{% endif %}
+        {% wholesale_page as wholesale %}
+        {% if wholesale %}<p class="wh-cta">{% if IS_EN %}Buying for a shop or importing?{% else %}برای فروشگاه یا صادرات خرید می‌کنید؟{% endif %} <a href="{% pageurl wholesale %}">{% if IS_EN %}Send a wholesale enquiry{% else %}درخواست سفارش عمده بفرستید{% endif %}</a></p>{% endif %}
     </div>
 </header>
 

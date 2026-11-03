@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     "appeals",
     "payments",
     "shop",
+    "wholesale",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags %}
+{% block extra_meta %}<meta name="robots" content="noindex">{% endblock %}
+{% block content %}
+<header class="page-header">
+    <div class="container"><h1>{{ page.title }}</h1></div>
+</header>
+<section class="section">
+    <div class="container prose">
+        {% if page.thank_you_text %}{{ page.thank_you_text|richtext }}
+        {% else %}<p>{% if IS_EN %}Thank you. Your enquiry has reached the Fair Trade House. We will check availability with the producers and send you a quotation.{% else %}سپاس؛ درخواست شما به خانه تجارت عادلانه رسید. موجودی را با تولیدکنندگان بررسی می‌کنیم و پیشنهاد قیمت را برایتان می‌فرستیم.{% endif %}</p>{% endif %}
+        {% if inquiry %}
+        <p class="tracking-code">{% if IS_EN %}Reference:{% else %}کد پیگیری:{% endif %} <strong dir="ltr">{{ inquiry.tracking_code }}</strong></p>
+        <p>{% if IS_EN %}We have sent a copy to {{ inquiry.email }}. Please quote this reference when you write to us.{% else %}رونوشت درخواست به {{ inquiry.email }} فرستاده شد. در مکاتبه با ما به این کد اشاره کنید.{% endif %}</p>
+        {% endif %}
+        <p><a class="btn btn--outline" href="{% pageurl page %}">{% if IS_EN %}Back to the wholesale catalogue{% else %}بازگشت به کاتالوگ عمده{% endif %}</a></p>
+    </div>
+</section>
+{% endblock %}
