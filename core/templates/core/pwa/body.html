@@ -1,0 +1,67 @@
+{% load site_tags %}<div class="offline-note" role="status" hidden>{% if IS_EN %}You are offline. This may be a saved copy of the page.{% else %}اینترنت وصل نیست؛ ممکن است این نسخه ذخیره‌شده صفحه باشد.{% endif %}</div>
+{% if pwa.enabled %}
+{% if pwa.show_install_prompt %}
+<div class="install-banner" role="dialog" aria-labelledby="install-banner-text" hidden>
+    <p id="install-banner-text" class="install-banner__text" data-default="{% tr pwa 'install_text' %}" data-ios="{% tr pwa 'ios_install_text' %}">{% tr pwa "install_text" %}</p>
+    <div class="install-banner__actions">
+        <button type="button" class="btn btn--primary" data-install>{% if IS_EN %}Install{% else %}نصب{% endif %}</button>
+        <button type="button" class="btn btn--outline" data-dismiss>{% if IS_EN %}Not now{% else %}بعداً{% endif %}</button>
+    </div>
+</div>
+{% endif %}
+<script nonce="{{ CSP_NONCE }}">
+(function () {
+    if (!("serviceWorker" in navigator) || !window.isSecureContext) return;
+    window.addEventListener("load", function () {
+        navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(function () {});
+    });
+    var banner = document.querySelector(".install-banner");
+    if (!banner) return;
+    var KEY = "ft-install-dismissed", MONTH = 30 * 24 * 3600 * 1000;
+    var standalone = window.matchMedia("(display-mode: standalone)").matches || navigator.standalone === true;
+    function dismissed() {
+        try { return Date.now() - Number(localStorage.getItem(KEY) || 0) < MONTH; } catch (e) { return false; }
+    }
+    if (standalone || dismissed()) return;
+    var deferred = null, installBtn = banner.querySelector("[data-install]");
+    function hide(remember) {
+        banner.hidden = true;
+        if (remember) { try { localStorage.setItem(KEY, String(Date.now())); } catch (e) {} }
+    }
+    banner.querySelector("[data-dismiss]").addEventListener("click", function () { hide(true); });
+    installBtn.addEventListener("click", function () {
+        if (!deferred) return;
+        deferred.prompt();
+        deferred.userChoice.then(function (choice) { hide(choice.outcome !== "accepted"); deferred = null; });
+    });
+    // Chrome, Edge and Samsung Internet on Android: the browser lets us show our own button.
+    window.addEventListener("beforeinstallprompt", function (event) {
+        event.preventDefault();
+        deferred = event;
+        installBtn.hidden = false;
+        banner.hidden = false;
+    });
+    window.addEventListener("appinstalled", function () { hide(true); });
+    // iPhone and iPad have no install button: show how to add the site from Safari's Share menu.
+    var ua = navigator.userAgent;
+    var ios = /iphone|ipad|ipod/i.test(ua) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+    if (ios && /safari/i.test(ua) && !/crios|fxios|edgios/i.test(ua)) {
+        var text = banner.querySelector(".install-banner__text");
+        text.textContent = text.getAttribute("data-ios");
+        installBtn.hidden = true;
+        setTimeout(function () { banner.hidden = false; }, 4000);
+    }
+})();
+</script>
+{% endif %}
+<script nonce="{{ CSP_NONCE }}">
+(function () {
+    var note = document.querySelector(".offline-note");
+    if (!note) return;
+    document.body.insertBefore(note, document.body.firstChild);
+    function update() { note.hidden = navigator.onLine !== false; }
+    window.addEventListener("online", update);
+    window.addEventListener("offline", update);
+    update();
+})();
+</script>

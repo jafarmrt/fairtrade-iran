@@ -1,0 +1,17 @@
+{% extends "base.html" %}{% load site_tags %}
+{% block title %}{% tr pwa "offline_title" %}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex">{% endblock %}
+{% block body_class %}offline-page{% endblock %}
+{% block content %}
+<section class="page-header">
+    <div class="container">
+        <h1>{% tr pwa "offline_title" %}</h1>
+    </div>
+</section>
+<section class="section">
+    <div class="container prose">
+        <p>{% tr pwa "offline_text" as text %}{{ text|linebreaksbr }}</p>
+        <p><a class="btn btn--primary" href="">{% if IS_EN %}Try again{% else %}دوباره امتحان کنید{% endif %}</a></p>
+    </div>
+</section>
+{% endblock %}

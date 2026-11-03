@@ -8,6 +8,7 @@ from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 
 from core import two_factor as core_two_factor
+from core import pwa as core_pwa
 from core import views as core_views
 from core.sitemaps import AllLanguagesSitemap
 
@@ -21,6 +22,7 @@ urlpatterns = [
     path("two-factor/", core_two_factor.verify, name="two_factor"),
     path("robots.txt", core_views.robots_txt, name="robots_txt"),
     path("favicon.ico", core_views.favicon, name="favicon"),
+    path("sw.js", core_pwa.service_worker, name="service_worker"),
     path("sitemap.xml", sitemap, {"sitemaps": {"pages": AllLanguagesSitemap}}, name="sitemap"),
     path("", include("contact.urls")),
     path("", include("appeals.urls")),
@@ -41,6 +43,8 @@ elif settings.DEMO_MODE:
 
 urlpatterns += i18n_patterns(
     path("search/", search_views.search, name="search"),
+    path("manifest.webmanifest", core_pwa.manifest, name="manifest"),
+    path("offline/", core_pwa.offline, name="offline"),
     path("panel/", include("memberpanel.urls")),
     path("", include(wagtail_urls)),
     prefix_default_language=True,

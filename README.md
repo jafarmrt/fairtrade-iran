@@ -57,6 +57,7 @@ Nothing about the organisation is hard-coded. From **Settings** in the admin pan
 | --- | --- |
 | تنظیمات سایت (Site settings) | Names and taglines in both languages, logos (dark, light, English), contact details, social links, footer text, secretariat notification email |
 | تنظیمات عضویت (Membership settings) | Application fee and annual fee per member type, bank account for payments, review deadlines (7 / 30 days), trial period (3 months), applications open or closed |
+| نسخه موبایلی (Phone version / PWA) | Installable-app name, icon and colours, install prompt text, offline page; see [docs/pwa-fa.md](docs/pwa-fa.md) |
 
 Pages (home, about, principles, and later news, members, shop) are edited under **Pages**. Each page has a Persian and an English version; use **Translate** on a Persian page to create its English copy.
 
