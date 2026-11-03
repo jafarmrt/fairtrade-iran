@@ -41,8 +41,15 @@ def post_json(url, payload, headers=None, timeout=20):
 
 
 class Verification:
-    def __init__(self, ok, ref_id="", card="", error="", raw=None):
-        self.ok, self.ref_id, self.card, self.error, self.raw = ok, ref_id, card, error, raw or {}
+    """
+    The result of checking a payment. final=False means the return did not
+    belong to this payment (missing or mismatched parameters, e.g. a reload
+    or a link preview): the payment stays open so the real return can settle it.
+    """
+
+    def __init__(self, ok, ref_id="", card="", error="", raw=None, final=True):
+        self.ok, self.error, self.raw, self.final = ok, error, raw or {}, final
+        self.ref_id, self.card = str(ref_id or ""), str(card or "")
 
 
 class Gateway:
@@ -90,14 +97,17 @@ class Zarinpal(Gateway):
         return f"{self.host}/pg/StartPay/{data['authority']}"
 
     def verify(self, payment, params):
-        if params.get("Status") != "OK" or params.get("Authority") != payment.authority:
+        if params.get("Authority") != payment.authority:
+            return Verification(False, error="پاسخ درگاه با این پرداخت نمی‌خواند", raw=dict(params.items()),
+                                final=False)
+        if params.get("Status") != "OK":
             return Verification(False, error="پرداخت انجام نشد یا لغو شد", raw=dict(params.items()))
         status, body = post_json(self.host + "/pg/v4/payment/verify.json", {
             "merchant_id": self.merchant_id, "amount": payment.amount, "authority": payment.authority,
         })
         data = body.get("data") or {}
         if data.get("code") in (100, 101):
-            return Verification(True, ref_id=str(data.get("ref_id", "")), card=data.get("card_pan", ""), raw=body)
+            return Verification(True, ref_id=data.get("ref_id"), card=data.get("card_pan"), raw=body)
         return Verification(False, error=f"تأیید نشد: {body.get('errors') or data}", raw=body)
 
 
@@ -128,14 +138,15 @@ class Idpay(Gateway):
 
     def verify(self, payment, params):
         if params.get("id") != payment.authority or params.get("order_id") != str(payment.uid):
-            return Verification(False, error="پاسخ درگاه با این پرداخت نمی‌خواند", raw=dict(params.items()))
+            return Verification(False, error="پاسخ درگاه با این پرداخت نمی‌خواند", raw=dict(params.items()),
+                                final=False)
         if str(params.get("status")) != "10":
             return Verification(False, error="پرداخت انجام نشد یا لغو شد", raw=dict(params.items()))
         status, body = post_json(self.host + "/payment/verify",
                                  {"id": payment.authority, "order_id": str(payment.uid)}, self.headers)
         if str(body.get("status")) in ("100", "101", "200") and int(body.get("amount") or 0) == payment.amount:
-            card = (body.get("payment") or {}).get("card_no", "")
-            return Verification(True, ref_id=str(body.get("track_id", "")), card=card, raw=body)
+            card = (body.get("payment") or {}).get("card_no")
+            return Verification(True, ref_id=body.get("track_id"), card=card, raw=body)
         return Verification(False, error=f"تأیید نشد: {body.get('error_message') or body}", raw=body)
 
 

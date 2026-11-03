@@ -3,7 +3,10 @@ import os
 from django import forms
 from django.core.exceptions import ValidationError
 
+from core import iran
 from core.models import MembershipSettings
+
+from .jalali import parse_date
 
 from .models import ApplicationQuestion, MemberType
 
@@ -73,7 +76,10 @@ class ApplicationForm(forms.Form):
             f["contact_person"] = forms.CharField(label=t("نام و سمت رابط", "Contact person and role", en),
                                                   max_length=150)
         f["email"] = forms.EmailField(label=t("ایمیل", "E-mail", en))
-        f["phone"] = forms.CharField(label=t("تلفن همراه", "Mobile phone", en), max_length=40)
+        f["phone"] = forms.CharField(label=t("تلفن همراه", "Mobile phone", en), max_length=40,
+                                     widget=forms.TextInput(attrs={"dir": "ltr", "inputmode": "tel",
+                                                                   "autocomplete": "tel",
+                                                                   "placeholder": "09123456789"}))
         f["city"] = forms.CharField(label=t("استان و شهر", "Province and city", en), max_length=150)
         f["address"] = forms.CharField(label=t("نشانی", "Address", en), required=False,
                                        widget=forms.Textarea(attrs={"rows": 2}))
@@ -136,7 +142,16 @@ class ApplicationForm(forms.Form):
         if q.field_type == FT.URL:
             return forms.CharField(max_length=500, **kwargs)
         if q.field_type == FT.DATE:
+            if not kwargs["help_text"]:
+                kwargs["help_text"] = t("مثلاً ۱۴۰۵/۰۸/۱۲", "For example 2026-11-03 or 1405/08/12", self.is_en)
             return forms.CharField(max_length=40, **kwargs)
+        if q.field_type in (FT.MOBILE, FT.NATIONAL_ID, FT.LEGAL_ID, FT.POSTAL_CODE, FT.SHEBA):
+            attrs = {"dir": "ltr", "inputmode": "tel" if q.field_type == FT.MOBILE else "numeric"}
+            if q.field_type == FT.SHEBA:
+                attrs = {"dir": "ltr", "placeholder": "IR…"}
+            return forms.CharField(max_length=40, widget=forms.TextInput(attrs=attrs), **kwargs)
+        if q.field_type == FT.PROVINCE:
+            return forms.ChoiceField(choices=[("", "---------")] + iran.province_choices(self.is_en), **kwargs)
         if q.field_type == FT.SELECT:
             choices = [("", "---------")] + q.choice_list()
             return forms.ChoiceField(choices=choices, **kwargs)
@@ -153,8 +168,46 @@ class ApplicationForm(forms.Form):
             raise ValidationError("spam")
         return ""
 
+    def clean_phone(self):
+        # Applicants are in Iran; the English form also takes a number abroad.
+        return iran.clean_mobile(self.cleaned_data["phone"], self.is_en, allow_foreign=self.is_en)
+
+    def clean_name(self):
+        return iran.normalize_text(self.cleaned_data["name"])
+
+    def clean_city(self):
+        return iran.normalize_text(self.cleaned_data["city"])
+
+    QUESTION_CLEANERS = {
+        ApplicationQuestion.FieldType.MOBILE: lambda v, en: iran.clean_mobile(v, en, allow_foreign=en),
+        ApplicationQuestion.FieldType.NATIONAL_ID: iran.clean_national_id,
+        ApplicationQuestion.FieldType.LEGAL_ID: iran.clean_legal_id,
+        ApplicationQuestion.FieldType.POSTAL_CODE: iran.clean_postal_code,
+        ApplicationQuestion.FieldType.SHEBA: iran.clean_sheba,
+    }
+
+    def clean_questions(self, cleaned):
+        FT = ApplicationQuestion.FieldType
+        for q in self.questions:
+            name = f"q_{q.pk}"
+            value = cleaned.get(name)
+            if not value or name in self.errors:
+                continue
+            try:
+                if q.field_type in self.QUESTION_CLEANERS:
+                    cleaned[name] = self.QUESTION_CLEANERS[q.field_type](value, self.is_en)
+                elif q.field_type == FT.DATE:
+                    day = parse_date(value)
+                    if day is None:
+                        raise ValidationError(t("تاریخ را مثل ۱۴۰۵/۰۸/۱۲ بنویسید.",
+                                                "Write the date like 2026-11-03 or 1405/08/12.", self.is_en))
+                    cleaned[name] = value.translate(iran.LATIN_DIGITS).strip()
+            except ValidationError as e:
+                self.add_error(name, e)
+
     def clean(self):
         cleaned = super().clean()
+        self.clean_questions(cleaned)
         for name, field in self.fields.items():
             value = cleaned.get(name)
             if isinstance(field, MultipleFileField):

@@ -231,7 +231,7 @@ class PanelTests(StandingTestCase):
         self.assertContains(response, "پرداخت و ارسال رسید")
         url = f"/fa/panel/{self.member.pk}/membership/"
         response = self.client.get(url)
-        self.assertContains(response, "6037-0000-0000-0000")
+        self.assertContains(response, "6037 0000 0000 0000")
         mail.outbox.clear()
         response = self.client.post(url, {"dues": dues.pk, "amount": "5000000", "reference": "R1",
                                           "paid_on_text": "۱۴۰۵/۰۸/۱۲", "receipt": self.receipt()})
@@ -243,6 +243,23 @@ class PanelTests(StandingTestCase):
         self.assertTrue(payment.receipt.path.startswith(PRIVATE))
         # English page works too.
         self.assertContains(self.client.get(f"/en/panel/{self.member.pk}/membership/"), "Annual membership fee")
+
+    def test_rejecting_a_stale_receipt_keeps_paid_dues_paid(self):
+        from .services import record_payment
+
+        dues = issue_by_hand(self.member)
+        stale = submit_receipt(dues, self.user, 5_000_000, reference="R1", receipt=self.receipt())
+        record_payment(dues, self.secretary, 5_000_000, reference="cash")
+        dues.refresh_from_db()
+        self.assertEqual(dues.status, Dues.Status.PAID)
+        review_payment(stale, self.secretary, confirm=False, message="رسید تکراری است")
+        dues.refresh_from_db()
+        self.assertEqual(dues.status, Dues.Status.PAID)
+
+    def test_bad_dues_id_is_404(self):
+        self.client.force_login(self.user)
+        response = self.client.post(f"/fa/panel/{self.member.pk}/membership/", {"step": "pay_dues", "dues": "abc"})
+        self.assertEqual(response.status_code, 404)
 
     def test_other_members_page_is_hidden(self):
         other = Member.objects.exclude(pk=self.member.pk).first()

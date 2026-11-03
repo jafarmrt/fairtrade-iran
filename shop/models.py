@@ -71,6 +71,12 @@ class Seller(BilingualMixin, models.Model):
     def __str__(self):
         return f"{self.member} ({self.get_mode_display()})"
 
+    def clean(self):
+        super().clean()
+        from core.iran import clean_bank_fields
+
+        clean_bank_fields(self)
+
     @classmethod
     def mode_for(cls, member):
         seller = getattr(member, "_seller_cache", None)

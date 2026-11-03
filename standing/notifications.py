@@ -4,7 +4,6 @@ from django.urls import reverse
 from django.utils import translation
 
 from core.models import MembershipSettings, SiteSettings
-from core.templatetags.site_tags import money
 from membership.jalali import persian_digits
 from membership.notifications import base_url, format_date, recipients_for, send
 from sms import notify as sms_notify
@@ -47,8 +46,8 @@ def bank_text(lang):
 
 
 def amount_text(value, lang):
-    text = money(value)
-    return f"{text} rials" if lang == "en" else f"{persian_digits(text)} ریال"
+    text = f"{int(value or 0):,}"
+    return f"{text} rials" if lang == "en" else f"{persian_digits(text).replace(',', '٬')} ریال"
 
 
 def context_for(member, lang, dues=None, decision=None, message=""):

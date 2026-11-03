@@ -291,6 +291,12 @@ class MembershipSettings(BaseGenericSetting):
     class Meta:
         verbose_name = _("تنظیمات عضویت")
 
+    def clean(self):
+        super().clean()
+        from core.iran import clean_bank_fields
+
+        clean_bank_fields(self)
+
     def application_fee_for(self, member_type):
         return getattr(self, f"application_fee_{member_type}", None)
 

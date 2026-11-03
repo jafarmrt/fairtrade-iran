@@ -111,6 +111,8 @@ def parse_date(value):
     y, m, d = (int(p) for p in parts)
     if d > 31 and y <= 31:  # written day first: 12/08/1405
         y, d = d, y
+    if y < 1000:  # a two-digit year (05/08/12) is ambiguous; ask for the full year
+        return None
     try:
         if y < 1700:
             if not (1 <= m <= 12 and 1 <= d <= (31 if m <= 6 else 30)):

@@ -134,8 +134,8 @@ class CheckoutTests(ShopTestCase):
         self.assertEqual(self.client.session["shop_cart"], {})
         page = self.client.get(f"/fa/shop/order/{purchase.code}/")
         self.assertContains(page, purchase.code)
-        self.assertContains(page, "6037-0000-0000-1111")  # House account for the House order
-        self.assertContains(page, "6219-8600-0000-2222")  # producer's card for the direct order
+        self.assertContains(page, "6037 0000 0000 1111")  # House account for the House order
+        self.assertContains(page, "6219 8600 0000 2222")  # producer's card for the direct order
 
     def test_notifications_on_checkout(self):
         self.add(self.mat)
@@ -177,6 +177,46 @@ class CheckoutTests(ShopTestCase):
         self.assertContains(response, "پیدا نشد")
         response = other.post("/fa/shop/orders/", {"code": purchase.code.lower(), "phone": "+989121234567"})
         self.assertRedirects(response, f"/fa/shop/order/{purchase.code}/", fetch_redirect_response=False)
+
+    def test_search_ignores_arabic_letters(self):
+        Product.objects.create(member=self.house_member, name="کیک خرما", price=100_000)
+        self.assertContains(self.client.get("/fa/shop/", {"q": "كيك"}), "کیک خرما")
+
+    def test_short_stock_fixes_the_cart(self):
+        self.add(self.mat, 3)
+        Product.objects.filter(pk=self.mat.pk).update(stock_quantity=2)
+        self.assertRedirects(self.checkout(), "/fa/shop/cart/", fetch_redirect_response=False)
+        self.assertEqual(self.client.session["shop_cart"], {str(self.mat.pk): 2})
+        self.checkout()
+        self.assertEqual(Purchase.objects.get().orders.get().items.get().quantity, 2)
+
+    def test_iranian_fields_are_checked_and_normalised(self):
+        self.add(self.mat)
+        response = self.checkout(phone="0912", postal_code="123", province="")
+        self.assertContains(response, "شماره موبایل باید ۱۱ رقم باشد")
+        self.assertContains(response, "کد پستی باید ۱۰ رقم باشد")
+        self.assertEqual(Purchase.objects.count(), 0)
+        self.checkout(phone="۰۹۱۲ ۱۲۳ ۴۵۶۷", postal_code="۱۲۳۴۵-۶۷۸۹۰", buyer_name="سارا علي")
+        purchase = Purchase.objects.get()
+        self.assertEqual((purchase.phone, purchase.postal_code, purchase.buyer_name),
+                         ("09121234567", "1234567890", "سارا علی"))
+        other = self.client_class()
+        response = other.post("/fa/shop/orders/", {"code": purchase.code, "phone": "۰۹۱۲۱۲۳۴۵۶۷"})
+        self.assertRedirects(response, f"/fa/shop/order/{purchase.code}/", fetch_redirect_response=False)
+
+    def test_rejected_receipt_restarts_payment_deadline(self):
+        from django.utils import timezone
+
+        from .services import cancel_overdue, log
+
+        self.add(self.mat)
+        self.checkout()
+        order = Order.objects.get(member=self.house_member)
+        Order.objects.filter(pk=order.pk).update(created_at=timezone.now() - timezone.timedelta(days=10))
+        log(order, "reject_payment", "staff", None, "رسید خوانا نیست")
+        self.assertEqual(cancel_overdue(), 0)
+        order.events.update(created_at=timezone.now() - timezone.timedelta(days=10))
+        self.assertEqual(cancel_overdue(), 1)
 
     def test_english_cart_when_enabled(self):
         shop = ShopSettings.load()
@@ -292,12 +332,19 @@ class OrderFlowTests(ShopTestCase):
         self.client.force_login(self.seller_user)
         url = f"/fa/panel/{self.house_member.pk}/selling/"
         self.assertContains(self.client.get(url), "پرداخت به حساب خانه")
-        self.client.post(url, {"account_holder": "ارموز", "bank_name": "", "card_number": "", "sheba": "IR11",
+        self.client.post(url, {"account_holder": "ارموز", "bank_name": "", "card_number": "", "sheba": "ir۷۶ ۰۱۷۰ ۰۰۰۰ ۰۰۰۰ ۰۰۰۰ ۰۰۰۰ ۰۱",
                                "shipping_fee": "700000", "free_shipping_over": "", "prep_days": "2",
                                "shipping_note": "پست", "shipping_note_en": "", "order_mobile": "",
                                "order_email": ""})
         seller = Seller.objects.get(member=self.house_member)
         self.assertEqual((seller.shipping_fee, seller.mode), (700_000, Seller.Mode.HOUSE))
+        self.assertEqual(seller.sheba, "IR760170000000000000000001")  # Persian digits and spaces normalised
+        response = self.client.post(url, {"account_holder": "ارموز", "card_number": "6037991112345678",
+                                          "sheba": "IR770170000000000000000001", "shipping_fee": "700000",
+                                          "prep_days": "2", "order_mobile": "0912"})
+        self.assertContains(response, "شماره کارت معتبر نیست")
+        self.assertContains(response, "شماره شبا معتبر نیست")
+        self.assertContains(response, "شماره موبایل باید ۱۱ رقم باشد")
 
 
 @override_settings(DEBUG=True)

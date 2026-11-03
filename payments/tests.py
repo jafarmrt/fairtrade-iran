@@ -158,6 +158,24 @@ class ApplicationFeeTests(MembershipTestCase):
         self.assertEqual(payment.status, Payment.Status.STARTED)
 
 
+    def test_stray_return_does_not_fail_the_payment(self):
+        """A reload or link preview of the return URL must not block the real return from the bank."""
+        enable("zarinpal")
+        self.submit_producer()
+        with mock.patch("payments.gateways.post_json",
+                        return_value=(200, {"data": {"code": 100, "authority": "A7"}})):
+            self.client.post("/fa/membership/apply-done/", {"step": "pay_fee"})
+        payment = Payment.objects.get()
+        complete(payment, {})
+        payment.refresh_from_db()
+        self.assertEqual(payment.status, Payment.Status.STARTED)
+        with mock.patch("payments.gateways.post_json",
+                        return_value=(200, {"data": {"code": 100, "ref_id": 55, "card_pan": None}})):
+            complete(payment, {"Authority": "A7", "Status": "OK"})
+        payment.refresh_from_db()
+        self.assertEqual((payment.status, payment.ref_id, payment.card), (Payment.Status.PAID, "55", ""))
+
+
 @override_settings(DEBUG=True, PRIVATE_MEDIA_ROOT=tempfile.mkdtemp())
 class DuesOnlineTests(TestCase):
     @classmethod

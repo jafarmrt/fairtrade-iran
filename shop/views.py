@@ -5,6 +5,7 @@ from django.http import Http404
 from django.shortcuts import redirect
 
 from core import throttle
+from core.iran import only_digits
 from core.models import is_english
 from payments.models import Payment, PaymentSettings
 from payments.services import online_enabled, start_payment
@@ -166,9 +167,9 @@ def lookup(page, request):
     if request.method == "POST" and throttle.hit(request, "lookup"):
         return throttle.throttled_response(request)
     if request.method == "POST" and form.is_valid():
-        digits = lambda s: "".join(ch for ch in s if ch.isdigit())[-10:]  # noqa: E731
+        digits = lambda s: only_digits(s)[-10:]  # noqa: E731  (Persian, Arabic or Latin digits; 0912… or +98912…)
         purchase = Purchase.objects.filter(code=form.cleaned_data["code"]).first()
-        if purchase and digits(purchase.phone) == digits(form.cleaned_data["phone"]):
+        if purchase and digits(form.cleaned_data["phone"]) and digits(purchase.phone) == digits(form.cleaned_data["phone"]):
             remember(request, purchase)
             return redirect(sub(page, "order", code=purchase.code))
         error = t("سفارشی با این کد و شماره تلفن پیدا نشد.", "No order matches this code and phone number.")

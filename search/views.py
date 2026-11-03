@@ -3,6 +3,8 @@ from django.template.response import TemplateResponse
 
 from wagtail.models import Locale, Page
 
+from core.iran import normalize_text
+
 # To enable logging of search queries for use with the "Promoted search results" module
 # <https://docs.wagtail.org/en/stable/reference/contrib/searchpromotions.html>
 # uncomment the following line and the lines indicated in the search function
@@ -17,7 +19,8 @@ def search(request):
 
     # Search
     if search_query:
-        search_results = Page.objects.live().public().filter(locale=Locale.get_active()).search(search_query)
+        search_results = Page.objects.live().public().filter(locale=Locale.get_active()).search(
+            normalize_text(search_query))
 
         # To log this query for use with the "Promoted search results" module:
 

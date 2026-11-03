@@ -204,7 +204,9 @@ class ProductForm(RichTextAsPlainMixin, forms.ModelForm):
     def clean(self):
         cleaned = super().clean()
         existing = self.instance.images.count() if self.instance.pk else 0
-        removing = len(self.data.getlist("remove_image")) if hasattr(self.data, "getlist") else 0
+        ids = set(self.data.getlist("remove_image")) if hasattr(self.data, "getlist") else set()
+        removing = (self.instance.images.filter(pk__in=[i for i in ids if str(i).isdigit()]).count()
+                    if self.instance.pk else 0)
         total = existing - removing + len(cleaned.get("new_images") or [])
         if self.max_images and total > self.max_images:
             raise ValidationError(

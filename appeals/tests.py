@@ -210,6 +210,21 @@ class AppealTests(CaseTestCase):
         self.assertEqual(Appeal.objects.get().standing_decision, decision)
         self.assertNotContains(self.client.get(f"/fa/panel/{self.member.pk}/membership/"), f"?ref={decision.pk}")
 
+    def test_recorded_decision_past_its_window_cannot_be_appealed(self):
+        from standing.models import Decision
+
+        decision = Decision.objects.create(
+            member=self.member, kind="suspend", reason="dues", decided_by="secretariat",
+            decided_on=timezone.localdate() - datetime.timedelta(days=90),
+            appeal_until=timezone.localdate() - datetime.timedelta(days=60), message="تعلیق برای بدهی")
+        url = f"/fa/panel/{self.member.pk}/appeals/new/"
+        # Typing today's date does not reopen the window of a decision recorded 90 days ago.
+        data = self.appeal_data(ref=str(decision.pk), decision_date="")
+        data["decision_date"] = timezone.localdate().isoformat()
+        response = self.client.post(url, data)
+        self.assertRedirects(response, f"/fa/panel/{self.member.pk}/appeals/", fetch_redirect_response=False)
+        self.assertFalse(Appeal.objects.exists())
+
     def test_ruling_needs_reasons_and_emails_member(self):
         self.client.post(f"/fa/panel/{self.member.pk}/appeals/new/", self.appeal_data())
         appeal = Appeal.objects.get()

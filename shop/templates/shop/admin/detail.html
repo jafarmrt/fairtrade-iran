@@ -76,7 +76,7 @@
     {% if order.settled_at %}
     <p>تسویه در {{ order.settled_at|jdate_fa:"short" }}{% if order.settlement_reference %} · شماره پیگیری: <span dir="ltr">{{ order.settlement_reference }}</span>{% endif %}</p>
     {% else %}
-    <p class="help">{% if order.is_house %}سهم تولیدکننده ({{ order.producer_share|money|fa_digits }} ریال) را به حساب او واریز کنید و این‌جا ثبت کنید.{% if seller.sheba %} شبا: <span dir="ltr">{{ seller.sheba }}</span>{% endif %}{% if seller.card_number %} · کارت: <span dir="ltr">{{ seller.card_number }}</span>{% endif %}{% else %}تولیدکننده باید کارمزد خانه ({{ order.commission|money|fa_digits }} ریال) را بپردازد؛ پس از دریافت ثبت کنید.{% endif %}</p>
+    <p class="help">{% if order.is_house %}سهم تولیدکننده ({{ order.producer_share|money|fa_digits }} ریال) را به حساب او واریز کنید و این‌جا ثبت کنید.{% if seller.sheba %} شبا: <span dir="ltr">{{ seller.sheba|sheba_format }}</span>{% endif %}{% if seller.card_number %} · کارت: <span dir="ltr">{{ seller.card_number|card_format }}</span>{% endif %}{% else %}تولیدکننده باید کارمزد خانه ({{ order.commission|money|fa_digits }} ریال) را بپردازد؛ پس از دریافت ثبت کنید.{% endif %}</p>
     <form method="post" class="st-inline">{% csrf_token %}
         <input type="text" name="reference" placeholder="شماره پیگیری واریز" dir="ltr">
         <button class="button" name="action" value="settle" type="submit">ثبت تسویه</button>

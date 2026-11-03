@@ -8,7 +8,6 @@ from django.utils import translation
 from wagtail.models import Locale
 
 from core.models import SiteSettings
-from core.templatetags.site_tags import money
 from membership.jalali import persian_digits
 from membership.notifications import base_url, recipients_for, send
 from products.models import ProductIndexPage, ShopSettings
@@ -18,8 +17,8 @@ from standing.notifications import member_phone, member_recipients
 
 
 def amount_text(value, lang):
-    text = money(value)
-    return f"{text} rials" if lang == "en" else f"{persian_digits(text)} ریال"
+    text = f"{int(value or 0):,}"
+    return f"{text} rials" if lang == "en" else f"{persian_digits(text).replace(',', '٬')} ریال"
 
 
 def shop_url(lang, suffix=""):
