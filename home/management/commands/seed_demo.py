@@ -1,5 +1,5 @@
 """
-Demo content for a test copy of the site (deploy/pythonanywhere, guide docs/demo-fa.md).
+Demo content for a test copy of the site (deploy/local/run-demo.sh, guide docs/demo-fa.md).
 
 Runs seed_content, then adds sample products with placeholder pictures,
 sample membership applications, demo logins, and turns on the test

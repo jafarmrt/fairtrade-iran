@@ -81,7 +81,7 @@ DEMO_MEDIA = __import__("tempfile").mkdtemp(prefix="ft-demo-media-")
 
 @override_settings(MEDIA_ROOT=DEMO_MEDIA)
 class SeedDemoTests(TestCase):
-    """seed_demo fills a test copy (deploy/pythonanywhere) and refuses on a real site."""
+    """seed_demo fills a test copy (deploy/local/run-demo.sh) and refuses on a real site."""
 
     def run_demo(self, *args, password="demo-pass-123"):
         with mock.patch.dict(os.environ, {"DEMO_PASSWORD": password}):
