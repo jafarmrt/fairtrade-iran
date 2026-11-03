@@ -33,7 +33,7 @@ On a fresh Ubuntu server, after cloning: `sudo ./deploy/install.sh` installs Doc
 
 راهنمای کامل فارسی استقرار روی سرور (VPS ایران یا خارج، HTTPS، پشتیبان‌گیری و بازگردانی): [docs/deploy-fa.md](docs/deploy-fa.md)
 
-A free test copy with demo data on Render (`render.yaml`, `Dockerfile.demo`, `python manage.py seed_demo`): [docs/demo-fa.md](docs/demo-fa.md)
+A free test copy with demo data on Hugging Face Spaces (`deploy/huggingface/`, `python manage.py seed_demo`): [docs/demo-fa.md](docs/demo-fa.md)
 
 ```bash
 cp .env.example .env      # fill in SECRET_KEY, hosts, database password, email

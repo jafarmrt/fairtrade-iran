@@ -1,5 +1,5 @@
 """
-Demo content for a test copy of the site (see render.yaml and docs/demo-fa.md).
+Demo content for a test copy of the site (deploy/huggingface, guide docs/demo-fa.md).
 
 Runs seed_content, then adds sample products with placeholder pictures,
 sample membership applications, demo logins, and turns on the test
@@ -10,7 +10,7 @@ refuses unless DEMO_MODE=1 or DEBUG is on.
 
 Idempotent: existing rows are left alone, but the demo users' passwords
 are reset to DEMO_PASSWORD on every run. With --passwords-only it does
-just that (Dockerfile.demo bakes the content into the image at build time).
+just that (the demo image bakes the content in at build time).
 """
 
 import io
