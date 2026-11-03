@@ -29,6 +29,8 @@ DJANGO_SETTINGS_MODULE=fairtrade.settings.dev python manage.py test
 
 ## Deploy with Docker
 
+On a fresh Ubuntu server, after cloning: `sudo ./deploy/install.sh` installs Docker and the firewall, sets up a Docker mirror if Docker Hub is blocked, writes `.env` with random secrets, starts the site, adds the starting content and an admin user, and turns on HTTPS once the domain points to the server. Re-running it is safe. `sudo ./deploy/update.sh` backs up, pulls and restarts.
+
 راهنمای کامل فارسی استقرار روی سرور (VPS ایران یا خارج، HTTPS، پشتیبان‌گیری و بازگردانی): [docs/deploy-fa.md](docs/deploy-fa.md)
 
 ```bash
