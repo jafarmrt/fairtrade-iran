@@ -34,7 +34,7 @@ if settings.DEBUG:
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 elif settings.DEMO_MODE:
-    # The test copy (deploy/pythonanywhere) has no nginx in front: Django serves the pictures itself.
+    # A test copy without nginx (DEMO_MODE=1) in front: Django serves the pictures itself.
     from django.views.static import serve
 
     urlpatterns += [re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT})]
