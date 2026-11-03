@@ -41,7 +41,7 @@
             {% include "shop/includes/group_lines.html" %}
         </div>
         {% endfor %}
-        <p class="cart-summary__total"><span>{% if IS_EN %}Total{% else %}جمع کل{% endif %}</span> <strong>{{ cart_total|money|fa_digits }} {% tr shop "currency_label" %}</strong></p>
+        <p class="cart-summary__total"><span>{% if IS_EN %}Total{% else %}جمع کل{% endif %}</span> <strong>{{ cart_total|amount }}</strong></p>
     </aside>
 </div></section>
 {% endblock %}

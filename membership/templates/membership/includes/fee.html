@@ -1,1 +1,1 @@
-{% load site_tags membership_tags %}{% if amount %}{{ amount|money|fa_digits }} {% if IS_EN %}rials{% else %}ریال{% endif %}{% elif amount == 0 %}{% if IS_EN %}Free{% else %}رایگان{% endif %}{% else %}<span class="muted">{% if IS_EN %}To be announced{% else %}اعلام می‌شود{% endif %}</span>{% endif %}
+{% load site_tags membership_tags %}{% if amount %}{{ amount|amount }}{% elif amount == 0 %}{% if IS_EN %}Free{% else %}رایگان{% endif %}{% else %}<span class="muted">{% if IS_EN %}To be announced{% else %}اعلام می‌شود{% endif %}</span>{% endif %}

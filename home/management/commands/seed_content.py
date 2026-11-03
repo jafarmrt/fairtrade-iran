@@ -53,6 +53,7 @@ class Command(BaseCommand):
         self.ensure_principles(home_fa, home_en)
         self.ensure_settings()
         self.ensure_groups_and_collections()
+        self.ensure_editorial_workflow(home_fa, home_en)
         self.ensure_news(home_fa, home_en)
         self.ensure_documents_page(home_fa, home_en)
         self.ensure_contact_pages(home_fa, home_en)
@@ -233,6 +234,42 @@ class Command(BaseCommand):
         view_assembly = Permission.objects.get(content_type__app_label="assembly", codename="view_assembly")
         for name in (data.BOARD, data.SECRETARIAT):
             groups[name].permissions.add(view_assembly)
+
+    # ---- editorial workflow: the PR group writes, the board approves ----
+
+    def ensure_editorial_workflow(self, home_fa, home_en):
+        from wagtail.models import (
+            GroupApprovalTask, GroupCollectionPermission, GroupPagePermission, Workflow, WorkflowPage,
+            WorkflowTask,
+        )
+
+        pr = Group.objects.get(name=data.PR)
+        board = Group.objects.get(name=data.BOARD)
+        page_perm = {c: Permission.objects.get(content_type__app_label="wagtailcore", codename=c)
+                     for c in ("add_page", "change_page", "publish_page")}
+        for home in (home_fa, home_en):
+            # The PR group drafts and edits pages but cannot publish; the board can publish.
+            for group, codes in ((pr, ("add_page", "change_page")),
+                                 (board, ("add_page", "change_page", "publish_page"))):
+                for code in codes:
+                    GroupPagePermission.objects.get_or_create(group=group, page=home, permission=page_perm[code])
+        root = Collection.get_first_root_node()
+        for app, model in (("wagtailimages", "image"), ("wagtaildocs", "document")):
+            for code in (f"add_{model}", f"change_{model}", f"choose_{model}"):
+                perm = Permission.objects.get(content_type__app_label=app, codename=code)
+                for group in (pr, board):
+                    GroupCollectionPermission.objects.get_or_create(group=group, collection=root, permission=perm)
+
+        workflow, created = Workflow.objects.get_or_create(name=data.EDITORIAL_WORKFLOW)
+        if created:
+            task = GroupApprovalTask.objects.create(name=data.EDITORIAL_TASK)
+            task.groups.set([board])
+            WorkflowTask.objects.create(workflow=workflow, task=task, sort_order=0)
+            self.stdout.write(f"Created workflow {workflow.name}")
+        for home in (home_fa, home_en):
+            # An admin may later pick another workflow for a page; keep that choice.
+            if not WorkflowPage.objects.filter(page=home).exists():
+                WorkflowPage.objects.create(page=home, workflow=workflow)
 
     # ---- news, documents, contact ----
 

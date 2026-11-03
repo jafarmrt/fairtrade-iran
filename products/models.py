@@ -217,8 +217,6 @@ class ShopSettings(BaseGenericSetting):
         "نمایش قیمت ریالی در نسخه انگلیسی", default=False,
         help_text="برای خریداران خارجی معمولاً قیمت ریالی معنایی ندارد",
     )
-    currency_label = models.CharField("واحد پول (فارسی)", max_length=20, default="ریال")
-    currency_label_en = models.CharField("واحد پول (انگلیسی)", max_length=20, default="IRR")
     out_of_stock_label = models.CharField("متن ناموجود (فارسی)", max_length=40, default="ناموجود")
     out_of_stock_label_en = models.CharField("متن ناموجود (انگلیسی)", max_length=40, default="Out of stock")
 
@@ -289,7 +287,6 @@ class ShopSettings(BaseGenericSetting):
         ], heading="خرید"),
         ObjectList([
             FieldPanel("show_prices"), FieldPanel("show_prices_en"),
-            FieldPanel("currency_label"), FieldPanel("currency_label_en"),
             FieldPanel("out_of_stock_label"), FieldPanel("out_of_stock_label_en"),
         ], heading="قیمت"),
         ObjectList([

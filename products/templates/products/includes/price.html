@@ -1,3 +1,3 @@
 {% load site_tags %}{% with shop=settings.products.ShopSettings %}{% if shop.prices_visible %}{% tr product "price_note" as note %}{% if product.price or note %}
-<p class="price">{% if product.price %}<strong>{{ product.price|money }}</strong> {% tr shop "currency_label" %}{% endif %}{% if note %} <small>{{ note }}</small>{% endif %}</p>
+<p class="price">{% if product.price %}<strong>{{ product.price|amount }}</strong>{% endif %}{% if note %} <small>{{ note }}</small>{% endif %}</p>
 {% endif %}{% endif %}{% endwith %}

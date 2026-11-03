@@ -18,7 +18,7 @@
         <th>{% if IS_EN %}Order{% else %}سفارش{% endif %}</th>
         <th>{% if IS_EN %}Date{% else %}تاریخ{% endif %}</th>
         <th>{% if IS_EN %}Items{% else %}اقلام{% endif %}</th>
-        <th>{% if IS_EN %}Total (rials){% else %}مبلغ (ریال){% endif %}</th>
+        <th>{% if IS_EN %}Total{% else %}مبلغ{% endif %} ({% currency %})</th>
         <th>{% if IS_EN %}Status{% else %}وضعیت{% endif %}</th>
     </tr></thead>
     <tbody>
@@ -27,7 +27,7 @@
         <td><a href="{% url 'panel:order' member.pk o.pk %}"><span dir="ltr" class="mono">{{ o.code }}</span></a><br><small class="muted">{{ o.purchase.buyer_name }}</small></td>
         <td>{{ o.created_at|jdate }}</td>
         <td>{% for i in o.items.all %}{{ i.tr_name }} × {{ i.quantity|fa_digits }}{% if not forloop.last %}<br>{% endif %}{% endfor %}</td>
-        <td>{{ o.total|money|fa_digits }}</td>
+        <td>{{ o.total|money }}</td>
         <td><span class="badge{% if o.status == 'paid' %} badge--gold{% elif o.status == 'shipped' or o.status == 'completed' %} badge--ok{% elif o.status == 'cancelled' %} badge--error{% endif %}">{{ o.status_display }}</span></td>
     </tr>
     {% endfor %}

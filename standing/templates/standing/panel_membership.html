@@ -28,7 +28,7 @@
         <table class="standing-table">
             <thead><tr>
                 <th>{% if IS_EN %}Year{% else %}سال{% endif %}</th>
-                <th>{% if IS_EN %}Amount (rials){% else %}مبلغ (ریال){% endif %}</th>
+                <th>{% if IS_EN %}Amount{% else %}مبلغ{% endif %} ({% currency %})</th>
                 <th>{% if IS_EN %}Due by{% else %}مهلت{% endif %}</th>
                 <th>{% if IS_EN %}Status{% else %}وضعیت{% endif %}</th>
             </tr></thead>
@@ -36,7 +36,7 @@
             {% for d in dues_list %}
             <tr>
                 <td>{{ d.year|fa_digits }}</td>
-                <td>{{ d.amount|money|fa_digits }}</td>
+                <td>{{ d.amount|money }}</td>
                 <td>{{ d.due_date|jdate }}</td>
                 <td><span class="badge{% if d.status == 'paid' or d.status == 'waived' %} badge--ok{% elif d.is_overdue %} badge--error{% elif d.status == 'pending' %} badge--gold{% endif %}">{{ d.status_display }}</span>
                     {% if d.is_overdue and d.status == 'unpaid' %}<small class="standing-overdue">{% if IS_EN %}Overdue{% else %}گذشته از مهلت{% endif %}</small>{% endif %}

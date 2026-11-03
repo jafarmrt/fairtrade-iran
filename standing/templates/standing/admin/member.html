@@ -8,7 +8,7 @@
     <div><strong>وضعیت:</strong> {{ member.get_status_display }}</div>
     <div><strong>نوع عضویت:</strong> {{ member.get_member_type_display }}</div>
     <div><strong>عضو از:</strong> {{ member.joined_on|jdate_fa|default:"-" }}</div>
-    <div><strong>حق عضویت سالانه این نوع:</strong> {% if annual_fee %}{{ annual_fee|money }} ریال{% else %}<span class="st-overdue">در تنظیمات عضویت وارد نشده</span>{% endif %}</div>
+    <div><strong>حق عضویت سالانه این نوع:</strong> {% if annual_fee %}{{ annual_fee|amount }}{% else %}<span class="st-overdue">در تنظیمات عضویت وارد نشده</span>{% endif %}</div>
     {% if member.status == 'suspended' %}<div><strong>تعلیق تا:</strong> <span class="{% if member.suspended_until and member.suspended_until <= today %}st-overdue{% endif %}">{{ member.suspended_until|jdate_fa|default:"-" }}</span>{% if member.suspended_until and member.suspended_until <= today %} (تمام شده؛ رفع تعلیق یا لغو){% endif %}</div>{% endif %}
     {% if member.status == 'cancelled' %}<div><strong>لغو در:</strong> {{ member.cancelled_on|jdate_fa|default:"-" }} · <strong>درخواست دوباره از:</strong> {{ member.reapply_after|jdate_fa|default:"-" }}</div>{% endif %}
     {% if certificate %}<div><strong>گواهی:</strong> <span dir="ltr">{{ certificate.number }}</span>{% if certificate.revoked %} <span class="st-overdue">(باطل: {{ certificate.revoked_reason }})</span>{% endif %}</div>{% endif %}
@@ -24,7 +24,7 @@
         {% for d in dues_list %}
         <tr>
             <td>{{ d.year|fa_digits }}</td>
-            <td>{{ d.amount|money }} ریال</td>
+            <td>{{ d.amount|amount }}</td>
             <td><span class="{% if d.is_overdue %}st-overdue{% endif %}">{{ d.due_date|jdate_fa }}</span></td>
             <td>{{ d.get_status_display }}{% if d.paid_on %} ({{ d.paid_on|jdate_fa }}){% endif %}</td>
             <td>{% if d.warned_on %}اخطار: {{ d.warned_on|jdate_fa }}{% if d.is_open and d.suspend_on %}<br>زمان تعلیق: {{ d.suspend_on|jdate_fa }}{% endif %}{% else %}-{% endif %}</td>
@@ -33,7 +33,7 @@
         <tr class="st-payment">
             <td colspan="5">
                 <strong>{% if p.recorded_by_staff %}پرداخت ثبت‌شده توسط دبیرخانه{% else %}رسید عضو{% endif %}:</strong>
-                {{ p.amount|money }} ریال · شماره پیگیری: <span dir="ltr">{{ p.reference|default:"-" }}</span> · تاریخ واریز: {{ p.paid_on_text|default:"-" }}
+                {{ p.amount|amount }} · شماره پیگیری: <span dir="ltr">{{ p.reference|default:"-" }}</span> · تاریخ واریز: {{ p.paid_on_text|default:"-" }}
                 · فرستاده در {{ p.submitted_at|jdate_fa:"short" }}{% if p.submitted_by %} ({{ p.submitted_by.email|default:p.submitted_by.get_username }}){% endif %}
                 {% if p.receipt %} · <a href="{% url 'standing:receipt' p.pk %}">دریافت رسید</a>{% endif %}
                 · <strong>{{ p.get_status_display }}</strong>{% if p.reviewed_by %} ({{ p.reviewed_by.get_full_name|default:p.reviewed_by.get_username }}){% endif %}

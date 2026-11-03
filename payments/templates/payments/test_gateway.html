@@ -11,7 +11,7 @@
     <div class="card">
         <dl class="fee-list">
             <div><dt>{% if IS_EN %}For{% else %}بابت{% endif %}</dt><dd>{{ payment.description }}</dd></div>
-            <div><dt>{% if IS_EN %}Amount{% else %}مبلغ{% endif %}</dt><dd>{{ payment.amount|money }} {% if IS_EN %}rials{% else %}ریال{% endif %}</dd></div>
+            <div><dt>{% if IS_EN %}Amount{% else %}مبلغ{% endif %}</dt><dd>{{ payment.amount|amount }}</dd></div>
         </dl>
         <form method="post" action="{% url 'payments:callback' payment.uid %}" class="panel-actions">
             <input type="hidden" name="authority" value="{{ payment.authority }}">

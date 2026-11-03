@@ -5,6 +5,7 @@ from django.core.exceptions import ValidationError
 
 from core import iran
 from core.models import MembershipSettings
+from core.widgets import JalaliDateField
 
 from .jalali import parse_date
 
@@ -292,7 +293,6 @@ class StaffActionForm(forms.Form):
         label="یادداشت داخلی", required=False, widget=forms.Textarea(attrs={"rows": 2}),
         help_text="فقط دبیرخانه و کمیسیون می‌بینند")
     decision_reference = forms.CharField(label="شماره یا تاریخ صورتجلسه کمیسیون", required=False, max_length=200)
-    field_visit_date = forms.DateField(label="تاریخ بازدید (میلادی، مثلاً 2026-11-02)", required=False,
-                                       widget=forms.DateInput(attrs={"type": "date"}))
+    field_visit_date = JalaliDateField(label="تاریخ بازدید (شمسی، مثلاً 1405/08/12)", required=False)
     field_visit_report = forms.CharField(label="خلاصه گزارش بازدید", required=False,
                                          widget=forms.Textarea(attrs={"rows": 3}))

@@ -17,7 +17,7 @@
                 {% if not p.in_stock %}<span class="badge">{% if IS_EN %}Out of stock{% else %}ناموجود{% endif %}</span>{% endif %}
                 {% if not p.name_en %}<span class="badge">{% if IS_EN %}No English name{% else %}بدون نام انگلیسی{% endif %}</span>{% endif %}
             </p>
-            {% if p.price %}<p class="muted">{{ p.price|money }} {% if IS_EN %}IRR{% else %}ریال{% endif %}</p>{% endif %}
+            {% if p.price %}<p class="muted">{{ p.price|amount }}</p>{% endif %}
         </div>
         <a class="btn btn--outline" href="{% url 'panel:product_edit' member.pk p.pk %}">{% if IS_EN %}Edit{% else %}ویرایش{% endif %}</a>
     </li>

@@ -28,7 +28,7 @@
             <p class="muted">{% tr pay "note" %}</p>
         </div>
         <form method="post">{% csrf_token %}<input type="hidden" name="step" value="pay_online">
-            <button class="btn btn--primary btn--large" type="submit">{% tr pay "button_label" %} · {{ online_amount|money|fa_digits }} {% tr shop "currency_label" %}</button>
+            <button class="btn btn--primary btn--large" type="submit">{% tr pay "button_label" %} · {{ online_amount|amount }}</button>
         </form>
     </section>
     {% endif %}
@@ -46,12 +46,12 @@
         <table class="cart-table">
             <tbody>
             {% for item in order.items.all %}
-            <tr><td>{{ item.tr_name }}</td><td class="num">{{ item.quantity|fa_digits }} × {{ item.unit_price|money|fa_digits }}</td><td class="num">{{ item.line_total|money|fa_digits }}</td></tr>
+            <tr><td>{{ item.tr_name }}</td><td class="num">{{ item.quantity|fa_digits }} × {{ item.unit_price|money }}</td><td class="num">{{ item.line_total|money }}</td></tr>
             {% endfor %}
             </tbody>
             <tfoot>
-                <tr><td colspan="2">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}</td><td class="num">{% if order.shipping %}{{ order.shipping|money|fa_digits }}{% else %}{% if IS_EN %}Free{% else %}رایگان{% endif %}{% endif %}</td></tr>
-                <tr class="cart-table__total"><td colspan="2">{% if IS_EN %}Total{% else %}جمع{% endif %}</td><td class="num">{{ order.total|money|fa_digits }} {% tr shop "currency_label" %}</td></tr>
+                <tr><td colspan="2">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}</td><td class="num">{% if order.shipping %}{{ order.shipping|money }}{% else %}{% if IS_EN %}Free{% else %}رایگان{% endif %}{% endif %}</td></tr>
+                <tr class="cart-table__total"><td colspan="2">{% if IS_EN %}Total{% else %}جمع{% endif %}</td><td class="num">{{ order.total|amount }}</td></tr>
             </tfoot>
         </table>
         </div>
@@ -59,8 +59,8 @@
         {% if order.status == 'awaiting_payment' %}
         <div class="order-pay">
             <h3 class="h3">{% if order.is_house %}{% if IS_EN %}Pay the Fair Trade House{% else %}پرداخت به حساب خانه تجارت عادلانه{% endif %}{% else %}{% if IS_EN %}Pay the producer directly{% else %}پرداخت مستقیم به حساب تولیدکننده{% endif %}{% endif %}</h3>
-            {% if order.is_house and online %}<p class="muted">{% if IS_EN %}Pay online above, or transfer {{ order.total|money }} rials to this account and send the reference below.{% else %}با دکمه پرداخت آنلاین بالا بپردازید، یا {{ order.total|money|fa_digits }} ریال به حساب زیر واریز کنید و شماره پیگیری را بفرستید.{% endif %}</p>
-            {% else %}<p class="muted">{% if IS_EN %}Transfer {{ order.total|money }} rials to this account, then send the reference number or a photo of the receipt.{% else %}{{ order.total|money|fa_digits }} ریال به حساب زیر واریز کنید و سپس شماره پیگیری یا تصویر رسید را بفرستید.{% endif %}</p>{% endif %}
+            {% if order.is_house and online %}<p class="muted">{% if IS_EN %}Pay online above, or transfer {{ order.total|amount }} to this account and send the reference below.{% else %}با دکمه پرداخت آنلاین بالا بپردازید، یا {{ order.total|amount }} به حساب زیر واریز کنید و شماره پیگیری را بفرستید.{% endif %}</p>
+            {% else %}<p class="muted">{% if IS_EN %}Transfer {{ order.total|amount }} to this account, then send the reference number or a photo of the receipt.{% else %}{{ order.total|amount }} به حساب زیر واریز کنید و سپس شماره پیگیری یا تصویر رسید را بفرستید.{% endif %}</p>{% endif %}
             {% with ms=order.account %}{% include "membership/includes/bank.html" %}{% if not ms.has_bank_details %}<p class="notice">{% if IS_EN %}The account details will be sent to you shortly.{% else %}شماره حساب به‌زودی برایتان فرستاده می‌شود.{% endif %}</p>{% endif %}{% endwith %}
             {% if shop.payment_days %}<p class="muted">{% if IS_EN %}Unpaid orders are cancelled after {{ shop.payment_days }} days.{% else %}سفارشی که تا {{ shop.payment_days|fa_digits }} روز پرداخت نشود، لغو می‌شود.{% endif %}</p>{% endif %}
             <details class="order-pay__form"{% if order.payment_form.errors %} open{% endif %}>

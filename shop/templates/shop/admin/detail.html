@@ -20,11 +20,11 @@
     <table class="listing">
         <thead><tr><th>محصول</th><th>قیمت واحد</th><th>تعداد</th><th>جمع</th></tr></thead>
         <tbody>
-        {% for i in order.items.all %}<tr><td>{{ i.name }}</td><td>{{ i.unit_price|money|fa_digits }}</td><td>{{ i.quantity|fa_digits }}</td><td>{{ i.line_total|money|fa_digits }}</td></tr>{% endfor %}
-        <tr><td colspan="3">هزینه ارسال</td><td>{{ order.shipping|money|fa_digits }}</td></tr>
-        <tr><td colspan="3"><strong>مبلغ کل</strong></td><td><strong>{{ order.total|money|fa_digits }}</strong></td></tr>
-        <tr><td colspan="3">کارمزد خانه ({{ order.commission_percent|floatformat:"-2"|fa_digits }}٪ از جمع کالاها)</td><td>{{ order.commission|money|fa_digits }}</td></tr>
-        {% if order.is_house %}<tr><td colspan="3">سهم تولیدکننده برای واریز</td><td><strong>{{ order.producer_share|money|fa_digits }}</strong></td></tr>{% endif %}
+        {% for i in order.items.all %}<tr><td>{{ i.name }}</td><td>{{ i.unit_price|money }}</td><td>{{ i.quantity|fa_digits }}</td><td>{{ i.line_total|money }}</td></tr>{% endfor %}
+        <tr><td colspan="3">هزینه ارسال</td><td>{{ order.shipping|money }}</td></tr>
+        <tr><td colspan="3"><strong>مبلغ کل</strong></td><td><strong>{{ order.total|money }}</strong></td></tr>
+        <tr><td colspan="3">کارمزد خانه ({{ order.commission_percent|floatformat:"-2"|fa_digits }}٪ از جمع کالاها)</td><td>{{ order.commission|money }}</td></tr>
+        {% if order.is_house %}<tr><td colspan="3">سهم تولیدکننده برای واریز</td><td><strong>{{ order.producer_share|money }}</strong></td></tr>{% endif %}
         </tbody>
     </table>
 </section>
@@ -38,7 +38,7 @@
     {% if payments %}
     <table class="listing">
         <thead><tr><th>پرداخت آنلاین این خرید</th><th>مبلغ</th><th>وضعیت</th><th>شماره پیگیری</th><th>خطا</th></tr></thead>
-        <tbody>{% for p in payments %}<tr><td>{{ p.created_at|jdate_fa:"short" }} · {{ p.provider }}</td><td>{{ p.amount|money|fa_digits }}</td><td>{{ p.get_status_display }}</td><td dir="ltr">{{ p.ref_id|default:"-" }}</td><td>{{ p.error|default:"-" }}</td></tr>{% endfor %}</tbody>
+        <tbody>{% for p in payments %}<tr><td>{{ p.created_at|jdate_fa:"short" }} · {{ p.provider }}</td><td>{{ p.amount|money }}</td><td>{{ p.get_status_display }}</td><td dir="ltr">{{ p.ref_id|default:"-" }}</td><td>{{ p.error|default:"-" }}</td></tr>{% endfor %}</tbody>
     </table>
     {% endif %}
     {% if order.is_open %}
@@ -76,7 +76,7 @@
     {% if order.settled_at %}
     <p>تسویه در {{ order.settled_at|jdate_fa:"short" }}{% if order.settlement_reference %} · شماره پیگیری: <span dir="ltr">{{ order.settlement_reference }}</span>{% endif %}</p>
     {% else %}
-    <p class="help">{% if order.is_house %}سهم تولیدکننده ({{ order.producer_share|money|fa_digits }} ریال) را به حساب او واریز کنید و این‌جا ثبت کنید.{% if seller.sheba %} شبا: <span dir="ltr">{{ seller.sheba|sheba_format }}</span>{% endif %}{% if seller.card_number %} · کارت: <span dir="ltr">{{ seller.card_number|card_format }}</span>{% endif %}{% else %}تولیدکننده باید کارمزد خانه ({{ order.commission|money|fa_digits }} ریال) را بپردازد؛ پس از دریافت ثبت کنید.{% endif %}</p>
+    <p class="help">{% if order.is_house %}سهم تولیدکننده ({{ order.producer_share|amount }}) را به حساب او واریز کنید و این‌جا ثبت کنید.{% if seller.sheba %} شبا: <span dir="ltr">{{ seller.sheba|sheba_format }}</span>{% endif %}{% if seller.card_number %} · کارت: <span dir="ltr">{{ seller.card_number|card_format }}</span>{% endif %}{% else %}تولیدکننده باید کارمزد خانه ({{ order.commission|amount }}) را بپردازد؛ پس از دریافت ثبت کنید.{% endif %}</p>
     <form method="post" class="st-inline">{% csrf_token %}
         <input type="text" name="reference" placeholder="شماره پیگیری واریز" dir="ltr">
         <button class="button" name="action" value="settle" type="submit">ثبت تسویه</button>

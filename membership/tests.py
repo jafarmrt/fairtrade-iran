@@ -91,7 +91,7 @@ class PublicPagesTests(MembershipTestCase):
 
     def test_page_shows_fees_and_deadlines_from_settings(self):
         response = self.client.get("/fa/membership/")
-        self.assertContains(response, "۵٬۰۰۰٬۰۰۰")
+        self.assertContains(response, "۵۰۰٬۰۰۰ تومان")
         self.assertContains(response, "ظرف ۷ روز")
         ms = MembershipSettings.load()
         ms.secretariat_review_days = 10

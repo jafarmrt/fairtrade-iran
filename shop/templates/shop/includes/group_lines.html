@@ -12,17 +12,17 @@
     <tr>
         <td><a href="{{ line.product.get_url }}">{% tr line.product "name" %}</a>
             {% if line.reduced %}<br><small class="standing-overdue">{% if IS_EN %}Only {{ line.quantity }} left{% else %}فقط {{ line.quantity|fa_digits }} عدد موجود است{% endif %}</small>{% endif %}</td>
-        <td class="num">{{ line.unit_price|money|fa_digits }}</td>
+        <td class="num">{{ line.unit_price|money }}</td>
         <td class="num">{% if editable %}<input class="cart-qty" type="number" name="qty_{{ line.product.pk }}" value="{{ line.quantity }}" min="0" max="99" inputmode="numeric" aria-label="{% if IS_EN %}Quantity{% else %}تعداد{% endif %}">
             <button class="linklike cart-remove" type="submit" form="cart-remove-{{ line.product.pk }}">{% if IS_EN %}Remove{% else %}حذف{% endif %}</button>{% else %}{{ line.quantity|fa_digits }}{% endif %}</td>
-        <td class="num">{{ line.line_total|money|fa_digits }}</td>
+        <td class="num">{{ line.line_total|money }}</td>
     </tr>
     {% endfor %}
     </tbody>
     <tfoot>
-        <tr><td colspan="3">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}{% if group.seller.free_shipping_over and group.shipping %} <small class="muted">({% if IS_EN %}free over {{ group.seller.free_shipping_over|money }}{% else %}رایگان برای بیش از {{ group.seller.free_shipping_over|money|fa_digits }}{% endif %})</small>{% endif %}</td>
-            <td class="num">{% if group.shipping %}{{ group.shipping|money|fa_digits }}{% else %}{% if IS_EN %}Free{% else %}رایگان{% endif %}{% endif %}</td></tr>
-        <tr class="cart-table__total"><td colspan="3">{% if IS_EN %}Total for this producer{% else %}جمع سفارش این تولیدکننده{% endif %}</td><td class="num">{{ group.total|money|fa_digits }}</td></tr>
+        <tr><td colspan="3">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}{% if group.seller.free_shipping_over and group.shipping %} <small class="muted">({% if IS_EN %}free over {{ group.seller.free_shipping_over|money }}{% else %}رایگان برای بیش از {{ group.seller.free_shipping_over|money }}{% endif %})</small>{% endif %}</td>
+            <td class="num">{% if group.shipping %}{{ group.shipping|money }}{% else %}{% if IS_EN %}Free{% else %}رایگان{% endif %}{% endif %}</td></tr>
+        <tr class="cart-table__total"><td colspan="3">{% if IS_EN %}Total for this producer{% else %}جمع سفارش این تولیدکننده{% endif %}</td><td class="num">{{ group.total|money }}</td></tr>
     </tfoot>
 </table>
 </div>

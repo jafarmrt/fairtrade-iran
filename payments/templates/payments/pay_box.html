@@ -11,7 +11,7 @@
         {% tr pay "note" as note %}{% if note %}<p class="muted">{{ note }}</p>{% endif %}
     </div>
     <form method="post">{% csrf_token %}<input type="hidden" name="step" value="{{ step }}">{% if extra_name %}<input type="hidden" name="{{ extra_name }}" value="{{ extra_value }}">{% endif %}
-        <button class="btn btn--primary btn--large" type="submit">{% tr pay "button_label" %} · {{ amount|money|fa_digits }} {% if IS_EN %}rials{% else %}ریال{% endif %}</button>
+        <button class="btn btn--primary btn--large" type="submit">{% tr pay "button_label" %} · {{ amount|amount }}</button>
     </form>
 </section>
 {% endif %}
