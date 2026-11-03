@@ -1,0 +1,48 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% block main_content %}
+<p class="sms-state">
+    {% if config.enabled %}<strong class="sms-ok">ارسال پیامک روشن است</strong>{% else %}<strong class="sms-off">ارسال پیامک خاموش است</strong> و فقط ایمیل‌ها فرستاده می‌شوند.{% endif %}
+    سامانه: {{ provider }}.
+    <a href="{% url 'wagtailsettings:edit' 'sms' 'smssettings' %}">تنظیمات پیامک</a> ·
+    <a href="{% url 'wagtailsnippets_sms_smstemplate:list' %}">متن‌های پیامک</a>
+</p>
+
+<h2>ارسال آزمایشی</h2>
+<p class="help">پیامک آزمایشی حتی وقتی ارسال پیامک خاموش است فرستاده می‌شود تا پیش از روشن کردن، درستی تنظیمات را بسنجید.</p>
+<form method="post" class="sms-test">
+    {% csrf_token %}
+    {% for field in form %}
+    <label>{{ field.label }} {{ field }}{% for e in field.errors %}<span class="sms-error">{{ e }}</span>{% endfor %}</label>
+    {% endfor %}
+    <button class="button" type="submit">ارسال</button>
+</form>
+
+<h2>آخرین پیامک‌ها</h2>
+{% if logs %}
+<table class="listing">
+    <thead><tr><th>زمان</th><th>رویداد</th><th>گیرنده</th><th>متن</th><th>سامانه</th><th>نتیجه</th></tr></thead>
+    <tbody>
+    {% for log in logs %}
+    <tr>
+        <td dir="ltr">{{ log.created|date:"Y-m-d H:i" }}</td>
+        <td>{{ log.event }}</td>
+        <td dir="ltr">{{ log.recipient }}</td>
+        <td class="sms-text">{{ log.text|linebreaksbr }}</td>
+        <td>{{ log.provider }}</td>
+        <td>{% if log.success %}<span class="sms-ok">ارسال شد</span>{% else %}<span class="sms-error">{{ log.error }}</span>{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}
+<p>هنوز پیامکی فرستاده نشده است.</p>
+{% endif %}
+<style>
+.sms-state { margin-block:1rem; }
+.sms-ok { color:#027a48; }
+.sms-off, .sms-error { color:#b42318; }
+.sms-test { display:flex; flex-direction:column; gap:1rem; max-width:32rem; margin-block-end:2rem; }
+.sms-test label { display:flex; flex-direction:column; gap:.25rem; font-weight:600; }
+.sms-text { max-width:28rem; white-space:normal; }
+</style>
+{% endblock %}

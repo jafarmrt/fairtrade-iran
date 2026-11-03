@@ -26,6 +26,7 @@ from home.models import HomePage
 from news.models import NewsIndexPage, NewsPage
 from members.seed import seed_directory
 from pages.models import Principle, PrinciplesPage, StandardPage
+from sms.seed import ensure_sms_templates
 
 from . import seed_data as data
 
@@ -55,6 +56,7 @@ class Command(BaseCommand):
         self.ensure_contact_pages(home_fa, home_en)
         seed_directory(self, home_fa, home_en)
         self.ensure_membership(home_fa, home_en)
+        ensure_sms_templates(self.stdout)
         self.stdout.write(self.style.SUCCESS("Starting content is in place."))
 
     # ---- languages and home pages ----

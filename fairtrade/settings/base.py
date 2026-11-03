@@ -24,6 +24,7 @@ def env_list(name, default=""):
 INSTALLED_APPS = [
     # Project apps
     "core",
+    "sms",
     "home",
     "pages",
     "search",
@@ -186,5 +187,11 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "1") == "1"
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@localhost")
+
+# SMS: provider, sender line and texts are set in the admin (Settings > تنظیمات پیامک).
+# SMS_API_KEY keeps the provider key out of the database if you prefer;
+# SMS_BACKEND (a dotted path) forces one backend, e.g. sms.backends.ConsoleBackend.
+SMS_API_KEY = os.environ.get("SMS_API_KEY", "")
+SMS_BACKEND = os.environ.get("SMS_BACKEND", "")
 
 LOGIN_URL = "/admin/login/"

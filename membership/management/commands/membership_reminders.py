@@ -1,5 +1,5 @@
 """
-E-mail the secretariat and the Supervisory Commission a digest of membership
+E-mail (and, if switched on, text) the secretariat and the Supervisory Commission a digest of membership
 files whose deadline is near or has passed. Run once a day, e.g. from cron:
 
     0 8 * * * python manage.py membership_reminders
@@ -12,6 +12,7 @@ from core.models import MembershipSettings
 from membership.jalali import format_jalali
 from membership.models import CLOSED_STATUSES, MembershipApplication, Status
 from membership.notifications import admin_url, recipients_for, send
+from sms import notify_role as sms_notify_role
 
 ROLE_STATUSES = {
     "secretariat": {Status.SUBMITTED, Status.APPROVED},
@@ -41,4 +42,5 @@ class Command(BaseCommand):
             context = {"list": "\n".join(lines), "admin_url": admin_url() + "?status=mine"}
             if send("staff_reminder", recipients_for(role), "fa", context):
                 sent += 1
+            sms_notify_role(f"membership_reminder_{role}", role, {**context, "count": len(items)})
         self.stdout.write(f"Sent {sent} reminder e-mail(s).")
