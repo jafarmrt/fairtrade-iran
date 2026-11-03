@@ -2,7 +2,7 @@
 
 وب‌سایت دوزبانه (فارسی/انگلیسی) خانه تجارت عادلانه ایران، ساخته‌شده با Django و Wagtail.
 
-The bilingual (Persian/English) website of the Fair Trade House of Iran, built with Django 5.1 and Wagtail 6.3.
+The bilingual (Persian/English) website of the Fair Trade House of Iran, built with Django 5.2 LTS and Wagtail 7.4 LTS.
 
 ## Run it locally
 

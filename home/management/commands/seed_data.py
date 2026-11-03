@@ -209,6 +209,8 @@ MEMBERS_GROUP = "اعضا"
 ASSEMBLY_SECRETARY = "دبیر مجمع"  # secretary of the general assembly and deputy; hears appeals (section 8.2)
 MARKET = "کارگروه توسعه بازار"  # market development working group: wholesale enquiries, shop orders, settlement
 # Pages written by the PR group go live after the board approves them (Settings > Workflows to change).
+# Title of the page tree's top page (above «خانه» and «Home»), as the admin's page browser shows it.
+ROOT_TITLE = "همهٔ صفحه‌ها"
 EDITORIAL_WORKFLOW = "تأیید انتشار محتوا"
 EDITORIAL_TASK = "تأیید هیئت مدیره"
 GROUPS = [SECRETARIAT, COMMISSION, BOARD, PR, MEMBERS_GROUP, ASSEMBLY_SECRETARY, MARKET]

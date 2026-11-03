@@ -28,5 +28,9 @@ echo "==> Adding any new starting content"
 docker compose exec -T web python manage.py seed_content >/tmp/fairtrade-seed.log 2>&1 \
     || { tail -20 /tmp/fairtrade-seed.log; exit 1; }
 
+echo "==> Refreshing the search index"
+docker compose exec -T web python manage.py update_index >/dev/null 2>&1 \
+    || echo "(search index refresh failed; search still works, run update_index later)"
+
 docker image prune -f >/dev/null
 echo "Done: $(git log -1 --format='%h %s')"

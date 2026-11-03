@@ -33,7 +33,7 @@ class ComplaintViewSet(ModelViewSet):
     model = Complaint
     icon = "warning"
     menu_label = "شکایات"
-    menu_order = 250
+    menu_name = "complaints"  # the order of the main menu is set in core/wagtail_hooks.py
     add_to_admin_menu = True
     copy_view_enabled = False
     list_display = ["tracking_code", "subject_of_complaint", "category", "status", "created_at"]

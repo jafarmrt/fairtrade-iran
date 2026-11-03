@@ -1,0 +1,5377 @@
+# Persian translations for the Wagtail admin, completing and correcting the ones Wagtail ships.
+# Edit here, then run: python manage.py build_translations  (see locale/README.md)
+msgid ""
+msgstr ""
+"Project-Id-Version: fairtrade-iran (Wagtail 7.4 admin, Persian)\n"
+"Language: fa\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+msgid "%(action)s at <b>%(at)s</b>"
+msgstr "%(action)s در <b>%(at)s</b>"
+
+msgid "%(action)s by <b>%(who)s</b>"
+msgstr "%(action)s به‌دست <b>%(who)s</b>"
+
+msgid "%(action)s by <b>%(who)s</b> at <b>%(at)s</b>"
+msgstr "%(action)s به‌دست <b>%(who)s</b> در <b>%(at)s</b>"
+
+#, python-format
+msgid "%(classname)s object (%(id)s)"
+msgstr "%(classname)s شمارهٔ %(id)s"
+
+#, python-format
+msgid "%(count)d %(model_name)s deleted."
+msgid_plural "%(count)d %(model_name)s deleted."
+msgstr[0] "%(count)d %(model_name)s حذف شد."
+msgstr[1] "%(count)d %(model_name)s حذف شد."
+
+#, python-format
+msgid "%(count)s descendant collection"
+msgid_plural "%(count)s descendant collections"
+msgstr[0] "%(count)s زیرمجموعه"
+msgstr[1] "%(count)s زیرمجموعه"
+
+msgid "%(count)s document"
+msgid_plural "%(count)s documents"
+msgstr[0] "%(count)s سند"
+msgstr[1] "%(count)s سند"
+
+msgid "%(count)s image"
+msgid_plural "%(count)s images"
+msgstr[0] "%(count)s تصویر"
+msgstr[1] "%(count)s تصویر"
+
+msgid "%(count)s of the pages being copied is live. Would you like to publish its copy?"
+msgid_plural "%(count)s of the pages being copied are live. Would you like to publish their copies?"
+msgstr[0] "%(count)s صفحه از صفحه‌های در حال کپی منتشر شده است. آیا کپی آن هم منتشر شود؟"
+msgstr[1] "%(count)s صفحه از صفحه‌های در حال کپی منتشر شده‌اند. آیا کپی آن‌ها هم منتشر شود؟"
+
+msgid "%(editor)s has updated comments on \"%(title)s\""
+msgstr "%(editor)s یادداشت‌های «%(title)s» را به‌روز کرد"
+
+#, python-format
+msgid "%(editor)s has updated comments on \"%(title)s\"."
+msgstr "%(editor)s یادداشت‌های «%(title)s» را به‌روز کرد."
+
+#, python-format
+msgid "%(error)s encountered while trying to read file: %(filename)s."
+msgstr "هنگام خواندن پروندهٔ %(filename)s این خطا پیش آمد: %(error)s."
+
+#, python-format
+msgid "%(field_label)s:"
+msgstr "%(field_label)s:"
+
+msgid "%(hostname)s is already configured as the default site. You must unset that before you can save this site as default."
+msgstr "%(hostname)s اکنون سایت پیش‌فرض است. پیش از پیش‌فرض‌کردن این سایت، تیک آن را بردارید."
+
+msgid "%(label)s and Publish"
+msgstr "%(label)s و انتشار"
+
+msgid "%(label)s: this block has no options."
+msgstr "%(label)s: این بلوک گزینه‌ای ندارد."
+
+#, python-format
+msgid "%(locales_count)s locales"
+msgstr "%(locales_count)s زبان"
+
+#, python-format
+msgid "%(model)s permissions"
+msgstr "اجازه‌های %(model)s"
+
+msgid "%(model_name)s '%(object)s' created and published."
+msgstr "%(model_name)s «%(object)s» ساخته و منتشر شد."
+
+msgid "%(model_name)s '%(object)s' created and scheduled for publishing."
+msgstr "%(model_name)s «%(object)s» ساخته و برای انتشار زمان‌بندی شد."
+
+#, python-format
+msgid "%(model_name)s '%(object)s' created and submitted for moderation."
+msgstr "%(model_name)s «%(object)s» ساخته و برای بررسی فرستاده شد."
+
+msgid "%(model_name)s '%(object)s' created."
+msgstr "%(model_name)s «%(object)s» ساخته شد."
+
+msgid "%(model_name)s '%(object)s' deleted."
+msgstr "%(model_name)s «%(object)s» حذف شد."
+
+msgid "%(model_name)s '%(object)s' has been replaced with version from %(timestamp)s."
+msgstr "%(model_name)s «%(object)s» با نسخهٔ %(timestamp)s جایگزین شد."
+
+msgid "%(model_name)s '%(object)s' has been scheduled for publishing."
+msgstr "%(model_name)s «%(object)s» برای انتشار زمان‌بندی شد."
+
+#, python-format
+msgid "%(model_name)s '%(object)s' has been submitted for moderation."
+msgstr "%(model_name)s «%(object)s» برای بررسی فرستاده شد."
+
+msgid "%(model_name)s '%(object)s' is live and this version has been scheduled for publishing."
+msgstr "%(model_name)s «%(object)s» منتشر شده است و این نسخه برای انتشار زمان‌بندی شد."
+
+msgid "%(model_name)s '%(object)s' updated and published."
+msgstr "%(model_name)s «%(object)s» به‌روز و منتشر شد."
+
+msgid "%(model_name)s '%(object)s' updated."
+msgstr "%(model_name)s «%(object)s» به‌روز شد."
+
+msgid "%(model_name)s '%(title)s' is now unlocked."
+msgstr "قفل %(model_name)s «%(title)s» باز شد."
+
+#, python-format
+msgid "%(model_name)s submissions"
+msgstr "پاسخ‌های %(model_name)s"
+
+#, python-format
+msgid "%(num_child_objects)d child page"
+msgid_plural "%(num_child_objects)d child pages"
+msgstr[0] "%(num_child_objects)d زیرصفحه"
+msgstr[1] "%(num_child_objects)d زیرصفحه"
+
+#, python-format
+msgid "%(num_pages)d page"
+msgid_plural "%(num_pages)d pages"
+msgstr[0] "%(num_pages)d صفحه"
+msgstr[1] "%(num_pages)d صفحه"
+
+msgid "%(num_pages)d page has been moved"
+msgid_plural "%(num_pages)d pages have been moved"
+msgstr[0] "%(num_pages)d صفحه جابه‌جا شد"
+msgstr[1] "%(num_pages)d صفحه جابه‌جا شد"
+
+#, python-format
+msgid "%(num_pages)d pages and %(num_others)d others"
+msgstr "%(num_pages)d صفحه و %(num_others)d مورد دیگر"
+
+#, python-format
+msgid "%(num_parent_objects)d document has been added to %(collection)s"
+msgid_plural "%(num_parent_objects)d documents have been added to %(collection)s"
+msgstr[0] "%(num_parent_objects)d سند به %(collection)s افزوده شد"
+msgstr[1] "%(num_parent_objects)d سند به %(collection)s افزوده شد"
+
+#, python-format
+msgid "%(num_parent_objects)d document has been deleted"
+msgid_plural "%(num_parent_objects)d documents have been deleted"
+msgstr[0] "%(num_parent_objects)d سند حذف شد"
+msgstr[1] "%(num_parent_objects)d سند حذف شد"
+
+#, python-format
+msgid "%(num_parent_objects)d image has been added to %(collection)s"
+msgid_plural "%(num_parent_objects)d images have been added to %(collection)s"
+msgstr[0] "%(num_parent_objects)d تصویر به %(collection)s افزوده شد"
+msgstr[1] "%(num_parent_objects)d تصویر به %(collection)s افزوده شد"
+
+msgid "%(num_parent_objects)d image has been deleted"
+msgid_plural "%(num_parent_objects)d images have been deleted"
+msgstr[0] "%(num_parent_objects)d تصویر حذف شد"
+msgstr[1] "%(num_parent_objects)d تصویر حذف شد"
+
+#, python-format
+msgid "%(num_parent_objects)d page"
+msgid_plural "%(num_parent_objects)d pages"
+msgstr[0] "%(num_parent_objects)d صفحه"
+msgstr[1] "%(num_parent_objects)d صفحه"
+
+#, python-format
+msgid "%(num_parent_objects)d page has been deleted"
+msgid_plural "%(num_parent_objects)d pages have been deleted"
+msgstr[0] "%(num_parent_objects)d صفحه حذف شد"
+msgstr[1] "%(num_parent_objects)d صفحه حذف شد"
+
+#, python-format
+msgid "%(num_parent_objects)d page has been published"
+msgid_plural "%(num_parent_objects)d pages have been published"
+msgstr[0] "%(num_parent_objects)d صفحه منتشر شد"
+msgstr[1] "%(num_parent_objects)d صفحه منتشر شد"
+
+#, python-format
+msgid "%(num_parent_objects)d page has been unpublished"
+msgid_plural "%(num_parent_objects)d pages have been unpublished"
+msgstr[0] "انتشار %(num_parent_objects)d صفحه لغو شد"
+msgstr[1] "انتشار %(num_parent_objects)d صفحه لغو شد"
+
+#, python-format
+msgid "%(num_parent_objects)d user has been assigned as %(role)s"
+msgid_plural "%(num_parent_objects)d users have been assigned as %(role)s"
+msgstr[0] "نقش %(role)s به %(num_parent_objects)d کاربر داده شد"
+msgstr[1] "نقش %(role)s به %(num_parent_objects)d کاربر داده شد"
+
+#, python-format
+msgid "%(num_parent_objects)d user has been deleted"
+msgid_plural "%(num_parent_objects)d users have been deleted"
+msgstr[0] "%(num_parent_objects)d کاربر حذف شد"
+msgstr[1] "%(num_parent_objects)d کاربر حذف شد"
+
+#, python-format
+msgid "%(num_parent_objects)d user has been marked as active"
+msgid_plural "%(num_parent_objects)d users have been marked as active"
+msgstr[0] "%(num_parent_objects)d کاربر فعال شد"
+msgstr[1] "%(num_parent_objects)d کاربر فعال شد"
+
+#, python-format
+msgid "%(num_parent_objects)d user has been marked as inactive"
+msgid_plural "%(num_parent_objects)d users have been marked as inactive"
+msgstr[0] "%(num_parent_objects)d کاربر غیرفعال شد"
+msgstr[1] "%(num_parent_objects)d کاربر غیرفعال شد"
+
+msgid "%(objects)s documents selected"
+msgstr "%(objects)s سند انتخاب شد"
+
+msgid "%(objects)s images selected"
+msgstr "%(objects)s تصویر انتخاب شد"
+
+msgid "%(objects)s items selected"
+msgstr "%(objects)s مورد انتخاب شد"
+
+msgid "%(objects)s pages selected"
+msgstr "%(objects)s صفحه انتخاب شد"
+
+msgid "%(objects)s snippets selected"
+msgstr "%(objects)s مورد انتخاب شد"
+
+msgid "%(objects)s users selected"
+msgstr "%(objects)s کاربر انتخاب شد"
+
+#, python-format
+msgid "%(parent_pages)s and %(child_pages)s have been deleted"
+msgstr "%(parent_pages)s و %(child_pages)s حذف شدند"
+
+#, python-format
+msgid "%(parent_pages)s and %(child_pages)s have been published"
+msgstr "%(parent_pages)s و %(child_pages)s منتشر شدند"
+
+#, python-format
+msgid "%(parent_pages)s and %(child_pages)s have been unpublished"
+msgstr "انتشار %(parent_pages)s و %(child_pages)s لغو شد"
+
+#, python-format
+msgid "%(range_start)s - %(range_end)s"
+msgstr "%(range_start)s تا %(range_end)s"
+
+#, python-format
+msgid "%(related_model_name)s %(field_label)s"
+msgstr "%(field_label)s %(related_model_name)s"
+
+msgid "%(setting_type)s updated."
+msgstr "%(setting_type)s ذخیره شد."
+
+msgid "%(site_setting)s for %(site)s"
+msgstr "%(site_setting)s برای %(site)s"
+
+#, python-format
+msgid "%(start_index)s-%(end_index)s of %(items_count)s %(model_name)s"
+msgstr "%(start_index)s تا %(end_index)s از %(items_count)s مورد"
+
+#, python-format
+msgid "%(start_index)s-%(end_index)s of %(items_count)s %(model_name)s across entire site."
+msgstr "%(start_index)s تا %(end_index)s از %(items_count)s مورد در کل سایت."
+
+#, python-format
+msgid "%(start_index)s-%(end_index)s of %(items_count)s %(model_name)s in '<span class=\"w-title-ellipsis\">%(title)s</span>'."
+msgstr "%(start_index)s تا %(end_index)s از %(items_count)s مورد در «<span class=\"w-title-ellipsis\">%(title)s</span>»."
+
+#, python-format
+msgid "%(status_display)s %(task_name)s %(started_at)s"
+msgstr "%(status_display)s %(task_name)s %(started_at)s"
+
+#, python-format
+msgid "%(time)s by %(user_display_name)s"
+msgstr "%(time)s به‌دست %(user_display_name)s"
+
+msgid "%(time_period)s ago"
+msgstr "%(time_period)s پیش"
+
+#, python-format
+msgid "%(time_period)s ago by %(user_display_name)s"
+msgstr "%(time_period)s پیش به‌دست %(user_display_name)s"
+
+#, python-format
+msgid "%(total)s Document <span class=\"w-sr-only\">created in %(site_name)s</span>"
+msgid_plural "%(total)s Documents <span class=\"w-sr-only\">created in %(site_name)s</span>"
+msgstr[0] "%(total)s سند <span class=\"w-sr-only\">در %(site_name)s</span>"
+msgstr[1] "%(total)s سند <span class=\"w-sr-only\">در %(site_name)s</span>"
+
+#, python-format
+msgid "%(total)s Image <span class=\"w-sr-only\">created in %(site_name)s</span>"
+msgid_plural "%(total)s Images <span class=\"w-sr-only\">created in %(site_name)s</span>"
+msgstr[0] "%(total)s تصویر <span class=\"w-sr-only\">در %(site_name)s</span>"
+msgstr[1] "%(total)s تصویر <span class=\"w-sr-only\">در %(site_name)s</span>"
+
+#, python-format
+msgid "%(total)s Page <span class=\"w-sr-only\">created in %(site_name)s</span>"
+msgid_plural "%(total)s Pages <span class=\"w-sr-only\">created in %(site_name)s</span>"
+msgstr[0] "%(total)s صفحه <span class=\"w-sr-only\">در %(site_name)s</span>"
+msgstr[1] "%(total)s صفحه <span class=\"w-sr-only\">در %(site_name)s</span>"
+
+#, python-format
+msgid "%(user_name)s has unsaved changes"
+msgstr "%(user_name)s تغییرات ذخیره‌نشده دارد"
+
+#, python-format
+msgid "%(user_name)s saved a new version"
+msgstr "%(user_name)s نسخهٔ تازه‌ای ذخیره کرد"
+
+msgid "'%(object)s' unpublished."
+msgstr "انتشار «%(object)s» لغو شد."
+
+#, python-format
+msgid "'%(page_title)s' has been moved successfully."
+msgstr "«%(page_title)s» با موفقیت جابه‌جا شد."
+
+#, python-format
+msgid "'%(workflow)s' started. Next step '%(task)s'"
+msgstr "«%(workflow)s» آغاز شد. مرحلهٔ بعد: «%(task)s»"
+
+msgid "(blank)"
+msgstr "(خالی)"
+
+msgid "(optional)"
+msgstr "(اختیاری)"
+
+#, python-format
+msgid "(Private %(object)s)"
+msgstr "(%(object)s خصوصی)"
+
+#, python-format
+msgid "+%(counter)s more"
+msgid_plural "+%(counter)s more"
+msgstr[0] "+%(counter)s مورد دیگر"
+msgstr[1] "+%(counter)s مورد دیگر"
+
+msgid "0 minutes"
+msgstr "۰ دقیقه"
+
+msgid "1 document selected"
+msgstr "1 سند انتخاب شد"
+
+msgid "1 image selected"
+msgstr "1 تصویر انتخاب شد"
+
+msgid "1 item selected"
+msgstr "1 مورد انتخاب شد"
+
+#, python-format
+msgid "1 page"
+msgid_plural "%(counter)s pages"
+msgstr[0] "%(counter)s صفحه"
+msgstr[1] "%(counter)s صفحه"
+
+msgid "1 page selected"
+msgstr "1 صفحه انتخاب شد"
+
+msgid "1 snippet selected"
+msgstr "1 مورد انتخاب شد"
+
+#, python-format
+msgid "1 snippet type"
+msgid_plural "%(counter)s snippet types"
+msgstr[0] "%(counter)s نوع مورد"
+msgstr[1] "%(counter)s نوع مورد"
+
+msgid "1 user selected"
+msgstr "1 کاربر انتخاب شد"
+
+#, python-brace-format
+msgid "<b>'{title}' is locked</b> by <b>you</b>."
+msgstr "<b>«{title}» قفل است</b> به‌دست <b>شما</b>."
+
+#, python-brace-format
+msgid "<b>'{title}' is locked</b>."
+msgstr "<b>«{title}» قفل است</b>."
+
+#, python-brace-format
+msgid "<b>'{title}' was locked</b> by <b>you</b> on <b>{datetime}</b>."
+msgstr "<b>«{title}» قفل شد</b> به‌دست <b>شما</b> در <b>{datetime}</b>."
+
+#, python-brace-format
+msgid "<b>'{title}' was locked</b> by <b>{user}</b> on <b>{datetime}</b>."
+msgstr "<b>«{title}» قفل شد</b> به‌دست <b>{user}</b> در <b>{datetime}</b>."
+
+msgid "<p>Select a file where redirects are separated into rows and contains the columns representing <code>from</code> and <code>to</code> (they can be named anything).</p> <p>After submitting you will be taken to a confirmation view where you can customize your redirects before import.</p>"
+msgstr "<p>پرونده‌ای انتخاب کنید که در هر سطر آن یک تغییر مسیر باشد و ستون‌هایی برای <code>from</code> (از) و <code>to</code> (به) داشته باشد (نام ستون‌ها مهم نیست).</p> <p>پس از ارسال، صفحه‌ای برای بازبینی و تنظیم تغییر مسیرها پیش از واردکردن نشان داده می‌شود.</p>"
+
+msgid "A group with that name already exists."
+msgstr "گروهی با این نام وجود دارد."
+
+msgid "A link to reset your password has been emailed to you if an account exists for this address."
+msgstr "اگر حسابی با این نشانی وجود داشته باشد، پیوند بازیابی رمز عبور به آن ایمیل شد."
+
+msgid "A locale is disabled because a parent page is not translated."
+msgid_plural "Some locales are disabled because some parent pages are not translated."
+msgstr[0] "یک زبان غیرفعال است چون صفحهٔ بالادستی هنوز به آن ترجمه نشده است."
+msgstr[1] "برخی زبان‌ها غیرفعال‌اند چون برخی صفحه‌های بالادستی هنوز به آن‌ها ترجمه نشده‌اند."
+
+msgid "A network error occurred"
+msgstr "اتصال به اینترنت دچار مشکل شد"
+
+msgid "A redirect with this path already exists."
+msgstr "تغییر مسیری با این نشانی وجود دارد."
+
+msgid "A user with that username already exists."
+msgstr "کاربری با این نام کاربری وجود دارد."
+
+msgid "Access level"
+msgstr "سطح دسترسی"
+
+msgid "account"
+msgstr "حساب کاربری"
+
+msgid "Account"
+msgstr "حساب کاربری"
+
+msgid "Action"
+msgstr "کار"
+
+msgid "Action type"
+msgstr "نوع کار"
+
+msgid "Actions"
+msgstr "کارها"
+
+msgid "Actions (footer)"
+msgstr "دکمه‌های پایین صفحه"
+
+msgid "active"
+msgstr "فعال"
+
+msgid "Active"
+msgstr "فعال"
+
+msgid "Active tasks can be added to workflows. Deactivating a task does not remove it from existing workflows."
+msgstr "مرحله‌های فعال را می‌توان به گردش کار افزود. غیرفعال‌کردن مرحله آن را از گردش‌های کار فعلی برنمی‌دارد."
+
+msgid "Active workflows can be added to pages/snippets. Deactivating a workflow does not remove it from existing pages/snippets."
+msgstr "گردش کارهای فعال را می‌توان به صفحه‌ها و موارد داد. غیرفعال‌کردن گردش کار آن را از صفحه‌ها و موارد فعلی برنمی‌دارد."
+
+msgid "Add"
+msgstr "افزودن"
+
+msgid "Add %(label)s"
+msgstr "افزودن %(label)s"
+
+msgid "Add %(model_name)s"
+msgstr "افزودن %(model_name)s"
+
+#, python-format
+msgid "Add 1 document to new collection"
+msgid_plural "Add %(counter)s documents to new collection"
+msgstr[0] "افزودن %(counter)s سند به مجموعهٔ تازه"
+msgstr[1] "افزودن %(counter)s سند به مجموعهٔ تازه"
+
+#, python-format
+msgid "Add 1 image to new collection"
+msgid_plural "Add %(counter)s images to new collection"
+msgstr[0] "افزودن %(counter)s تصویر به مجموعهٔ تازه"
+msgstr[1] "افزودن %(counter)s تصویر به مجموعهٔ تازه"
+
+msgid "Add a child page"
+msgstr "افزودن زیرصفحه"
+
+msgid "Add a child page to '%(title)s'"
+msgstr "افزودن زیرصفحه به «%(title)s»"
+
+msgid "Add a collection"
+msgstr "افزودن مجموعه"
+
+msgid "Add a collection permission"
+msgstr "افزودن اجازه روی مجموعه"
+
+msgid "Add a concise description for search engines"
+msgstr "توضیح کوتاهی برای موتورهای جست‌وجو بنویسید"
+
+msgid "Add a document"
+msgstr "افزودن سند"
+
+msgid "Add a document permission"
+msgstr "افزودن اجازهٔ سند"
+
+msgid "Add a group"
+msgstr "افزودن گروه"
+
+msgid "Add a locale"
+msgstr "افزودن زبان"
+
+msgid "Add a page permission"
+msgstr "افزودن اجازهٔ صفحه"
+
+msgid "Add a phone link"
+msgstr "افزودن پیوند تلفن"
+
+msgid "Add a site"
+msgstr "افزودن سایت"
+
+msgid "Add a user"
+msgstr "افزودن کاربر"
+
+msgid "Add a workflow"
+msgstr "افزودن گردش کار"
+
+msgid "Add an anchor link"
+msgstr "افزودن پیوند به بخشی از صفحه"
+
+msgid "Add an email link"
+msgstr "افزودن پیوند ایمیل"
+
+msgid "Add an external link"
+msgstr "افزودن پیوند به سایت دیگر"
+
+msgid "Add an image"
+msgstr "افزودن تصویر"
+
+msgid "Add an image permission"
+msgstr "افزودن اجازهٔ تصویر"
+
+msgid "Add child page"
+msgstr "افزودن زیرصفحه"
+
+msgid "Add collection"
+msgstr "افزودن مجموعه"
+
+msgid "Add collections"
+msgstr "افزودن مجموعه"
+
+msgid "Add Comment"
+msgstr "افزودن یادداشت"
+
+msgid "Add comment"
+msgstr "افزودن یادداشت"
+
+msgid "Add documents"
+msgstr "افزودن سند"
+
+msgid "Add documents to collection"
+msgstr "افزودن سندها به مجموعه"
+
+msgid "Add group"
+msgstr "افزودن گروه"
+
+msgid "Add images"
+msgstr "افزودن تصویر"
+
+msgid "Add images to collection"
+msgstr "افزودن تصویرها به مجموعه"
+
+msgid "Add locale"
+msgstr "افزودن زبان"
+
+msgid "Add multiple documents"
+msgstr "افزودن چند سند"
+
+msgid "Add multiple images"
+msgstr "افزودن چند تصویر"
+
+msgid "Add or show comments"
+msgstr "افزودن یا نمایش یادداشت‌ها"
+
+msgid "Add redirect"
+msgstr "افزودن تغییر مسیر"
+
+msgid "Add selected documents to collection"
+msgstr "افزودن سندهای انتخاب‌شده به مجموعه"
+
+msgid "Add selected images to collection"
+msgstr "افزودن تصویرهای انتخاب‌شده به مجموعه"
+
+msgid "Add site"
+msgstr "افزودن سایت"
+
+#, python-format
+msgid "Add tags to 1 document"
+msgid_plural "Add tags to %(counter)s documents"
+msgstr[0] "افزودن برچسب به %(counter)s سند"
+msgstr[1] "افزودن برچسب به %(counter)s سند"
+
+#, python-format
+msgid "Add tags to 1 image"
+msgid_plural "Add tags to %(counter)s images"
+msgstr[0] "افزودن برچسب به %(counter)s تصویر"
+msgstr[1] "افزودن برچسب به %(counter)s تصویر"
+
+msgid "Add tags to documents"
+msgstr "افزودن برچسب به سندها"
+
+msgid "Add tags to images"
+msgstr "افزودن برچسب به تصویرها"
+
+msgid "Add tags to the selected documents"
+msgstr "افزودن برچسب به سندهای انتخاب‌شده"
+
+msgid "Add tags to the selected images"
+msgstr "افزودن برچسب به تصویرهای انتخاب‌شده"
+
+msgid "Add tasks to your workflow"
+msgstr "مرحله‌های گردش کار را بیفزایید"
+
+msgid "Add to collection"
+msgstr "افزودن به مجموعه"
+
+msgid "Add to collection:"
+msgstr "افزودن به مجموعه:"
+
+msgid "Add user"
+msgstr "افزودن کاربر"
+
+msgid "Add view restrictions"
+msgstr "افزودن محدودیت دیدن"
+
+msgid "Add/edit documents you own"
+msgstr "افزودن و ویرایش سندهای خود"
+
+msgid "Add/edit images you own"
+msgstr "افزودن و ویرایش تصویرهای خود"
+
+msgid "Add/edit pages you own"
+msgstr "افزودن و ویرایش صفحه‌های خود"
+
+msgid "Added a comment"
+msgstr "یادداشتی گذاشته شد"
+
+#, python-format
+msgid "Added a comment on field %(field)s: \"%(text)s\""
+msgstr "یادداشتی روی فیلد %(field)s گذاشته شد: «%(text)s»"
+
+#, python-format
+msgid "Added the '%(restriction)s' view restriction"
+msgstr "محدودیت دیدن «%(restriction)s» افزوده شد"
+
+msgid "Added view restriction"
+msgstr "محدودیت دیدن افزوده شد"
+
+msgid "Admin"
+msgstr "مدیر"
+
+msgid "admin theme"
+msgstr "ظاهر پنل"
+
+msgid "Administrator"
+msgstr "مدیر کل"
+
+msgid "Administrators have full access to manage any object or setting."
+msgstr "مدیر کل به همه‌چیز و همهٔ تنظیمات دسترسی کامل دارد."
+
+msgid "Aging pages"
+msgstr "صفحه‌های قدیمی"
+
+msgid "Alias"
+msgstr "کپی همگام"
+
+msgid "All"
+msgstr "همه"
+
+msgid "All %(objects)s documents on this screen selected"
+msgstr "همهٔ %(objects)s سند این فهرست انتخاب شد"
+
+msgid "All %(objects)s images on this screen selected"
+msgstr "همهٔ %(objects)s تصویر این فهرست انتخاب شد"
+
+msgid "All %(objects)s items on this screen selected"
+msgstr "همهٔ %(objects)s مورد این فهرست انتخاب شد"
+
+msgid "All %(objects)s pages on this screen selected"
+msgstr "همهٔ %(objects)s صفحهٔ این فهرست انتخاب شد"
+
+msgid "All %(objects)s snippets on this screen selected"
+msgstr "همهٔ %(objects)s مورد این فهرست انتخاب شد"
+
+msgid "All %(objects)s users on this screen selected"
+msgstr "همهٔ %(objects)s کاربر این فهرست انتخاب شد"
+
+msgid "All child pages will be created."
+msgstr "همهٔ زیرصفحه‌ها هم ساخته می‌شوند."
+
+msgid "All collections"
+msgstr "همهٔ مجموعه‌ها"
+
+msgid "All documents in listing selected"
+msgstr "همهٔ سندهای فهرست انتخاب شد"
+
+msgid "All images in listing selected"
+msgstr "همهٔ تصویرهای فهرست انتخاب شد"
+
+msgid "All items in listing selected"
+msgstr "همهٔ موارد فهرست انتخاب شد"
+
+msgid "All keyboard shortcuts"
+msgstr "همهٔ میان‌برهای صفحه‌کلید"
+
+msgid "All pages in listing selected"
+msgstr "همهٔ صفحه‌های فهرست انتخاب شد"
+
+msgid "All sites"
+msgstr "همهٔ سایت‌ها"
+
+msgid "All snippets in listing selected"
+msgstr "همهٔ موارد فهرست انتخاب شد"
+
+msgid "All types"
+msgstr "همهٔ انواع"
+
+msgid "All users in listing selected"
+msgstr "همهٔ کاربران فهرست انتخاب شد"
+
+msgid "Alt text"
+msgstr "متن جایگزین"
+
+msgid "Alternatively you can <a href=\"%(unpublish_url)s\">unpublish the page</a>. This removes the page from public view and you can edit or publish it again later."
+msgstr "به‌جای حذف می‌توانید <a href=\"%(unpublish_url)s\">انتشار صفحه را لغو کنید</a>. این‌طوری صفحه از دید عموم پنهان می‌شود و بعداً می‌توانید ویرایش یا دوباره منتشرش کنید."
+
+msgid "Alternatively, you can view the latest version in a new tab."
+msgstr "یا می‌توانید آخرین نسخه را در زبانهٔ تازه‌ای ببینید."
+
+msgid "Anchor link"
+msgstr "پیوند به بخشی از صفحه"
+
+msgid "any"
+msgstr "هر مقدار"
+
+msgid "Any"
+msgstr "هر کدام"
+
+#, python-format
+msgid "Anyone can edit this %(model_name)s"
+msgstr "همه می‌توانند این %(model_name)s را ویرایش کنند"
+
+#, python-format
+msgid "Anyone can edit this %(model_name)s – lock it to prevent others from editing"
+msgstr "همه می‌توانند این %(model_name)s را ویرایش کنند. برای جلوگیری از ویرایش دیگران، قفلش کنید"
+
+msgid "Anyone with editing permissions can create schedules"
+msgstr "هر کس اجازهٔ ویرایش دارد می‌تواند زمان‌بندی بگذارد"
+
+msgid "App"
+msgstr "بخش برنامه"
+
+msgid "Application"
+msgstr "همه‌جای پنل"
+
+msgid "Apply filters"
+msgstr "اعمال فیلترها"
+
+msgid "Approve"
+msgstr "تأیید"
+
+msgid "Approve with comment"
+msgstr "تأیید با یادداشت"
+
+msgid "Approved"
+msgstr "تأییدشده"
+
+#, python-format
+msgid "Approved at '%(task)s'. '%(workflow)s' complete"
+msgstr "در «%(task)s» تأیید شد. «%(workflow)s» به پایان رسید"
+
+#, python-format
+msgid "Approved at '%(task)s'. Next step '%(next_task)s'"
+msgstr "در «%(task)s» تأیید شد. مرحلهٔ بعد: «%(next_task)s»"
+
+#, python-format
+msgid "Approved by %(approved_by)s"
+msgstr "تأییدشده به‌دست %(approved_by)s"
+
+msgid "approved go live at"
+msgstr "زمان تأییدشدهٔ شروع انتشار"
+
+msgid "approved notifications"
+msgstr "آگاه‌سازی تأیید"
+
+msgid "Approved task"
+msgstr "مرحلهٔ تأییدشده"
+
+msgid "Are you sure you want to add the following document to the selected collection?"
+msgid_plural "Are you sure you want to add the following documents to the selected collection?"
+msgstr[0] "آیا می‌خواهید این سند به مجموعهٔ انتخاب‌شده برود؟"
+msgstr[1] "آیا می‌خواهید این سندها به مجموعهٔ انتخاب‌شده بروند؟"
+
+msgid "Are you sure you want to add the following image to the selected collection?"
+msgid_plural "Are you sure you want to add the following images to the selected collection?"
+msgstr[0] "آیا می‌خواهید این تصویر به مجموعهٔ انتخاب‌شده برود؟"
+msgstr[1] "آیا می‌خواهید این تصویرها به مجموعهٔ انتخاب‌شده بروند؟"
+
+msgid "Are you sure you want to assign this role to these users?"
+msgstr "آیا می‌خواهید این نقش را به این کاربران بدهید؟"
+
+msgid "Are you sure you want to change the active state for these users?"
+msgstr "آیا می‌خواهید وضعیت فعال بودن این کاربران را تغییر دهید؟"
+
+msgid "Are you sure you want to convert this alias into an ordinary page?"
+msgstr "آیا می‌خواهید این کپی همگام به یک صفحهٔ معمولی تبدیل شود؟"
+
+msgid "Are you sure you want to delete %(count)s %(snippet_type_name)s?"
+msgstr "آیا از حذف %(count)s %(snippet_type_name)s مطمئن هستید؟"
+
+msgid "Are you sure you want to delete these pages?"
+msgstr "آیا از حذف این صفحه‌ها مطمئن هستید؟"
+
+msgid "Are you sure you want to delete these users?"
+msgstr "آیا از حذف این کاربران مطمئن هستید؟"
+
+msgid "Are you sure you want to delete this %(model_name)s?"
+msgstr "آیا از حذف این %(model_name)s مطمئن هستید؟"
+
+msgid "Are you sure you want to delete this %(snippet_type_name)s?"
+msgstr "آیا از حذف این %(snippet_type_name)s مطمئن هستید؟"
+
+msgid "Are you sure you want to delete this collection?"
+msgstr "آیا از حذف این مجموعه مطمئن هستید؟"
+
+msgid "Are you sure you want to delete this document?"
+msgid_plural "Are you sure you want to delete these documents?"
+msgstr[0] "آیا از حذف این سند مطمئن هستید؟"
+msgstr[1] "آیا از حذف این سندها مطمئن هستید؟"
+
+msgid "Are you sure you want to delete this form submission?"
+msgid_plural "Are you sure you want to delete these form submissions?"
+msgstr[0] "آیا از حذف این پاسخ فرم مطمئن هستید؟"
+msgstr[1] "آیا از حذف این پاسخ‌های فرم مطمئن هستید؟"
+
+msgid "Are you sure you want to delete this group?"
+msgstr "آیا از حذف این گروه مطمئن هستید؟"
+
+msgid "Are you sure you want to delete this image?"
+msgid_plural "Are you sure you want to delete these images?"
+msgstr[0] "آیا از حذف این تصویر مطمئن هستید؟"
+msgstr[1] "آیا از حذف این تصویرها مطمئن هستید؟"
+
+msgid "Are you sure you want to delete this locale?"
+msgstr "آیا از حذف این زبان مطمئن هستید؟"
+
+msgid "Are you sure you want to delete this page?"
+msgstr "آیا از حذف این صفحه مطمئن هستید؟"
+
+msgid "Are you sure you want to delete this redirect?"
+msgstr "آیا از حذف این تغییر مسیر مطمئن هستید؟"
+
+msgid "Are you sure you want to delete this site?"
+msgstr "آیا از حذف این سایت مطمئن هستید؟"
+
+msgid "Are you sure you want to disable this task?"
+msgstr "آیا از غیرفعال‌کردن این مرحله مطمئن هستید؟"
+
+msgid "Are you sure you want to disable this workflow?"
+msgstr "آیا از غیرفعال‌کردن این گردش کار مطمئن هستید؟"
+
+msgid "Are you sure you want to move these pages?"
+msgstr "آیا از جابه‌جایی این صفحه‌ها مطمئن هستید؟"
+
+msgid "Are you sure you want to move this page and all of its children into '%(title)s'?"
+msgstr "آیا از بردن این صفحه و همهٔ زیرصفحه‌هایش به «%(title)s» مطمئن هستید؟"
+
+msgid "Are you sure you want to move this page into '%(title)s'?"
+msgstr "آیا از بردن این صفحه به «%(title)s» مطمئن هستید؟"
+
+msgid "Are you sure you want to publish these pages?"
+msgstr "آیا از انتشار این صفحه‌ها مطمئن هستید؟"
+
+msgid "Are you sure you want to tag the following document?"
+msgid_plural "Are you sure you want to tag the following documents?"
+msgstr[0] "آیا می‌خواهید به این سند برچسب بزنید؟"
+msgstr[1] "آیا می‌خواهید به این سندها برچسب بزنید؟"
+
+msgid "Are you sure you want to tag the following image?"
+msgid_plural "Are you sure you want to tag the following images?"
+msgstr[0] "آیا می‌خواهید به این تصویر برچسب بزنید؟"
+msgstr[1] "آیا می‌خواهید به این تصویرها برچسب بزنید؟"
+
+msgid "Are you sure you want to unpublish these pages?"
+msgstr "آیا از لغو انتشار این صفحه‌ها مطمئن هستید؟"
+
+msgid "Are you sure you want to unpublish this %(model_name)s?"
+msgstr "آیا از لغو انتشار این %(model_name)s مطمئن هستید؟"
+
+msgid "Are you sure you want to unpublish this page?"
+msgstr "آیا از لغو انتشار این صفحه مطمئن هستید؟"
+
+msgid "Are you sure you want to unschedule this revision?"
+msgstr "آیا از لغو زمان‌بندی این نسخه مطمئن هستید؟"
+
+msgid "Assign role"
+msgstr "دادن نقش"
+
+#, python-format
+msgid "Assign role to 1 user"
+msgid_plural "Assign role to %(counter)s users"
+msgstr[0] "دادن نقش به %(counter)s کاربر"
+msgstr[1] "دادن نقش به %(counter)s کاربر"
+
+msgid "Assign role to selected users"
+msgstr "دادن نقش به کاربران انتخاب‌شده"
+
+msgid "Assign to another page"
+msgstr "افزودن صفحهٔ دیگر"
+
+msgid "Assign your workflow to pages"
+msgstr "گردش کار را به صفحه‌ها بدهید"
+
+msgid "Assign your workflow to snippets"
+msgstr "گردش کار را به انواع موارد بدهید"
+
+msgid "Assigned pages"
+msgstr "صفحه‌های تعیین‌شده"
+
+#, python-format
+msgid "at %(time)s"
+msgstr "ساعت %(time)s"
+
+#, python-format
+msgid "at %(time)s by %(user_display_name)s"
+msgstr "ساعت %(time)s به‌دست %(user_display_name)s"
+
+msgid "automatically created"
+msgstr "خودکار ساخته‌شده"
+
+msgid "Autosave is <span>paused</span>"
+msgstr "ذخیرهٔ خودکار <span>متوقف</span> است"
+
+msgid "Autosave is paused"
+msgstr "ذخیرهٔ خودکار متوقف است"
+
+#, python-format
+msgid "Available in %(translations_total)s locales"
+msgstr "به %(translations_total)s زبان موجود است"
+
+msgid "Avoid skipping levels"
+msgstr "از یک سطح تیتر به سطح پایین‌تر نپرید"
+
+msgid "Awaiting"
+msgstr "در انتظار"
+
+msgid "Awaiting my review"
+msgstr "در انتظار بررسی من"
+
+msgid "Awaiting your review"
+msgstr "در انتظار بررسی شما"
+
+msgid "Back"
+msgstr "بازگشت"
+
+msgid "Blockquote"
+msgstr "نقل قول"
+
+msgid "Bold"
+msgstr "پررنگ"
+
+msgid "Breadcrumb"
+msgstr "مسیر صفحه"
+
+msgid "Bulk actions"
+msgstr "کارهای گروهی"
+
+msgid "Bulk delete"
+msgstr "حذف گروهی"
+
+msgid "Bulleted list"
+msgstr "فهرست نقطه‌دار"
+
+msgid "But only those with publishing permissions can make them effective."
+msgstr "اما فقط کسانی که اجازهٔ انتشار دارند می‌توانند آن را اجرا کنند."
+
+msgid "Button text is empty"
+msgstr "متن دکمه خالی است"
+
+msgid "by %(user)s"
+msgstr "به‌دست %(user)s"
+
+msgid "By task"
+msgstr "بر اساس مرحله"
+
+msgid "By workflow"
+msgstr "بر اساس گردش کار"
+
+msgid "Can access Wagtail admin"
+msgstr "می‌تواند وارد پنل مدیریت شود"
+
+msgid "Can submit translations"
+msgstr "می‌تواند ترجمه بسازد"
+
+msgid "Can view"
+msgstr "دیدن"
+
+msgid "Cancel"
+msgstr "انصراف"
+
+msgid "Cancel scheduled publish"
+msgstr "لغو انتشار زمان‌بندی‌شده"
+
+msgid "Cancel workflow "
+msgstr "لغو گردش کار "
+
+msgid "Cancelled"
+msgstr "لغوشده"
+
+#, python-format
+msgid "Cancelled '%(workflow)s' at '%(task)s'"
+msgstr "«%(workflow)s» در «%(task)s» لغو شد"
+
+msgid "Cannot find an embed for this URL."
+msgstr "برای این نشانی محتوای قابل جاسازی پیدا نشد."
+
+#, python-format
+msgid "Cannot overwrite a revision that is not the latest for this %(model_name)s."
+msgstr "فقط آخرین نسخهٔ این %(model_name)s را می‌توان بازنویسی کرد."
+
+msgid "Cannot overwrite a revision that was not created by the current user."
+msgstr "نسخه‌ای را که کاربر دیگری ساخته نمی‌توان بازنویسی کرد."
+
+msgid "Change"
+msgstr "تغییر"
+
+#, python-format
+msgid "Change active state for 1 user"
+msgid_plural "Change active state for %(counter)s users"
+msgstr[0] "تغییر وضعیت فعال بودن %(counter)s کاربر"
+msgstr[1] "تغییر وضعیت فعال بودن %(counter)s کاربر"
+
+msgid "Change document:"
+msgstr "تغییر سند:"
+
+msgid "Change image"
+msgstr "تغییر تصویر"
+
+msgid "Change image file:"
+msgstr "تغییر پروندهٔ تصویر:"
+
+msgid "Change privacy"
+msgstr "تغییر حریم خصوصی"
+
+msgid "Change the active state for selected users"
+msgstr "تغییر وضعیت فعال بودن کاربران انتخاب‌شده"
+
+msgid "Changes"
+msgstr "تغییرات"
+
+msgid "Changes requested"
+msgstr "درخواست اصلاح"
+
+#, python-format
+msgid "Changes requested %(finished_at)s"
+msgstr "درخواست اصلاح %(finished_at)s"
+
+msgid "Changes requested at"
+msgstr "زمان درخواست اصلاح"
+
+#, python-format
+msgid "Changes requested by %(requested_by)s"
+msgstr "%(requested_by)s درخواست اصلاح داد"
+
+msgid "Changing the privacy for this page has been disabled."
+msgstr "تغییر حریم خصوصی این صفحه غیرفعال شده است."
+
+msgid "Check your email"
+msgstr "ایمیل خود را ببینید"
+
+msgid "Checkbox"
+msgstr "چک‌باکس"
+
+msgid "Checkboxes"
+msgstr "چند چک‌باکس"
+
+msgid "Checks"
+msgstr "بررسی‌ها"
+
+msgid "choices"
+msgstr "گزینه‌ها"
+
+msgid "Choose"
+msgstr "انتخاب"
+
+msgid "Choose %(object)s"
+msgstr "انتخاب %(object)s"
+
+msgid "Choose a different root page"
+msgstr "انتخاب صفحهٔ ریشهٔ دیگر"
+
+msgid "Choose a different task type"
+msgstr "انتخاب نوع دیگری از مرحله"
+
+msgid "Choose a document"
+msgstr "انتخاب سند"
+
+msgid "Choose a format"
+msgstr "انتخاب قالب"
+
+msgid "Choose a page"
+msgstr "انتخاب صفحه"
+
+msgid "Choose a root page"
+msgstr "انتخاب صفحهٔ ریشه"
+
+msgid "Choose a task"
+msgstr "انتخاب مرحله"
+
+msgid "Choose an image"
+msgstr "انتخاب تصویر"
+
+msgid "Choose an item"
+msgstr "انتخاب مورد"
+
+msgid "Choose another"
+msgstr "انتخاب دیگری"
+
+msgid "Choose another %(object)s"
+msgstr "انتخاب %(object)s دیگر"
+
+msgid "Choose another document"
+msgstr "انتخاب سند دیگر"
+
+msgid "Choose another image"
+msgstr "انتخاب تصویر دیگر"
+
+msgid "Choose another item"
+msgstr "انتخاب مورد دیگر"
+
+msgid "Choose another page"
+msgstr "انتخاب صفحهٔ دیگر"
+
+msgid "Choose another task"
+msgstr "انتخاب مرحلهٔ دیگر"
+
+msgid "Choose parent"
+msgstr "انتخاب صفحهٔ بالادستی"
+
+#, python-format
+msgid "Choose when this %(model_name)s should go live and/or expire"
+msgstr "زمان شروع و/یا پایان انتشار این %(model_name)s را تعیین کنید"
+
+msgid "Choose when this page should go live and/or expire"
+msgstr "زمان شروع و/یا پایان انتشار این صفحه را تعیین کنید"
+
+msgid "Choose which type of page you'd like to create."
+msgstr "نوع صفحه‌ای را که می‌خواهید بسازید انتخاب کنید."
+
+msgid "Choose which type of task you'd like to create."
+msgstr "نوع مرحله‌ای را که می‌خواهید بسازید انتخاب کنید."
+
+msgid "Choose who can view the live version of this page"
+msgstr "تعیین کنید چه کسانی نسخهٔ منتشرشدهٔ این صفحه را ببینند"
+
+msgid "Clear"
+msgstr "پاک کردن"
+
+msgid "Clear choice"
+msgstr "پاک کردن انتخاب"
+
+msgid "Close"
+msgstr "بستن"
+
+msgid "Close dialog"
+msgstr "بستن پنجره"
+
+msgid "Close modal dialogs (like this one)"
+msgstr "بستن پنجره‌های بازشو (مانند همین پنجره)"
+
+msgid "Closeness"
+msgstr "میزان نزدیکی"
+
+msgid "Code"
+msgstr "کد"
+
+msgid "Collection"
+msgstr "مجموعه"
+
+msgid "collection"
+msgstr "مجموعه"
+
+msgid "Collection '%(object)s' created."
+msgstr "مجموعهٔ «%(object)s» ساخته شد."
+
+msgid "Collection '%(object)s' deleted."
+msgstr "مجموعهٔ «%(object)s» حذف شد."
+
+msgid "Collection '%(object)s' updated."
+msgstr "مجموعهٔ «%(object)s» به‌روز شد."
+
+msgid "Collection management permissions"
+msgstr "اجازه‌های مدیریت مجموعه‌ها"
+
+msgid "collection view restriction"
+msgstr "محدودیت دیدن مجموعه"
+
+msgid "collection view restrictions"
+msgstr "محدودیت‌های دیدن مجموعه"
+
+msgid "Collections"
+msgstr "مجموعه‌ها"
+
+msgid "collections"
+msgstr "مجموعه‌ها"
+
+msgid "Comma or new line separated list of choices. Only applicable in checkboxes, radio and dropdown."
+msgstr "گزینه‌ها، با ویرگول یا هر کدام در یک سطر. فقط برای چک‌باکس، دکمهٔ رادیویی و فهرست کشویی."
+
+msgid "comment"
+msgstr "یادداشت"
+
+msgid "Comment"
+msgstr "یادداشت"
+
+msgid "Comment notifications"
+msgstr "آگاه‌سازی یادداشت‌ها"
+
+msgid "comment replies"
+msgstr "پاسخ‌های یادداشت"
+
+msgid "comment reply"
+msgstr "پاسخ یادداشت"
+
+msgid "Comments"
+msgstr "یادداشت‌ها"
+
+msgid "comments"
+msgstr "یادداشت‌ها"
+
+msgid "Compare"
+msgstr "مقایسه"
+
+msgid "Compare with current version"
+msgstr "مقایسه با نسخهٔ فعلی"
+
+msgid "Compare with live version"
+msgstr "مقایسه با نسخهٔ منتشرشده"
+
+msgid "Compare with previous version"
+msgstr "مقایسه با نسخهٔ پیشین"
+
+msgid "Completed at"
+msgstr "زمان پایان"
+
+msgid "Configure a site now."
+msgstr "یک سایت تعریف کنید."
+
+msgid "Confirm"
+msgstr "تأیید"
+
+msgid "Confirm import"
+msgstr "تأیید واردکردن"
+
+msgid "Confirm selection"
+msgstr "تأیید انتخاب"
+
+msgid "Content"
+msgstr "محتوا"
+
+msgid "content JSON"
+msgstr "محتوای JSON"
+
+msgid "Content metrics"
+msgstr "آمار محتوا"
+
+msgid "content type"
+msgstr "نوع محتوا"
+
+msgid "Continue"
+msgstr "ادامه"
+
+msgid "contrast"
+msgstr "تضاد رنگ"
+
+msgid "Convert alias"
+msgstr "تبدیل کپی همگام"
+
+#, python-format
+msgid "Convert alias %(title)s"
+msgstr "تبدیل کپی همگام %(title)s"
+
+msgid "Convert alias into ordinary page"
+msgstr "تبدیل کپی همگام به صفحهٔ معمولی"
+
+msgid "Convert this alias into an ordinary page"
+msgstr "تبدیل این کپی همگام به صفحهٔ معمولی"
+
+msgid "Convert to internal link"
+msgstr "تبدیل به پیوند داخلی"
+
+msgid "Converted an alias into an ordinary page"
+msgstr "یک کپی همگام به صفحهٔ معمولی تبدیل شد"
+
+#, python-format
+msgid "Converted the alias '%(title)s' into an ordinary page"
+msgstr "کپی همگام «%(title)s» به صفحهٔ معمولی تبدیل شد"
+
+msgid "Converting this to an internal link to %(page)s would make the link automatically update if the underlying page changes its URL. Would you like to do this?"
+msgstr "اگر این پیوند را به پیوند داخلی به %(page)s تبدیل کنید، با تغییر نشانی آن صفحه، پیوند هم خودکار درست می‌شود. تبدیل شود؟"
+
+msgid "Copied"
+msgstr "کپی شد"
+
+msgid "Copied for translation"
+msgstr "برای ترجمه کپی شد"
+
+#, python-format
+msgid "Copied for translation from %(title)s (%(locale)s)"
+msgstr "برای ترجمه از %(title)s (%(locale)s) کپی شد"
+
+#, python-format
+msgid "Copied from %(title)s"
+msgstr "کپی‌شده از %(title)s"
+
+msgid "Copied to clipboard"
+msgstr "کپی شد"
+
+msgid "Copy"
+msgstr "کپی"
+
+msgid "Copy %(title)s"
+msgstr "کپی %(title)s"
+
+msgid "Copy for translation"
+msgstr "کپی برای ترجمه"
+
+msgid "Copy subpages"
+msgstr "کپی زیرصفحه‌ها"
+
+msgid "Copy this page"
+msgstr "کپی این صفحه"
+
+msgid "Copy URL"
+msgstr "کپی نشانی"
+
+msgid "Copying to clipboard failed"
+msgstr "کپی نشد"
+
+msgid "Correct the validation errors to resume preview (saving will highlight errors)"
+msgstr "برای دیدن دوبارهٔ پیش‌نمایش خطاهای فرم را برطرف کنید (با زدن «ذخیره» خطاها نشان داده می‌شوند)"
+
+msgid "Create"
+msgstr "ساختن"
+
+#, python-format
+msgid "Create a new %(model_name)s"
+msgstr "ساختن %(model_name)s تازه"
+
+msgid "Create a page in"
+msgstr "ساختن صفحه در"
+
+msgid "Create a page in %(title)s"
+msgstr "ساختن صفحه در %(title)s"
+
+msgid "Create alias"
+msgstr "ساختن کپی همگام"
+
+msgid "Created"
+msgstr "تاریخ ساخت"
+
+msgid "Created an alias"
+msgstr "کپی همگام ساخته شد"
+
+#, python-format
+msgid "Created an alias of %(title)s"
+msgstr "کپی همگامی از %(title)s ساخته شد"
+
+msgid "created at"
+msgstr "زمان ساخت"
+
+msgid "Creating…"
+msgstr "در حال ساختن…"
+
+msgid "Current draft"
+msgstr "پیش‌نویس فعلی"
+
+msgid "Current focal point shown"
+msgstr "نقطهٔ کانونی فعلی نشان داده شده است"
+
+msgid "Current page status:"
+msgstr "وضعیت فعلی صفحه:"
+
+msgid "current task state"
+msgstr "وضعیت مرحلهٔ جاری"
+
+msgid "Current time zone"
+msgstr "منطقهٔ زمانی فعلی"
+
+msgid "current time zone"
+msgstr "منطقهٔ زمانی"
+
+msgid "Currently idle"
+msgstr "اکنون بیکار"
+
+msgid "Currently locked and will go live on the scheduled date"
+msgstr "اکنون قفل است و در تاریخ تعیین‌شده منتشر می‌شود"
+
+msgid "Currently viewing"
+msgstr "اکنون در حال دیدن"
+
+msgid "Custom permissions"
+msgstr "اجازه‌های ویژه"
+
+msgid "Cut"
+msgstr "برش"
+
+msgid "Dark"
+msgstr "تیره"
+
+msgid "Dashboard"
+msgstr "پیشخوان"
+
+msgid "Date"
+msgstr "تاریخ"
+
+msgid "Date / Time"
+msgstr "تاریخ و ساعت"
+
+msgid "Date cannot be in the future."
+msgstr "تاریخ نمی‌تواند در آینده باشد."
+
+msgid "Date from"
+msgstr "از تاریخ"
+
+msgid "Date to"
+msgstr "تا تاریخ"
+
+msgid "Date updated"
+msgstr "تاریخ به‌روزرسانی"
+
+msgid "Date/Time"
+msgstr "تاریخ و ساعت"
+
+msgid "Date/time"
+msgstr "تاریخ و ساعت"
+
+msgid "default"
+msgstr "پیش‌فرض"
+
+msgid "Default"
+msgstr "پیش‌فرض"
+
+msgid "Default avatar"
+msgstr "تصویر پیش‌فرض"
+
+msgid "default value"
+msgstr "مقدار پیش‌فرض"
+
+msgid "Default value. Comma or new line separated values supported for checkboxes."
+msgstr "مقدار پیش‌فرض. برای چک‌باکس چند مقدار با ویرگول یا در سطرهای جدا."
+
+msgid "Default?"
+msgstr "پیش‌فرض؟"
+
+msgid "Delete"
+msgstr "حذف"
+
+msgid "Delete "
+msgstr "حذف "
+
+msgid "Delete %(snippet_type_name)s"
+msgstr "حذف %(snippet_type_name)s"
+
+msgid "Delete %(title)s"
+msgstr "حذف %(title)s"
+
+#, python-format
+msgid "Delete 1 document"
+msgid_plural "Delete %(counter)s documents"
+msgstr[0] "حذف %(counter)s سند"
+msgstr[1] "حذف %(counter)s سند"
+
+#, python-format
+msgid "Delete 1 image"
+msgid_plural "Delete %(counter)s images"
+msgstr[0] "حذف %(counter)s تصویر"
+msgstr[1] "حذف %(counter)s تصویر"
+
+#, python-format
+msgid "Delete 1 page"
+msgid_plural "Delete %(counter)s pages"
+msgstr[0] "حذف %(counter)s صفحه"
+msgstr[1] "حذف %(counter)s صفحه"
+
+#, python-format
+msgid "Delete 1 user"
+msgid_plural "Delete %(counter)s users"
+msgstr[0] "حذف %(counter)s کاربر"
+msgstr[1] "حذف %(counter)s کاربر"
+
+msgid "Delete collection"
+msgstr "حذف مجموعه"
+
+msgid "Delete collections"
+msgstr "حذف مجموعه"
+
+msgid "Delete comment"
+msgstr "حذف یادداشت"
+
+msgid "Delete document"
+msgstr "حذف سند"
+
+msgid "Delete documents"
+msgstr "حذف سندها"
+
+msgid "Delete form data"
+msgstr "حذف داده‌های فرم"
+
+msgid "Delete form data %(title)s"
+msgstr "حذف داده‌های فرم %(title)s"
+
+msgid "Delete group"
+msgstr "حذف گروه"
+
+msgid "Delete image"
+msgstr "حذف تصویر"
+
+msgid "Delete images"
+msgstr "حذف تصویرها"
+
+msgid "Delete locale"
+msgstr "حذف زبان"
+
+msgid "Delete new image"
+msgstr "حذف تصویر تازه"
+
+msgid "Delete pages with children"
+msgstr "حذف صفحه همراه زیرصفحه‌ها"
+
+msgid "Delete redirect %(title)s"
+msgstr "حذف تغییر مسیر %(title)s"
+
+msgid "Delete reply to comment"
+msgstr "حذف پاسخ یادداشت"
+
+msgid "Delete selected documents"
+msgstr "حذف سندهای انتخاب‌شده"
+
+msgid "Delete selected images"
+msgstr "حذف تصویرهای انتخاب‌شده"
+
+msgid "Delete selected pages"
+msgstr "حذف صفحه‌های انتخاب‌شده"
+
+msgid "Delete selected snippets"
+msgstr "حذف موارد انتخاب‌شده"
+
+msgid "Delete selected submissions"
+msgstr "حذف پاسخ‌های انتخاب‌شده"
+
+msgid "Delete selected users"
+msgstr "حذف کاربران انتخاب‌شده"
+
+msgid "Delete site"
+msgstr "حذف سایت"
+
+msgid "Delete user"
+msgstr "حذف کاربر"
+
+msgid "Deleted"
+msgstr "حذف‌شده"
+
+msgid "Deleted a comment"
+msgstr "یادداشتی حذف شد"
+
+#, python-format
+msgid "Deleted a comment on field %(field)s: \"%(text)s\""
+msgstr "یادداشتی روی فیلد %(field)s حذف شد: «%(text)s»"
+
+msgid "Deleted a reply"
+msgstr "پاسخی حذف شد"
+
+#, python-format
+msgid "Deleted a reply to a comment on field %(field)s: \"%(text)s\""
+msgstr "پاسخ یادداشتی روی فیلد %(field)s حذف شد: «%(text)s»"
+
+msgid "Deleted comments"
+msgstr "یادداشت‌های حذف‌شده"
+
+msgid "Deleted comments:"
+msgstr "یادداشت‌های حذف‌شده:"
+
+msgid "Deleting this group will revoke this group's permissions from all member users."
+msgstr "با حذف این گروه، اجازه‌های آن از همهٔ اعضایش گرفته می‌شود."
+
+#, python-format
+msgid "Deleting this page will also delete %(descendant_count)s child page."
+msgid_plural "Deleting this page will also delete %(descendant_count)s more child pages."
+msgstr[0] "با حذف این صفحه، %(descendant_count)s زیرصفحهٔ آن هم حذف می‌شود."
+msgstr[1] "با حذف این صفحه، %(descendant_count)s زیرصفحهٔ دیگر هم حذف می‌شود."
+
+#, python-format
+msgid "Deleting this page will also delete %(translation_count)s translation of this page."
+msgid_plural "This will also delete %(descendant_count)s more child pages. Deleting this page will also delete %(translation_count)s translations of this page."
+msgstr[0] "با حذف این صفحه، %(translation_count)s ترجمهٔ آن هم حذف می‌شود."
+msgstr[1] "%(descendant_count)s زیرصفحهٔ دیگر هم حذف می‌شود. با حذف این صفحه، %(translation_count)s ترجمهٔ آن هم حذف می‌شود."
+
+#, python-format
+msgid "Deleting this page will also delete %(translation_count)s translations and their combined %(translation_descendant_count)s translated child page."
+msgid_plural "Deleting this page will also delete %(translation_count)s translations and their combined %(translation_descendant_count)s translated child pages."
+msgstr[0] "با حذف این صفحه، %(translation_count)s ترجمه و روی‌هم %(translation_descendant_count)s زیرصفحهٔ ترجمه‌شدهٔ آن‌ها هم حذف می‌شود."
+msgstr[1] "با حذف این صفحه، %(translation_count)s ترجمه و روی‌هم %(translation_descendant_count)s زیرصفحهٔ ترجمه‌شدهٔ آن‌ها هم حذف می‌شود."
+
+#, python-format
+msgid "Deleting this page will also delete 1 translation and its combined %(translation_descendant_count)s translated child page."
+msgid_plural "Deleting this page will also delete 1 translation and its combined %(translation_descendant_count)s translated child pages."
+msgstr[0] "با حذف این صفحه، یک ترجمه و روی‌هم %(translation_descendant_count)s زیرصفحهٔ ترجمه‌شدهٔ آن هم حذف می‌شود."
+msgstr[1] "با حذف این صفحه، یک ترجمه و روی‌هم %(translation_descendant_count)s زیرصفحهٔ ترجمه‌شدهٔ آن هم حذف می‌شود."
+
+msgid "density"
+msgstr "فشردگی"
+
+msgid "description"
+msgstr "توضیح"
+
+msgid "Disable"
+msgstr "غیرفعال‌کردن"
+
+msgid "Disable custom ordering"
+msgstr "پایان مرتب‌سازی دستی"
+
+msgid "Disable task"
+msgstr "غیرفعال‌کردن مرحله"
+
+msgid "Disable workflow"
+msgstr "غیرفعال‌کردن گردش کار"
+
+msgid "Disabled"
+msgstr "غیرفعال"
+
+msgid "Document"
+msgstr "سند"
+
+msgid "document"
+msgstr "سند"
+
+msgid "Document '%(document_title)s' added."
+msgstr "سند «%(document_title)s» افزوده شد."
+
+msgid "Document '%(document_title)s' deleted."
+msgstr "سند «%(document_title)s» حذف شد."
+
+msgid "Document '%(document_title)s' updated"
+msgstr "سند «%(document_title)s» به‌روز شد"
+
+msgid "Document permissions"
+msgstr "اجازه‌های سند"
+
+msgid "Document updated."
+msgstr "سند به‌روز شد."
+
+msgid "documents"
+msgstr "اسناد"
+
+msgid "Documents"
+msgstr "اسناد"
+
+msgid "Don't worry, we've got your back. Check out the <a class=\"w-whats-new__link\" href=\"%(editor_guide_link)s\" target=\"_blank\" rel=\"noreferrer\">Wagtail Editor Guide</a> to get the low down on what's changed and some exciting new features!"
+msgstr "برای آشنایی با تغییرات و امکانات تازه، <a class=\"w-whats-new__link\" href=\"%(editor_guide_link)s\" target=\"_blank\" rel=\"noreferrer\">راهنمای ویرایشگر Wagtail</a> را ببینید (انگلیسی)."
+
+msgid "Download CSV"
+msgstr "دریافت پروندهٔ CSV"
+
+msgid "Download XLSX"
+msgstr "دریافت پروندهٔ اکسل (XLSX)"
+
+msgid "Draft"
+msgstr "پیش‌نویس"
+
+msgid "draft"
+msgstr "پیش‌نویس"
+
+msgid "Draft saved"
+msgstr "پیش‌نویس ذخیره شد"
+
+msgid "Drag"
+msgstr "کشیدن"
+
+msgid "Drag and drop documents into this area to upload immediately."
+msgstr "سندها را به این بخش بکشید و رها کنید تا بی‌درنگ بارگذاری شوند."
+
+msgid "Drag and drop images into this area to upload immediately."
+msgstr "تصویرها را به این بخش بکشید و رها کنید تا بی‌درنگ بارگذاری شوند."
+
+msgid "Drop down"
+msgstr "فهرست کشویی"
+
+msgid "Earliest"
+msgstr "قدیمی‌ترین"
+
+msgid "Edit"
+msgstr "ویرایش"
+
+msgid "Edit / Review"
+msgstr "ویرایش / بررسی"
+
+msgid "Edit account avatar"
+msgstr "ویرایش تصویر پروفایل"
+
+msgid "Edit any document"
+msgstr "ویرایش همهٔ سندها"
+
+msgid "Edit any image"
+msgstr "ویرایش همهٔ تصویرها"
+
+msgid "Edit any page"
+msgstr "ویرایش همهٔ صفحه‌ها"
+
+msgid "Edit collections"
+msgstr "ویرایش مجموعه"
+
+msgid "Edit comment"
+msgstr "ویرایش یادداشت"
+
+msgid "Edit original page"
+msgstr "ویرایش صفحهٔ اصلی"
+
+msgid "Edit reply to comment"
+msgstr "ویرایش پاسخ یادداشت"
+
+msgid "Edit schedule"
+msgstr "ویرایش زمان‌بندی"
+
+msgid "Edit this %(object)s"
+msgstr "ویرایش این %(object)s"
+
+msgid "Edit this document"
+msgstr "ویرایش این سند"
+
+msgid "Edit this image"
+msgstr "ویرایش این تصویر"
+
+msgid "Edit this item"
+msgstr "ویرایش این مورد"
+
+msgid "Edit this page"
+msgstr "ویرایش این صفحه"
+
+msgid "Edit this task"
+msgstr "ویرایش این مرحله"
+
+msgid "Edit your notification preferences here:"
+msgstr "تنظیمات آگاه‌سازی خود را اینجا تغییر دهید:"
+
+msgid "Edited"
+msgstr "ویرایش شد"
+
+msgid "Edited a comment"
+msgstr "یادداشتی ویرایش شد"
+
+#, python-format
+msgid "Edited a comment on field %(field)s: \"%(text)s\""
+msgstr "یادداشتی روی فیلد %(field)s ویرایش شد: «%(text)s»"
+
+msgid "Edited a reply"
+msgstr "پاسخی ویرایش شد"
+
+#, python-format
+msgid "Edited a reply to a comment on field %(field)s: \"%(text)s\""
+msgstr "پاسخ یادداشتی روی فیلد %(field)s ویرایش شد: «%(text)s»"
+
+msgid "Edited by"
+msgstr "ویرایش‌شده به‌دست"
+
+msgid "Editing"
+msgstr "ویرایش"
+
+msgid "Editing %(page_type)s"
+msgstr "ویرایش %(page_type)s"
+
+msgid "Editing %(task_type)s"
+msgstr "ویرایش %(task_type)s"
+
+msgid "Editing workflow"
+msgstr "ویرایش گردش کار"
+
+msgid "Editor Guide"
+msgstr "راهنمای ویرایشگر"
+
+msgid "Email"
+msgstr "ایمیل"
+
+msgid "Email link"
+msgstr "پیوند ایمیل"
+
+msgid "Embed"
+msgstr "جاسازی (ویدیو و…)"
+
+msgid "embed"
+msgstr "محتوای جاسازی‌شده"
+
+msgid "embeds"
+msgstr "محتواهای جاسازی‌شده"
+
+msgid "Empty frame title found"
+msgstr "عنوان قاب (iframe) خالی است"
+
+msgid "Empty heading found"
+msgstr "تیتر خالی پیدا شد"
+
+msgid "Enable"
+msgstr "فعال‌کردن"
+
+msgid "Enable custom keyboard shortcuts specific to Wagtail."
+msgstr "روشن‌کردن میان‌برهای ویژهٔ صفحه‌کلید در پنل مدیریت."
+
+msgid "Enable custom ordering"
+msgstr "مرتب‌سازی دستی"
+
+msgid "Enter a search term above"
+msgstr "عبارتی برای جست‌وجو بنویسید"
+
+msgid "Enter password"
+msgstr "رمز عبور را بنویسید"
+
+msgid "Enter the same password as above, for verification."
+msgstr "برای اطمینان، همان رمز عبور بالا را دوباره بنویسید."
+
+msgid "Enter your %(username_field_name)s"
+msgstr "%(username_field_name)s خود را بنویسید"
+
+msgid "Enter your email address to reset your password"
+msgstr "برای بازیابی رمز عبور، نشانی ایمیل خود را بنویسید"
+
+msgid "Error"
+msgstr "خطا"
+
+msgid "Error 404"
+msgstr "خطای ۴۰۴"
+
+msgid "Error 404: Page not found"
+msgstr "خطای ۴۰۴: صفحه پیدا نشد"
+
+msgid "Existing"
+msgstr "موجود"
+
+msgid "expired"
+msgstr "منقضی‌شده"
+
+msgid "expiry date/time"
+msgstr "تاریخ و ساعت پایان انتشار"
+
+msgid "Expiry date/time must be in the future."
+msgstr "تاریخ و ساعت پایان انتشار باید در آینده باشد."
+
+msgid "Expiry:"
+msgstr "پایان انتشار:"
+
+msgid "Explore"
+msgstr "گشتن"
+
+msgid "Explore child pages of '%(title)s'"
+msgstr "دیدن زیرصفحه‌های «%(title)s»"
+
+msgid "Explore subpages of '%(title)s'"
+msgstr "دیدن زیرصفحه‌های «%(title)s»"
+
+msgid "Exploring"
+msgstr "در حال گشتن"
+
+msgid "External link"
+msgstr "پیوند به سایت دیگر"
+
+msgid "Field"
+msgstr "فیلد"
+
+#, python-format
+msgid "Field name '%(duplicate_clean_name)s' conflicts with another field. Please change the label."
+msgstr "نام فیلد «%(duplicate_clean_name)s» با فیلد دیگری یکی شده است. لطفاً برچسب را تغییر دهید."
+
+msgid "field type"
+msgstr "نوع فیلد"
+
+msgid "Fields"
+msgstr "فیلدها"
+
+msgid "file"
+msgstr "پرونده"
+
+msgid "File"
+msgstr "پرونده"
+
+#, python-format
+msgid "File format of type \"%(extension)s\" is not supported."
+msgstr "پرونده با پسوند «%(extension)s» پشتیبانی نمی‌شود."
+
+msgid "File not found"
+msgstr "پرونده پیدا نشد"
+
+msgid "File size: (high to low)"
+msgstr "حجم پرونده: (زیاد به کم)"
+
+msgid "File size: (low to high)"
+msgstr "حجم پرونده: (کم به زیاد)"
+
+msgid "File to import"
+msgstr "پروندهٔ ورودی"
+
+msgid "Filesize"
+msgstr "حجم پرونده"
+
+msgid "Filter"
+msgstr "فیلتر"
+
+msgid "Filter by"
+msgstr "فیلتر بر اساس"
+
+msgid "Filter by up to ten most popular tags."
+msgstr "فیلتر با ده برچسب پرکاربرد."
+
+msgid "finished at"
+msgstr "زمان پایان"
+
+msgid "finished by"
+msgstr "پایان‌یافته به‌دست"
+
+msgid "First Name"
+msgstr "نام"
+
+msgid "First published"
+msgstr "نخستین انتشار"
+
+msgid "first published at"
+msgstr "نخستین انتشار در"
+
+msgid "Focal point"
+msgstr "نقطهٔ کانونی"
+
+msgid "Focus on the drag button and press up or down arrows to move the item, then press enter to submit the change."
+msgstr "روی دکمهٔ جابه‌جایی بروید و با کلیدهای بالا و پایین مورد را جابه‌جا کنید، سپس برای ثبت، Enter را بزنید."
+
+msgid "for content type"
+msgstr "برای نوع محتوا"
+
+msgid "For search engines"
+msgstr "برای موتورهای جست‌وجو"
+
+msgid "For site menus"
+msgstr "برای منوهای سایت"
+
+msgid "Forgotten password?"
+msgstr "رمز عبور را فراموش کرده‌اید؟"
+
+msgid "Form"
+msgstr "فرم"
+
+msgid "Form data"
+msgstr "داده‌های فرم"
+
+msgid "form submission"
+msgstr "پاسخ فرم"
+
+msgid "form submissions"
+msgstr "پاسخ‌های فرم"
+
+msgid "Format"
+msgstr "قالب"
+
+msgid "Forms"
+msgstr "فرم‌ها"
+
+#, python-format
+msgid "Found %(total)s redirects, created %(successes)s and found %(errors)s errors."
+msgstr "%(total)s تغییر مسیر پیدا شد، %(successes)s مورد ساخته شد و %(errors)s خطا پیدا شد."
+
+msgid "From"
+msgstr "از"
+
+msgid "from address"
+msgstr "ایمیل فرستنده"
+
+msgid "From field"
+msgstr "ستون «از»"
+
+msgid "From site"
+msgstr "از سایت"
+
+msgid "Full width"
+msgstr "تمام‌عرض"
+
+msgid "Generate URL"
+msgstr "ساختن نشانی"
+
+msgid "Give your workflow a name"
+msgstr "برای گردش کار نامی بنویسید"
+
+msgid "Go back"
+msgstr "بازگشت"
+
+msgid "go live date/time"
+msgstr "تاریخ و ساعت شروع انتشار"
+
+msgid "Go live date/time must be before expiry date/time"
+msgstr "تاریخ و ساعت شروع انتشار باید پیش از تاریخ و ساعت پایان انتشار باشد"
+
+msgid "Go to the first error"
+msgstr "رفتن به نخستین خطا"
+
+msgid "Go to Wagtail admin"
+msgstr "رفتن به پنل مدیریت"
+
+msgid "Go-live:"
+msgstr "شروع انتشار:"
+
+msgid "Grid layout"
+msgstr "نمایش شبکه‌ای"
+
+msgid "Group"
+msgstr "گروه"
+
+msgid "group"
+msgstr "گروه"
+
+msgid "Group '%(object)s' created."
+msgstr "گروه «%(object)s» ساخته شد."
+
+msgid "Group '%(object)s' deleted."
+msgstr "گروه «%(object)s» حذف شد."
+
+msgid "Group '%(object)s' updated."
+msgstr "گروه «%(object)s» به‌روز شد."
+
+msgid "Group approval task"
+msgstr "مرحلهٔ تأیید گروهی"
+
+msgid "Group approval tasks"
+msgstr "مرحله‌های تأیید گروهی"
+
+msgid "group collection permission"
+msgstr "اجازهٔ گروه روی مجموعه"
+
+msgid "group collection permissions"
+msgstr "اجازه‌های گروه روی مجموعه"
+
+msgid "group page permission"
+msgstr "اجازهٔ گروه روی صفحه"
+
+msgid "group page permissions"
+msgstr "اجازه‌های گروه روی صفحه"
+
+msgid "group site permission"
+msgstr "اجازهٔ گروه روی سایت"
+
+msgid "group site permissions"
+msgstr "اجازه‌های گروه روی سایت"
+
+msgid "groups"
+msgstr "گروه‌ها"
+
+msgid "Groups"
+msgstr "گروه‌ها"
+
+msgid "Has child pages"
+msgstr "زیرصفحه دارد"
+
+msgid "has unpublished changes"
+msgstr "تغییرات منتشرنشده دارد"
+
+msgid "Heading 1"
+msgstr "تیتر ۱"
+
+msgid "Heading 2"
+msgstr "تیتر ۲"
+
+msgid "Heading 3"
+msgstr "تیتر ۳"
+
+msgid "Heading 4"
+msgstr "تیتر ۴"
+
+msgid "Heading 5"
+msgstr "تیتر ۵"
+
+msgid "Heading 6"
+msgstr "تیتر ۶"
+
+msgid "Height"
+msgstr "ارتفاع"
+
+msgid "height"
+msgstr "ارتفاع"
+
+msgid "Hello %(username)s,"
+msgstr "سلام %(username)s،"
+
+msgid "Help"
+msgstr "راهنما"
+
+msgid "help text"
+msgstr "متن راهنما"
+
+msgid "Hidden field"
+msgstr "فیلد پنهان"
+
+msgid "History"
+msgstr "تاریخچه"
+
+msgid "Home"
+msgstr "خانه"
+
+msgid "hostname"
+msgstr "نام دامنه"
+
+msgid "How we calculate our metrics"
+msgstr "این آمار چگونه حساب می‌شود"
+
+msgid "Human-readable name for the site."
+msgstr "نام خوانای سایت."
+
+msgid "ID"
+msgstr "شناسه"
+
+msgid "If true, this site will handle requests for all other hostnames that do not have a site entry of their own"
+msgstr "اگر تیک بخورد، این سایت به درخواست‌های همهٔ دامنه‌هایی که سایت جداگانه‌ای ندارند پاسخ می‌دهد"
+
+msgid "If you confirm deletion"
+msgstr "اگر حذف را تأیید کنید"
+
+msgid "If you just want to add pages to an existing site, create them as children of the homepage instead."
+msgstr "برای افزودن صفحه به سایت، آن را زیر صفحهٔ اصلی (خانه) بسازید."
+
+msgid "image"
+msgstr "تصویر"
+
+msgid "Image"
+msgstr "تصویر"
+
+msgid "Image '%(image_title)s' added."
+msgstr "تصویر «%(image_title)s» افزوده شد."
+
+msgid "Image '%(image_title)s' deleted."
+msgstr "تصویر «%(image_title)s» حذف شد."
+
+msgid "Image '%(image_title)s' updated."
+msgstr "تصویر «%(image_title)s» به‌روز شد."
+
+msgid "Image alt text has inappropriate pattern"
+msgstr "متن جایگزین تصویر مناسب نیست"
+
+msgid "Image focal point"
+msgstr "نقطهٔ کانونی تصویر"
+
+msgid "Image is decorative"
+msgstr "تصویر فقط تزئینی است"
+
+msgid "Image permissions"
+msgstr "اجازه‌های تصویر"
+
+msgid "Image updated."
+msgstr "تصویر به‌روز شد."
+
+msgid "Image URL"
+msgstr "نشانی تصویر"
+
+msgid "images"
+msgstr "تصویرها"
+
+msgid "Images"
+msgstr "عکس‌ها"
+
+msgid "Import"
+msgstr "واردکردن"
+
+msgid "Import redirects"
+msgstr "واردکردن تغییر مسیرها"
+
+#, python-format
+msgid "Imported %(total)d redirect"
+msgid_plural "Imported %(total)d redirects"
+msgstr[0] "%(total)d تغییر مسیر وارد شد"
+msgstr[1] "%(total)d تغییر مسیر وارد شد"
+
+#, python-format
+msgid "Imported file has a wrong encoding: %(error_message)s."
+msgstr "رمزگذاری نویسه‌های پرونده درست نیست: %(error_message)s."
+
+msgid "In Moderation"
+msgstr "در انتظار بررسی"
+
+msgid "in moderation"
+msgstr "در انتظار بررسی"
+
+msgid "In progress"
+msgstr "در جریان"
+
+msgid "Inactive"
+msgstr "غیرفعال"
+
+#, python-format
+msgid "Include subtree (%(descendant_count)s page)"
+msgid_plural "Include subtree (%(descendant_count)s pages)"
+msgstr[0] "با زیرصفحه‌ها (%(descendant_count)s صفحه)"
+msgstr[1] "با زیرصفحه‌ها (%(descendant_count)s صفحه)"
+
+msgid "Incomplete task"
+msgstr "مرحلهٔ ناتمام"
+
+msgid "Incorrect heading hierarchy"
+msgstr "ترتیب تیترها درست نیست"
+
+msgid "Initial Revision"
+msgstr "نسخهٔ نخست"
+
+msgid "Input button text is empty"
+msgstr "متن دکمهٔ فرم خالی است"
+
+msgid "Insert"
+msgstr "درج"
+
+msgid "Insert anchor"
+msgstr "درج پیوند"
+
+msgid "Insert embed"
+msgstr "درج محتوای جاسازی‌شده"
+
+msgid "Insert image"
+msgstr "درج تصویر"
+
+msgid "Insert link"
+msgstr "درج پیوند"
+
+msgid "Insert or edit a link"
+msgstr "افزودن یا ویرایش پیوند"
+
+msgid "Inspect"
+msgstr "مشاهدهٔ جزئیات"
+
+msgid "Instances"
+msgstr "موارد"
+
+msgid "Internal link"
+msgstr "پیوند به صفحهٔ سایت"
+
+msgid "Invalid password reset link"
+msgstr "پیوند بازیابی رمز عبور نادرست است"
+
+msgid "Invalid schedule"
+msgstr "زمان‌بندی نادرست"
+
+msgid "Is commenting action"
+msgstr "مربوط به یادداشت‌ها"
+
+msgid "is default site"
+msgstr "سایت پیش‌فرض"
+
+msgid "Issues found"
+msgstr "ایرادهای پیداشده"
+
+#, python-format
+msgid "It will also delete %(translation_count)s translation."
+msgid_plural "It will also delete %(translation_count)s translations."
+msgstr[0] "%(translation_count)s ترجمه هم حذف می‌شود."
+msgstr[1] "%(translation_count)s ترجمه هم حذف می‌شود."
+
+#, python-format
+msgid "It will also delete %(translation_count)s translations and their combined %(translation_descendant_count)s translated child page."
+msgid_plural "It will also delete %(translation_count)s translations and their combined %(translation_descendant_count)s translated child pages."
+msgstr[0] "%(translation_count)s ترجمه و روی‌هم %(translation_descendant_count)s زیرصفحهٔ ترجمه‌شدهٔ آن‌ها هم حذف می‌شود."
+msgstr[1] "%(translation_count)s ترجمه و روی‌هم %(translation_descendant_count)s زیرصفحهٔ ترجمه‌شدهٔ آن‌ها هم حذف می‌شود."
+
+#, python-format
+msgid "It will also delete 1 translation and its combined %(translation_descendant_count)s translated child page."
+msgid_plural "It will also delete 1 translation and its combined %(translation_descendant_count)s translated child pages."
+msgstr[0] "یک ترجمه و روی‌هم %(translation_descendant_count)s زیرصفحهٔ ترجمه‌شدهٔ آن هم حذف می‌شود."
+msgstr[1] "یک ترجمه و روی‌هم %(translation_descendant_count)s زیرصفحهٔ ترجمه‌شدهٔ آن هم حذف می‌شود."
+
+msgid "Italic"
+msgstr "کج (ایتالیک)"
+
+msgid "item"
+msgstr "مورد"
+
+#, python-format
+msgid "Item %(index)s of %(total)s"
+msgstr "مورد %(index)s از %(total)s"
+
+msgid "items"
+msgstr "مورد"
+
+msgid "JavaScript is required to use Wagtail, but it is currently disabled.<br /> Here are the <a href=\"https://www.enable-javascript.com/\" target=\"_blank\" rel=\"noreferrer\">instructions how to enable JavaScript in your web browser</a>."
+msgstr "برای کار با پنل مدیریت باید JavaScript مرورگر روشن باشد، اما اکنون خاموش است.<br /> <a href=\"https://www.enable-javascript.com/\" target=\"_blank\" rel=\"noreferrer\">راهنمای روشن‌کردن JavaScript در مرورگر</a> را ببینید."
+
+msgid "just now"
+msgstr "همین حالا"
+
+msgid "Keep new image"
+msgstr "نگه‌داشتن تصویر تازه"
+
+msgid "Keep the new pages updated with future changes"
+msgstr "صفحه‌های تازه با تغییرات آیندهٔ صفحهٔ اصلی همگام بمانند"
+
+msgid "Keyboard shortcut"
+msgstr "میان‌بر صفحه‌کلید"
+
+msgid "Keyboard shortcuts"
+msgstr "میان‌برهای صفحه‌کلید"
+
+#, python-format
+msgid "Keyboard shortcuts are currently disabled; manage your %(account_link)s to enable them."
+msgstr "میان‌برهای صفحه‌کلید اکنون خاموش‌اند؛ برای روشن‌کردنشان به %(account_link)s بروید."
+
+#, python-format
+msgid "Keyboard shortcuts are currently enabled; manage your %(account_link)s to disable them."
+msgstr "میان‌برهای صفحه‌کلید اکنون روشن‌اند؛ برای خاموش‌کردنشان به %(account_link)s بروید."
+
+msgid "label"
+msgstr "برچسب"
+
+msgid "Landing page"
+msgstr "صفحهٔ پس از ارسال"
+
+msgid "Language"
+msgstr "زبان"
+
+msgid "Last edit"
+msgstr "آخرین ویرایش"
+
+msgid "Last edited page"
+msgstr "آخرین صفحهٔ ویرایش‌شده"
+
+msgid "Last login"
+msgstr "آخرین ورود"
+
+msgid "Last Name"
+msgstr "نام خانوادگی"
+
+msgid "Last published"
+msgstr "آخرین انتشار"
+
+msgid "Last published at"
+msgstr "آخرین انتشار"
+
+msgid "last published at"
+msgstr "آخرین انتشار در"
+
+msgid "Last published before"
+msgstr "آخرین انتشار پیش از"
+
+msgid "Last published by"
+msgstr "آخرین انتشار به‌دست"
+
+msgid "Latest"
+msgstr "تازه‌ترین"
+
+msgid "Latest documents"
+msgstr "آخرین سندها"
+
+msgid "Latest images"
+msgstr "آخرین تصویرها"
+
+msgid "latest revision"
+msgstr "آخرین نسخه"
+
+msgid "latest revision created at"
+msgstr "زمان آخرین نسخه"
+
+msgid "Latest submission"
+msgstr "آخرین پاسخ"
+
+msgid "Layout"
+msgstr "چیدمان"
+
+msgid "Leave blank if not changing."
+msgstr "اگر نمی‌خواهید تغییر کند خالی بگذارید."
+
+msgid "Left-aligned"
+msgstr "چپ‌چین"
+
+msgid "Light"
+msgstr "روشن"
+
+msgid "Link"
+msgstr "پیوند"
+
+msgid "Link text is empty"
+msgstr "متن پیوند خالی است"
+
+msgid "List layout"
+msgstr "نمایش فهرستی"
+
+msgid "Live"
+msgstr "منتشرشده"
+
+msgid "live"
+msgstr "منتشرشده"
+
+msgid "live + draft"
+msgstr "منتشرشده + پیش‌نویس"
+
+msgid "live + in moderation"
+msgstr "منتشرشده + در انتظار بررسی"
+
+msgid "live + scheduled"
+msgstr "منتشرشده + زمان‌بندی‌شده"
+
+msgid "live revision"
+msgstr "نسخهٔ منتشرشده"
+
+msgid "Live version"
+msgstr "نسخهٔ منتشرشده"
+
+msgid "Loading"
+msgstr "در حال بارگیری"
+
+msgid "locale"
+msgstr "زبان"
+
+msgid "Locale"
+msgstr "زبان"
+
+#, python-format
+msgid "Locale '%(object)s' created."
+msgstr "زبان «%(object)s» افزوده شد."
+
+#, python-format
+msgid "Locale '%(object)s' deleted."
+msgstr "زبان «%(object)s» حذف شد."
+
+#, python-format
+msgid "Locale '%(object)s' updated."
+msgstr "زبان «%(object)s» به‌روز شد."
+
+msgid "Locale: "
+msgstr "زبان: "
+
+msgid "Locales"
+msgstr "زبان‌ها"
+
+msgid "Lock"
+msgstr "قفل"
+
+msgid "Lock/unlock pages you've locked"
+msgstr "قفل‌کردن و بازکردن صفحه‌هایی که خودتان قفل کرده‌اید"
+
+msgid "Locked"
+msgstr "قفل‌شده"
+
+msgid "locked"
+msgstr "قفل‌شده"
+
+msgid "locked at"
+msgstr "زمان قفل"
+
+msgid "Locked at"
+msgstr "زمان قفل"
+
+#, python-format
+msgid "Locked at <b>%(locking_date)s</b>"
+msgstr "قفل‌شده در <b>%(locking_date)s</b>"
+
+msgid "locked by"
+msgstr "قفل‌شده به‌دست"
+
+#, python-format
+msgid "Locked by <b>%(locked_by)s</b> at <b>%(locking_date)s</b>"
+msgstr "قفل‌شده به‌دست <b>%(locked_by)s</b> در <b>%(locking_date)s</b>"
+
+#, python-format
+msgid "Locked by <b>you</b> at <b>%(locking_date)s</b>"
+msgstr "قفل‌شده به‌دست <b>شما</b> در <b>%(locking_date)s</b>"
+
+msgid "Locked by another user"
+msgstr "قفل‌شده به‌دست کاربر دیگر"
+
+msgid "Locked by schedule"
+msgstr "قفل‌شده به‌خاطر زمان‌بندی"
+
+msgid "Locked by workflow"
+msgstr "قفل‌شده به‌خاطر گردش کار"
+
+msgid "Locked by you"
+msgstr "قفل‌شده به‌دست شما"
+
+msgid "Locked pages"
+msgstr "صفحه‌های قفل‌شده"
+
+msgid "Locking status"
+msgstr "وضعیت قفل"
+
+msgid "Locking: "
+msgstr "قفل: "
+
+msgid "log entries"
+msgstr "رویدادهای ثبت‌شده"
+
+msgid "log entry"
+msgstr "رویداد ثبت‌شده"
+
+msgid "Log in"
+msgstr "ورود"
+
+msgid "Log out"
+msgstr "خروج"
+
+msgid "Login"
+msgstr "ورود"
+
+msgid "Mark as active"
+msgstr "فعال شود"
+
+msgid "Max dimensions"
+msgstr "بیشترین ابعاد"
+
+msgid "Maximum"
+msgstr "بیشینه"
+
+#, python-format
+msgid "Maximum filesize: %(max_upload_size)s."
+msgstr "بیشترین حجم پرونده: %(max_upload_size)s."
+
+msgid "may prevent deletion"
+msgstr "ممکن است مانع حذف شود"
+
+msgid "Members of the chosen Wagtail Groups can approve this task"
+msgstr "اعضای گروه‌های انتخاب‌شده می‌توانند این مرحله را تأیید کنند"
+
+msgid "meta description"
+msgstr "توضیح برای موتورهای جست‌وجو"
+
+msgid "Meta description is empty"
+msgstr "توضیح متا (برای موتور جست‌وجو) خالی است"
+
+msgid "Minimap"
+msgstr "نقشهٔ صفحه"
+
+msgid "Minimum"
+msgstr "کمینه"
+
+msgid "Misusing paragraphs as headings"
+msgstr "پاراگراف به‌جای تیتر به کار رفته است"
+
+msgid "model log entries"
+msgstr "رویدادهای ثبت‌شده"
+
+msgid "model log entry"
+msgstr "رویداد ثبت‌شده"
+
+msgid "Monospace (code)"
+msgstr "کد (تک‌فاصله)"
+
+msgid "More"
+msgstr "بیشتر"
+
+msgid "More actions"
+msgstr "کارهای بیشتر"
+
+msgid "More bulk actions"
+msgstr "کارهای گروهی بیشتر"
+
+msgid "More contrast"
+msgstr "تضاد رنگ بیشتر"
+
+#, python-format
+msgid "More options for '%(title)s'"
+msgstr "گزینه‌های بیشتر برای «%(title)s»"
+
+msgid "Move"
+msgstr "جابه‌جایی"
+
+msgid "Move %(title)s"
+msgstr "جابه‌جایی %(title)s"
+
+#, python-format
+msgid "Move 1 page"
+msgid_plural "Move %(counter)s pages"
+msgstr[0] "جابه‌جایی %(counter)s صفحه"
+msgstr[1] "جابه‌جایی %(counter)s صفحه"
+
+msgid "Move down"
+msgstr "پایین بردن"
+
+msgid "Move selected pages"
+msgstr "جابه‌جایی صفحه‌های انتخاب‌شده"
+
+msgid "Move up"
+msgstr "بالا بردن"
+
+msgid "Moved"
+msgstr "جابه‌جا شد"
+
+msgid "Moved down 1 place."
+msgid_plural "Moved down %(counter)s places."
+msgstr[0] "%(counter)s جایگاه پایین رفت."
+msgstr[1] "%(counter)s جایگاه پایین رفت."
+
+#, python-format
+msgid "Moved from '%(old_parent)s' to '%(new_parent)s'"
+msgstr "از «%(old_parent)s» به «%(new_parent)s» جابه‌جا شد"
+
+msgid "Moved up 1 place."
+msgid_plural "Moved up %(counter)s places."
+msgstr[0] "%(counter)s جایگاه بالا رفت."
+msgstr[1] "%(counter)s جایگاه بالا رفت."
+
+msgid "Multi-line text"
+msgstr "متن چندخطی"
+
+msgid "Multi-word tags with spaces will automatically be enclosed in double quotes (\")."
+msgstr "برچسب‌های چندکلمه‌ای خودکار میان علامت نقل قول (\") گذاشته می‌شوند."
+
+msgid "Multiple select"
+msgstr "انتخاب چندگانه"
+
+msgid "Name"
+msgstr "نام"
+
+msgid "name"
+msgstr "نام"
+
+msgid "Name and Email"
+msgstr "نام و ایمیل"
+
+msgid "Needs changes"
+msgstr "نیازمند اصلاح"
+
+msgid "New"
+msgstr "تازه"
+
+msgid "New comments"
+msgstr "یادداشت‌های تازه"
+
+msgid "New comments:"
+msgstr "یادداشت‌های تازه:"
+
+msgid "New parent page"
+msgstr "صفحهٔ بالادستی تازه"
+
+msgid "New replies"
+msgstr "پاسخ‌های تازه"
+
+msgid "New replies to:"
+msgstr "پاسخ‌های تازه به:"
+
+msgid "New replies:"
+msgstr "پاسخ‌های تازه:"
+
+msgid "New slug"
+msgstr "نامک تازه"
+
+#, python-format
+msgid "New tags have been added to %(num_parent_objects)d document"
+msgid_plural "New tags have been added to %(num_parent_objects)d documents"
+msgstr[0] "به %(num_parent_objects)d سند برچسب تازه افزوده شد"
+msgstr[1] "به %(num_parent_objects)d سند برچسب تازه افزوده شد"
+
+msgid "New tags have been added to %(num_parent_objects)d image"
+msgid_plural "New tags have been added to %(num_parent_objects)d images"
+msgstr[0] "به %(num_parent_objects)d تصویر برچسب تازه افزوده شد"
+msgstr[1] "به %(num_parent_objects)d تصویر برچسب تازه افزوده شد"
+
+msgid "New title"
+msgstr "عنوان تازه"
+
+msgid "New workflow"
+msgstr "گردش کار تازه"
+
+msgid "New workflow task"
+msgstr "مرحلهٔ تازهٔ گردش کار"
+
+#, python-format
+msgid "New: %(model_name)s"
+msgstr "تازه: %(model_name)s"
+
+msgid "Newest"
+msgstr "تازه‌ترین"
+
+msgid "Next"
+msgstr "بعدی"
+
+msgid "No"
+msgstr "خیر"
+
+#, python-format
+msgid "No %(model_name)s match your query."
+msgstr "هیچ %(model_name)s با جست‌وجوی شما پیدا نشد."
+
+msgid "No collections have been created. Why not <a href=\"%(add_collection_url)s\">add one</a>?"
+msgstr "هنوز هیچ مجموعه‌ای ساخته نشده است. <a href=\"%(add_collection_url)s\">یکی بسازید</a>."
+
+msgid "No locked pages found."
+msgstr "صفحهٔ قفل‌شده‌ای پیدا نشد."
+
+msgid "No log entries found."
+msgstr "هیچ رویدادی ثبت نشده است."
+
+#, python-format
+msgid "No one can make changes while the %(model_name)s is locked"
+msgstr "تا وقتی %(model_name)s قفل است، کسی نمی‌تواند آن را تغییر دهد"
+
+msgid "No other translations"
+msgstr "ترجمهٔ دیگری ندارد"
+
+msgid "No page types found."
+msgstr "هیچ نوع صفحه‌ای پیدا نشد."
+
+msgid "No pages found."
+msgstr "صفحه‌ای پیدا نشد."
+
+msgid "No pages match this report's criteria."
+msgstr "هیچ صفحه‌ای با شرط‌های این گزارش جور نیست."
+
+msgid "No pages/snippets have been submitted for moderation yet"
+msgstr "هنوز هیچ صفحه یا موردی برای بررسی فرستاده نشده است"
+
+msgid "No publishing schedule set"
+msgstr "زمانی برای انتشار تعیین نشده است"
+
+msgid "No redirects have been created. Why not <a href=\"%(wagtailredirects_add_redirect_url)s\">add one</a>?"
+msgstr "هنوز هیچ تغییر مسیری ساخته نشده است. <a href=\"%(wagtailredirects_add_redirect_url)s\">یکی بسازید</a>."
+
+msgid "No results across entire site."
+msgstr "در کل سایت نتیجه‌ای پیدا نشد."
+
+#, python-format
+msgid "No results in '<span class=\"w-title-ellipsis\">%(title)s</span>'."
+msgstr "در «<span class=\"w-title-ellipsis\">%(title)s</span>» نتیجه‌ای پیدا نشد."
+
+#, python-format
+msgid "No tasks have been created. Why not <a href=\"%(add_url)s\">add one</a>?"
+msgstr "هنوز هیچ مرحله‌ای ساخته نشده است. <a href=\"%(add_url)s\">یکی بسازید</a>."
+
+#, python-format
+msgid "No workflows have been created. Why not <a href=\"%(add_url)s\">add one</a>?"
+msgstr "هنوز هیچ گردش کاری ساخته نشده است. <a href=\"%(add_url)s\">یکی بسازید</a>."
+
+msgid "No, don't add"
+msgstr "نه، افزوده نشود"
+
+msgid "No, don't assign"
+msgstr "نه، داده نشود"
+
+msgid "No, don't change state"
+msgstr "نه، تغییر نکند"
+
+msgid "No, don't delete"
+msgstr "نه، حذف نشود"
+
+msgid "No, don't delete it"
+msgstr "نه، حذف نشود"
+
+msgid "No, don't move"
+msgstr "نه، جابه‌جا نشوند"
+
+msgid "No, don't publish"
+msgstr "نه، منتشر نشود"
+
+msgid "No, don't unpublish"
+msgstr "نه، لغو نشود"
+
+msgid "No, don't unschedule"
+msgstr "نه، لغو نشود"
+
+msgid "No, leave it as an alias"
+msgstr "نه، کپی همگام بماند"
+
+msgid "None"
+msgstr "هیچ"
+
+msgid "Not a supported image format. Supported formats: %(supported_formats)s."
+msgstr "این قالب تصویر پشتیبانی نمی‌شود. قالب‌های پشتیبانی‌شده: %(supported_formats)s."
+
+#, python-format
+msgid "Not a valid .%(extension)s image. The extension does not match the file format (%(image_format)s)"
+msgstr "این پرونده تصویر .%(extension)s معتبری نیست. پسوند با قالب پرونده (%(image_format)s) جور نیست"
+
+msgid "Not started"
+msgstr "آغاز نشده"
+
+msgid "Not used"
+msgstr "استفاده نشده"
+
+msgid "Not visible to the public"
+msgstr "برای عموم پیدا نیست"
+
+msgid "Notifications"
+msgstr "آگاه‌سازی‌ها"
+
+msgid "Number"
+msgstr "عدد"
+
+msgid "Numbered list"
+msgstr "فهرست شماره‌دار"
+
+msgid "object id"
+msgstr "شناسهٔ مورد"
+
+msgid "Object permissions"
+msgstr "اجازه‌های بخش‌ها"
+
+msgid "Oldest"
+msgstr "قدیمی‌ترین"
+
+msgid "Once live anyone can view"
+msgstr "پس از انتشار همه می‌توانند ببینند"
+
+msgid "Once scheduled:"
+msgstr "پس از زمان‌بندی:"
+
+#, python-format
+msgid "One or more references to this %(model_name)s prevent it from being deleted."
+msgstr "چون از این %(model_name)s جای دیگری استفاده شده، نمی‌توان حذفش کرد."
+
+#, python-format
+msgid "One other user is currently viewing"
+msgid_plural "%(num_user)s other users are currently viewing"
+msgstr[0] "یک کاربر دیگر هم اکنون این صفحه را می‌بیند"
+msgstr[1] "%(num_user)s کاربر دیگر هم اکنون این صفحه را می‌بینند"
+
+msgid "One submission has been deleted."
+msgid_plural "%(count)d submissions have been deleted."
+msgstr[0] "%(count)d پاسخ حذف شد."
+msgstr[1] "%(count)d پاسخ حذف شد."
+
+#, python-format
+msgid "Only %(user)s can make changes while the %(model_name)s is locked"
+msgstr "تا وقتی %(model_name)s قفل است، فقط %(user)s می‌تواند آن را تغییر دهد"
+
+msgid "Only pages of type \"%(type)s\" may be chosen for this field. Search results will exclude pages of other types."
+msgid_plural "Only the following page types may be chosen for this field: %(type)s. Search results will exclude pages of other types."
+msgstr[0] "برای این فیلد فقط صفحه‌هایی از نوع «%(type)s» را می‌توان انتخاب کرد. صفحه‌های دیگر در نتایج جست‌وجو نمی‌آیند."
+msgstr[1] "برای این فیلد فقط این انواع صفحه را می‌توان انتخاب کرد: %(type)s. صفحه‌های دیگر در نتایج جست‌وجو نمی‌آیند."
+
+#, python-format
+msgid "Only reviewers can edit and approve the %(model_name)s"
+msgstr "فقط بررسی‌کنندگان می‌توانند %(model_name)s را ویرایش و تأیید کنند"
+
+#, python-format
+msgid "Only reviewers for this task can edit the %(model_name)s."
+msgstr "فقط بررسی‌کنندگان این مرحله می‌توانند %(model_name)s را ویرایش کنند."
+
+#, python-format
+msgid "Only you can make changes while the %(model_name)s is locked"
+msgstr "تا وقتی %(model_name)s قفل است، فقط شما می‌توانید آن را تغییر دهید"
+
+msgid "Optional - form submissions will be emailed to these addresses. Separate multiple addresses by comma."
+msgstr "اختیاری. پاسخ‌های فرم به این نشانی‌ها ایمیل می‌شود. چند نشانی را با ویرگول جدا کنید."
+
+msgid "Optionally specify a route on the target page to redirect to. Leave blank to redirect to the default page route."
+msgstr "اگر لازم است، مسیری درون صفحهٔ مقصد بنویسید. برای رفتن به خود صفحه خالی بگذارید."
+
+msgid "Or choose from your computer"
+msgstr "یا از رایانه انتخاب کنید"
+
+msgid "Origin"
+msgstr "منبع"
+
+msgid "Original size"
+msgstr "اندازهٔ اصلی"
+
+msgid "Other permissions"
+msgstr "اجازه‌های دیگر"
+
+msgid "Other searches"
+msgstr "جست‌وجوهای دیگر"
+
+msgid "Owner"
+msgstr "سازنده"
+
+msgid "owner"
+msgstr "سازنده"
+
+msgid "Page"
+msgstr "صفحه"
+
+msgid "page"
+msgstr "صفحه"
+
+msgid "Page %(page_num)s of %(total_pages)s"
+msgstr "صفحهٔ %(page_num)s از %(total_pages)s"
+
+msgid "Page %(page_number)s of %(num_pages)s."
+msgstr "صفحهٔ %(page_number)s از %(num_pages)s."
+
+msgid "Page '%(page_title)s' and %(subpages_count)s subpages copied."
+msgstr "صفحهٔ «%(page_title)s» و %(subpages_count)s زیرصفحه‌اش کپی شدند."
+
+msgid "Page '%(page_title)s' copied."
+msgstr "صفحهٔ «%(page_title)s» کپی شد."
+
+msgid "Page '%(page_title)s' created and published."
+msgstr "صفحهٔ «%(page_title)s» ساخته و منتشر شد."
+
+msgid "Page '%(page_title)s' created and scheduled for publishing."
+msgstr "صفحهٔ «%(page_title)s» ساخته و برای انتشار زمان‌بندی شد."
+
+msgid "Page '%(page_title)s' created and submitted for moderation."
+msgstr "صفحهٔ «%(page_title)s» ساخته و برای بررسی فرستاده شد."
+
+msgid "Page '%(page_title)s' created."
+msgstr "صفحهٔ «%(page_title)s» ساخته شد."
+
+msgid "Page '%(page_title)s' deleted."
+msgstr "صفحهٔ «%(page_title)s» حذف شد."
+
+msgid "Page '%(page_title)s' has been converted into an ordinary page."
+msgstr "صفحهٔ «%(page_title)s» به صفحهٔ معمولی تبدیل شد."
+
+msgid "Page '%(page_title)s' has been published."
+msgstr "صفحهٔ «%(page_title)s» منتشر شد."
+
+msgid "Page '%(page_title)s' has been replaced with version from %(previous_revision_datetime)s."
+msgstr "صفحهٔ «%(page_title)s» با نسخهٔ %(previous_revision_datetime)s جایگزین شد."
+
+msgid "Page '%(page_title)s' has been scheduled for publishing."
+msgstr "صفحهٔ «%(page_title)s» برای انتشار زمان‌بندی شد."
+
+msgid "Page '%(page_title)s' has been submitted for moderation."
+msgstr "صفحهٔ «%(page_title)s» برای بررسی فرستاده شد."
+
+msgid "Page '%(page_title)s' has been updated."
+msgstr "صفحهٔ «%(page_title)s» به‌روز شد."
+
+msgid "Page '%(page_title)s' is live and this version has been scheduled for publishing."
+msgstr "صفحهٔ «%(page_title)s» منتشر شده است و این نسخه برای انتشار زمان‌بندی شد."
+
+msgid "Page '%(page_title)s' is now unlocked."
+msgstr "قفل صفحهٔ «%(page_title)s» باز شد."
+
+msgid "Page '%(page_title)s' moved."
+msgstr "صفحهٔ «%(page_title)s» جابه‌جا شد."
+
+msgid "Page '%(page_title)s' unpublished."
+msgstr "انتشار صفحهٔ «%(page_title)s» لغو شد."
+
+msgid "Page locked"
+msgstr "صفحه قفل شد"
+
+msgid "page log entries"
+msgstr "رویدادهای صفحه"
+
+msgid "page log entry"
+msgstr "رویداد صفحه"
+
+msgid "Page permissions"
+msgstr "اجازه‌های صفحه"
+
+msgid "Page scheduled for publishing"
+msgstr "صفحه برای انتشار زمان‌بندی شد"
+
+#, python-format
+msgid "Page scheduled for publishing at %(go_live_at)s"
+msgstr "صفحه برای انتشار در %(go_live_at)s زمان‌بندی شد"
+
+msgid "Page title"
+msgstr "عنوان صفحه"
+
+msgid "Page type"
+msgstr "نوع صفحه"
+
+msgid "Page types"
+msgstr "انواع صفحه"
+
+msgid "Page types usage"
+msgstr "استفاده از انواع صفحه"
+
+#, python-format
+msgid "Page unscheduled for publishing at %(go_live_at)s"
+msgstr "زمان‌بندی انتشار صفحه در %(go_live_at)s لغو شد"
+
+msgid "Page unscheduled from publishing"
+msgstr "زمان‌بندی انتشار صفحه لغو شد"
+
+msgid "page view restriction"
+msgstr "محدودیت دیدن صفحه"
+
+msgid "page view restrictions"
+msgstr "محدودیت‌های دیدن صفحه"
+
+msgid "Page visibility: "
+msgstr "چه کسی صفحه را می‌بیند: "
+
+msgid "Page/Snippet"
+msgstr "صفحه یا مورد"
+
+msgid "Page/Snippet ID"
+msgstr "شناسهٔ صفحه یا مورد"
+
+msgid "Page/Snippet Title"
+msgstr "عنوان صفحه یا مورد"
+
+msgid "Page/Snippet Type"
+msgstr "نوع صفحه یا مورد"
+
+msgid "Pages"
+msgstr "صفحه‌ها"
+
+msgid "pages"
+msgstr "صفحه‌ها"
+
+msgid "Pages created here will not be accessible at any URL. To add pages to an existing site, create them as children of the homepage."
+msgstr "صفحه‌ای که اینجا ساخته شود در هیچ نشانی‌ای دیده نمی‌شود. برای افزودن صفحه به سایت، آن را زیر صفحهٔ اصلی (خانه) بسازید."
+
+msgid "Pages using"
+msgstr "صفحه‌های از نوع"
+
+msgid "Pages using %(page_type)s"
+msgstr "صفحه‌های از نوع %(page_type)s"
+
+msgid "Pages/snippets at this step in a workflow will be moderated or approved by these groups of users"
+msgstr "صفحه‌ها و مواردی که به این مرحله از گردش کار برسند، به‌دست این گروه‌ها بررسی یا تأیید می‌شوند"
+
+msgid "Pagination"
+msgstr "صفحه‌بندی"
+
+msgid "Parent"
+msgstr "مجموعهٔ بالادستی"
+
+msgid "Parent page"
+msgstr "صفحهٔ بالادستی"
+
+msgid "Password"
+msgstr "رمز عبور"
+
+msgid "Password change successful"
+msgstr "رمز عبور تغییر کرد"
+
+msgid "Password confirmation"
+msgstr "تکرار رمز عبور"
+
+msgid "Password required"
+msgstr "رمز لازم است"
+
+msgid "Password reset"
+msgstr "بازیابی رمز عبور"
+
+msgid "Paste"
+msgstr "چسباندن"
+
+msgid "Paste and match style"
+msgstr "چسباندن با قالب همین‌جا"
+
+msgid "Paste without formatting"
+msgstr "چسباندن بدون قالب‌بندی"
+
+msgid "Permanent"
+msgstr "دائمی"
+
+msgid "permanent"
+msgstr "دائمی"
+
+msgid "permission"
+msgstr "اجازه"
+
+msgid "Phone link"
+msgstr "پیوند تلفن"
+
+msgid "Placeholder title"
+msgstr "عنوان موقت"
+
+msgid "Please add some alt text for your image or mark it as decorative"
+msgstr "برای تصویر متن جایگزین بنویسید یا آن را تزئینی علامت بزنید"
+
+msgid "Please enter a valid URL"
+msgstr "لطفاً نشانی درستی بنویسید"
+
+msgid "Please follow the link below to reset your password:"
+msgstr "برای بازیابی رمز عبور روی پیوند زیر بزنید:"
+
+msgid "Please provide an image description to comply with best practices for accessibility."
+msgstr "برای دسترس‌پذیری بهتر، توضیحی برای تصویر بنویسید."
+
+msgid "Please select another parent."
+msgstr "لطفاً مجموعهٔ بالادستی دیگری انتخاب کنید."
+
+msgid "Please select at least one group."
+msgstr "لطفاً دست‌کم یک گروه انتخاب کنید."
+
+#, python-format
+msgid "Please type <b>%(wagtail_site_name)s</b> to confirm."
+msgstr "برای تأیید، <b>%(wagtail_site_name)s</b> را بنویسید."
+
+msgid "Popular tags"
+msgstr "برچسب‌های پرکاربرد"
+
+msgid "port"
+msgstr "درگاه (پورت)"
+
+msgid "Preferred language"
+msgstr "زبان دلخواه"
+
+msgid "preferred language"
+msgstr "زبان دلخواه"
+
+msgid "prevents deletion"
+msgstr "مانع حذف است"
+
+msgid "Preview"
+msgstr "پیش‌نمایش"
+
+msgid "Preview cannot display due to validation errors. <br /> Click save to highlight the relevant fields."
+msgstr "به‌خاطر خطاهای فرم، پیش‌نمایش نشان داده نمی‌شود. <br /> برای دیدن فیلدهای دارای خطا «ذخیره» را بزنید."
+
+#, python-format
+msgid "Preview for %(block_label)s (%(block_type)s)"
+msgstr "پیش‌نمایش %(block_label)s (%(block_type)s)"
+
+msgid "Preview in desktop size"
+msgstr "پیش‌نمایش در اندازهٔ رایانه"
+
+msgid "Preview in mobile size"
+msgstr "پیش‌نمایش در اندازهٔ گوشی"
+
+msgid "Preview in new tab"
+msgstr "پیش‌نمایش در زبانهٔ تازه"
+
+msgid "Preview in tablet size"
+msgstr "پیش‌نمایش در اندازهٔ تبلت"
+
+msgid "Preview is out of date"
+msgstr "پیش‌نمایش به‌روز نیست"
+
+msgid "Preview mode"
+msgstr "حالت پیش‌نمایش"
+
+msgid "Preview not available"
+msgstr "پیش‌نمایش در دسترس نیست"
+
+msgid "Previous"
+msgstr "قبلی"
+
+msgid "Privacy"
+msgstr "حریم خصوصی"
+
+msgid "Privacy and access"
+msgstr "حریم خصوصی و دسترسی"
+
+msgid "Privacy changes apply to all children of this page too."
+msgstr "تغییر حریم خصوصی روی همهٔ زیرصفحه‌های این صفحه هم اعمال می‌شود."
+
+#, python-format
+msgid "Privacy is inherited from the ancestor page - %(ancestor_page)s"
+msgstr "حریم خصوصی از صفحهٔ بالادستی گرفته شده است: %(ancestor_page)s"
+
+msgid "Privacy settings determine who is able to view documents in this collection."
+msgstr "تنظیمات حریم خصوصی تعیین می‌کند چه کسانی سندهای این مجموعه را ببینند."
+
+msgid "Private"
+msgstr "خصوصی"
+
+msgid "Private, accessible to any logged-in users"
+msgstr "خصوصی، برای همهٔ کاربرانی که وارد شده‌اند"
+
+msgid "Private, accessible to users in specific groups"
+msgstr "خصوصی، فقط برای اعضای گروه‌های مشخص"
+
+msgid "Private, accessible with a shared password"
+msgstr "خصوصی، با یک رمز مشترک"
+
+msgid "Private. Visit the live page"
+msgstr "خصوصی. دیدن صفحه در سایت"
+
+#, python-format
+msgid "Proceeding will overwrite the changes made by %(user_name)s."
+msgstr "اگر ادامه دهید، تغییراتی که %(user_name)s داده است از بین می‌رود."
+
+msgid "Proceeding will overwrite the changes you made in that window."
+msgstr "اگر ادامه دهید، تغییراتی که در آن پنجره داده‌اید از بین می‌رود."
+
+msgid "Profile"
+msgstr "پروفایل"
+
+msgid "Profile picture"
+msgstr "تصویر پروفایل"
+
+msgid "profile picture"
+msgstr "تصویر پروفایل"
+
+msgid "Promote"
+msgstr "سئو و منو"
+
+msgid "Public"
+msgstr "عمومی"
+
+msgid "Publish"
+msgstr "انتشار"
+
+msgid "Publish %(model_name)s"
+msgstr "انتشار %(model_name)s"
+
+#, python-format
+msgid "Publish 1 page"
+msgid_plural "Publish %(counter)s pages"
+msgstr[0] "انتشار %(counter)s صفحه"
+msgstr[1] "انتشار %(counter)s صفحه"
+
+msgid "Publish any page"
+msgstr "انتشار همهٔ صفحه‌ها"
+
+msgid "Publish copied page"
+msgstr "انتشار صفحهٔ کپی‌شده"
+
+msgid "Publish copies"
+msgstr "انتشار کپی‌ها"
+
+msgid "Publish page"
+msgstr "انتشار صفحه"
+
+msgid "Publish scheduled draft"
+msgstr "انتشار پیش‌نویس زمان‌بندی‌شده"
+
+msgid "Publish selected pages"
+msgstr "انتشار صفحه‌های انتخاب‌شده"
+
+msgid "Publish this version"
+msgstr "انتشار این نسخه"
+
+msgid "Published"
+msgstr "منتشر شد"
+
+msgid "Published scheduled draft"
+msgstr "پیش‌نویس زمان‌بندی‌شده منتشر شد"
+
+#, python-format
+msgid "Publishing this %(model_name)s will cancel the current workflow."
+msgstr "با انتشار این %(model_name)s، گردش کار جاری لغو می‌شود."
+
+msgid "Publishing this page will cancel the current workflow."
+msgstr "با انتشار این صفحه، گردش کار جاری لغو می‌شود."
+
+msgid "Publishing…"
+msgstr "در حال انتشار…"
+
+msgid "Radio buttons"
+msgstr "دکمه‌های رادیویی"
+
+msgid "Read the release notes."
+msgstr "خواندن یادداشت‌های نسخه (انگلیسی)."
+
+msgid "Readability"
+msgstr "خوانایی"
+
+msgid "Reading time"
+msgstr "زمان خواندن"
+
+msgid "Receive notification when a page is submitted for moderation"
+msgstr "وقتی صفحه‌ای برای بررسی فرستاده شد، به من خبر بده"
+
+msgid "Receive notification when comments have been created, resolved, or deleted on a page that you have subscribed to receive comment notifications on"
+msgstr "وقتی در صفحه‌ای که آگاه‌سازی یادداشت‌هایش را خواسته‌ام یادداشتی گذاشته، حل یا حذف شد، به من خبر بده"
+
+msgid "Receive notification when your page edit is approved"
+msgstr "وقتی ویرایش من تأیید شد، به من خبر بده"
+
+msgid "Receive notification when your page edit is rejected"
+msgstr "وقتی ویرایش من رد شد، به من خبر بده"
+
+msgid "Recommended. Permanent redirects ensure search engines forget the old page (the 'Redirect from') and index the new page instead."
+msgstr "پیشنهادی. با تغییر مسیر دائمی، موتورهای جست‌وجو نشانی قدیمی (فیلد «تغییر مسیر از») را فراموش می‌کنند و صفحهٔ تازه را جایگزین می‌کنند."
+
+msgid "redirect"
+msgstr "تغییر مسیر"
+
+msgid "Redirect '%(redirect_title)s' added."
+msgstr "تغییر مسیر «%(redirect_title)s» افزوده شد."
+
+msgid "Redirect '%(redirect_title)s' deleted."
+msgstr "تغییر مسیر «%(redirect_title)s» حذف شد."
+
+msgid "Redirect '%(redirect_title)s' updated."
+msgstr "تغییر مسیر «%(redirect_title)s» به‌روز شد."
+
+msgid "redirect from"
+msgstr "تغییر مسیر از"
+
+msgid "redirect to a page"
+msgstr "تغییر مسیر به یک صفحه"
+
+msgid "redirect to any URL"
+msgstr "تغییر مسیر به هر نشانی"
+
+msgid "redirects"
+msgstr "تغییر مسیرها"
+
+msgid "Redirects"
+msgstr "تغییر مسیرها"
+
+msgid "Redo"
+msgstr "انجام دوباره"
+
+#, python-format
+msgid "Referenced %(count)s time"
+msgid_plural "Referenced %(count)s times"
+msgstr[0] "%(count)s بار استفاده شده"
+msgstr[1] "%(count)s بار استفاده شده"
+
+msgid "Refresh"
+msgstr "تازه‌سازی"
+
+msgid "Refreshing…"
+msgstr "در حال تازه‌سازی…"
+
+msgid "Reject"
+msgstr "رد"
+
+msgid "Rejected"
+msgstr "ردشده"
+
+#, python-format
+msgid "Rejected at '%(task)s'. Changes requested"
+msgstr "در «%(task)s» رد شد. درخواست اصلاح داده شد"
+
+msgid "rejected notifications"
+msgstr "آگاه‌سازی رد"
+
+msgid "Remember me"
+msgstr "مرا به خاطر بسپار"
+
+msgid "Remove focal area"
+msgstr "برداشتن نقطهٔ کانونی"
+
+msgid "Remove view restrictions"
+msgstr "برداشتن محدودیت دیدن"
+
+#, python-format
+msgid "Removed the '%(restriction)s' view restriction. The page is public."
+msgstr "محدودیت دیدن «%(restriction)s» برداشته شد. صفحه برای همه پیداست."
+
+msgid "Removed view restriction"
+msgstr "محدودیت دیدن برداشته شد"
+
+msgid "Rename"
+msgstr "تغییر نام"
+
+msgid "Renamed"
+msgstr "نام تغییر کرد"
+
+#, python-format
+msgid "Renamed from '%(old)s' to '%(new)s'"
+msgstr "نام از «%(old)s» به «%(new)s» تغییر کرد"
+
+msgid "Reorder"
+msgstr "تغییر ترتیب"
+
+msgid "Reordered"
+msgstr "ترتیب تغییر کرد"
+
+#, python-format
+msgid "Reordered under '%(parent)s'"
+msgstr "ترتیب زیر «%(parent)s» تغییر کرد"
+
+msgid "Replace current draft"
+msgstr "جایگزینی پیش‌نویس فعلی"
+
+msgid "Replace current revision"
+msgstr "جایگزینی نسخهٔ فعلی"
+
+msgid "Replied to a comment"
+msgstr "به یادداشتی پاسخ داد"
+
+#, python-format
+msgid "Replied to comment on field %(field)s: \"%(text)s\""
+msgstr "به یادداشتی روی فیلد %(field)s پاسخ داده شد: «%(text)s»"
+
+msgid "Reply to comment"
+msgstr "پاسخ به یادداشت"
+
+msgid "Report this error to your website administrator with the following information:"
+msgstr "این خطا را با اطلاعات زیر به مسئول فنی سایت گزارش دهید:"
+
+msgid "Reports"
+msgstr "گزارش‌ها"
+
+msgid "Request a new password reset"
+msgstr "درخواست دوبارهٔ بازیابی رمز عبور"
+
+msgid "Request changes"
+msgstr "درخواست اصلاح"
+
+#, python-format
+msgid "Request to create %(model_name)s was blocked by hook."
+msgstr "درخواست ساختن %(model_name)s به‌دست یک افزونه متوقف شد."
+
+#, python-format
+msgid "Request to edit %(model_name)s was blocked by hook."
+msgstr "درخواست ویرایش %(model_name)s به‌دست یک افزونه متوقف شد."
+
+msgid "requested by"
+msgstr "درخواست‌کننده"
+
+msgid "Requested by"
+msgstr "درخواست‌کننده"
+
+msgid "Requested By"
+msgstr "درخواست‌کننده"
+
+msgid "Requested by <b>%(modified_by)s</b>"
+msgstr "درخواست‌شده به‌دست <b>%(modified_by)s</b>"
+
+msgid "required"
+msgstr "اجباری"
+
+msgid "Required. Letters, digits and @/./+/-/_ only."
+msgstr "اجباری. فقط حروف لاتین، عدد و نشانه‌های @/./+/-/_"
+
+msgid "Reset password"
+msgstr "بازیابی رمز عبور"
+
+msgid "Reset to default"
+msgstr "بازگشت به پیش‌فرض"
+
+msgid "Reset your password"
+msgstr "بازیابی رمز عبور"
+
+msgid "Resize to fill"
+msgstr "تغییر اندازه با برش برای پرکردن"
+
+msgid "Resize to height"
+msgstr "تغییر اندازه به ارتفاع"
+
+msgid "Resize to max"
+msgstr "تغییر اندازه به بیشینه"
+
+msgid "Resize to min"
+msgstr "تغییر اندازه به کمینه"
+
+msgid "Resize to width"
+msgstr "تغییر اندازه به عرض"
+
+msgid "Resolve comment"
+msgstr "بستن یادداشت (حل‌شده)"
+
+msgid "Resolved a comment"
+msgstr "یادداشتی حل‌شده علامت خورد"
+
+#, python-format
+msgid "Resolved a comment on field %(field)s: \"%(text)s\""
+msgstr "یادداشتی روی فیلد %(field)s حل‌شده علامت خورد: «%(text)s»"
+
+msgid "Resolved comments"
+msgstr "یادداشت‌های حل‌شده"
+
+msgid "Resolved comments:"
+msgstr "یادداشت‌های حل‌شده:"
+
+msgid "Restart workflow "
+msgstr "آغاز دوبارهٔ گردش کار "
+
+msgid "Resubmit to %(task_name)s"
+msgstr "فرستادن دوباره به %(task_name)s"
+
+#, python-format
+msgid "Resubmitted '%(task)s'. Workflow resumed"
+msgstr "«%(task)s» دوباره فرستاده شد. گردش کار ادامه یافت"
+
+msgid "Revert"
+msgstr "بازگرداندن"
+
+msgid "Reverted to previous revision"
+msgstr "به نسخهٔ پیشین بازگردانده شد"
+
+#, python-format
+msgid "Reverted to previous revision with id %(revision_id)s from %(created_at)s"
+msgstr "به نسخهٔ پیشین (شمارهٔ %(revision_id)s از %(created_at)s) بازگردانده شد"
+
+msgid "Review this version"
+msgstr "بررسی این نسخه"
+
+#, python-format
+msgid "Reviewers can edit this %(model_name)s – lock it to prevent other reviewers from editing"
+msgstr "بررسی‌کنندگان می‌توانند این %(model_name)s را ویرایش کنند. برای جلوگیری از ویرایش بررسی‌کنندگان دیگر، قفلش کنید"
+
+msgid "revision"
+msgstr "نسخه"
+
+#, python-format
+msgid "Revision %(revision_id)s from %(created_at)s scheduled for publishing at %(go_live_at)s."
+msgstr "نسخهٔ %(revision_id)s از %(created_at)s برای انتشار در %(go_live_at)s زمان‌بندی شد."
+
+#, python-format
+msgid "Revision %(revision_id)s from %(created_at)s unscheduled from publishing at %(go_live_at)s."
+msgstr "زمان‌بندی انتشار نسخهٔ %(revision_id)s از %(created_at)s در %(go_live_at)s لغو شد."
+
+msgid "revision %(revision_id)s of \"%(object)s\""
+msgstr "نسخهٔ %(revision_id)s از «%(object)s»"
+
+msgid "revisions"
+msgstr "نسخه‌ها"
+
+msgid "Right-aligned"
+msgstr "راست‌چین"
+
+msgid "Roles"
+msgstr "نقش‌ها"
+
+msgid "root page"
+msgstr "صفحهٔ ریشه"
+
+msgid "Safe name of the form field, the label converted to ascii_snake_case"
+msgstr "نام فنی فیلد؛ برچسب به حروف لاتین و با زیرخط"
+
+msgid "Save"
+msgstr "ذخیره"
+
+msgid "Save changes"
+msgstr "ذخیرهٔ تغییرات"
+
+msgid "Save Draft"
+msgstr "ذخیرهٔ پیش‌نویس"
+
+msgid "Save draft"
+msgstr "ذخیرهٔ پیش‌نویس"
+
+msgid "Save schedule"
+msgstr "ذخیرهٔ زمان‌بندی"
+
+msgid "Save your changes before leaving"
+msgstr "پیش از رفتن، تغییرات را ذخیره کنید"
+
+msgid "Saved"
+msgstr "ذخیره شد"
+
+msgid "Saving will overwrite a newer version."
+msgstr "با ذخیره‌کردن، نسخهٔ تازه‌تری از بین می‌رود."
+
+msgid "Saving…"
+msgstr "در حال ذخیره…"
+
+msgid "Schedule publication"
+msgstr "زمان‌بندی انتشار"
+
+msgid "Schedule to publish"
+msgstr "انتشار در زمان تعیین‌شده"
+
+msgid "scheduled"
+msgstr "زمان‌بندی‌شده"
+
+msgid "Scheduling…"
+msgstr "در حال زمان‌بندی…"
+
+msgid "Search"
+msgstr "جست‌وجو"
+
+msgid "Search all pages…"
+msgstr "جست‌وجو در همهٔ صفحه‌ها…"
+
+msgid "Search groups"
+msgstr "جست‌وجوی گروه‌ها"
+
+#, python-format
+msgid "Search in '<span class=\"w-title-ellipsis\">%(title)s</span>'"
+msgstr "جست‌وجو در «<span class=\"w-title-ellipsis\">%(title)s</span>»"
+
+msgid "Search redirects"
+msgstr "جست‌وجوی تغییر مسیرها"
+
+msgid "Search term"
+msgstr "عبارت جست‌وجو"
+
+msgid "Search the whole site"
+msgstr "جست‌وجو در کل سایت"
+
+msgid "Search…"
+msgstr "جست‌وجو…"
+
+msgid "Section"
+msgstr "بخش"
+
+msgid "See full history"
+msgstr "دیدن تاریخچهٔ کامل"
+
+#, python-format
+msgid "See our <a href=\"%(guide_link)s\" target=\"_blank\">content checks guide</a> for more information on how content metrics are calculated."
+msgstr "برای آگاهی بیشتر دربارهٔ این آمار، <a href=\"%(guide_link)s\" target=\"_blank\">راهنمای بررسی محتوا</a> را ببینید (انگلیسی)."
+
+msgid "Select"
+msgstr "انتخاب"
+
+msgid "Select %(title)s"
+msgstr "انتخاب %(title)s"
+
+msgid "Select a new language"
+msgstr "انتخاب زبان تازه"
+
+msgid "Select a new parent for this page."
+msgstr "صفحهٔ بالادستی تازه‌ای برای این صفحه انتخاب کنید."
+
+msgid "Select a new parent page"
+msgstr "انتخاب صفحهٔ بالادستی تازه"
+
+msgid "Select all"
+msgstr "انتخاب همه"
+
+msgid "Select all documents in listing"
+msgstr "انتخاب همهٔ سندهای فهرست"
+
+msgid "Select all images in listing"
+msgstr "انتخاب همهٔ تصویرهای فهرست"
+
+msgid "Select all pages in listing"
+msgstr "انتخاب همهٔ صفحه‌های فهرست"
+
+msgid "Select all snippets in listing"
+msgstr "انتخاب همهٔ موارد فهرست"
+
+msgid "Select all users in listing"
+msgstr "انتخاب همهٔ کاربران فهرست"
+
+msgid "Select documents in choosers"
+msgstr "انتخاب سند در فرم‌ها"
+
+msgid "Select hierarchical position. Note: a collection cannot become a child of itself or one of its descendants."
+msgstr "جایگاه مجموعه را انتخاب کنید. توجه: مجموعه نمی‌تواند زیرمجموعهٔ خودش یا زیرمجموعه‌های خودش باشد."
+
+msgid "Select images in choosers"
+msgstr "انتخاب تصویر در فرم‌ها"
+
+msgid "Select language for the admin"
+msgstr "زبان پنل مدیریت را انتخاب کنید"
+
+msgid "Select row"
+msgstr "انتخاب ردیف"
+
+msgid "Select your current time zone"
+msgstr "منطقهٔ زمانی خود را انتخاب کنید"
+
+#, python-format
+msgid "Sent to %(task_name)s %(started_at)s"
+msgstr "فرستاده‌شده به %(task_name)s %(started_at)s"
+
+msgid "Server Error"
+msgstr "خطای سرور"
+
+msgid "Set active state"
+msgstr "تعیین وضعیت فعال بودن"
+
+msgid "Set collection privacy. Current status: Private"
+msgstr "تعیین حریم خصوصی مجموعه. وضعیت فعلی: خصوصی"
+
+msgid "Set collection privacy. Current status: Public"
+msgstr "تعیین حریم خصوصی مجموعه. وضعیت فعلی: عمومی"
+
+msgid "Set publishing schedule"
+msgstr "تعیین زمان انتشار"
+
+msgid "Set schedule"
+msgstr "تعیین زمان‌بندی"
+
+msgid "Set this to something other than 80 if you need a specific port number to appear in URLs (e.g. development on port 8000). Does not affect request handling (so port forwarding still works)."
+msgstr "اگر لازم است شمارهٔ درگاه خاصی در نشانی‌ها بیاید (مثلاً 8000 هنگام توسعه)، عددی جز 80 بنویسید. این تنظیم روی پاسخ‌گویی به درخواست‌ها اثری ندارد."
+
+msgid "Set your new password"
+msgstr "رمز عبور تازه را تعیین کنید"
+
+msgid "Settings"
+msgstr "تنظیمات"
+
+msgid "shared password"
+msgstr "رمز مشترک"
+
+msgid "Shared passwords should not be used to protect sensitive content. Anyone who has this password will be able to view the content."
+msgstr "برای محتوای حساس از رمز مشترک استفاده نکنید. هر کس این رمز را داشته باشد می‌تواند محتوا را ببیند."
+
+msgid "Shortcuts"
+msgstr "میان‌برها"
+
+msgid "Show"
+msgstr "نمایش"
+
+msgid "Show disabled"
+msgstr "نمایش غیرفعال‌ها"
+
+msgid "Show filters"
+msgstr "نمایش فیلترها"
+
+msgid "Show in Explorer"
+msgstr "نمایش در فهرست صفحه‌ها"
+
+msgid "show in menus"
+msgstr "نمایش در منو"
+
+msgid "Show issue"
+msgstr "نمایش ایراد"
+
+msgid "Show keyboard shortcuts"
+msgstr "نمایش میان‌برهای صفحه‌کلید"
+
+msgid "Side panel width"
+msgstr "پهنای پنل کناری"
+
+msgid "Side panels"
+msgstr "پنل‌های کناری"
+
+msgid "Sidebar"
+msgstr "منوی کناری"
+
+msgid "Sign in"
+msgstr "ورود"
+
+msgid "Sign in to Wagtail"
+msgstr "ورود به پنل مدیریت"
+
+msgid "Signing in…"
+msgstr "در حال ورود…"
+
+msgid "Single line text"
+msgstr "متن یک‌خطی"
+
+msgid "Site"
+msgstr "سایت"
+
+msgid "site"
+msgstr "سایت"
+
+msgid "Site '%(object)s' created."
+msgstr "سایت «%(object)s» ساخته شد."
+
+msgid "Site '%(object)s' deleted."
+msgstr "سایت «%(object)s» حذف شد."
+
+msgid "Site '%(object)s' updated."
+msgstr "سایت «%(object)s» به‌روز شد."
+
+msgid "Site history"
+msgstr "تاریخچهٔ سایت"
+
+msgid "site name"
+msgstr "نام سایت"
+
+msgid "Site summary"
+msgstr "خلاصهٔ سایت"
+
+msgid "Sites"
+msgstr "سایت‌ها"
+
+msgid "sites"
+msgstr "سایت‌ها"
+
+msgid "Sites menu"
+msgstr "منوی سایت‌ها"
+
+msgid "Skip to main content"
+msgstr "رفتن به محتوای اصلی"
+
+msgid "Skipped"
+msgstr "ردشده (نادیده‌گرفته)"
+
+msgid "slug"
+msgstr "نامک"
+
+#, python-format
+msgid "Snippet '%(content_type)s' already has workflow '%(workflow_name)s' assigned."
+msgstr "گردش کار «%(workflow_name)s» قبلاً به «%(content_type)s» داده شده است."
+
+msgid "Snippets"
+msgstr "قطعه‌ها"
+
+msgid "Snug"
+msgstr "فشرده"
+
+msgid "Sorry, no documents match \"<em>%(query_string)s</em>\""
+msgstr "متأسفانه هیچ سندی با «<em>%(query_string)s</em>» پیدا نشد"
+
+msgid "Sorry, no documents match \"<em>%(search_query)s</em>\""
+msgstr "متأسفانه هیچ سندی با «<em>%(search_query)s</em>» پیدا نشد"
+
+msgid "Sorry, no groups match \"%(query)s\""
+msgstr "هیچ گروهی با «%(query)s» پیدا نشد"
+
+msgid "Sorry, no images match \"<em>%(query_string)s</em>\""
+msgstr "متأسفانه هیچ تصویری با «<em>%(query_string)s</em>» پیدا نشد"
+
+#, python-format
+msgid "Sorry, no pages match <em>%(query_string)s</em>"
+msgstr "متأسفانه هیچ صفحه‌ای با <em>%(query_string)s</em> پیدا نشد"
+
+msgid "Sorry, no redirects match \"<em>%(query_string)s</em>\""
+msgstr "متأسفانه هیچ تغییر مسیری با «<em>%(query_string)s</em>» پیدا نشد"
+
+msgid "Sorry, no snippets match \"<em>%(search_query)s</em>\""
+msgstr "متأسفانه هیچ موردی با «<em>%(search_query)s</em>» پیدا نشد"
+
+#, python-format
+msgid "Sorry, no tasks match \"<em>%(query_string)s</em>\""
+msgstr "متأسفانه هیچ مرحله‌ای با «<em>%(query_string)s</em>» پیدا نشد"
+
+msgid "Sorry, no users match your query"
+msgstr "متأسفانه هیچ کاربری با جست‌وجوی شما پیدا نشد"
+
+msgid "Sorry, there are no matches for \"<em>%(search_query)s</em>\""
+msgstr "متأسفانه هیچ نتیجه‌ای برای «<em>%(search_query)s</em>» پیدا نشد"
+
+msgid "Sorry, upload failed."
+msgstr "متأسفانه بارگذاری انجام نشد."
+
+msgid "Sorry, you cannot create a page at this location."
+msgstr "متأسفانه اینجا نمی‌توان صفحه ساخت."
+
+msgid "Sorry, you do not have permission to access this area."
+msgstr "متأسفانه اجازهٔ دسترسی به این بخش را ندارید."
+
+msgid "Sort"
+msgstr "مرتب‌سازی"
+
+msgid "Sort by"
+msgstr "مرتب‌سازی بر اساس"
+
+#, python-format
+msgid "Sort by '%(label)s' in ascending order."
+msgstr "مرتب‌سازی بر اساس «%(label)s» به‌ترتیب صعودی."
+
+#, python-format
+msgid "Sort by '%(label)s' in descending order."
+msgstr "مرتب‌سازی بر اساس «%(label)s» به‌ترتیب نزولی."
+
+msgid "Sort item order"
+msgstr "مرتب‌سازی دستی موارد"
+
+msgid "Sort menu order"
+msgstr "ترتیب در منو"
+
+msgid "Sort the order of child pages within '%(parent)s' by '%(label)s' in ascending order."
+msgstr "مرتب‌سازی زیرصفحه‌های «%(parent)s» بر اساس «%(label)s» به‌ترتیب صعودی."
+
+msgid "Sort the order of child pages within '%(parent)s' by '%(label)s' in descending order."
+msgstr "مرتب‌سازی زیرصفحه‌های «%(parent)s» بر اساس «%(label)s» به‌ترتیب نزولی."
+
+msgid "started at"
+msgstr "زمان شروع"
+
+msgid "Started at"
+msgstr "زمان شروع"
+
+msgid "Started at <b>%(started_at)s</b>"
+msgstr "آغاز در <b>%(started_at)s</b>"
+
+msgid "status"
+msgstr "وضعیت"
+
+msgid "Status"
+msgstr "وضعیت"
+
+#, python-format
+msgid "Status %(status)s"
+msgstr "وضعیت %(status)s"
+
+msgid "Status: "
+msgstr "وضعیت: "
+
+#, python-format
+msgid "Step %(step_number)s"
+msgstr "مرحلهٔ %(step_number)s"
+
+msgid "Strike-through"
+msgstr "خط‌خورده"
+
+msgid "Strikethrough"
+msgstr "خط‌خورده"
+
+msgid "subject"
+msgstr "موضوع"
+
+msgid "Submission date"
+msgstr "تاریخ ارسال"
+
+msgid "Submissions of %(form_title)s"
+msgstr "پاسخ‌های %(form_title)s"
+
+msgid "Submit"
+msgstr "ارسال"
+
+msgid "Submit for moderation"
+msgstr "فرستادن برای بررسی"
+
+msgid "submit time"
+msgstr "زمان ارسال"
+
+msgid "Submit to %(workflow_name)s"
+msgstr "فرستادن به %(workflow_name)s"
+
+msgid "Submitted"
+msgstr "فرستاده شد"
+
+msgid "submitted notifications"
+msgstr "آگاه‌سازی فرستاده‌شدن برای بررسی"
+
+msgid "Subscript"
+msgstr "زیرنویس"
+
+#, python-format
+msgid "Successfully created %(locales)s for %(model_name)s '%(object)s'"
+msgstr "نسخهٔ %(locales)s برای %(model_name)s «%(object)s» ساخته شد"
+
+msgid "Summary"
+msgstr "خلاصه"
+
+msgid "Superscript"
+msgstr "بالانویس"
+
+msgid "Supported formats: %(supported_formats)s."
+msgstr "قالب‌های پشتیبانی‌شده: %(supported_formats)s."
+
+msgid "Supported formats: %(supported_formats)s. Maximum filesize: %(max_upload_size)s."
+msgstr "قالب‌های پشتیبانی‌شده: %(supported_formats)s. بیشترین حجم پرونده: %(max_upload_size)s."
+
+msgid "Switch locales"
+msgstr "رفتن به زبان دیگر"
+
+msgid "System"
+msgstr "سامانه"
+
+msgid "system"
+msgstr "سامانه"
+
+msgid "System default"
+msgstr "مانند تنظیم سیستم"
+
+msgid "Table header text is empty"
+msgstr "متن سرستون جدول خالی است"
+
+msgid "Tag"
+msgstr "برچسب"
+
+#, python-format
+msgid "Tag(s) %(value_too_long)s are over %(max_tag_length)d characters."
+msgstr "برچسب(های) %(value_too_long)s بیشتر از %(max_tag_length)d نویسه است."
+
+msgid "Tags"
+msgstr "برچسب‌ها"
+
+msgid "tags"
+msgstr "برچسب‌ها"
+
+msgid "Tags can only consist of a single word, no spaces allowed."
+msgstr "هر برچسب فقط یک واژه می‌تواند باشد و فاصله ندارد."
+
+msgid "target page route"
+msgstr "مسیر در صفحهٔ مقصد"
+
+msgid "task"
+msgstr "مرحله"
+
+msgid "Task"
+msgstr "مرحله"
+
+#, python-format
+msgid "Task '%(object)s' created."
+msgstr "مرحلهٔ «%(object)s» ساخته شد."
+
+#, python-format
+msgid "Task '%(object)s' disabled."
+msgstr "مرحلهٔ «%(object)s» غیرفعال شد."
+
+#, python-format
+msgid "Task '%(object)s' updated."
+msgstr "مرحلهٔ «%(object)s» به‌روز شد."
+
+#, python-format
+msgid "Task '%(task_name)s' enabled."
+msgstr "مرحلهٔ «%(task_name)s» فعال شد."
+
+#, python-format
+msgid "Task '%(task_name)s' on Revision '%(revision_info)s': %(status)s"
+msgstr "مرحلهٔ «%(task_name)s» روی نسخهٔ «%(revision_info)s»: %(status)s"
+
+msgid "Task started"
+msgstr "آغاز مرحله"
+
+msgid "Task state"
+msgstr "وضعیت مرحله"
+
+msgid "Task states"
+msgstr "وضعیت‌های مرحله"
+
+msgid "Task submitted by"
+msgstr "فرستاده‌شده به‌دست"
+
+msgid "Task type"
+msgstr "نوع مرحله"
+
+msgid "tasks"
+msgstr "مرحله‌ها"
+
+msgid "Tasks"
+msgstr "مرحله‌ها"
+
+msgid "Temporary"
+msgstr "موقت"
+
+msgid "temporary"
+msgstr "موقت"
+
+msgid "Text editing"
+msgstr "ویرایش متن"
+
+msgid "Text formatting"
+msgstr "قالب‌بندی متن"
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been approved in \"%(task)s\"."
+msgstr "%(model_name)s «%(title)s» در «%(task)s» تأیید شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been approved in \"%(workflow)s\"."
+msgstr "%(model_name)s «%(title)s» در «%(workflow)s» تأیید شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been approved in moderation stage \"%(task)s\"."
+msgstr "%(model_name)s «%(title)s» در مرحلهٔ بررسی «%(task)s» تأیید شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been approved in workflow \"%(workflow)s\"."
+msgstr "%(model_name)s «%(title)s» در گردش کار «%(workflow)s» تأیید شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been rejected during \"%(task)s\" in workflow \"%(workflow)s\" by %(rejector)s."
+msgstr "%(model_name)s «%(title)s» در مرحلهٔ «%(task)s» از گردش کار «%(workflow)s» به‌دست %(rejector)s رد شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been rejected during \"%(task)s\" in workflow \"%(workflow)s\"."
+msgstr "%(model_name)s «%(title)s» در مرحلهٔ «%(task)s» از گردش کار «%(workflow)s» رد شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been rejected during \"%(task)s\"."
+msgstr "%(model_name)s «%(title)s» در «%(task)s» رد شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been rejected during \"%(workflow)s\"."
+msgstr "%(model_name)s «%(title)s» در «%(workflow)s» رد شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been rejected in moderation stage \"%(task)s\"."
+msgstr "%(model_name)s «%(title)s» در مرحلهٔ بررسی «%(task)s» رد شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been submitted for approval in moderation stage \"%(task)s\""
+msgstr "%(model_name)s «%(title)s» برای تأیید در مرحلهٔ بررسی «%(task)s» فرستاده شد"
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been submitted for approval in moderation stage \"%(task)s\"."
+msgstr "%(model_name)s «%(title)s» برای تأیید در مرحلهٔ بررسی «%(task)s» فرستاده شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been submitted for approval to moderation stage \"%(task)s\"."
+msgstr "%(model_name)s «%(title)s» برای تأیید به مرحلهٔ بررسی «%(task)s» فرستاده شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been submitted for moderation to workflow \"%(workflow)s\" by %(requester)s."
+msgstr "%(model_name)s «%(title)s» به‌دست %(requester)s برای بررسی به گردش کار «%(workflow)s» فرستاده شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been submitted for moderation to workflow \"%(workflow)s\"."
+msgstr "%(model_name)s «%(title)s» برای بررسی به گردش کار «%(workflow)s» فرستاده شد."
+
+#, python-format
+msgid "The %(model_name)s \"%(title)s\" has been submitted to workflow \"%(workflow)s\""
+msgstr "%(model_name)s «%(title)s» به گردش کار «%(workflow)s» فرستاده شد"
+
+#, python-format
+msgid "The %(model_name)s '%(title)s' is not currently awaiting moderation in task '%(task_name)s'."
+msgstr "%(model_name)s «%(title)s» اکنون در مرحلهٔ «%(task_name)s» در انتظار بررسی نیست."
+
+#, python-format
+msgid "The %(model_name)s '%(title)s' is not currently awaiting moderation."
+msgstr "%(model_name)s «%(title)s» اکنون در انتظار بررسی نیست."
+
+msgid "The %(model_name)s could not be created due to errors."
+msgstr "%(model_name)s به‌خاطر خطا ساخته نشد."
+
+msgid "The %(model_name)s could not be saved as it is locked"
+msgstr "%(model_name)s قفل است و ذخیره نشد"
+
+msgid "The %(model_name)s could not be saved due to errors."
+msgstr "%(model_name)s به‌خاطر خطا ذخیره نشد."
+
+#, python-format
+msgid "the %(model_name)s will also be deleted"
+msgstr "%(model_name)s هم حذف می‌شود"
+
+msgid "The collection could not be saved due to errors."
+msgstr "مجموعه به‌خاطر خطا ذخیره نشد."
+
+msgid "The descriptive text displayed underneath a headline in search engine results."
+msgstr "متن کوتاهی که موتورهای جست‌وجو زیر عنوان صفحه نشان می‌دهند."
+
+msgid "The document could not be created due to errors."
+msgstr "سند به‌خاطر خطا ساخته نشد."
+
+msgid "The document could not be saved due to errors."
+msgstr "سند به‌خاطر خطا ذخیره نشد."
+
+msgid "The file could not be found. Please change the source or delete the document."
+msgstr "پرونده پیدا نشد. پروندهٔ دیگری بارگذاری کنید یا سند را حذف کنید."
+
+msgid "The filter options you have selected are not valid."
+msgstr "گزینه‌های انتخاب‌شده برای اندازه و برش درست نیستند."
+
+#, python-format
+msgid "The following comment was left: \"%(comment)s\""
+msgstr "این یادداشت گذاشته شد: «%(comment)s»"
+
+msgid "The following page cannot be moved due to duplicate slug"
+msgid_plural "The following pages cannot be moved due to duplicate slugs"
+msgstr[0] "این صفحه به‌خاطر نامک تکراری جابه‌جا نمی‌شود"
+msgstr[1] "این صفحه‌ها به‌خاطر نامک تکراری جابه‌جا نمی‌شوند"
+
+#, python-format
+msgid "The following page cannot be moved to %(dest_title)s"
+msgid_plural "The following pages cannot be moved to %(dest_title)s"
+msgstr[0] "این صفحه را نمی‌توان به %(dest_title)s برد"
+msgstr[1] "این صفحه‌ها را نمی‌توان به %(dest_title)s برد"
+
+#, python-format
+msgid "The group '%(group_name)s' has <strong>%(group_user_count)s</strong> member."
+msgid_plural "The group '%(group_name)s' has <strong>%(group_user_count)s</strong> members."
+msgstr[0] "گروه «%(group_name)s» <strong>%(group_user_count)s</strong> عضو دارد."
+msgstr[1] "گروه «%(group_name)s» <strong>%(group_user_count)s</strong> عضو دارد."
+
+msgid "The group could not be saved due to errors."
+msgstr "گروه به‌خاطر خطا ذخیره نشد."
+
+msgid "The image could not be created due to errors."
+msgstr "تصویر به‌خاطر خطا ساخته نشد."
+
+msgid "The image could not be saved due to errors."
+msgstr "تصویر به‌خاطر خطا ذخیره نشد."
+
+msgid "The label of the form field"
+msgstr "برچسب فیلد فرم"
+
+msgid "The locale could not be saved due to errors."
+msgstr "زبان به‌خاطر خطا ذخیره نشد."
+
+#, python-format
+msgid "The log action '%(action_name)s' has not been registered."
+msgstr "کار «%(action_name)s» در گزارش رویدادها تعریف نشده است."
+
+msgid "The maximum number of items is %(max_num)d"
+msgstr "بیشترین تعداد موارد %(max_num)d است"
+
+msgid "The minimum number of items is %(min_num)d"
+msgstr "کمترین تعداد موارد %(min_num)d است"
+
+#, python-format
+msgid "The name '%(duplicate_clean_name)s' is already assigned to this field and cannot be changed. Please enter a different label for the conflicting field."
+msgstr "نام «%(duplicate_clean_name)s» قبلاً به این فیلد داده شده و تغییرپذیر نیست. برای فیلدی که با آن هم‌نام است برچسب دیگری بنویسید."
+
+msgid "The name of the page as it will appear in URLs e.g http://domain.com/blog/[my-slug]/"
+msgstr "نام صفحه در نشانی اینترنتی، مثلاً http://domain.com/blog/[my-slug]/ (بهتر است کوتاه و با حروف لاتین یا فارسی بدون فاصله باشد)"
+
+msgid "The name of the page displayed on search engine results as the clickable headline."
+msgstr "عنوانی که موتورهای جست‌وجو (مانند گوگل) به‌عنوان سرخط قابل کلیک نشان می‌دهند. خالی بماند، عنوان صفحه به کار می‌رود."
+
+msgid "The new page will be a child of this given parent page."
+msgstr "صفحهٔ تازه زیر همین صفحهٔ بالادستی ساخته می‌شود."
+
+msgid "The page \"%(title)s\" has been approved"
+msgstr "صفحهٔ «%(title)s» تأیید شد"
+
+#, python-format
+msgid "The page \"%(title)s\" has been approved in \"%(task)s\"."
+msgstr "صفحهٔ «%(title)s» در «%(task)s» تأیید شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been approved in \"%(workflow)s\"."
+msgstr "صفحهٔ «%(title)s» در «%(workflow)s» تأیید شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been approved in moderation stage \"%(task)s\"."
+msgstr "صفحهٔ «%(title)s» در مرحلهٔ بررسی «%(task)s» تأیید شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been approved in workflow \"%(workflow)s\"."
+msgstr "صفحهٔ «%(title)s» در گردش کار «%(workflow)s» تأیید شد."
+
+msgid "The page \"%(title)s\" has been approved."
+msgstr "صفحهٔ «%(title)s» تأیید شد."
+
+msgid "The page \"%(title)s\" has been rejected"
+msgstr "صفحهٔ «%(title)s» رد شد"
+
+#, python-format
+msgid "The page \"%(title)s\" has been rejected during \"%(task)s\" in workflow \"%(workflow)s\" by %(rejector)s."
+msgstr "صفحهٔ «%(title)s» در مرحلهٔ «%(task)s» از گردش کار «%(workflow)s» به‌دست %(rejector)s رد شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been rejected during \"%(task)s\" in workflow \"%(workflow)s\"."
+msgstr "صفحهٔ «%(title)s» در مرحلهٔ «%(task)s» از گردش کار «%(workflow)s» رد شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been rejected during \"%(task)s\"."
+msgstr "صفحهٔ «%(title)s» در «%(task)s» رد شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been rejected during \"%(workflow)s\"."
+msgstr "صفحهٔ «%(title)s» در «%(workflow)s» رد شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been rejected in moderation stage \"%(task)s\"."
+msgstr "صفحهٔ «%(title)s» در مرحلهٔ بررسی «%(task)s» رد شد."
+
+msgid "The page \"%(title)s\" has been rejected."
+msgstr "صفحهٔ «%(title)s» رد شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been submitted for approval in moderation stage \"%(task)s\""
+msgstr "صفحهٔ «%(title)s» برای تأیید در مرحلهٔ بررسی «%(task)s» فرستاده شد"
+
+#, python-format
+msgid "The page \"%(title)s\" has been submitted for approval in moderation stage \"%(task)s\"."
+msgstr "صفحهٔ «%(title)s» برای تأیید در مرحلهٔ بررسی «%(task)s» فرستاده شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been submitted for approval to moderation stage \"%(task)s\"."
+msgstr "صفحهٔ «%(title)s» برای تأیید به مرحلهٔ بررسی «%(task)s» فرستاده شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been submitted for moderation to workflow \"%(workflow)s\" by %(requester)s."
+msgstr "صفحهٔ «%(title)s» به‌دست %(requester)s برای بررسی به گردش کار «%(workflow)s» فرستاده شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been submitted for moderation to workflow \"%(workflow)s\"."
+msgstr "صفحهٔ «%(title)s» برای بررسی به گردش کار «%(workflow)s» فرستاده شد."
+
+#, python-format
+msgid "The page \"%(title)s\" has been submitted to workflow \"%(workflow)s\""
+msgstr "صفحهٔ «%(title)s» به گردش کار «%(workflow)s» فرستاده شد"
+
+#, python-format
+msgid "The page '%(page_title)s' is not currently awaiting moderation in task '%(task_name)s'."
+msgstr "صفحهٔ «%(page_title)s» اکنون در مرحلهٔ «%(task_name)s» در انتظار بررسی نیست."
+
+msgid "The page '%(page_title)s' is not currently awaiting moderation."
+msgstr "صفحهٔ «%(page_title)s» اکنون در انتظار بررسی نیست."
+
+#, python-format
+msgid "The page '%(page_title)s' was successfully created in %(locales)s"
+msgstr "صفحهٔ «%(page_title)s» به زبان %(locales)s ساخته شد"
+
+msgid "The page could not be created due to validation errors."
+msgstr "صفحه به‌خاطر خطاهای فرم ساخته نشد."
+
+msgid "The page could not be saved as it is locked."
+msgstr "صفحه قفل است و ذخیره نشد."
+
+msgid "The page could not be saved due to validation errors."
+msgstr "صفحه به‌خاطر خطاهای فرم ذخیره نشد."
+
+msgid "The page title as you'd like it to be seen by the public"
+msgstr "عنوان صفحه، همان‌طور که می‌خواهید بازدیدکنندگان ببینند"
+
+msgid "The password reset link was invalid, possibly because it has already been used."
+msgstr "پیوند بازیابی رمز عبور معتبر نیست؛ شاید پیش‌تر از آن استفاده شده باشد."
+
+msgid "The password you have entered is not correct. Please try again."
+msgstr "رمز عبوری که نوشتید درست نیست. لطفاً دوباره امتحان کنید."
+
+msgid "The redirect could not be created due to errors."
+msgstr "تغییر مسیر به‌خاطر خطا ساخته نشد."
+
+msgid "The redirect could not be saved due to errors."
+msgstr "تغییر مسیر به‌خاطر خطا ذخیره نشد."
+
+msgid "The requested page could not be found."
+msgstr "صفحهٔ درخواست‌شده پیدا نشد."
+
+msgid "The root level is where you can add new sites to your Wagtail installation. Pages created here will not be accessible at any URL until they are associated with a site."
+msgstr "این بالاترین سطح است و فقط برای افزودن سایت تازه به کار می‌رود. صفحه‌ای که اینجا ساخته شود تا به یک سایت وصل نشود در هیچ نشانی‌ای دیده نمی‌شود."
+
+msgid "The setting could not be saved due to errors."
+msgstr "تنظیمات به‌خاطر خطا ذخیره نشد."
+
+msgid "The site could not be saved due to errors."
+msgstr "سایت به‌خاطر خطا ذخیره نشد."
+
+#, python-format
+msgid "The slug '%(page_slug)s' is already in use at the selected parent page. Make sure the slug is unique and try again."
+msgstr "نامک «%(page_slug)s» زیر صفحهٔ انتخاب‌شده قبلاً استفاده شده است. نامک دیگری بنویسید و دوباره امتحان کنید."
+
+#, python-format
+msgid "The slug '%(page_slug)s' is already in use within the parent page at '%(parent_url_path)s'."
+msgstr "نامک «%(page_slug)s» زیر صفحهٔ «%(parent_url_path)s» قبلاً استفاده شده است."
+
+#, python-format
+msgid "The slug '%(page_slug)s' is already in use within the parent page."
+msgstr "نامک «%(page_slug)s» در همین بخش قبلاً برای صفحهٔ دیگری استفاده شده است."
+
+msgid "The source image file could not be found. Please change the source or delete the image."
+msgstr "پروندهٔ اصلی تصویر پیدا نشد. پروندهٔ دیگری بارگذاری کنید یا تصویر را حذف کنید."
+
+msgid "The two password fields didn't match."
+msgstr "دو رمز عبور یکی نیستند."
+
+msgid "The URL you entered, <a target=\"_blank\" rel=\"noreferrer\" href=\"%(submitted_url)s\">%(submitted_url)s</a>, looks like it matches the internal page %(page)s, which has the URL <a target=\"_blank\" rel=\"noreferrer\" href=\"%(internal_url)s\">%(internal_url)s</a>."
+msgstr "گویا نشانی‌ای که نوشته‌اید، <a target=\"_blank\" rel=\"noreferrer\" href=\"%(submitted_url)s\">%(submitted_url)s</a>، همان صفحهٔ %(page)s از همین سایت با نشانی <a target=\"_blank\" rel=\"noreferrer\" href=\"%(internal_url)s\">%(internal_url)s</a> است."
+
+msgid "The user could not be saved due to errors."
+msgstr "کاربر به‌خاطر خطا ذخیره نشد."
+
+msgid "Theme preferences"
+msgstr "تنظیمات ظاهر"
+
+#, python-format
+msgid "There are no %(model_name)s to display."
+msgstr "هیچ %(model_name)s برای نمایش وجود ندارد."
+
+#, python-format
+msgid "There are no %(model_name)s to display. Why not <a href=\"%(add_url)s\">add one</a>?"
+msgstr "هنوز هیچ %(model_name)s ثبت نشده است. <a href=\"%(add_url)s\">یکی بیفزایید</a>."
+
+msgid "There are no differences between these two versions"
+msgstr "این دو نسخه هیچ تفاوتی ندارند"
+
+#, python-format
+msgid "There are no enabled tasks. Why not <a href=\"%(add_url)s\">add one</a>?"
+msgstr "هیچ مرحلهٔ فعالی وجود ندارد. <a href=\"%(add_url)s\">یکی بسازید</a>."
+
+#, python-format
+msgid "There are no enabled workflows. Why not <a href=\"%(add_url)s\">add one</a>?"
+msgstr "هیچ گردش کار فعالی وجود ندارد. <a href=\"%(add_url)s\">یکی بسازید</a>."
+
+msgid "There are no groups configured. Why not <a href=\"%(wagtailusers_create_group_url)s\">add some</a>?"
+msgstr "هنوز هیچ گروهی ساخته نشده است. <a href=\"%(wagtailusers_create_group_url)s\">یکی بسازید</a>."
+
+msgid "There are no results."
+msgstr "نتیجه‌ای پیدا نشد."
+
+msgid "There are no users configured. Why not <a href=\"%(wagtailusers_add_url)s\">add some</a>?"
+msgstr "هنوز هیچ کاربری ساخته نشده است. <a href=\"%(wagtailusers_add_url)s\">یکی بسازید</a>."
+
+msgid "There are validation errors, click save to highlight them."
+msgstr "خطاهایی در فرم هست؛ برای نشان‌دادن آن‌ها «ذخیره» را بزنید."
+
+msgid "There have been no submissions of the '%(title)s' form."
+msgstr "هنوز هیچ پاسخی برای فرم «%(title)s» نیامده است."
+
+msgid "There is %(counter)s match"
+msgid_plural "There are %(counter)s matches"
+msgstr[0] "%(counter)s نتیجه پیدا شد"
+msgstr[1] "%(counter)s نتیجه پیدا شد"
+
+msgid "There is no site record for this location. Pages created here will not be accessible at any URL."
+msgstr "برای این بخش سایتی ثبت نشده است. صفحه‌هایی که اینجا ساخته شوند در هیچ نشانی‌ای دیده نمی‌شوند."
+
+msgid "There is no site set up for this location. Pages created here will not be accessible at any URL until a site is associated with this location."
+msgstr "برای این بخش سایتی تعریف نشده است. صفحه‌هایی که اینجا ساخته شوند تا وقتی سایتی به این بخش وصل نشود در هیچ نشانی‌ای دیده نمی‌شوند."
+
+msgid "There is no valid destination page for these pages"
+msgstr "مقصد مناسبی برای این صفحه‌ها وجود ندارد"
+
+#, python-format
+msgid "There is one matching page"
+msgid_plural "There are %(counter)s matching pages"
+msgstr[0] "یک صفحه پیدا شد"
+msgstr[1] "%(counter)s صفحه پیدا شد"
+
+msgid "There may only be one in progress or needs changes workflow state per page/snippet."
+msgstr "هر صفحه یا مورد فقط یک گردش کار «در جریان» یا «نیازمند اصلاح» می‌تواند داشته باشد."
+
+msgid "There seems to be a problem with your embedly API key. Please check your settings."
+msgstr "گویا کلید API سرویس Embedly ایراد دارد. لطفاً تنظیمات را بررسی کنید."
+
+msgid "There seems to be an error with Embedly while trying to embed this URL. Please try again later."
+msgstr "هنگام جاسازی این نشانی با Embedly خطایی پیش آمد. لطفاً بعداً دوباره امتحان کنید."
+
+msgid "Things in Wagtail %(version)s have changed!"
+msgstr "Wagtail %(version)s تغییراتی داشته است!"
+
+#, python-format
+msgid "This %(model_name)s hasn't been submitted for moderation yet"
+msgstr "این %(model_name)s هنوز برای بررسی فرستاده نشده است"
+
+#, python-format
+msgid "This %(model_name)s is currently at <strong>%(task)s</strong> in <strong>%(workflow)s</strong>."
+msgstr "این %(model_name)s اکنون در مرحلهٔ <strong>%(task)s</strong> از <strong>%(workflow)s</strong> است."
+
+#, python-format
+msgid "This %(model_name)s is currently awaiting moderation."
+msgstr "این %(model_name)s اکنون در انتظار بررسی است."
+
+#, python-format
+msgid "This %(model_name)s is referenced %(usage_count)s time."
+msgid_plural "This %(model_name)s is referenced %(usage_count)s times."
+msgstr[0] "از این %(model_name)s %(usage_count)s بار استفاده شده است."
+msgstr[1] "از این %(model_name)s %(usage_count)s بار استفاده شده است."
+
+#, python-format
+msgid "This %(model_name)s was marked as needing changes at <strong>%(task)s</strong> in <strong>%(workflow)s</strong>."
+msgstr "این %(model_name)s در مرحلهٔ <strong>%(task)s</strong> از <strong>%(workflow)s</strong> نیازمند اصلاح شناخته شد."
+
+msgid "This action cannot be undone."
+msgstr "این کار برگشت‌پذیر نیست."
+
+#, python-format
+msgid "This action will delete <b>%(total_pages_formatted)s</b> page in total."
+msgid_plural "This action will delete <b>%(total_pages_formatted)s</b> pages in total."
+msgstr[0] "این کار روی‌هم <b>%(total_pages_formatted)s</b> صفحه را حذف می‌کند."
+msgstr[1] "این کار روی‌هم <b>%(total_pages_formatted)s</b> صفحه را حذف می‌کند."
+
+msgid "This block has no options."
+msgstr "این بلوک گزینه‌ای ندارد."
+
+msgid "This collection cannot be deleted, because it is not empty. It contains:"
+msgstr "این مجموعه خالی نیست و نمی‌توان حذفش کرد. در آن هست:"
+
+msgid "This collection has been made private by a parent collection."
+msgstr "این مجموعه به‌خاطر مجموعهٔ بالادستی‌اش خصوصی است."
+
+msgid "This copy will be a child of this given parent page."
+msgstr "این کپی زیر همین صفحهٔ بالادستی ساخته می‌شود."
+
+msgid "This data explained"
+msgstr "توضیح این آمار"
+
+msgid "This field is required."
+msgstr "پرکردن این فیلد لازم است."
+
+#, python-format
+msgid "This file has too many pixels (%(num_pixels)s). Maximum pixels %(max_pixels_count)s."
+msgstr "این پرونده پیکسل‌های بسیار زیادی دارد (%(num_pixels)s). بیشترین تعداد مجاز %(max_pixels_count)s است."
+
+msgid "This file is too big (%(file_size)s). Maximum filesize %(max_filesize)s."
+msgstr "این پرونده بیش از اندازه بزرگ است (%(file_size)s). بیشترین حجم مجاز %(max_filesize)s است."
+
+msgid "This file is too big. Maximum filesize %(max_filesize)s."
+msgstr "این پرونده بیش از اندازه بزرگ است. بیشترین حجم مجاز %(max_filesize)s است."
+
+msgid "This is your dashboard on which helpful information about content you've created will be displayed."
+msgstr "این پیشخوان شماست و اطلاعات مفیدی دربارهٔ محتوایی که ساخته‌اید اینجا نشان داده می‌شود."
+
+msgid "This locale cannot be deleted because there are no other locales."
+msgstr "این زبان را نمی‌توان حذف کرد، چون زبان دیگری وجود ندارد."
+
+msgid "This locale cannot be deleted because there are pages and/or other objects using it."
+msgstr "این زبان را نمی‌توان حذف کرد، چون صفحه‌ها یا موارد دیگری به این زبان هستند."
+
+msgid "This locale's current language code is not supported. Please choose a new language or delete this locale."
+msgstr "کد فعلی این زبان پشتیبانی نمی‌شود. زبان تازه‌ای انتخاب کنید یا این زبان را حذف کنید."
+
+msgid "This locale's language code is not supported"
+msgstr "کد این زبان پشتیبانی نمی‌شود"
+
+#, python-format
+msgid "This page already has workflow '%(workflow_name)s' assigned."
+msgstr "گردش کار «%(workflow_name)s» قبلاً به این صفحه داده شده است."
+
+#, python-format
+msgid "This page has one child page"
+msgid_plural "This page has %(counter)s child pages"
+msgstr[0] "این صفحه یک زیرصفحه دارد"
+msgstr[1] "این صفحه %(counter)s زیرصفحه دارد"
+
+#, python-format
+msgid "This page has one child page and its translations have a combined %(translation_descendant_count)s translated child pages. Unpublish these too"
+msgid_plural "This page has %(live_descendant_count)s child pages and its translations have a combined %(translation_descendant_count)s translated child pages. Unpublish these too"
+msgstr[0] "این صفحه یک زیرصفحه دارد و ترجمه‌هایش روی‌هم %(translation_descendant_count)s زیرصفحهٔ ترجمه‌شده دارند. انتشار این‌ها هم لغو شود"
+msgstr[1] "این صفحه %(live_descendant_count)s زیرصفحه دارد و ترجمه‌هایش روی‌هم %(translation_descendant_count)s زیرصفحهٔ ترجمه‌شده دارند. انتشار این‌ها هم لغو شود"
+
+#, python-format
+msgid "This page has one subpage"
+msgid_plural "This page has %(counter)s subpages"
+msgstr[0] "این صفحه یک زیرصفحه دارد"
+msgstr[1] "این صفحه %(counter)s زیرصفحه دارد"
+
+#, python-format
+msgid "This page has one subpage and its translations have a combined one translated child page. Unpublish these too"
+msgid_plural "This page has %(live_descendant_count)s child pages and its translations have a combined one translated child page. Unpublish these too"
+msgstr[0] "این صفحه یک زیرصفحه دارد و ترجمه‌هایش روی‌هم یک زیرصفحهٔ ترجمه‌شده دارند. انتشار این‌ها هم لغو شود"
+msgstr[1] "این صفحه %(live_descendant_count)s زیرصفحه دارد و ترجمه‌هایش روی‌هم یک زیرصفحهٔ ترجمه‌شده دارند. انتشار این‌ها هم لغو شود"
+
+#, python-format
+msgid "This page has one subpage. Unpublish this too"
+msgid_plural "This page has %(live_descendant_count)s subpages. Unpublish these too"
+msgstr[0] "این صفحه یک زیرصفحه دارد. انتشار آن هم لغو شود"
+msgstr[1] "این صفحه %(live_descendant_count)s زیرصفحه دارد. انتشار آن‌ها هم لغو شود"
+
+#, python-format
+msgid "This page has one unpublished subpage"
+msgid_plural "This page has %(counter)s unpublished subpages"
+msgstr[0] "این صفحه یک زیرصفحهٔ منتشرنشده دارد"
+msgstr[1] "این صفحه %(counter)s زیرصفحهٔ منتشرنشده دارد"
+
+msgid "This page hasn't been submitted for moderation yet"
+msgstr "این صفحه هنوز برای بررسی فرستاده نشده است"
+
+msgid "This page is an alias of another page."
+msgstr "این صفحه کپی همگامِ صفحهٔ دیگری است."
+
+#, python-format
+msgid "This page is currently at <strong>%(task)s</strong> in <strong>%(workflow)s</strong>."
+msgstr "این صفحه اکنون در مرحلهٔ <strong>%(task)s</strong> از <strong>%(workflow)s</strong> است."
+
+msgid "This page is live. Would you like to publish its copy as well?"
+msgstr "این صفحه منتشر شده است. آیا کپی آن هم منتشر شود؟"
+
+msgid "This page is locked to further editing"
+msgstr "این صفحه برای ویرایش قفل است"
+
+msgid "This page is locked, by you, to further editing"
+msgstr "این صفحه را خودتان قفل کرده‌اید و دیگران نمی‌توانند ویرایشش کنند"
+
+msgid "This page is protected from public view"
+msgstr "این صفحه از دید عموم پنهان است"
+
+#, python-format
+msgid "This page was marked as needing changes at <strong>%(task)s</strong> in <strong>%(workflow)s</strong>."
+msgstr "این صفحه در مرحلهٔ <strong>%(task)s</strong> از <strong>%(workflow)s</strong> نیازمند اصلاح شناخته شد."
+
+msgid "This publishing schedule will only take effect after you select the \"Schedule to publish\" option"
+msgstr "این زمان‌بندی فقط وقتی اجرا می‌شود که گزینهٔ «انتشار در زمان تعیین‌شده» را بزنید"
+
+msgid "This setting could not be opened because there is no site defined."
+msgstr "این تنظیمات باز نمی‌شود، چون هیچ سایتی تعریف نشده است."
+
+msgid "This slug is already in use within the context of its parent page \"%(parent_page_title)s\""
+msgstr "این نامک زیر صفحهٔ بالادستی «%(parent_page_title)s» قبلاً استفاده شده است"
+
+#, python-format
+msgid "This task is in progress on %(states_in_progress)d page/snippet. Disabling this task will cause it to be skipped in the moderation workflow and not be listed for selection when editing a workflow."
+msgid_plural "This task is in progress on %(states_in_progress)d pages/snippets. Disabling this task will cause it to be skipped in the moderation workflow and not be listed for selection when editing a workflow."
+msgstr[0] "این مرحله اکنون روی %(states_in_progress)d صفحه یا مورد در جریان است. با غیرفعال‌کردن آن، این مرحله در گردش کار نادیده گرفته می‌شود و هنگام ویرایش گردش کار هم در فهرست نمی‌آید."
+msgstr[1] "این مرحله اکنون روی %(states_in_progress)d صفحه یا مورد در جریان است. با غیرفعال‌کردن آن، این مرحله در گردش کار نادیده گرفته می‌شود و هنگام ویرایش گردش کار هم در فهرست نمی‌آید."
+
+msgid "This value may contain only letters, numbers and @/./+/-/_ characters."
+msgstr "این مقدار فقط می‌تواند حروف لاتین، عدد و نشانه‌های @/./+/-/_ داشته باشد."
+
+#, python-format
+msgid "This will also delete one more subpage."
+msgid_plural "This will also delete %(counter)s more subpages."
+msgstr[0] "یک زیرصفحهٔ دیگر هم حذف می‌شود."
+msgstr[1] "%(counter)s زیرصفحهٔ دیگر هم حذف می‌شود."
+
+#, python-format
+msgid "This will also move one translation of this page and its child pages"
+msgid_plural "This will also move %(translations_to_move_count)s translations of this page and their child pages"
+msgstr[0] "یک ترجمهٔ این صفحه و زیرصفحه‌هایش هم جابه‌جا می‌شود"
+msgstr[1] "%(translations_to_move_count)s ترجمهٔ این صفحه و زیرصفحه‌هایشان هم جابه‌جا می‌شود"
+
+#, python-format
+msgid "This will also unpublish one translation of the page."
+msgid_plural "This will also unpublish all %(translation_count)s translations of the page."
+msgstr[0] "انتشار یک ترجمهٔ این صفحه هم لغو می‌شود."
+msgstr[1] "انتشار همهٔ %(translation_count)s ترجمهٔ این صفحه هم لغو می‌شود."
+
+msgid "This will copy %(count)s subpage."
+msgid_plural "This will copy %(count)s subpages."
+msgstr[0] "%(count)s زیرصفحه کپی می‌شود."
+msgstr[1] "%(count)s زیرصفحه کپی می‌شود."
+
+#, python-format
+msgid "This workflow is currently in progress on %(workflow_states_in_progress)s pages. Deleting this workflow will cancel moderation on these page. Are you sure you want to delete this workflow?"
+msgstr "این گردش کار اکنون روی %(workflow_states_in_progress)s صفحه در جریان است. با حذف آن، بررسی این صفحه‌ها لغو می‌شود. آیا از حذف این گردش کار مطمئن هستید؟"
+
+msgid "This workflow is disabled so it cannot be assigned to any pages."
+msgstr "این گردش کار غیرفعال است و نمی‌توان آن را به صفحه‌ای داد."
+
+msgid "This workflow is disabled so it cannot be assigned to any snippets."
+msgstr "این گردش کار غیرفعال است و نمی‌توان آن را به موردی داد."
+
+#, python-format
+msgid "This workflow is in progress on %(states_in_progress)d page/snippet. Disabling this workflow will cancel moderation on this page/snippet."
+msgid_plural "This workflow is in progress on %(states_in_progress)d pages/snippets. Disabling this workflow will cancel moderation on these pages/snippets."
+msgstr[0] "این گردش کار اکنون روی %(states_in_progress)d صفحه یا مورد در جریان است. با غیرفعال‌کردن آن، بررسی این صفحه یا مورد لغو می‌شود."
+msgstr[1] "این گردش کار اکنون روی %(states_in_progress)d صفحه یا مورد در جریان است. با غیرفعال‌کردن آن، بررسی این صفحه‌ها یا موارد لغو می‌شود."
+
+#, python-brace-format
+msgid "This {model_name} is awaiting <b>'{task_name}'</b> in the <b>'{workflow_name}'</b> workflow."
+msgstr "این {model_name} در گردش کار <b>«{workflow_name}»</b> در انتظار <b>«{task_name}»</b> است."
+
+msgid "Timeline"
+msgstr "روند زمانی"
+
+msgid "timestamp (UTC)"
+msgstr "زمان (به وقت جهانی)"
+
+msgid "Title"
+msgstr "عنوان"
+
+msgid "title"
+msgstr "عنوان"
+
+msgid "title tag"
+msgstr "عنوان در نتایج جست‌وجو"
+
+msgid "Title: (A -> Z)"
+msgstr "عنوان: (الف تا ی)"
+
+msgid "Title: (Z -> A)"
+msgstr "عنوان: (ی تا الف)"
+
+msgid "To"
+msgstr "به"
+
+msgid "to address"
+msgstr "ایمیل گیرنده"
+
+#, python-format
+msgid "To be created by %(user)s"
+msgstr "ساخته‌شده به‌دست %(user)s (پس از ذخیره)"
+
+msgid "To define this image's most important region, drag a box over the image above."
+msgstr "برای تعیین مهم‌ترین بخش تصویر (که هنگام برش حفظ می‌شود)، روی تصویر بالا یک کادر بکشید."
+
+msgid "To field"
+msgstr "ستون «به»"
+
+msgid "Toggle all"
+msgstr "انتخاب یا لغو همه"
+
+msgid "Toggle all add permissions"
+msgstr "انتخاب یا لغو همهٔ اجازه‌های افزودن"
+
+msgid "Toggle all change permissions"
+msgstr "انتخاب یا لغو همهٔ اجازه‌های ویرایش"
+
+msgid "Toggle all custom permissions"
+msgstr "انتخاب یا لغو همهٔ اجازه‌های ویژه"
+
+msgid "Toggle all delete permissions"
+msgstr "انتخاب یا لغو همهٔ اجازه‌های حذف"
+
+msgid "Toggle breadcrumbs"
+msgstr "نمایش یا پنهان‌کردن مسیر صفحه"
+
+msgid "Toggle checks"
+msgstr "باز و بسته کردن بررسی‌ها"
+
+msgid "Toggle comments"
+msgstr "باز و بسته کردن یادداشت‌ها"
+
+msgid "Toggle minimap"
+msgstr "باز و بسته کردن نقشهٔ صفحه"
+
+msgid "Toggle preview"
+msgstr "باز و بسته کردن پیش‌نمایش"
+
+msgid "Toggle section"
+msgstr "باز و بسته کردن بخش"
+
+msgid "Toggle side panel"
+msgstr "باز و بسته کردن پنل کناری"
+
+msgid "Toggle sidebar"
+msgstr "باز و بسته کردن منوی کناری"
+
+msgid "Toggle status"
+msgstr "باز و بسته کردن وضعیت"
+
+msgid "Total submissions"
+msgstr "همهٔ پاسخ‌ها"
+
+msgid "Translate"
+msgstr "ترجمه"
+
+#, python-format
+msgid "Translate %(model_name)s"
+msgstr "ترجمهٔ %(model_name)s"
+
+msgid "Translate page"
+msgstr "ترجمهٔ صفحه"
+
+msgid "Translate the parent page."
+msgid_plural "Translate the parent pages."
+msgstr[0] "نخست صفحهٔ بالادستی را ترجمه کنید."
+msgstr[1] "نخست صفحه‌های بالادستی را ترجمه کنید."
+
+msgid "Translate this page"
+msgstr "ترجمهٔ این صفحه"
+
+msgid "Troubleshoot your connection to the site before proceeding. Open the editor in a separate tab to view the last saved version."
+msgstr "پیش از ادامه، اتصال خود به سایت را بررسی کنید. برای دیدن آخرین نسخهٔ ذخیره‌شده، ویرایشگر را در زبانهٔ جداگانه‌ای باز کنید."
+
+msgid "Type"
+msgstr "نوع"
+
+msgid "Undo"
+msgstr "واگرد"
+
+msgid "Unknown %(action)s"
+msgstr "%(action)s ناشناخته"
+
+msgid "Unknown content type"
+msgstr "نوع محتوای ناشناخته"
+
+msgid "Unlock"
+msgstr "بازکردن قفل"
+
+msgid "Unlock any page"
+msgstr "بازکردن قفل هر صفحه"
+
+msgid "Unlocked"
+msgstr "قفل‌نشده"
+
+msgid "Unpublish"
+msgstr "لغو انتشار"
+
+#, python-format
+msgid "Unpublish 1 page"
+msgid_plural "Unpublish %(counter)s pages"
+msgstr[0] "لغو انتشار %(counter)s صفحه"
+msgstr[1] "لغو انتشار %(counter)s صفحه"
+
+msgid "Unpublish scheduled draft"
+msgstr "لغو انتشار پیش‌نویس زمان‌بندی‌شده"
+
+msgid "Unpublish selected pages"
+msgstr "لغو انتشار صفحه‌های انتخاب‌شده"
+
+msgid "Unpublished"
+msgstr "انتشار لغو شد"
+
+msgid "Unpublished scheduled draft"
+msgstr "انتشار پیش‌نویس زمان‌بندی‌شده لغو شد"
+
+msgid "Unschedule"
+msgstr "لغو زمان‌بندی"
+
+msgid "Unschedule publication"
+msgstr "لغو زمان‌بندی انتشار"
+
+msgid "Update"
+msgstr "به‌روزرسانی"
+
+msgid "Update view restrictions"
+msgstr "به‌روزرسانی محدودیت دیدن"
+
+msgid "Updated"
+msgstr "به‌روزرسانی"
+
+msgid "updated comments notifications"
+msgstr "آگاه‌سازی یادداشت‌ها"
+
+#, python-format
+msgid "Updated the view restriction to '%(restriction)s'"
+msgstr "محدودیت دیدن به «%(restriction)s» تغییر کرد"
+
+msgid "Updated view restriction"
+msgstr "محدودیت دیدن به‌روز شد"
+
+msgid "Upload"
+msgstr "بارگذاری"
+
+msgid "Upload a profile picture"
+msgstr "بارگذاری تصویر پروفایل"
+
+msgid "Upload a profile picture:"
+msgstr "بارگذاری تصویر پروفایل:"
+
+msgid "Upload successful. However, your new image seems to be a duplicate of an existing image. You may delete it if it wasn't required."
+msgstr "بارگذاری انجام شد، اما گویا این تصویر تازه تکراری است و پیش‌تر بارگذاری شده است. اگر لازمش ندارید می‌توانید حذفش کنید."
+
+msgid "Upload successful. However, your new image seems to be a duplicate of this existing image. You may delete it if it wasn't required."
+msgstr "بارگذاری انجام شد، اما گویا این تصویر تازه تکرار این تصویر موجود است. اگر لازمش ندارید می‌توانید حذفش کنید."
+
+msgid "Upload successful. Please update this document with a more appropriate title, if necessary. You may also delete the document completely if the upload wasn't required."
+msgstr "بارگذاری انجام شد. اگر لازم است، عنوان مناسب‌تری برای سند بنویسید. اگر این بارگذاری لازم نبود، می‌توانید سند را حذف کنید."
+
+msgid "Upload successful. Please update this image with a more appropriate title, if necessary. You may also delete the image completely if the upload wasn't required."
+msgstr "بارگذاری انجام شد. اگر لازم است، عنوان مناسب‌تری برای تصویر بنویسید. اگر این بارگذاری لازم نبود، می‌توانید تصویر را حذف کنید."
+
+msgid "uploaded by user"
+msgstr "بارگذاری‌شده به‌دست"
+
+msgid "Uploading…"
+msgstr "در حال بارگذاری…"
+
+msgid "URL"
+msgstr "نشانی"
+
+msgid "URL Generator"
+msgstr "ساختن نشانی با اندازهٔ دلخواه"
+
+msgid "URL path"
+msgstr "مسیر نشانی"
+
+msgid "Usage"
+msgstr "محل استفاده"
+
+msgid "Usage count"
+msgstr "تعداد استفاده"
+
+msgid "Usage count: (high to low)"
+msgstr "تعداد استفاده: (زیاد به کم)"
+
+msgid "Usage count: (low to high)"
+msgstr "تعداد استفاده: (کم به زیاد)"
+
+msgid "Use a meaningful title for screen reader users"
+msgstr "برای کاربران صفحه‌خوان عنوان گویایی بنویسید"
+
+msgid "Use existing and delete new"
+msgstr "استفاده از تصویر موجود و حذف تصویر تازه"
+
+msgid "Use external link"
+msgstr "پیوند به سایت دیگر بماند"
+
+msgid "Use meaningful text"
+msgstr "متن گویایی بنویسید"
+
+msgid "Use meaningful text for screen reader users"
+msgstr "برای کاربران صفحه‌خوان متن گویایی بنویسید"
+
+msgid "Use new image"
+msgstr "استفاده از تصویر تازه"
+
+msgid "Use proper heading tags"
+msgstr "برای تیترها از قالب تیتر استفاده کنید"
+
+#, python-format
+msgid "Use server language: %(language_name)s"
+msgstr "زبان پیش‌فرض سایت: %(language_name)s"
+
+msgid "Use server time zone"
+msgstr "منطقهٔ زمانی پیش‌فرض سایت"
+
+msgid "Used %(usage_count)s time"
+msgid_plural "Used %(usage_count)s times"
+msgstr[0] "%(usage_count)s بار استفاده شده"
+msgstr[1] "%(usage_count)s بار استفاده شده"
+
+msgid "Used by"
+msgstr "به کار رفته در"
+
+msgid "Used on"
+msgstr "به کار رفته در"
+
+msgid "Used on the following active workflows"
+msgstr "در این گردش‌های کار فعال به کار رفته است"
+
+msgid "User"
+msgstr "کاربر"
+
+msgid "user"
+msgstr "کاربر"
+
+#, python-format
+msgid "user %(id)s (deleted)"
+msgstr "کاربر %(id)s (حذف‌شده)"
+
+msgid "User '%(object)s' created."
+msgstr "کاربر «%(object)s» ساخته شد."
+
+msgid "User '%(object)s' deleted."
+msgstr "کاربر «%(object)s» حذف شد."
+
+msgid "User '%(object)s' updated."
+msgstr "کاربر «%(object)s» به‌روز شد."
+
+msgid "user profile"
+msgstr "پروفایل کاربر"
+
+msgid "user profiles"
+msgstr "پروفایل‌های کاربران"
+
+msgid "Username"
+msgstr "نام کاربری"
+
+msgid "Users"
+msgstr "کاربران"
+
+msgid "Version %(revision_id)s of \"%(object)s\" unscheduled."
+msgstr "زمان‌بندی نسخهٔ %(revision_id)s از «%(object)s» لغو شد."
+
+msgid "Version from %(datetime)s of page '%(page_title)s' has been published."
+msgstr "نسخهٔ %(datetime)s صفحهٔ «%(page_title)s» منتشر شد."
+
+msgid "Version from %(previous_revision_datetime)s of page '%(page_title)s' has been scheduled for publishing."
+msgstr "نسخهٔ %(previous_revision_datetime)s صفحهٔ «%(page_title)s» برای انتشار زمان‌بندی شد."
+
+msgid "Version from %(timestamp)s of %(model_name)s '%(object)s' has been published."
+msgstr "نسخهٔ %(timestamp)s از %(model_name)s «%(object)s» منتشر شد."
+
+msgid "Version from %(timestamp)s of %(model_name)s '%(object)s' has been scheduled for publishing."
+msgstr "نسخهٔ %(timestamp)s از %(model_name)s «%(object)s» برای انتشار زمان‌بندی شد."
+
+msgid "View details"
+msgstr "دیدن جزئیات"
+
+msgid "View draft"
+msgstr "دیدن پیش‌نویس"
+
+msgid "View history"
+msgstr "دیدن تاریخچه"
+
+msgid "View latest version"
+msgstr "دیدن آخرین نسخه"
+
+msgid "View live"
+msgstr "دیدن صفحه در سایت"
+
+msgid "view restriction"
+msgstr "محدودیت دیدن"
+
+msgid "view restrictions"
+msgstr "محدودیت‌های دیدن"
+
+msgid "View users in this group"
+msgstr "دیدن کاربران این گروه"
+
+msgid "View Wagtail quick actions"
+msgstr "دیدن میان‌برهای مدیریت"
+
+msgid "Visibility"
+msgstr "چه کسی ببیند"
+
+msgid "Visible to all"
+msgstr "برای همه پیداست"
+
+msgid "Visible to all. Visit the live page"
+msgstr "برای همه پیداست. دیدن صفحه در سایت"
+
+msgid "Visit the live page"
+msgstr "دیدن صفحه در سایت"
+
+#, python-format
+msgid "Wagtail %(current_version)s editor guide"
+msgstr "راهنمای ویرایشگر Wagtail %(current_version)s (انگلیسی)"
+
+msgid "Wagtail admin"
+msgstr "پنل مدیریت"
+
+msgid "Wagtail API v2"
+msgstr "رابط برنامه‌نویسی (API) نسخهٔ ۲"
+
+msgid "Wagtail core"
+msgstr "هستهٔ Wagtail"
+
+msgid "Wagtail documents"
+msgstr "سندها"
+
+msgid "Wagtail embeds"
+msgstr "محتوای جاسازی‌شده"
+
+msgid "Wagtail forms"
+msgstr "فرم‌ها"
+
+msgid "Wagtail frontend cache"
+msgstr "حافظهٔ میانی (کش) Wagtail"
+
+msgid "Wagtail images"
+msgstr "تصویرها"
+
+msgid "Wagtail locales"
+msgstr "زبان‌ها"
+
+msgid "Wagtail redirects"
+msgstr "تغییر مسیرها"
+
+msgid "Wagtail routablepage"
+msgstr "صفحه‌های مسیردار"
+
+msgid "Wagtail search"
+msgstr "جست‌وجو"
+
+msgid "Wagtail simple translation"
+msgstr "ترجمهٔ ساده"
+
+msgid "Wagtail sitemaps"
+msgstr "نقشهٔ سایت"
+
+msgid "Wagtail sites"
+msgstr "سایت‌ها"
+
+msgid "Wagtail snippets"
+msgstr "قطعه‌ها"
+
+msgid "Wagtail upgrade available"
+msgstr "نسخهٔ تازهٔ Wagtail آمده است"
+
+msgid "Wagtail users"
+msgstr "کاربران"
+
+msgid "Warnings"
+msgstr "هشدارها"
+
+msgid "We calculate reading time from word count, using different reading speeds for different languages."
+msgstr "زمان خواندن از شمار واژه‌ها و با سرعت خواندن ویژهٔ هر زبان حساب می‌شود."
+
+msgid "We extract the main content from the page preview, remove all formatting, and calculate the number of words."
+msgstr "متن اصلی را از پیش‌نمایش صفحه برمی‌داریم، قالب‌بندی را کنار می‌گذاریم و واژه‌ها را می‌شماریم."
+
+msgid "We use a readability formula based on length of words and sentences. Long sentences and words result in a worse readability score."
+msgstr "خوانایی با فرمولی بر پایهٔ درازی واژه‌ها و جمله‌ها حساب می‌شود. جمله‌ها و واژه‌های بلند، خوانایی را کم می‌کنند (این فرمول برای متن فارسی دقیق نیست)."
+
+msgid "What's new in Wagtail %(version)s"
+msgstr "تازه‌های Wagtail %(version)s"
+
+msgid "Whether a link to this page will appear in automatically generated menus"
+msgstr "اگر تیک بخورد، پیوند این صفحه در منوی سایت می‌آید"
+
+msgid "Why not <a class=\"create-one-now\" href=\"#tab-new\" data-action=\"w-tabs#select:prevent\" data-w-tabs-target=\"trigger\" data-w-tabs-focus-param=\"true\">create one now</a>?"
+msgstr "<a class=\"create-one-now\" href=\"#tab-new\" data-action=\"w-tabs#select:prevent\" data-w-tabs-target=\"trigger\" data-w-tabs-focus-param=\"true\">همین حالا یکی بسازید</a>."
+
+msgid "Why not <a class=\"upload-one-now\" href=\"#tab-upload\" data-action=\"w-tabs#select:prevent\" data-w-tabs-target=\"trigger\" data-w-tabs-focus-param=\"true\">upload one now</a>?"
+msgstr "<a class=\"upload-one-now\" href=\"#tab-upload\" data-action=\"w-tabs#select:prevent\" data-w-tabs-target=\"trigger\" data-w-tabs-focus-param=\"true\">همین حالا یکی بارگذاری کنید</a>."
+
+msgid "Width"
+msgstr "عرض"
+
+msgid "width"
+msgstr "عرض"
+
+#, python-format
+msgid "will be set to a %(model_name)s specified by the system"
+msgstr "به %(model_name)s تعیین‌شده به‌دست سامانه تغییر می‌کند"
+
+#, python-format
+msgid "will be set to the default %(model_name)s"
+msgstr "به %(model_name)s پیش‌فرض تغییر می‌کند"
+
+msgid "will do nothing"
+msgstr "تغییری نمی‌کند"
+
+msgid "will unset the reference"
+msgstr "ارجاع برداشته می‌شود"
+
+msgid "with comment:"
+msgstr "با یادداشت:"
+
+msgid "Words"
+msgstr "واژه"
+
+msgid "Workflow"
+msgstr "گردش کار"
+
+msgid "workflow"
+msgstr "گردش کار"
+
+#, python-format
+msgid "Workflow '%(object)s' created."
+msgstr "گردش کار «%(object)s» ساخته شد."
+
+#, python-format
+msgid "Workflow '%(object)s' disabled."
+msgstr "گردش کار «%(object)s» غیرفعال شد."
+
+#, python-format
+msgid "Workflow '%(object)s' updated."
+msgstr "گردش کار «%(object)s» به‌روز شد."
+
+#, python-format
+msgid "Workflow '%(workflow_name)s' enabled."
+msgstr "گردش کار «%(workflow_name)s» فعال شد."
+
+#, python-format
+msgid "Workflow '%(workflow_name)s' on %(model_name)s '%(title)s': %(status)s"
+msgstr "گردش کار «%(workflow_name)s» روی %(model_name)s «%(title)s»: %(status)s"
+
+msgid "Workflow cancelled"
+msgstr "گردش کار لغو شد"
+
+msgid "Workflow completed"
+msgstr "گردش کار به پایان رسید"
+
+msgid "Workflow history"
+msgstr "تاریخچهٔ گردش کار"
+
+#, python-format
+msgid "Workflow on %(model_name)s '%(object)s' has been cancelled."
+msgstr "گردش کار %(model_name)s «%(object)s» لغو شد."
+
+#, python-format
+msgid "Workflow on %(model_name)s '%(object)s' has been restarted."
+msgstr "گردش کار %(model_name)s «%(object)s» از نو آغاز شد."
+
+#, python-format
+msgid "Workflow on page '%(page_title)s' has been cancelled."
+msgstr "گردش کار صفحهٔ «%(page_title)s» لغو شد."
+
+#, python-format
+msgid "Workflow on page '%(page_title)s' has been restarted."
+msgstr "گردش کار صفحهٔ «%(page_title)s» از نو آغاز شد."
+
+msgid "workflow page"
+msgstr "صفحهٔ گردش کار"
+
+msgid "workflow pages"
+msgstr "صفحه‌های گردش کار"
+
+msgid "Workflow progress"
+msgstr "پیشرفت گردش کار"
+
+#, python-format
+msgid "Workflow removed from Page '%(page_title)s'."
+msgstr "گردش کار از صفحهٔ «%(page_title)s» برداشته شد."
+
+msgid "Workflow started"
+msgstr "گردش کار آغاز شد"
+
+msgid "Workflow state"
+msgstr "وضعیت گردش کار"
+
+msgid "workflow state"
+msgstr "وضعیت گردش کار"
+
+msgid "Workflow states"
+msgstr "وضعیت‌های گردش کار"
+
+msgid "Workflow task approved"
+msgstr "مرحلهٔ گردش کار تأیید شد"
+
+msgid "workflow task order"
+msgstr "ترتیب مرحلهٔ گردش کار"
+
+msgid "workflow task orders"
+msgstr "ترتیب مرحله‌های گردش کار"
+
+msgid "Workflow task rejected. Workflow complete"
+msgstr "مرحلهٔ گردش کار رد شد. گردش کار به پایان رسید"
+
+msgid "Workflow task resubmitted. Workflow resumed"
+msgstr "مرحلهٔ گردش کار دوباره فرستاده شد. گردش کار ادامه یافت"
+
+msgid "Workflow tasks"
+msgstr "مرحله‌های گردش کار"
+
+msgid "Workflow: approve task"
+msgstr "گردش کار: تأیید مرحله"
+
+msgid "Workflow: cancel"
+msgstr "گردش کار: لغو"
+
+msgid "Workflow: reject task"
+msgstr "گردش کار: رد مرحله"
+
+msgid "Workflow: resume task"
+msgstr "گردش کار: ادامهٔ مرحله"
+
+msgid "Workflow: start"
+msgstr "گردش کار: آغاز"
+
+msgid "workflow_tasks"
+msgstr "مرحله‌های گردش کار"
+
+msgid "Workflows"
+msgstr "گردش‌های کار"
+
+msgid "workflows"
+msgstr "گردش‌های کار"
+
+#, python-format
+msgid "Workflows apply to child pages too. If you select a parent page here, its child pages will also use this workflow. See <a href=\"%(workflow_pages_url)s\">the list of the pages</a> your workflow applies to."
+msgstr "گردش کار زیرصفحه‌ها را هم در بر می‌گیرد. اگر اینجا صفحه‌ای را انتخاب کنید، زیرصفحه‌هایش هم همین گردش کار را خواهند داشت. <a href=\"%(workflow_pages_url)s\">فهرست صفحه‌هایی</a> را که این گردش کار در بر می‌گیرد ببینید."
+
+msgid "Would you still like to publish this %(model_name)s?"
+msgstr "آیا باز هم می‌خواهید این %(model_name)s منتشر شود؟"
+
+msgid "Would you still like to publish this page?"
+msgstr "آیا باز هم می‌خواهید این صفحه منتشر شود؟"
+
+msgid "Yes"
+msgstr "بله"
+
+msgid "Yes, add"
+msgstr "بله، افزوده شود"
+
+msgid "Yes, assign"
+msgstr "بله، داده شود"
+
+msgid "Yes, change state"
+msgstr "بله، تغییر کند"
+
+msgid "Yes, convert it"
+msgstr "بله، تبدیل شود"
+
+msgid "Yes, delete"
+msgstr "بله، حذف شود"
+
+msgid "Yes, delete it"
+msgstr "بله، حذف شود"
+
+msgid "Yes, disable"
+msgstr "بله، غیرفعال شود"
+
+msgid "Yes, move these pages"
+msgstr "بله، این صفحه‌ها جابه‌جا شوند"
+
+msgid "Yes, move this page"
+msgstr "بله، این صفحه جابه‌جا شود"
+
+msgid "Yes, publish"
+msgstr "بله، منتشر شود"
+
+msgid "Yes, unpublish"
+msgstr "بله، انتشار لغو شود"
+
+msgid "Yes, unpublish it"
+msgstr "بله، انتشار لغو شود"
+
+msgid "Yes, unschedule"
+msgstr "بله، زمان‌بندی لغو شود"
+
+msgid "You are viewing a previous version of this %(model_name)s from <b>%(created_at)s</b> by %(user)s"
+msgstr "در حال دیدن نسخهٔ پیشین این %(model_name)s از <b>%(created_at)s</b> به‌دست %(user)s هستید"
+
+msgid "You are viewing a previous version of this page from <b>%(created_at)s</b> by %(user)s"
+msgstr "در حال دیدن نسخهٔ پیشین این صفحه از <b>%(created_at)s</b> به‌دست %(user)s هستید"
+
+msgid "You can edit the %(model_name)s here:"
+msgstr "%(model_name)s را اینجا می‌توانید ویرایش کنید:"
+
+msgid "You can edit the page here:"
+msgstr "صفحه را اینجا می‌توانید ویرایش کنید:"
+
+msgid "You can edit the privacy settings on:"
+msgstr "تنظیمات حریم خصوصی را اینجا می‌توانید تغییر دهید:"
+
+msgid "You can preview the %(model_name)s here:"
+msgstr "پیش‌نمایش %(model_name)s را اینجا می‌توانید ببینید:"
+
+msgid "You can preview the page here:"
+msgstr "پیش‌نمایش صفحه را اینجا می‌توانید ببینید:"
+
+msgid "You can view the page here:"
+msgstr "صفحه را اینجا می‌توانید ببینید:"
+
+msgid "You cannot assign this workflow to the same page multiple times."
+msgstr "نمی‌توانید یک گردش کار را چند بار به یک صفحه بدهید."
+
+msgid "You cannot change your own active status"
+msgstr "نمی‌توانید وضعیت فعال بودن خودتان را تغییر دهید"
+
+msgid "You cannot copy a page into itself when copying subpages"
+msgstr "هنگام کپی زیرصفحه‌ها نمی‌توان صفحه را درون خودش کپی کرد"
+
+#, python-format
+msgid "You cannot create a page of type \"%(page_type)s\" under \"%(page_title)s\"."
+msgstr "صفحه‌ای از نوع «%(page_type)s» را نمی‌توان زیر «%(page_title)s» ساخت."
+
+msgid "You cannot edit another user's comment."
+msgstr "نمی‌توانید یادداشت کاربر دیگری را ویرایش کنید."
+
+msgid "You cannot have multiple permission records for the same collection."
+msgstr "برای یک مجموعه نمی‌توان چند ردیف اجازه داشت."
+
+msgid "You cannot have multiple permission records for the same page."
+msgstr "برای یک صفحه نمی‌توان چند ردیف اجازه داشت."
+
+msgid "You do not have permission to access the admin."
+msgstr "اجازهٔ ورود به پنل مدیریت را ندارید."
+
+msgid "You do not have permission to copy to page \"%(page_title)s\""
+msgstr "اجازهٔ کپی به صفحهٔ «%(page_title)s» را ندارید"
+
+msgid "You do not have permission to create a page under \"%(page_title)s\"."
+msgstr "اجازهٔ ساختن صفحه زیر «%(page_title)s» را ندارید."
+
+msgid "You don't have permission to add tags to this document"
+msgid_plural "You don't have permission to add tags to these documents"
+msgstr[0] "اجازهٔ برچسب‌زدن به این سند را ندارید"
+msgstr[1] "اجازهٔ برچسب‌زدن به این سندها را ندارید"
+
+msgid "You don't have permission to add tags to this image"
+msgid_plural "You don't have permission to add tags to these images"
+msgstr[0] "اجازهٔ برچسب‌زدن به این تصویر را ندارید"
+msgstr[1] "اجازهٔ برچسب‌زدن به این تصویرها را ندارید"
+
+msgid "You don't have permission to add this document to a collection"
+msgid_plural "You don't have permission to add these documents to a collection"
+msgstr[0] "اجازهٔ افزودن این سند به مجموعه را ندارید"
+msgstr[1] "اجازهٔ افزودن این سندها به مجموعه را ندارید"
+
+msgid "You don't have permission to add this image to a collection"
+msgid_plural "You don't have permission to add these images to a collection"
+msgstr[0] "اجازهٔ افزودن این تصویر به مجموعه را ندارید"
+msgstr[1] "اجازهٔ افزودن این تصویرها به مجموعه را ندارید"
+
+#, python-format
+msgid "You don't have permission to delete these %(snippet_plural_name)s"
+msgstr "اجازهٔ حذف این %(snippet_plural_name)s را ندارید"
+
+#, python-format
+msgid "You don't have permission to delete this %(snippet_type_name)s"
+msgstr "اجازهٔ حذف این %(snippet_type_name)s را ندارید"
+
+msgid "You don't have permission to delete this document"
+msgid_plural "You don't have permission to delete these documents"
+msgstr[0] "اجازهٔ حذف این سند را ندارید"
+msgstr[1] "اجازهٔ حذف این سندها را ندارید"
+
+msgid "You don't have permission to delete this image"
+msgid_plural "You don't have permission to delete these images"
+msgstr[0] "اجازهٔ حذف این تصویر را ندارید"
+msgstr[1] "اجازهٔ حذف این تصویرها را ندارید"
+
+msgid "You don't have permission to delete this page"
+msgid_plural "You don't have permission to delete these pages"
+msgstr[0] "اجازهٔ حذف این صفحه را ندارید"
+msgstr[1] "اجازهٔ حذف این صفحه‌ها را ندارید"
+
+msgid "You don't have permission to delete this user"
+msgid_plural "You don't have permission to delete these users"
+msgstr[0] "اجازهٔ حذف این کاربر را ندارید"
+msgstr[1] "اجازهٔ حذف این کاربران را ندارید"
+
+msgid "You don't have permission to edit this user"
+msgid_plural "You don't have permission to edit these users"
+msgstr[0] "اجازهٔ ویرایش این کاربر را ندارید"
+msgstr[1] "اجازهٔ ویرایش این کاربران را ندارید"
+
+msgid "You don't have permission to move this page"
+msgid_plural "You don't have permission to move these pages"
+msgstr[0] "اجازهٔ جابه‌جایی این صفحه را ندارید"
+msgstr[1] "اجازهٔ جابه‌جایی این صفحه‌ها را ندارید"
+
+msgid "You don't have permission to publish this page"
+msgid_plural "You don't have permission to publish these pages"
+msgstr[0] "اجازهٔ انتشار این صفحه را ندارید"
+msgstr[1] "اجازهٔ انتشار این صفحه‌ها را ندارید"
+
+msgid "You don't have permission to unpublish this page"
+msgid_plural "You don't have permission to unpublish these pages"
+msgstr[0] "اجازهٔ لغو انتشار این صفحه را ندارید"
+msgstr[1] "اجازهٔ لغو انتشار این صفحه‌ها را ندارید"
+
+msgid "You have <span>unsaved edits</span>"
+msgstr "<span>تغییرات ذخیره‌نشده</span> دارید"
+
+msgid "You have been successfully logged out."
+msgstr "از حساب خود خارج شدید."
+
+msgid "You have unsaved changes in another window"
+msgstr "در پنجرهٔ دیگری تغییرات ذخیره‌نشده دارید"
+
+#, python-format
+msgid "You haven't created any %(snippet_type_name)s snippets. Why not <a href=\"%(wagtailsnippets_create_snippet_url)s\" target=\"_blank\" rel=\"noreferrer\">create one now</a>?"
+msgstr "هنوز هیچ %(snippet_type_name)s نساخته‌اید. <a href=\"%(wagtailsnippets_create_snippet_url)s\" target=\"_blank\" rel=\"noreferrer\">همین حالا یکی بسازید</a>."
+
+msgid "You haven't created any tasks."
+msgstr "هنوز هیچ مرحله‌ای نساخته‌اید."
+
+msgid "You haven't uploaded any documents in this collection."
+msgstr "هنوز در این مجموعه سندی بارگذاری نکرده‌اید."
+
+msgid "You haven't uploaded any documents in this collection. Why not <a href=\"%(wagtaildocs_add_document_url)s\">upload one now</a>?"
+msgstr "هنوز در این مجموعه سندی بارگذاری نکرده‌اید. <a href=\"%(wagtaildocs_add_document_url)s\">همین حالا یکی بارگذاری کنید</a>."
+
+msgid "You haven't uploaded any documents."
+msgstr "هنوز سندی بارگذاری نکرده‌اید."
+
+msgid "You haven't uploaded any documents. Why not <a href=\"%(wagtaildocs_add_document_url)s\">upload one now</a>?"
+msgstr "هنوز سندی بارگذاری نکرده‌اید. <a href=\"%(wagtaildocs_add_document_url)s\">همین حالا یکی بارگذاری کنید</a>."
+
+msgid "You haven't uploaded any images in this collection."
+msgstr "هنوز در این مجموعه تصویری بارگذاری نکرده‌اید."
+
+msgid "You haven't uploaded any images in this collection. Why not <a href=\"%(wagtailimages_add_image_url)s\">upload one now</a>?"
+msgstr "هنوز در این مجموعه تصویری بارگذاری نکرده‌اید. <a href=\"%(wagtailimages_add_image_url)s\">همین حالا یکی بارگذاری کنید</a>."
+
+msgid "You haven't uploaded any images."
+msgstr "هنوز تصویری بارگذاری نکرده‌اید."
+
+msgid "You haven't uploaded any images. Why not <a href=\"%(wagtailimages_add_image_url)s\">upload one now</a>?"
+msgstr "هنوز تصویری بارگذاری نکرده‌اید. <a href=\"%(wagtailimages_add_image_url)s\">همین حالا یکی بارگذاری کنید</a>."
+
+msgid "You need a password to access this document."
+msgstr "برای دیدن این سند رمز لازم است."
+
+msgid "You need a password to access this page."
+msgstr "برای دیدن این صفحه رمز لازم است."
+
+msgid "You saved a new version in another window"
+msgstr "در پنجرهٔ دیگری نسخهٔ تازه‌ای ذخیره کرده‌اید"
+
+msgid "Your %(username_field)s and password didn't match. Please try again."
+msgstr "%(username_field)s یا رمز عبور درست نیست. لطفاً دوباره امتحان کنید."
+
+msgid "Your account doesn't have access to this page. To proceed, please log in with an account that has access."
+msgstr "حساب شما به این صفحه دسترسی ندارد. برای ادامه، با حسابی وارد شوید که دسترسی دارد."
+
+msgid "Your account settings have been changed successfully!"
+msgstr "تنظیمات حساب شما ذخیره شد."
+
+msgid "Your locked pages"
+msgstr "صفحه‌هایی که قفل کرده‌اید"
+
+msgid "Your most recent edits"
+msgstr "آخرین ویرایش‌های شما"
+
+msgid "Your pages and snippets in a workflow"
+msgstr "صفحه‌ها و موارد شما در گردش کار"
+
+msgid "Your username (in case you've forgotten):"
+msgstr "نام کاربری شما (اگر فراموش کرده‌اید):"
+
+msgid "Your username and password didn't match. Please try again."
+msgstr "نام کاربری یا رمز عبور درست نیست. لطفاً دوباره امتحان کنید."
+
+#, python-format
+msgid "Your version: <strong>%(current_version)s</strong>. New version: <strong data-w-upgrade-target=\"latestVersion\"></strong>."
+msgstr "نسخهٔ شما: <strong>%(current_version)s</strong>. نسخهٔ تازه: <strong data-w-upgrade-target=\"latestVersion\"></strong>."
+
+#, python-brace-format
+msgid "{model_name} '{title}' is locked and has been scheduled to go live at {datetime}"
+msgstr "{model_name} «{title}» قفل است و برای انتشار در {datetime} زمان‌بندی شده است"

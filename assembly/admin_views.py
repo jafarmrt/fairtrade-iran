@@ -185,7 +185,7 @@ class AssemblyControlViewSet(ViewSet):
     name = "assembly_control"
     icon = "group"
     menu_label = "مجمع عمومی"
-    menu_order = 270
+    menu_name = "assembly"  # the order of the main menu is set in core/wagtail_hooks.py
     add_to_admin_menu = True
 
     def get_urlpatterns(self):

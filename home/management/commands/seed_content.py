@@ -73,6 +73,8 @@ class Command(BaseCommand):
 
     def ensure_home_pages(self, fa, en):
         root = Page.get_first_root_node()
+        # The tree's invisible top page is called "Root" in English in the admin's page browser.
+        Page.objects.filter(pk=root.pk, title="Root").update(title=data.ROOT_TITLE, draft_title=data.ROOT_TITLE)
         site = Site.objects.filter(is_default_site=True).first()
 
         home_fa = HomePage.objects.filter(locale=fa).first()

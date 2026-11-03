@@ -1,5 +1,4 @@
 from django.db import transaction
-from wagtail import hooks
 from wagtail.admin.panels import FieldPanel, FieldRowPanel, InlinePanel, MultiFieldPanel, ObjectList, TabbedInterface
 from wagtail.admin.viewsets.model import ModelViewSet
 from wagtail.admin.views.generic import EditView
@@ -26,8 +25,7 @@ class InquiryViewSet(ModelViewSet):
     model = WholesaleInquiry
     icon = "list-ul"
     menu_label = "سفارش‌های عمده"
-    menu_order = 240
-    add_to_admin_menu = True
+    add_to_admin_menu = False  # it is in the «فروشگاه» menu group (shop/wagtail_hooks.py)
     copy_view_enabled = False
     edit_view_class = InquiryEditView
     list_display = ["tracking_code", "company", "country", "buyer_type", "line_count", "status", "created_at"]
@@ -64,9 +62,5 @@ class InquiryViewSet(ModelViewSet):
     ])
 
 
+# Registered, with its menu item, in the «فروشگاه» group by shop/wagtail_hooks.py.
 inquiry_viewset = InquiryViewSet("wholesale_inquiries")
-
-
-@hooks.register("register_admin_viewset")
-def register_inquiry_viewset():
-    return inquiry_viewset

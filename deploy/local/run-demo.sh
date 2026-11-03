@@ -66,6 +66,8 @@ fi
 say "Preparing the database and demo content"
 "$VENV/bin/python" manage.py migrate --noinput -v0
 "$VENV/bin/python" manage.py seed_demo >/dev/null
+# After a Wagtail upgrade the search index is rebuilt (quick on the demo data).
+"$VENV/bin/python" manage.py update_index >/dev/null 2>&1 || true
 
 cat <<DONE
 

@@ -56,7 +56,7 @@ def new_tracking_code():
             return code
 
 
-@register_setting(icon="pick")
+@register_setting(icon="resubmit")
 class AppealSettings(BaseGenericSetting):
     # The appeal window itself is MembershipSettings.appeal_days (تنظیمات عضویت), shared with the
     # appeal deadline written on suspension and cancellation notices.

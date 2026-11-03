@@ -1,18 +1,16 @@
 from django.template.loader import render_to_string
 from wagtail import hooks
 from wagtail.admin.ui.components import Component
+from wagtail.admin.viewsets.base import ViewSetGroup
 from wagtail.snippets.models import register_snippet
-from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
+from wagtail.snippets.views.snippets import SnippetViewSet
 
 from payments.wagtail_hooks import PaymentViewSet
+from products.wagtail_hooks import CategoryViewSet, ProductViewSet
+from wholesale.wagtail_hooks import inquiry_viewset
 
 from .admin_views import FILTERS, OrdersViewSet, can_manage
 from .models import Order, Seller
-
-
-@hooks.register("register_admin_viewset")
-def register_orders_viewset():
-    return OrdersViewSet()
 
 
 class SellerViewSet(SnippetViewSet):
@@ -24,14 +22,20 @@ class SellerViewSet(SnippetViewSet):
     search_fields = ["member__name"]
 
 
-class SalesGroup(SnippetViewSetGroup):
-    menu_label = "فروش و پرداخت"
-    menu_icon = "pick"
-    menu_order = 106
-    items = (SellerViewSet, PaymentViewSet)
+class ShopGroup(ViewSetGroup):
+    """
+    «فروشگاه» in the admin menu: orders first (the daily work), then the catalogue,
+    then the producers' payment settings and the payment log. Each person sees only
+    the items their group has permission for.
+    """
+
+    menu_label = "فروشگاه"
+    menu_name = "shop"  # the order of the main menu is set in core/wagtail_hooks.py
+    menu_icon = "tag"
+    items = (OrdersViewSet, inquiry_viewset, ProductViewSet, CategoryViewSet, SellerViewSet, PaymentViewSet)
 
 
-register_snippet(SalesGroup)
+register_snippet(ShopGroup)
 
 
 class OrdersPanel(Component):

@@ -10,6 +10,7 @@
     <button class="button" type="submit">نمایش</button>
     <a href="?{{ export_query }}">خروجی اکسل (CSV) حق عضویت همین اعضا</a>
     <a href="{% url 'wagtailsettings:edit' 'core' 'membershipsettings' %}">تنظیمات حق عضویت و تعلیق</a>
+    {% if perms.standing.view_dues or perms.standing.change_dues %}<a href="{% url 'wagtailsnippets_standing_dues:list' %}">فهرست کامل حق عضویت‌ها (برای اصلاح و خروجی)</a>{% endif %}
 </form>
 {% if members %}
 <table class="listing">

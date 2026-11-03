@@ -41,9 +41,9 @@ class AppealViewSet(ModelViewSet):
     """
 
     model = Appeal
-    icon = "pick"
+    icon = "resubmit"
     menu_label = "اعتراض‌ها"
-    menu_order = 260
+    menu_name = "appeals"  # the order of the main menu is set in core/wagtail_hooks.py
     add_to_admin_menu = True
     copy_view_enabled = False
     edit_view_class = AppealEditView

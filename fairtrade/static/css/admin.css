@@ -1,0 +1,108 @@
+/*
+ * The Wagtail admin in the house's look: Persian typeface, brand colours,
+ * logo on the sign-in page. Loaded on every admin page by core/wagtail_hooks.py.
+ * The public site's styles are in fairtrade.css; colours here follow the same
+ * brand guide (navy #1c1f4a, gold #cf9d2b). Wagtail builds every shade of its
+ * "primary" (side menu) and "secondary" (buttons, links) colours from the
+ * hue / saturation / lightness set below, for the light and dark themes alike.
+ */
+
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Medium.woff2") format("woff2");
+  font-weight: 500 600;
+  font-display: swap;
+}
+@font-face {
+  font-family: "Vazirmatn";
+  src: url("../fonts/Vazirmatn-Bold.woff2") format("woff2");
+  font-weight: 700 900;
+  font-display: swap;
+}
+
+:root {
+  /* IRANSans first, as on the site: it is used if the house adds the licensed font files. */
+  --w-font-sans: "IRANSans", "Vazirmatn", Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Arial, sans-serif;
+
+  /* Navy side menu (brand navy #1c1f4a) */
+  --w-color-primary-hue: 236.1;
+  --w-color-primary-saturation: 45.1%;
+  --w-color-primary-lightness: 20%;
+
+  /* Buttons, links and focus: a lighter navy that keeps white button text readable */
+  --w-color-secondary-hue: 236;
+  --w-color-secondary-saturation: 46%;
+  --w-color-secondary-lightness: 38%;
+
+  --ft-gold: #cf9d2b;
+  --ft-gold-text: #8a6512;
+  --ft-navy: #1c1f4a;
+
+  --w-login-fullscreen-background:
+    radial-gradient(120% 120% at 100% 0%, #2b2f6b 0%, var(--ft-navy) 55%, #14163a 100%);
+}
+
+/* Persian text needs a little more line height than Wagtail's Latin default. */
+html[dir="rtl"] body { line-height: 1.7; }
+html[dir="rtl"] .w-field__label,
+html[dir="rtl"] .w-panel__heading { line-height: 1.6; }
+
+/* Side menu: the house's logo instead of Wagtail's bird, and a gold mark on the open item */
+.sidebar-custom-branding { padding: 24px 0 8px; margin: 1rem auto; }
+.ft-sidebar-logo { display: block; width: 120px; max-width: 70%; height: auto; margin-inline: auto; }
+.sidebar--slim .ft-sidebar-logo { width: 40px; max-width: 80%; }
+.sidebar-menu-item--active > a,
+.sidebar-menu-item--active > button { box-shadow: inset -4px 0 0 var(--ft-gold); }
+html[dir="ltr"] .sidebar-menu-item--active > a,
+html[dir="ltr"] .sidebar-menu-item--active > button { box-shadow: inset 4px 0 0 var(--ft-gold); }
+
+/* Sign-in page */
+.login .content-wrapper { border-top: 6px solid var(--ft-gold); }
+.login h1 { display: flex; flex-direction: column; align-items: center; gap: .35rem; margin-bottom: 1.75rem; }
+.ft-login-logo { width: 160px; height: auto; margin-bottom: .5rem; }
+.ft-login-name { font-size: 1.05rem; font-weight: 700; color: var(--ft-navy); }
+.ft-login-title { font-size: 1.5rem; font-weight: 800; }
+.ft-login-help { margin: 1.75rem 0 0; font-size: .875rem; line-height: 1.8; text-align: center; color: var(--w-color-text-meta); }
+.w-theme-dark .ft-login-name { color: inherit; }
+@media (max-width: 30em) {
+  .login .content-wrapper { padding: 2rem 1.25rem; }
+}
+
+/* Dashboard: shortcuts panel (core/wagtail_hooks.py) */
+.ft-shortcuts { margin-bottom: 2.5rem; }
+.ft-shortcuts h2 { font-size: 1.125rem; margin: 0 0 1rem; }
+.ft-shortcuts__grid {
+  display: grid; gap: .75rem; margin: 0; padding: 0; list-style: none;
+  grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+}
+.ft-shortcuts__item a {
+  display: flex; align-items: center; gap: .75rem; height: 100%;
+  padding: .875rem 1rem; border: 1px solid var(--w-color-border-furniture);
+  border-radius: .5rem; background: var(--w-color-surface-page);
+  color: var(--w-color-text-label); text-decoration: none; font-weight: 600; line-height: 1.5;
+}
+.ft-shortcuts__item a:hover,
+.ft-shortcuts__item a:focus-visible { border-color: var(--ft-gold); background: var(--w-color-surface-field-inactive); }
+.ft-shortcuts__item .icon { width: 1.5rem; height: 1.5rem; flex: none; color: var(--w-color-secondary); }
+.ft-shortcuts__item small { display: block; font-weight: 400; font-size: .8rem; color: var(--w-color-text-meta); }
+.ft-shortcuts__badge {
+  margin-inline-start: auto; min-width: 1.6rem; padding: 0 .45rem; border-radius: 1rem;
+  background: var(--ft-gold); color: var(--ft-navy); font-size: .8rem; font-weight: 700; text-align: center;
+}
+
+/* Persian guide (/admin/guide/) */
+.ft-guide { max-width: 52rem; line-height: 2; }
+.ft-guide h2 { margin-top: 2.25rem; font-size: 1.3rem; }
+.ft-guide h3 { margin-top: 1.5rem; font-size: 1.05rem; }
+.ft-guide li { margin-bottom: .35rem; }
+.ft-guide .ft-guide__toc { padding: 1rem 1.5rem; border-radius: .5rem; background: var(--w-color-surface-field-inactive); }
+.ft-guide .ft-guide__toc ul { columns: 2 14rem; margin: .5rem 0 0; padding-inline-start: 1.25rem; }
+.ft-guide .ft-guide__toc li { margin: 0; line-height: 1.9; }
+.ft-guide table.listing { max-width: 40rem; margin-block: .5rem 1rem; }
+.ft-guide kbd { padding: 0 .35em; border: 1px solid var(--w-color-border-field-default); border-radius: .25rem; font-family: inherit; }

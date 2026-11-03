@@ -370,7 +370,7 @@ cd /opt/fairtrade-iran
 sudo ./deploy/update.sh
 ```
 
-اسکریپت به‌ترتیب این کارها را می‌کند: `docker compose run --rm backup now`، `git pull`، `docker compose up -d --build --wait` و `seed_content`.
+اسکریپت به‌ترتیب این کارها را می‌کند: `docker compose run --rm backup now`، `git pull`، `docker compose up -d --build --wait` ، `seed_content` و `update_index` (تازه کردن فهرست جست‌وجو).
 
 تغییرات پایگاه داده (migration) هنگام روشن شدن سایت خودکار اجرا می‌شود. `seed_content` فقط چیزهای تازه (مثلاً متن ایمیل یا صفحهٔ جدید) را اضافه می‌کند.
 

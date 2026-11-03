@@ -1,0 +1,4 @@
+{% extends "wagtailadmin/admin_base.html" %}
+{% load admin_tags %}
+{% block branding_title %}{% admin_brand as brand %}پنل مدیریت {{ brand.name }}{% endblock %}
+{% block branding_favicon %}{% admin_brand as brand %}<link rel="icon" href="{{ brand.favicon }}">{% endblock %}
