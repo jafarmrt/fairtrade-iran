@@ -5,7 +5,9 @@ from decimal import Decimal
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
-from wagtail.admin.panels import FieldPanel, FieldRowPanel, MultiFieldPanel
+from modelcluster.fields import ParentalKey
+from modelcluster.models import ClusterableModel
+from wagtail.admin.panels import FieldPanel, FieldRowPanel, InlinePanel, MultiFieldPanel
 
 from core.models import BilingualMixin, is_english
 from members.models import Member
@@ -17,7 +19,7 @@ def _label(choices_en, value, display):
     return choices_en.get(value, display) if is_english() else display
 
 
-class Seller(BilingualMixin, models.Model):
+class Seller(BilingualMixin, ClusterableModel):
     """How one member sells through the site's cart. Staff choose the mode; the member edits the rest in the panel."""
 
     class Mode(models.TextChoices):
@@ -60,6 +62,8 @@ class Seller(BilingualMixin, models.Model):
                          FieldPanel("sheba")], heading="حساب بانکی فروشنده"),
         MultiFieldPanel([FieldPanel("shipping_fee"), FieldPanel("free_shipping_over"), FieldPanel("prep_days"),
                          FieldPanel("shipping_note"), FieldPanel("shipping_note_en")], heading="ارسال"),
+        InlinePanel("shipping_options", heading="روش‌های ارسال",
+                    help_text="اگر روشی تعریف شود، خریدار یکی را انتخاب می‌کند و «هزینه ارسال هر سفارش» به‌کار نمی‌رود"),
         MultiFieldPanel([FieldPanel("order_mobile"), FieldPanel("order_email")], heading="اعلان سفارش"),
     ]
 
@@ -96,10 +100,46 @@ class Seller(BilingualMixin, models.Model):
     def effective_commission(self, shop):
         return self.commission_percent if self.commission_percent is not None else shop.commission_percent
 
-    def shipping_for(self, subtotal):
+    def shipping_for(self, subtotal, option=None):
         if self.free_shipping_over and subtotal >= self.free_shipping_over:
             return 0
-        return self.shipping_fee
+        return option.fee if option is not None else self.shipping_fee
+
+    def active_shipping_options(self):
+        if not self.pk:
+            return []
+        cached = getattr(self, "_options_cache", None)
+        if cached is None:
+            cached = self._options_cache = list(self.shipping_options.filter(active=True))
+        return cached
+
+
+class ShippingOption(BilingualMixin, models.Model):
+    """One way a seller ships (پست پیشتاز، تیپاکس، پیک…), with its own cost."""
+
+    seller = ParentalKey(Seller, on_delete=models.CASCADE, related_name="shipping_options")
+    name = models.CharField("نام روش (فارسی)", max_length=80, help_text="مثلاً «پست پیشتاز»، «تیپاکس» یا «پیک در تهران»")
+    name_en = models.CharField("نام روش (انگلیسی)", max_length=80, blank=True)
+    fee = models.PositiveBigIntegerField("هزینه (ریال)", default=0)
+    delivery_time = models.CharField("زمان رسیدن (فارسی)", max_length=80, blank=True,
+                                     help_text="مثلاً «۲ تا ۴ روز کاری»")
+    delivery_time_en = models.CharField("زمان رسیدن (انگلیسی)", max_length=80, blank=True)
+    active = models.BooleanField("فعال", default=True)
+    sort_order = models.PositiveSmallIntegerField("ترتیب", default=0)
+
+    panels = [
+        FieldRowPanel([FieldPanel("name"), FieldPanel("name_en")]),
+        FieldRowPanel([FieldPanel("fee"), FieldPanel("active")]),
+        FieldRowPanel([FieldPanel("delivery_time"), FieldPanel("delivery_time_en")]),
+    ]
+
+    class Meta:
+        verbose_name = "روش ارسال"
+        verbose_name_plural = "روش‌های ارسال"
+        ordering = ["sort_order", "fee", "pk"]
+
+    def __str__(self):
+        return self.name
 
 
 CODE_ALPHABET = "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"
@@ -169,6 +209,7 @@ class Order(models.Model):
         SHIPPED = "shipped", "ارسال شد"
         COMPLETED = "completed", "تحویل شد"
         CANCELLED = "cancelled", "لغو شد"
+        RETURNED = "returned", "مرجوع شد؛ مبلغ بازپرداخت شد"
 
     STATUS_EN = {
         Status.AWAITING_PAYMENT: "Awaiting payment",
@@ -177,8 +218,10 @@ class Order(models.Model):
         Status.SHIPPED: "Shipped",
         Status.COMPLETED: "Delivered",
         Status.CANCELLED: "Cancelled",
+        Status.RETURNED: "Returned and refunded",
     }
     OPEN = (Status.AWAITING_PAYMENT, Status.PAYMENT_REVIEW)
+    REFUNDABLE = (Status.PAID, Status.SHIPPED, Status.COMPLETED)
     CANCELLABLE = (Status.AWAITING_PAYMENT, Status.PAYMENT_REVIEW, Status.PAID)
 
     purchase = models.ForeignKey(Purchase, verbose_name="خرید", on_delete=models.CASCADE, related_name="orders")
@@ -203,11 +246,18 @@ class Order(models.Model):
     paid_online = models.BooleanField("پرداخت آنلاین", default=False)
 
     # shipping
+    shipping_method = models.CharField("روش ارسال", max_length=80, blank=True)
+    shipping_method_en = models.CharField("روش ارسال (انگلیسی)", max_length=80, blank=True)
     shipped_at = models.DateTimeField("تاریخ ارسال", null=True, blank=True)
     tracking_code = models.CharField("کد رهگیری مرسوله", max_length=100, blank=True)
     shipping_message = models.TextField("پیام ارسال به خریدار", blank=True)
     completed_at = models.DateTimeField("تاریخ تحویل", null=True, blank=True)
 
+    return_requested_at = models.DateTimeField("درخواست مرجوعی", null=True, blank=True)
+    return_reason = models.TextField("دلیل مرجوعی", blank=True)
+    refunded_at = models.DateTimeField("تاریخ بازپرداخت", null=True, blank=True)
+    refund_amount = models.PositiveBigIntegerField("مبلغ بازپرداخت (ریال)", null=True, blank=True)
+    refund_reference = models.CharField("شماره پیگیری بازپرداخت", max_length=100, blank=True)
     cancelled_at = models.DateTimeField("تاریخ لغو", null=True, blank=True)
     cancel_reason = models.TextField("دلیل لغو", blank=True)
 
@@ -238,6 +288,22 @@ class Order(models.Model):
     @property
     def is_house(self):
         return self.payment_mode == Seller.Mode.HOUSE
+
+    def can_request_return(self, shop=None):
+        """The buyer may ask to return a delivered or shipped order within ShopSettings.return_days."""
+        from products.models import ShopSettings
+
+        shop = shop or ShopSettings.load()
+        since = self.completed_at or self.shipped_at
+        if not shop.return_days or self.return_requested_at or since is None:
+            return False
+        if self.status not in (self.Status.SHIPPED, self.Status.COMPLETED):
+            return False
+        return timezone.now() <= since + timezone.timedelta(days=shop.return_days)
+
+    @property
+    def shipping_method_display(self):
+        return self.shipping_method_en if (is_english() and self.shipping_method_en) else self.shipping_method
 
     @property
     def producer_share(self):
@@ -311,6 +377,8 @@ class OrderEvent(models.Model):
         "complete": ("تحویل شد", "Delivered"),
         "cancel": ("لغو شد", "Cancelled"),
         "settle": ("تسویه با تولیدکننده ثبت شد", "Settled with the producer"),
+        "return_request": ("خریدار درخواست مرجوعی داد", "Buyer asked to return the order"),
+        "refund": ("مرجوعی و بازپرداخت ثبت شد", "Return and refund recorded"),
         "note": ("یادداشت", "Note"),
     }
 

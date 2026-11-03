@@ -2,6 +2,7 @@
 {% load membership_tags site_tags %}
 {% block main_content %}
 {% if counts.todo %}<p class="help-block help-warning"><a href="?show=todo">{{ counts.todo|fa_digits }} رسید پرداخت به حساب خانه در انتظار بررسی است.</a></p>{% endif %}
+{% if counts.returns %}<p class="help-block help-warning"><a href="?show=returns">{{ counts.returns|fa_digits }} درخواست مرجوعی بررسی نشده است.</a></p>{% endif %}
 <div class="st-summary">
     <div><strong>فروش پرداخت‌شده:</strong> {{ totals.sales|default:0|amount }}</div>
     <div><strong>کارمزد خانه:</strong> {{ totals.commission|default:0|amount }}</div>
@@ -14,6 +15,8 @@
     </label>
     <label>جست‌وجو <input type="search" name="q" value="{{ q }}" placeholder="کد سفارش، خریدار، تلفن یا تولیدکننده"></label>
     <button class="button" type="submit">نمایش</button>
+    <a href="?{{ export_query }}">خروجی اکسل (CSV) همین فهرست</a>
+    <a href="{% url 'shop_orders:report' %}">گزارش ماهانه فروش</a>
     <a href="{% url 'wagtailsettings:edit' 'products' 'shopsettings' %}">تنظیمات فروشگاه و کارمزد</a>
     <a href="{% url 'wagtailsettings:edit' 'payments' 'paymentsettings' %}">تنظیمات پرداخت آنلاین</a>
 </form>

@@ -8,6 +8,7 @@
     </label>
     <label>جست‌وجو <input type="search" name="q" value="{{ q }}" placeholder="نام عضو"></label>
     <button class="button" type="submit">نمایش</button>
+    <a href="?{{ export_query }}">خروجی اکسل (CSV) حق عضویت همین اعضا</a>
     <a href="{% url 'wagtailsettings:edit' 'core' 'membershipsettings' %}">تنظیمات حق عضویت و تعلیق</a>
 </form>
 {% if members %}

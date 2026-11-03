@@ -20,7 +20,7 @@
     {% endfor %}
     </tbody>
     <tfoot>
-        <tr><td colspan="3">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}{% if group.seller.free_shipping_over and group.shipping %} <small class="muted">({% if IS_EN %}free over {{ group.seller.free_shipping_over|money }}{% else %}رایگان برای بیش از {{ group.seller.free_shipping_over|money }}{% endif %})</small>{% endif %}</td>
+        <tr><td colspan="3">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}{% if group.option %} · {% tr group.option "name" %}{% endif %}{% if group.seller.free_shipping_over and group.shipping %} <small class="muted">({% if IS_EN %}free over {{ group.seller.free_shipping_over|money }}{% else %}رایگان برای بیش از {{ group.seller.free_shipping_over|money }}{% endif %})</small>{% endif %}</td>
             <td class="num">{% if group.shipping %}{{ group.shipping|money }}{% else %}{% if IS_EN %}Free{% else %}رایگان{% endif %}{% endif %}</td></tr>
         <tr class="cart-table__total"><td colspan="3">{% if IS_EN %}Total for this producer{% else %}جمع سفارش این تولیدکننده{% endif %}</td><td class="num">{{ group.total|money }}</td></tr>
     </tfoot>

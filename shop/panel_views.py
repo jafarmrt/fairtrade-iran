@@ -5,6 +5,7 @@ import mimetypes
 from django.contrib import messages
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect
+from django.urls import reverse
 
 from core.models import is_english
 from memberpanel.views import member_view, render, t
@@ -12,14 +13,14 @@ from memberpanel.views import member_view, render, t
 from products.models import ShopSettings
 
 from . import services
-from .forms import SellerForm
+from .forms import SellerForm, ShippingOptionFormSet
 from .models import Order, Seller
 
 FILTERS = [
     ("todo", ("نیاز به اقدام", "Needs action")),
     ("open", ("در انتظار پرداخت", "Awaiting payment")),
     ("done", ("ارسال‌شده و تحویل‌شده", "Shipped and delivered")),
-    ("cancelled", ("لغوشده", "Cancelled")),
+    ("cancelled", ("لغوشده و مرجوعی", "Cancelled and returned")),
     ("all", ("همه", "All")),
 ]
 
@@ -39,7 +40,7 @@ def orders(request, member):
         "todo": todo_q(member),
         "open": member.orders.filter(status__in=Order.OPEN),
         "done": member.orders.filter(status__in=(S.SHIPPED, S.COMPLETED)),
-        "cancelled": member.orders.filter(status=S.CANCELLED),
+        "cancelled": member.orders.filter(status__in=(S.CANCELLED, S.RETURNED)),
     }.get(show, member.orders.all())
     i = 1 if is_english() else 0
     return render(request, "shop/panel/orders.html", {
@@ -69,6 +70,10 @@ def order_detail(request, member, order_id):
                 services.complete(order, request.user)
             elif action == "cancel":
                 services.cancel(order, request.user, message, by=services.SELLER)
+            elif action == "refund" and services.can_record_refund(order, services.SELLER):
+                services.refund(order, request.user, refund_amount(request.POST.get("refund_amount"), order),
+                                request.POST.get("refund_reference", ""), message,
+                                restock=request.POST.get("restock") == "1", by=services.SELLER)
             else:
                 raise services.OrderError(t("این اقدام برای این سفارش ممکن نیست.", "This action is not possible."))
         except services.OrderError as e:
@@ -81,9 +86,30 @@ def order_detail(request, member, order_id):
         "order": order,
         "purchase": order.purchase,
         "can_cancel": services.seller_can_cancel(order),
+        "can_refund": order.status in Order.REFUNDABLE and services.can_record_refund(order, services.SELLER),
         "events": order.events.all(),
         "current": "orders",
     })
+
+
+def refund_amount(value, order):
+    """The refund amount typed in the page's unit (toman or rial), in rials; empty means the whole order."""
+    from core import money
+    from core.iran import only_digits
+
+    digits = only_digits(value or "")
+    if not digits:
+        return order.total
+    amount = int(digits)
+    return amount * 10 if money.primary_unit() == money.TOMAN else amount
+
+
+@member_view(editing=False)
+def order_invoice(request, member, order_id):
+    from .invoice import render_invoice
+
+    order = get_object_or_404(member.orders.select_related("purchase"), pk=order_id)
+    return render_invoice(request, order, back_url=reverse("panel:order", args=[member.pk, order.pk]))
 
 
 @member_view(editing=False)
@@ -112,8 +138,11 @@ def receipt_response(order):
 def selling(request, member):
     seller = Seller.for_member(member)
     form = SellerForm(request.POST or None, instance=seller)
-    if request.method == "POST" and form.is_valid():
-        form.save()
+    options = ShippingOptionFormSet(request.POST or None, instance=seller, prefix="ship")
+    if request.method == "POST" and form.is_valid() and options.is_valid():
+        seller = form.save()
+        options.instance = seller
+        options.save()
         messages.success(request, t("تنظیمات فروش ذخیره شد.", "Your selling settings were saved."))
         return redirect("panel:selling", member_id=member.pk)
     groups = [
@@ -122,7 +151,7 @@ def selling(request, member):
         (t("خبر سفارش‌ها", "Order notifications"), ["order_mobile", "order_email"]),
     ]
     return render(request, "shop/panel/selling.html", {
-        "member": member, "form": form, "seller": seller, "current": "selling",
+        "member": member, "form": form, "seller": seller, "current": "selling", "options": options,
         "fieldsets": [(legend, [form[name] for name in names]) for legend, names in groups],
         "commission": seller.effective_commission(ShopSettings.load()),
     })

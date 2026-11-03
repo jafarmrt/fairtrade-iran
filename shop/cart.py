@@ -5,6 +5,7 @@ from products.models import Product, ShopSettings
 from .models import Seller
 
 SESSION_KEY = "shop_cart"
+SHIPPING_KEY = "shop_shipping"  # {member id: chosen ShippingOption id}
 MAX_QUANTITY = 99
 
 
@@ -28,9 +29,11 @@ class Line:
 class Group:
     """The lines of one producer, which become one order."""
 
-    def __init__(self, member, seller, shop):
+    def __init__(self, member, seller, shop, chosen=None):
         self.member, self.seller, self.lines = member, seller, []
         self.shop = shop
+        self.options = seller.active_shipping_options()
+        self.option = next((o for o in self.options if o.pk == chosen), self.options[0] if self.options else None)
 
     @property
     def subtotal(self):
@@ -38,7 +41,14 @@ class Group:
 
     @property
     def shipping(self):
-        return self.seller.shipping_for(self.subtotal)
+        return self.seller.shipping_for(self.subtotal, self.option)
+
+    @property
+    def free_shipping(self):
+        return bool(self.seller.free_shipping_over and self.subtotal >= self.seller.free_shipping_over)
+
+    def option_price(self, option):
+        return 0 if self.free_shipping else option.fee
 
     @property
     def total(self):
@@ -54,6 +64,17 @@ class Cart:
         self.session = request.session
         raw = self.session.get(SESSION_KEY) or {}
         self.data = {str(k): int(v) for k, v in raw.items() if str(k).isdigit() and int(v) > 0}
+
+    @property
+    def shipping_choices(self):
+        raw = self.session.get(SHIPPING_KEY) or {}
+        return {int(k): int(v) for k, v in raw.items() if str(k).isdigit() and str(v).isdigit()}
+
+    def choose_shipping(self, member_id, option_id):
+        choices = {str(k): v for k, v in self.shipping_choices.items()}
+        choices[str(member_id)] = int(option_id)
+        self.session[SHIPPING_KEY] = choices
+        self.session.modified = True
 
     def save(self):
         self.session[SESSION_KEY] = self.data
@@ -97,7 +118,8 @@ class Cart:
                 continue
             group = groups.get(product.member_id)
             if group is None:
-                group = groups[product.member_id] = Group(product.member, Seller.for_member(product.member), shop)
+                group = groups[product.member_id] = Group(product.member, Seller.for_member(product.member), shop,
+                                                          self.shipping_choices.get(product.member_id))
             group.lines.append(Line(product, quantity))
         if dropped:
             for key in dropped:

@@ -335,7 +335,7 @@ class OrderFlowTests(ShopTestCase):
         self.client.post(url, {"account_holder": "ارموز", "bank_name": "", "card_number": "", "sheba": "ir۷۶ ۰۱۷۰ ۰۰۰۰ ۰۰۰۰ ۰۰۰۰ ۰۰۰۰ ۰۱",
                                "shipping_fee": "700000", "free_shipping_over": "", "prep_days": "2",
                                "shipping_note": "پست", "shipping_note_en": "", "order_mobile": "",
-                               "order_email": ""})
+                               "order_email": "", "ship-TOTAL_FORMS": "0", "ship-INITIAL_FORMS": "0"})
         seller = Seller.objects.get(member=self.house_member)
         self.assertEqual((seller.shipping_fee, seller.mode), (700_000, Seller.Mode.HOUSE))
         self.assertEqual(seller.sheba, "IR760170000000000000000001")  # Persian digits and spaces normalised

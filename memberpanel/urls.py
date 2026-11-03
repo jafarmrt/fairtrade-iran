@@ -27,6 +27,7 @@ urlpatterns = [
     path("<int:member_id>/products/<int:product_id>/delete/", views.product_delete, name="product_delete"),
     path("<int:member_id>/orders/", shop_views.orders, name="orders"),
     path("<int:member_id>/orders/<int:order_id>/", shop_views.order_detail, name="order"),
+    path("<int:member_id>/orders/<int:order_id>/invoice/", shop_views.order_invoice, name="order_invoice"),
     path("<int:member_id>/orders/<int:order_id>/receipt/", shop_views.order_receipt, name="order_receipt"),
     path("<int:member_id>/selling/", shop_views.selling, name="selling"),
     path("<int:member_id>/certificate/", views.certificate, name="certificate"),

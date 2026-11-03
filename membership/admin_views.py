@@ -7,6 +7,7 @@ a printable certificate.
 
 import mimetypes
 import os
+from urllib.parse import urlencode
 
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
@@ -18,6 +19,7 @@ from django.utils import timezone
 from wagtail.admin.menu import MenuItem
 from wagtail.admin.viewsets.base import ViewSet
 
+from core.exports import csv_response, jalali_stamp, jalali_today
 from core.iran import text_search
 from core.models import MembershipSettings, SiteSettings
 
@@ -80,6 +82,8 @@ def index(request):
         qs = qs.filter(member_type=member_type)
     if q:
         qs = qs.filter(text_search(q, "name", "name_en", "tracking_code", "email", "phone"))
+    if request.GET.get("export") == "csv":
+        return export_applications(qs)
     status_filters = [("open", "پرونده‌های باز"), ("mine", "نیازمند اقدام من"), ("overdue", "گذشته از مهلت"),
                       ("all", "همه")] + list(Status.choices)
     return TemplateResponse(request, "membership/admin/index.html", {
@@ -92,7 +96,27 @@ def index(request):
         "status_filters": status_filters,
         "type_filters": MemberType.choices,
         "today": timezone.localdate(),
+        "export_query": urlencode({"status": status, "type": member_type, "q": q, "export": "csv"}),
     })
+
+
+def export_applications(qs):
+    header = ["کد پیگیری", "تاریخ ثبت", "نوع عضویت", "وضعیت", "مهلت اقدام", "آخرین تغییر وضعیت", "نام",
+              "نام انگلیسی", "رابط", "ایمیل", "تلفن", "استان و شهر", "نشانی", "وب‌سایت", "معرف",
+              "هزینه درخواست (ریال)", "شماره پیگیری پرداخت", "تأیید هزینه", "بازدید میدانی",
+              "شروع دوره آزمایشی", "پایان دوره آزمایشی", "پاسخ‌ها"]
+
+    def row(a):
+        answers = "؛ ".join(f"{x.get('label', '')}: {x.get('value', '')}" for x in (a.answers or [])
+                            if isinstance(x, dict))
+        return [a.tracking_code, jalali_stamp(a.submitted_at), a.get_member_type_display(), a.get_status_display(),
+                jalali_stamp(a.deadline), jalali_stamp(a.status_changed_at), a.name, a.name_en, a.contact_person,
+                a.email, a.phone, a.city, a.address, a.website, a.referred_by, a.fee_amount,
+                a.payment_reference, jalali_stamp(a.fee_confirmed_at), jalali_stamp(a.field_visit_date),
+                jalali_stamp(a.trial_starts_on), jalali_stamp(a.trial_ends_on), answers]
+
+    y, m, d = jalali_today()
+    return csv_response(f"applications-{y}{m:02d}{d:02d}.csv", header, (row(a) for a in qs))
 
 
 def detail(request, pk):

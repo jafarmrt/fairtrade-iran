@@ -25,6 +25,18 @@
             {% include "membership/includes/field.html" with field=form.address %}
             {% include "membership/includes/field.html" with field=form.postal_code %}
             {% include "membership/includes/field.html" with field=form.note %}
+            {% for group in groups %}{% if group.options %}
+            <fieldset class="form-row shipping-choice">
+                <legend>{% if IS_EN %}Shipping from {% tr group.member "name" %}{% else %}روش ارسال {% tr group.member "name" %}{% endif %}</legend>
+                {% for option in group.options %}
+                <label class="shipping-choice__option">
+                    <input type="radio" name="ship_{{ group.member.pk }}" value="{{ option.pk }}"{% if option.pk == group.option.pk %} checked{% endif %}>
+                    <span><strong>{% tr option "name" %}</strong> · {% with price=option|ship_price:group %}{% if price %}{{ price|amount }}{% else %}{% if IS_EN %}free{% else %}رایگان{% endif %}{% endif %}{% endwith %}
+                    {% tr option "delivery_time" as eta %}{% if eta %}<small class="muted">({{ eta }})</small>{% endif %}</span>
+                </label>
+                {% endfor %}
+            </fieldset>
+            {% endif %}{% endfor %}
             {% tr shop "terms_text" as terms %}{% if terms %}<div class="card card--note prose checkout__terms">{{ terms|richtext }}</div>{% endif %}
             {% include "membership/includes/field.html" with field=form.accept_terms %}
             <div class="visually-hidden" aria-hidden="true">{{ form.nickname }}</div>

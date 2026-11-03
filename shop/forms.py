@@ -4,7 +4,7 @@ from core import iran
 from core.models import MembershipSettings, is_english
 from membership.forms import check_upload
 
-from .models import Seller
+from .models import Seller, ShippingOption
 
 
 def t(fa, en):
@@ -174,3 +174,28 @@ class SellerForm(forms.ModelForm):
 
     def clean_order_mobile(self):
         return iran.clean_mobile(self.cleaned_data["order_mobile"], is_english())
+
+
+class ShippingOptionForm(forms.ModelForm):
+    class Meta:
+        model = ShippingOption
+        fields = ["name", "name_en", "fee", "delivery_time", "delivery_time_en", "active"]
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        _labels(self, {
+            "name": ("نام روش", "Method (Persian)"),
+            "name_en": ("نام انگلیسی", "Method (English)"),
+            "fee": ("هزینه (ریال)", "Cost (rials)"),
+            "delivery_time": ("زمان رسیدن", "Delivery time (Persian)"),
+            "delivery_time_en": ("زمان رسیدن (انگلیسی)", "Delivery time (English)"),
+            "active": ("فعال", "Active"),
+        })
+        self.fields["name"].widget.attrs["placeholder"] = t("پست پیشتاز", "پست پیشتاز")
+        self.fields["delivery_time"].widget.attrs["placeholder"] = t("۲ تا ۴ روز کاری", "۲ تا ۴ روز کاری")
+        for name in ("fee", "name_en", "delivery_time_en"):
+            self.fields[name].widget.attrs["dir"] = "ltr"
+
+
+ShippingOptionFormSet = forms.inlineformset_factory(
+    Seller, ShippingOption, form=ShippingOptionForm, extra=1, can_delete=True, max_num=6, validate_max=True)

@@ -56,6 +56,8 @@ def place_order(cart, buyer, language="fa", user=None):
             purchase=purchase, member=group.member, payment_mode=group.seller.mode,
             subtotal=group.subtotal, shipping=group.shipping, total=group.total,
             commission_percent=percent, commission=Order.commission_for(group.subtotal, percent),
+            shipping_method=group.option.name if group.option else "",
+            shipping_method_en=group.option.name_en if group.option else "",
         )
         for line in group.lines:
             OrderItem.objects.create(order=order, product=line.product, name=line.product.name,
@@ -216,6 +218,49 @@ def cancel(order, user, reason, by=STAFF):
     _return_stock(order)
     log(order, "cancel", by, user, reason.strip())
     transaction.on_commit(lambda: notifications.cancelled(order, was_paid, by))
+    return order
+
+
+@transaction.atomic
+def request_return(order, reason):
+    """The buyer asks to return a shipped or delivered order (within ShopSettings.return_days)."""
+    order = Order.objects.select_for_update().get(pk=order.pk)
+    if not order.can_request_return():
+        raise OrderError("برای این سفارش دیگر نمی‌توان درخواست مرجوعی داد.")
+    if not reason.strip():
+        raise OrderError("دلیل مرجوعی را بنویسید.")
+    order.return_requested_at = timezone.now()
+    order.return_reason = reason.strip()
+    order.save(update_fields=["return_requested_at", "return_reason"])
+    log(order, "return_request", BUYER, None, reason.strip())
+    transaction.on_commit(lambda: notifications.return_requested(order))
+    return order
+
+
+def can_record_refund(order, by):
+    """Staff record refunds for every order; a producer only for orders paid directly to them."""
+    return by == STAFF or not order.is_house
+
+
+@transaction.atomic
+def refund(order, user, amount, reference="", message="", restock=True, by=STAFF):
+    """Record that the goods came back (or the order was undone after payment) and the money was paid back."""
+    order = Order.objects.select_for_update().get(pk=order.pk)
+    if order.status not in Order.REFUNDABLE:
+        raise OrderError("فقط سفارش پرداخت‌شده را می‌توان مرجوع و بازپرداخت کرد.")
+    if not can_record_refund(order, by):
+        raise OrderError("بازپرداخت سفارش‌هایی که به حساب خانه پرداخت شده‌اند را دبیرخانه ثبت می‌کند.")
+    if amount is None or amount <= 0 or amount > order.total:
+        raise OrderError("مبلغ بازپرداخت باید بیشتر از صفر و حداکثر برابر مبلغ سفارش باشد.")
+    order.status = Order.Status.RETURNED
+    order.refunded_at = timezone.now()
+    order.refund_amount = amount
+    order.refund_reference = reference.strip()[:100]
+    order.save()
+    if restock:
+        _return_stock(order)
+    log(order, "refund", by, user, message.strip())
+    transaction.on_commit(lambda: notifications.refunded(order, message.strip()))
     return order
 
 

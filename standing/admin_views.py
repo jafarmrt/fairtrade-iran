@@ -6,6 +6,7 @@ staff-checked download of private receipts.
 
 import mimetypes
 import os
+from urllib.parse import urlencode
 
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
@@ -18,6 +19,7 @@ from django.utils import timezone
 from wagtail.admin.menu import MenuItem
 from wagtail.admin.viewsets.base import ViewSet
 
+from core.exports import csv_response, jalali_stamp, jalali_today
 from core.iran import text_search
 from core.models import MembershipSettings
 from members.models import Member
@@ -83,6 +85,8 @@ def index(request):
         qs = qs.filter(status=Member.CANCELLED)
     if q:
         qs = qs.filter(text_search(q, "name", "name_en"))
+    if request.GET.get("export") == "csv":
+        return export_dues(qs)
     return TemplateResponse(request, "standing/admin/index.html", {
         "page_title": "وضعیت اعضا و حق عضویت",
         "header_icon": "user",
@@ -92,7 +96,30 @@ def index(request):
         "filters": filters,
         "today": today,
         "pending_count": DuesPayment.objects.filter(status=DuesPayment.Status.PENDING).count(),
+        "export_query": urlencode({"show": show, "q": q, "export": "csv"}),
     })
+
+
+def export_dues(members):
+    """One row per yearly dues of the listed members, with the payments sent for it."""
+    header = ["عضو", "نوع عضویت", "وضعیت عضویت", "سال عضویت", "آغاز سال", "مهلت پرداخت", "مبلغ (ریال)",
+              "وضعیت پرداخت", "تاریخ تأیید پرداخت", "یادآوری", "اخطار کتبی", "مبلغ واریزی تأییدشده (ریال)",
+              "پرداخت‌ها"]
+    dues = (Dues.objects.filter(member__in=members.values("pk")).select_related("member")
+            .prefetch_related("payments").order_by("member__name", "-year"))
+
+    def row(d):
+        payments = list(d.payments.all())
+        confirmed = sum(p.amount for p in payments if p.status == DuesPayment.Status.CONFIRMED)
+        text = "؛ ".join(f"{jalali_stamp(p.submitted_at)} {p.amount} {p.get_status_display()} {p.reference}".strip()
+                        for p in payments)
+        m = d.member
+        return [m.name, m.get_member_type_display(), m.get_status_display(), d.year, jalali_stamp(d.period_start),
+                jalali_stamp(d.due_date), d.amount, d.get_status_display(), jalali_stamp(d.paid_on),
+                jalali_stamp(d.reminded_on), jalali_stamp(d.warned_on), confirmed, text]
+
+    y, mo, da = jalali_today()
+    return csv_response(f"dues-{y}{mo:02d}{da:02d}.csv", header, (row(d) for d in dues))
 
 
 def _act(request, member):

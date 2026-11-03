@@ -20,6 +20,11 @@ register("order_shipped", "فروشگاه، به خریدار: سفارش ارس
 register("order_cancelled", "فروشگاه، به خریدار و فروشنده: سفارش لغو شد",
          "سفارش {code} ({member}) لغو شد: {message}" + S,
          "Order {code} ({member}) was cancelled: {message}" + S_EN)
+register("order_refunded", "فروشگاه، به خریدار: مرجوعی و بازپرداخت ثبت شد",
+         "{name} گرامی، بازپرداخت سفارش {code} ({member}) ثبت شد." + S,
+         "Dear {name}, the refund for order {code} ({member}) is recorded." + S_EN)
+register("order_return_request", "فروشگاه، به فروشنده و دبیرخانه: درخواست مرجوعی",
+         "خریدار برای سفارش {code} درخواست مرجوعی داد: {message}", audience="secretariat")
 register("order_seller_new", "فروشگاه، به فروشنده: سفارش تازه",
          "سفارش تازه {code} در سایت خانه: {total}، پرداخت به {payment_mode}.\n{panel_url}")
 register("order_seller_paid", "فروشگاه، به فروشنده: پرداخت شد، ارسال کنید",

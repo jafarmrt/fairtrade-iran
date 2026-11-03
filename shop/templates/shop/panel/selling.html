@@ -16,6 +16,20 @@
         {% for field in fields %}{% include "memberpanel/includes/field.html" %}{% endfor %}
     </fieldset>
     {% endfor %}
+    <fieldset class="panel-fieldset">
+        <legend>{% if IS_EN %}Shipping methods{% else %}روش‌های ارسال{% endif %}</legend>
+        <p class="muted">{% if IS_EN %}Optional. If you add methods (e.g. Post, Tipax, courier), the buyer picks one at checkout and pays its cost instead of the single shipping cost above. Free shipping over the amount above still applies.{% else %}اختیاری. اگر روش ارسال (مثلاً پست پیشتاز، تیپاکس یا پیک) تعریف کنید، خریدار هنگام ثبت سفارش یکی را انتخاب می‌کند و هزینه همان را می‌پردازد، نه «هزینه ارسال هر سفارش». ارسال رایگان بالای سقف همچنان برقرار است.{% endif %}</p>
+        {{ options.management_form }}
+        {{ options.non_form_errors }}
+        {% for f in options %}
+        <div class="shipping-option-row">
+            {{ f.id }}
+            <div class="form-cols form-cols--2">
+                {% for field in f.visible_fields %}{% include "memberpanel/includes/field.html" %}{% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </fieldset>
     <button class="btn btn--primary" type="submit">{% if IS_EN %}Save{% else %}ذخیره{% endif %}</button>
 </form>
 {% endblock %}

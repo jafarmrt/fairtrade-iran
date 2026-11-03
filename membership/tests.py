@@ -307,6 +307,19 @@ class AdminTests(MembershipTestCase):
         application.refresh_from_db()
         self.assertEqual(application.status, Status.COMMISSION)
 
+    def test_applications_csv_export(self):
+        application = self.submit_producer()
+        self.client.force_login(self.secretary)
+        index = self.client.get(reverse("membership_applications:index"))
+        self.assertContains(index, "export=csv")
+        response = self.client.get(reverse("membership_applications:index") + "?status=all&export=csv")
+        text = response.content.decode("utf-8")
+        self.assertTrue(text.startswith("\ufeff"))
+        self.assertIn(application.tracking_code, text)
+        self.assertIn("پاسخ", text)
+        self.client.force_login(self.member)
+        self.assertNotEqual(self.client.get(reverse("membership_applications:index") + "?export=csv").status_code, 200)
+
     def test_commission_dashboard_lists_its_files(self):
         application = self.submit_producer()
         perform(application, "confirm_fee", self.secretary)

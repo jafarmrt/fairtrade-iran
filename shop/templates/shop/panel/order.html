@@ -2,17 +2,17 @@
 {% load site_tags membership_tags %}
 {% block heading %}{% if IS_EN %}Order{% else %}سفارش{% endif %} <span dir="ltr" class="mono">{{ order.code }}</span>{% endblock %}
 {% block panel_content %}
-<p><a href="{% url 'panel:orders' member.pk %}">{% if IS_EN %}← All orders{% else %}→ همه سفارش‌ها{% endif %}</a></p>
+<p><a href="{% url 'panel:orders' member.pk %}">{% if IS_EN %}← All orders{% else %}→ همه سفارش‌ها{% endif %}</a>{% if order.status != 'cancelled' %} · <a href="{% url 'panel:order_invoice' member.pk order.pk %}" target="_blank" rel="noopener">{% if IS_EN %}Printable invoice{% else %}فاکتور قابل چاپ{% endif %}</a>{% endif %}</p>
 <div class="panel-layout panel-layout--order">
 <div>
     <section class="card">
-        <p class="badges"><span class="badge{% if order.status == 'paid' %} badge--gold{% elif order.status == 'shipped' or order.status == 'completed' %} badge--ok{% elif order.status == 'cancelled' %} badge--error{% endif %}">{{ order.status_display }}</span>
+        <p class="badges"><span class="badge{% if order.status == 'paid' %} badge--gold{% elif order.status == 'shipped' or order.status == 'completed' %} badge--ok{% elif order.status == 'cancelled' or order.status == 'returned' %} badge--error{% endif %}">{{ order.status_display }}</span>
             <span class="badge">{% if order.is_house %}{% if IS_EN %}Paid to the House{% else %}پرداخت به خانه{% endif %}{% else %}{% if IS_EN %}Paid to you directly{% else %}پرداخت مستقیم به شما{% endif %}{% endif %}</span></p>
         <div class="table-scroll">
         <table class="cart-table">
             <tbody>{% for item in order.items.all %}<tr><td>{{ item.tr_name }}</td><td class="num">{{ item.quantity|fa_digits }} × {{ item.unit_price|money }}</td><td class="num">{{ item.line_total|money }}</td></tr>{% endfor %}</tbody>
             <tfoot>
-                <tr><td colspan="2">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}</td><td class="num">{{ order.shipping|money }}</td></tr>
+                <tr><td colspan="2">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}{% if order.shipping_method %} · {{ order.shipping_method_display }}{% endif %}</td><td class="num">{{ order.shipping|money }}</td></tr>
                 <tr class="cart-table__total"><td colspan="2">{% if IS_EN %}Total{% else %}جمع{% endif %}</td><td class="num">{{ order.total|money }}</td></tr>
                 {% if order.commission %}
                 <tr><td colspan="2">{% if IS_EN %}House commission ({{ order.commission_percent|floatformat:"-2" }}%){% else %}کارمزد خانه ({{ order.commission_percent|floatformat:"-2"|fa_digits }}٪){% endif %}</td><td class="num">{{ order.commission|money }}</td></tr>
@@ -63,6 +63,30 @@
         <p>{% if IS_EN %}Shipped on {{ order.shipped_at|jdate }}{% else %}ارسال در {{ order.shipped_at|jdate }}{% endif %}{% if order.tracking_code %} · <span dir="ltr" class="mono">{{ order.tracking_code }}</span>{% endif %}</p>
         <form method="post">{% csrf_token %}<button class="btn btn--outline" name="action" value="complete" type="submit">{% if IS_EN %}Delivered{% else %}تحویل خریدار شد{% endif %}</button></form>
     </section>
+    {% endif %}
+
+    {% if order.return_requested_at and order.status != 'returned' %}
+    <section class="card panel-case">
+        <h2 class="h3">{% if IS_EN %}Return requested{% else %}درخواست مرجوعی خریدار{% endif %}</h2>
+        <p class="muted">{{ order.return_requested_at|jdate }}</p>
+        <p dir="auto">{{ order.return_reason|linebreaksbr }}</p>
+        {% if not can_refund %}<p class="notice">{% if IS_EN %}The secretariat records the refund for orders paid to the House. Contact them once the goods are back.{% else %}بازپرداخت سفارش‌هایی که به حساب خانه پرداخت شده‌اند را دبیرخانه ثبت می‌کند؛ پس از رسیدن کالا با دبیرخانه هماهنگ کنید.{% endif %}</p>{% endif %}
+    </section>
+    {% endif %}
+    {% if order.status == 'returned' %}
+    <p class="notice">{% if IS_EN %}Refunded {{ order.refund_amount|amount }} on {{ order.refunded_at|jdate }}.{% else %}مبلغ {{ order.refund_amount|amount }} در {{ order.refunded_at|jdate }} بازپرداخت شد.{% endif %}{% if order.refund_reference %} <span dir="ltr" class="mono">{{ order.refund_reference }}</span>{% endif %}</p>
+    {% endif %}
+    {% if can_refund %}
+    <details class="panel-case"{% if order.return_requested_at %} open{% endif %}>
+        <summary>{% if IS_EN %}Record a return and refund{% else %}ثبت مرجوعی و بازپرداخت{% endif %}</summary>
+        <form method="post" class="form">{% csrf_token %}
+            <div class="form-row"><label for="refund-amount">{% if IS_EN %}Amount refunded ({% currency %}){% else %}مبلغ بازپرداخت‌شده ({% currency %}){% endif %}</label><input id="refund-amount" type="text" inputmode="numeric" dir="ltr" name="refund_amount" placeholder="{% if IS_EN %}Empty = the whole order{% else %}خالی = کل مبلغ سفارش{% endif %}"></div>
+            <div class="form-row"><label for="refund-ref">{% if IS_EN %}Transfer reference{% else %}شماره پیگیری واریز{% endif %}</label><input id="refund-ref" type="text" dir="ltr" name="refund_reference"></div>
+            <div class="form-row"><label for="refund-msg">{% if IS_EN %}Message to the buyer{% else %}پیام به خریدار{% endif %}</label><textarea id="refund-msg" name="message" rows="2"></textarea></div>
+            <div class="form-row"><label><input type="checkbox" name="restock" value="1" checked> {% if IS_EN %}Put the items back in stock{% else %}کالاها به موجودی برگردند{% endif %}</label></div>
+            <button class="btn btn--outline" name="action" value="refund" type="submit">{% if IS_EN %}Record refund{% else %}ثبت بازپرداخت{% endif %}</button>
+        </form>
+    </details>
     {% endif %}
 
     {% if can_cancel %}
