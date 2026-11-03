@@ -1,4 +1,4 @@
-{% if description %}<meta name="description" content="{{ description }}">{% endif %}
+{% load seo_tags %}{% if description %}<meta name="description" content="{{ description }}">{% endif %}
     {% if noindex %}<meta name="robots" content="noindex, nofollow">{% endif %}
     <link rel="canonical" href="{{ canonical }}">
     {% for lang, url in alternates %}<link rel="alternate" hreflang="{{ lang }}" href="{{ url }}">
@@ -18,5 +18,5 @@
     {% if icon_32 %}<link rel="icon" type="image/png" sizes="32x32" href="{{ icon_32 }}">
     <link rel="icon" type="image/png" sizes="192x192" href="{{ icon_192 }}">
     <link rel="apple-touch-icon" href="{{ icon_180 }}">{% endif %}
-    {% if json_ld %}<script type="application/ld+json">{{ json_ld }}</script>{% endif %}
-    {% if seo.head_code %}{{ seo.head_code|safe }}{% endif %}
+    {% if json_ld %}<script type="application/ld+json" nonce="{{ CSP_NONCE }}">{{ json_ld }}</script>{% endif %}
+    {% if seo.head_code %}{{ seo.head_code|with_nonce:CSP_NONCE }}{% endif %}

@@ -7,6 +7,7 @@ from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.contrib.sitemaps.views import sitemap
 from wagtail.documents import urls as wagtaildocs_urls
 
+from core import two_factor as core_two_factor
 from core import views as core_views
 from core.sitemaps import AllLanguagesSitemap
 
@@ -17,6 +18,7 @@ urlpatterns = [
     path("admin/", include(wagtailadmin_urls)),
     path("documents/", include(wagtaildocs_urls)),
     path("i18n/", include("django.conf.urls.i18n")),
+    path("two-factor/", core_two_factor.verify, name="two_factor"),
     path("robots.txt", core_views.robots_txt, name="robots_txt"),
     path("favicon.ico", core_views.favicon, name="favicon"),
     path("sitemap.xml", sitemap, {"sitemaps": {"pages": AllLanguagesSitemap}}, name="sitemap"),

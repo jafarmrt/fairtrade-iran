@@ -47,6 +47,7 @@ class Verification:
 
 class Gateway:
     key = ""
+    redirect_origins = ()  # where the buyer is sent; allowed in the site's Content-Security-Policy
 
     def __init__(self, config):
         self.config = config
@@ -66,6 +67,7 @@ class Zarinpal(Gateway):
     """Zarinpal REST API v4. https://www.zarinpal.com/docs/paymentGateway/"""
 
     key = "zarinpal"
+    redirect_origins = ("https://payment.zarinpal.com", "https://sandbox.zarinpal.com")
 
     @property
     def host(self):
@@ -103,6 +105,7 @@ class Idpay(Gateway):
     """IDPay API v1.1. https://idpay.ir/web-service/v1.1/"""
 
     key = "idpay"
+    redirect_origins = ("https://idpay.ir",)
     host = "https://api.idpay.ir/v1.1"
 
     @property

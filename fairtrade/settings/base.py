@@ -72,12 +72,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
+    "core.security.ContentSecurityPolicyMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.locale.LocaleMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "core.two_factor.TwoFactorMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
@@ -225,3 +227,7 @@ SESSION_COOKIE_HTTPONLY = True
 SECURE_REFERRER_POLICY = "strict-origin-when-cross-origin"
 
 TEST_RUNNER = "fairtrade.test_runner.TestRunner"
+
+# Emergency switch: TWO_FACTOR_DISABLED=1 turns off the two-step sign-in set in the admin
+# (Settings > امنیت), e.g. when the site's e-mail is broken and nobody can sign in.
+TWO_FACTOR_DISABLED = os.environ.get("TWO_FACTOR_DISABLED", "") == "1"

@@ -10,7 +10,7 @@ from products.models import Product
 
 
 def json_ld(response):
-    match = re.search(r'<script type="application/ld\+json">(.*?)</script>', response.content.decode(), re.S)
+    match = re.search(r'<script type="application/ld\+json"[^>]*>(.*?)</script>', response.content.decode(), re.S)
     return json.loads(match.group(1)) if match else None
 
 
@@ -152,3 +152,131 @@ class FillTests(SimpleTestCase):
     def test_typos_and_attribute_access_do_not_break_or_leak(self):
         self.assertEqual(fill("{name.__class__} {0} {", {"name": "x"}), "{name.__class__} {0} {")
         self.assertEqual(fill("{a}", {"a": None}), "")
+
+
+# ---- Content-Security-Policy and two-step sign-in ----
+
+from core.models import SecuritySettings  # noqa: E402
+from core.security import add_nonce, origins_in  # noqa: E402
+
+
+class CspTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        call_command("seed_content", stdout=open("/dev/null", "w"))
+
+    def test_public_pages_send_a_policy_with_the_nonce_on_our_scripts(self):
+        response = self.client.get("/fa/")
+        policy = response["Content-Security-Policy"]
+        nonce = re.search(r"'nonce-([^']+)'", policy).group(1)
+        self.assertIn("object-src 'none'", policy)
+        self.assertIn("https://payment.zarinpal.com", policy)
+        scripts = re.findall(r"<script([^>]*)>", response.content.decode())
+        self.assertTrue(scripts)
+        for attrs in scripts:
+            self.assertIn(f'nonce="{nonce}"', attrs)
+
+    def test_admin_snippets_get_the_nonce_and_their_origins_are_allowed(self):
+        seo = SeoSettings.load()
+        seo.head_code = '<script defer src="https://stats.example.org/script.js" data-id="1"></script>'
+        seo.footer_badges = "<a href='https://trustseal.enamad.ir/?id=1'><img src='https://trustseal.enamad.ir/logo.aspx'></a>"
+        seo.save()
+        response = self.client.get("/fa/")
+        policy = response["Content-Security-Policy"]
+        self.assertIn("https://stats.example.org", policy)
+        self.assertIn("https://trustseal.enamad.ir", policy)
+        nonce = re.search(r"'nonce-([^']+)'", policy).group(1)
+        self.assertContains(response, f'<script nonce="{nonce}" defer src="https://stats.example.org/script.js"')
+
+    def test_report_only_and_off_and_admin_untouched(self):
+        security = SecuritySettings.load()
+        security.csp_mode = "report"
+        security.csp_extra_sources = "https://maps.example.org/embed\nnot a url"
+        security.save()
+        response = self.client.get("/fa/")
+        self.assertNotIn("Content-Security-Policy", response)
+        self.assertIn("https://maps.example.org", response["Content-Security-Policy-Report-Only"])
+        security.csp_mode = "off"
+        security.save()
+        self.assertNotIn("Content-Security-Policy-Report-Only", self.client.get("/fa/"))
+        self.assertNotIn("Content-Security-Policy", self.client.get("/admin/login/"))
+
+    def test_helpers(self):
+        self.assertEqual(add_nonce("<script>a</script><SCRIPT nonce='x'>", "N"),
+                         '<script nonce="N">a</script><SCRIPT nonce=\'x\'>')
+        self.assertEqual(origins_in('<img src="http://a.org/x"><script src="https://b.org:8443/y">'),
+                         {"https://b.org:8443"})
+
+
+@override_settings(CACHES=LOCMEM)
+class TwoFactorTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        call_command("seed_content", stdout=open("/dev/null", "w"))
+        User = get_user_model()
+        cls.admin = User.objects.create_superuser("boss", "boss@example.org", "pw-12345")
+        cls.member = User.objects.create_user("maryam", "maryam@example.org", "pw-12345")
+
+    def setUp(self):
+        cache.clear()
+        security = SecuritySettings.load()
+        security.two_factor = "staff"
+        security.save()
+
+    def sign_in(self):
+        self.client.post("/admin/login/", {"username": "boss", "password": "pw-12345"})
+
+    def code_from_mail(self):
+        return re.search(r"\b(\d{6})\b", mail.outbox[-1].body).group(1)
+
+    def test_admin_needs_the_emailed_code(self):
+        self.sign_in()
+        response = self.client.get("/admin/")
+        self.assertRedirects(response, "/two-factor/?next=/admin/", fetch_redirect_response=False)
+        self.client.get("/two-factor/?next=/admin/")
+        self.assertEqual(mail.outbox[-1].to, ["boss@example.org"])
+        response = self.client.post("/two-factor/", {"code": "000000" if self.code_from_mail() != "000000" else "111111",
+                                                     "next": "/admin/"})
+        self.assertContains(response, "کد درست نیست")
+        self.assertEqual(self.client.get("/admin/").status_code, 302)
+        persian = self.code_from_mail().translate(str.maketrans("0123456789", "۰۱۲۳۴۵۶۷۸۹"))
+        response = self.client.post("/two-factor/", {"code": persian, "next": "/admin/"})
+        self.assertRedirects(response, "/admin/", fetch_redirect_response=False)
+        self.assertEqual(self.client.get("/admin/").status_code, 200)
+
+    def test_remembered_browser_skips_the_code_next_time(self):
+        self.sign_in()
+        self.client.get("/two-factor/")
+        self.client.post("/two-factor/", {"code": self.code_from_mail(), "remember": "1"})
+        self.client.post("/admin/logout/")
+        sent = len(mail.outbox)
+        self.sign_in()
+        self.assertEqual(self.client.get("/admin/").status_code, 200)
+        self.assertEqual(len(mail.outbox), sent)
+
+    def test_too_many_wrong_codes_need_a_new_code(self):
+        self.sign_in()
+        self.client.get("/two-factor/")
+        code = self.code_from_mail()
+        for _ in range(5):
+            self.client.post("/two-factor/", {"code": "12345" + ("0" if code[-1] != "0" else "1")})
+        response = self.client.post("/two-factor/", {"code": code})
+        self.assertContains(response, "منقضی")
+
+    def test_members_without_admin_access_and_switch_off(self):
+        self.client.force_login(self.member)
+        self.assertEqual(self.client.get("/fa/").status_code, 200)
+        self.client.force_login(self.admin)
+        self.assertEqual(self.client.get("/fa/").status_code, 302)
+        with self.settings(TWO_FACTOR_DISABLED=True):
+            self.assertEqual(self.client.get("/fa/").status_code, 200)
+        security = SecuritySettings.load()
+        security.two_factor = "off"
+        security.save()
+        self.assertEqual(self.client.get("/admin/").status_code, 200)
+
+    def test_next_must_stay_on_this_site(self):
+        self.sign_in()
+        self.client.get("/two-factor/")
+        response = self.client.post("/two-factor/", {"code": self.code_from_mail(), "next": "https://evil.example/"})
+        self.assertRedirects(response, "/admin/", fetch_redirect_response=False)

@@ -27,6 +27,7 @@ DEFAULT_LIMITS = {
     "complaint": (10, 60 * 60),        # confidential complaints
     "apply": (5, 60 * 60),             # membership applications
     "checkout": (10, 60 * 60),         # orders placed
+    "two_factor_send": (8, 60 * 60),   # sign-in codes e-mailed to one user
 }
 
 

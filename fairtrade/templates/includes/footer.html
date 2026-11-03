@@ -39,7 +39,7 @@
             </div>
             {% endif %}
         </div>
-        {% seo_settings as seo %}{% if seo.footer_badges %}<div class="site-footer__badges">{{ seo.footer_badges|safe }}</div>{% endif %}
+        {% seo_settings as seo %}{% if seo.footer_badges %}<div class="site-footer__badges">{{ seo.footer_badges|with_nonce:CSP_NONCE }}</div>{% endif %}
         <div class="site-footer__bottom">© {% now "Y" %} {{ site_name }}</div>
     </div>
 </footer>
