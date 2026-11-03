@@ -6,7 +6,7 @@
     {% tr settings.core.SiteSettings "site_name" as site_name %}
     <title>{% block title %}{% if page.seo_title %}{{ page.seo_title }}{% elif page.title %}{{ page.title }}{% endif %}{% endblock %}{% if page and not page.is_root %} | {{ site_name }}{% endif %}</title>
     {% seo_head %}
-    {% block robots %}{% endblock %}
+    {% if DEMO_MODE %}<meta name="robots" content="noindex, nofollow">{% else %}{% block robots %}{% endblock %}{% endif %}
     {% block extra_meta %}{% endblock %}
     <link rel="preload" href="{% static 'fonts/Vazirmatn-Regular.woff2' %}" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="{% static 'css/fairtrade.css' %}">
@@ -14,6 +14,7 @@
 </head>
 <body class="{% block body_class %}{% endblock %}">
     {% wagtailuserbar %}
+    {% if DEMO_MODE %}<div class="demo-banner" role="note">{% if IS_EN %}Test copy: sample data, test payments (no real money); changes may be erased.{% else %}نسخه آزمایشی: داده‌ها نمونه‌اند، پرداخت آزمایشی است (بدون پول واقعی) و تغییرات پاک می‌شوند.{% endif %}</div>{% endif %}
     <a class="skip-link" href="#main">{% if IS_EN %}Skip to content{% else %}پرش به محتوا{% endif %}</a>
 
     {% include "includes/header.html" %}

@@ -84,6 +84,17 @@ p { margin: 0 0 1em; }
 }
 .skip-link:focus { top: 8px; }
 
+/* Test copy (DEMO_MODE=1) */
+.demo-banner {
+  background: var(--brown);
+  color: #fff;
+  text-align: center;
+  font-size: .85rem;
+  line-height: 1.5;
+  padding-block: 5px;
+  padding-inline: 16px;
+}
+
 :focus-visible { outline: 3px solid var(--gold); outline-offset: 2px; }
 
 /* ---------- Header ---------- */
