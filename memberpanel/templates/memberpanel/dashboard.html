@@ -1,0 +1,44 @@
+{% extends "memberpanel/base.html" %}
+{% load wagtailcore_tags wagtailimages_tags %}
+{% block heading %}{% if IS_EN %}Welcome{% else %}خوش آمدید{% endif %}{% if user.first_name %}{% if IS_EN %}, {% else %}، {% endif %}{{ user.first_name }}{% endif %}{% endblock %}
+{% block panel_content %}
+{% with s=panel_settings %}
+{% if IS_EN and s.welcome_en %}<div class="prose">{{ s.welcome_en|richtext }}</div>{% elif not IS_EN and s.welcome %}<div class="prose">{{ s.welcome|richtext }}</div>{% endif %}
+{% endwith %}
+
+{% if members %}
+<div class="grid grid--cards panel-members">
+    {% for m in members %}
+    <article class="card panel-member">
+        <div class="panel-member__head">
+            {% if m.logo %}{% image m.logo fill-80x80 class="panel-member__logo" alt="" %}{% else %}<span class="placeholder panel-member__logo" aria-hidden="true">{{ m.name|first }}</span>{% endif %}
+            <div>
+                <h2 class="h3">{% if IS_EN and m.name_en %}{{ m.name_en }}{% else %}{{ m.name }}{% endif %}</h2>
+                <p class="badges"><span class="badge{% if m.status == 'official' %} badge--gold{% endif %}">{{ m.status_label }}</span>
+                {% if not m.is_published %}<span class="badge">{% if IS_EN %}Not shown on the site yet{% else %}هنوز در سایت نمایش داده نمی‌شود{% endif %}</span>{% endif %}</p>
+            </div>
+        </div>
+        <dl class="panel-stats">
+            <div><dt>{% if IS_EN %}Products{% else %}محصولات{% endif %}</dt><dd>{{ m.panel_counts.total }}</dd></div>
+            <div><dt>{% if IS_EN %}On the site{% else %}در سایت{% endif %}</dt><dd>{{ m.panel_counts.live }}</dd></div>
+            <div><dt>{% if IS_EN %}Awaiting review{% else %}در انتظار بررسی{% endif %}</dt><dd>{{ m.panel_counts.review }}</dd></div>
+        </dl>
+        {% if m.status == 'suspended' %}
+            <p class="notice notice--error">{% if IS_EN %}This membership is suspended. Please contact the secretariat.{% else %}این عضویت تعلیق شده است. لطفاً با دبیرخانه تماس بگیرید.{% endif %}</p>
+        {% else %}
+        <p class="panel-actions">
+            <a class="btn btn--primary" href="{% url 'panel:profile' m.pk %}">{% if IS_EN %}Edit profile{% else %}ویرایش پروفایل{% endif %}</a>
+            <a class="btn btn--outline" href="{% url 'panel:products' m.pk %}">{% if IS_EN %}Products{% else %}محصولات{% endif %}</a>
+            {% if m.public_url %}<a href="{{ m.public_url }}">{% if IS_EN %}View public page{% else %}دیدن صفحه عمومی{% endif %}</a>{% endif %}
+        </p>
+        {% endif %}
+    </article>
+    {% endfor %}
+</div>
+{% else %}
+<div class="notice">
+    {% if IS_EN %}Your account is not linked to a member profile yet. Please ask the secretariat to add you as a manager of your organisation's profile.{% else %}حساب شما هنوز به پروفایل هیچ عضوی وصل نشده است. از دبیرخانه بخواهید شما را مدیر پروفایل مجموعه‌تان کند.{% endif %}
+    {% if user.is_staff %}<p><a href="{% url 'wagtailadmin_home' %}">{% if IS_EN %}Go to the admin panel{% else %}رفتن به بخش مدیریت{% endif %}</a></p>{% endif %}
+</div>
+{% endif %}
+{% endblock %}

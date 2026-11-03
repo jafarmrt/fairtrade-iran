@@ -132,4 +132,23 @@ DEFAULT_EMAILS = {
         "Dear {name},\n\nYour membership application has been archived:\n\n{message}\n\nTo apply again, "
         "please fill in the form anew." + SIGN_EN,
     ),
+    "panel_invite": (
+        "حساب پنل اعضای شما ساخته شد",
+        "{name} گرامی،\n\nبرای شما در پنل اعضای سایت {site_name} حساب کاربری ساخته شد. از این پنل می‌توانید "
+        "معرفی مجموعه و محصولات خود را در سایت به‌روز کنید.\n\nنام کاربری: {username}\n\n"
+        "برای ساختن رمز عبور این پیوند را باز کنید (پیوند تا چند روز معتبر است):\n{set_password_url}\n\n"
+        "پس از آن از این نشانی وارد شوید:\n{panel_url}" + SIGN_FA,
+        "Your member panel account is ready",
+        "Dear {name},\n\nAn account has been created for you in the member panel of {site_name}. There you "
+        "can keep your profile and products on the website up to date.\n\nUsername: {username}\n\n"
+        "Open this link to choose your password (it is valid for a few days):\n{set_password_url}\n\n"
+        "Then sign in here:\n{panel_url}" + SIGN_EN,
+    ),
+    "panel_product_review": (
+        "محصول تازه در انتظار بررسی: {product} ({member})",
+        "عضو «{member}» از پنل اعضا محصول تازه‌ای ثبت کرد که پیش از نمایش در سایت بررسی شما را لازم دارد.\n\n"
+        "محصول: {product}\n\nبررسی و انتشار:\n{admin_url}\n\n"
+        "برای انتشار، تیک «در انتظار بررسی» را بردارید.",
+        "", "",
+    ),
 }

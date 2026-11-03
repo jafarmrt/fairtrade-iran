@@ -1,0 +1,40 @@
+{% extends "memberpanel/base.html" %}
+{% load wagtailimages_tags %}
+{% block heading %}{% if product %}{% if IS_EN %}Edit product{% else %}ویرایش محصول{% endif %}{% else %}{% if IS_EN %}New product{% else %}محصول تازه{% endif %}{% endif %}{% endblock %}
+{% block panel_content %}
+{% if product.needs_review %}<div class="notice">{% if IS_EN %}This product is awaiting review by the secretariat and is not on the website yet.{% else %}این محصول در انتظار بررسی دبیرخانه است و هنوز در سایت نمایش داده نمی‌شود.{% endif %}</div>
+{% elif not product and panel_settings.new_products_need_review %}<div class="notice">{% if IS_EN %}New products appear on the website once the secretariat has reviewed them.{% else %}محصول تازه پس از بررسی دبیرخانه در سایت نمایش داده می‌شود.{% endif %}</div>{% endif %}
+{% if public_url %}<p><a href="{{ public_url }}">{% if IS_EN %}View on the website{% else %}دیدن در سایت{% endif %}</a></p>{% endif %}
+<div class="panel-layout">
+<form class="form panel-form" method="post" enctype="multipart/form-data" novalidate>
+    {% csrf_token %}
+    {% if form.errors %}<div class="notice notice--error" role="alert">{% if IS_EN %}Please correct the fields marked below.{% else %}لطفاً موارد مشخص‌شده را اصلاح کنید.{% endif %}</div>{% endif %}
+    {% if form.non_field_errors %}<ul class="errorlist">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+    {% for heading, fields in form.grouped %}
+    <fieldset class="panel-fieldset">
+        <legend>{{ heading }}</legend>
+        {% for field in fields %}{% include "memberpanel/includes/field.html" %}{% endfor %}
+    </fieldset>
+    {% endfor %}
+    <fieldset class="panel-fieldset">
+        <legend>{% if IS_EN %}Photos{% else %}تصاویر{% endif %}</legend>
+        {% if images %}
+        <ul class="panel-images">
+            {% for item in images %}
+            <li><figure>{% image item.image fill-160x160 alt="" %}</figure>
+                <label class="form-row--check"><input type="checkbox" name="remove_image" value="{{ item.pk }}"> <span>{% if IS_EN %}Remove{% else %}حذف{% endif %}</span></label></li>
+            {% endfor %}
+        </ul>
+        {% endif %}
+        {% with field=form.new_images %}{% include "memberpanel/includes/field.html" %}{% endwith %}
+        <p class="helptext">{% if IS_EN %}The first photo is the main one. Up to {{ panel_settings.max_images_per_product }} photos.{% else %}نخستین تصویر، تصویر اصلی محصول است. حداکثر {{ panel_settings.max_images_per_product }} تصویر.{% endif %}</p>
+    </fieldset>
+    <p class="panel-actions">
+        <button class="btn btn--primary" type="submit">{% if IS_EN %}Save{% else %}ذخیره{% endif %}</button>
+        <a href="{% url 'panel:products' member.pk %}">{% if IS_EN %}Cancel{% else %}انصراف{% endif %}</a>
+        {% if product and panel_settings.allow_delete_products %}<a class="panel-delete" href="{% url 'panel:product_delete' member.pk product.pk %}">{% if IS_EN %}Delete this product{% else %}حذف این محصول{% endif %}</a>{% endif %}
+    </p>
+</form>
+{% include "memberpanel/includes/help.html" %}
+</div>
+{% endblock %}

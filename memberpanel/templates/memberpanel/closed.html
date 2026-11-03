@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block title %}{% if IS_EN %}Member panel{% else %}پنل اعضا{% endif %}{% endblock %}
+{% block content %}
+<header class="page-header"><div class="container"><h1>{% if IS_EN %}Member panel{% else %}پنل اعضا{% endif %}</h1></div></header>
+<section class="section"><div class="container">
+    <div class="notice">{% if IS_EN %}The member panel is closed for now. Please contact the secretariat.{% else %}پنل اعضا فعلاً بسته است. لطفاً با دبیرخانه تماس بگیرید.{% endif %}</div>
+</div></section>
+{% endblock %}

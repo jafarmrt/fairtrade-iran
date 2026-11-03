@@ -74,6 +74,10 @@ class Product(BilingualMixin, index.Indexed, ClusterableModel):
     )
 
     is_published = models.BooleanField("نمایش در سایت", default=True)
+    needs_review = models.BooleanField(
+        "در انتظار بررسی", default=False,
+        help_text="محصولی که عضو از پنل اعضا ساخته؛ پس از بررسی، این تیک را بردارید تا در سایت نمایش داده شود",
+    )
     is_featured = models.BooleanField("نمایش در صفحه اصلی", default=False)
     sort_order = models.PositiveSmallIntegerField("ترتیب نمایش", default=100)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -107,6 +111,7 @@ class Product(BilingualMixin, index.Indexed, ClusterableModel):
             ], heading="قیمت و موجودی"),
             FieldPanel("purchase_url"),
             FieldPanel("is_published"),
+            FieldPanel("needs_review"),
             FieldPanel("is_featured"),
             FieldPanel("sort_order"),
         ], heading="فروش و نمایش"),
@@ -137,7 +142,7 @@ class Product(BilingualMixin, index.Indexed, ClusterableModel):
     @classmethod
     def visible(cls):
         qs = (
-            cls.objects.filter(is_published=True, member__is_published=True)
+            cls.objects.filter(is_published=True, needs_review=False, member__is_published=True)
             .exclude(member__status=Member.SUSPENDED)
             .select_related("member", "category", "member__region")
             .prefetch_related("images__image")

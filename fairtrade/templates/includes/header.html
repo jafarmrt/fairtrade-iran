@@ -30,6 +30,9 @@
         </nav>
 
         <div class="header-actions">
+            {% if settings.memberpanel.PanelSettings.enabled %}
+                <a class="panel-link" href="{% url 'panel:dashboard' %}">{% if user.is_authenticated and user.managed_members.exists %}{% if IS_EN %}My panel{% else %}پنل من{% endif %}{% else %}{% if IS_EN %}Members' login{% else %}ورود اعضا{% endif %}{% endif %}</a>
+            {% endif %}
             {% if IS_EN %}
                 <a class="lang-switch" href="{% translation_url 'fa' %}" lang="fa" hreflang="fa">فارسی</a>
             {% else %}

@@ -383,6 +383,8 @@ class EmailTemplate(models.Model):
         STATUS_APPROVED = "status_approved", "به متقاضی: تأیید عضویت رسمی"
         STATUS_MEMBER = "status_member", "به متقاضی: ثبت عضویت و صدور گواهی"
         STATUS_WITHDRAWN = "status_withdrawn", "به متقاضی: بایگانی پرونده"
+        PANEL_INVITE = "panel_invite", "به عضو تازه: دعوت به پنل اعضا"
+        PANEL_PRODUCT_REVIEW = "panel_product_review", "به کارکنان: محصول تازه از پنل اعضا در انتظار بررسی"
 
     event = models.CharField("رویداد", max_length=40, choices=Event.choices, unique=True)
     active = models.BooleanField("ارسال شود", default=True)
@@ -391,7 +393,8 @@ class EmailTemplate(models.Model):
     body = models.TextField(
         "متن (فارسی)",
         help_text="می‌توانید از این‌ها استفاده کنید: {name} {code} {type} {status} {deadline} {message} "
-                  "{track_url} {admin_url} {certificate_number} {certificate_url} {site_name} {list}",
+                  "{track_url} {admin_url} {certificate_number} {certificate_url} {site_name} {list}؛ "
+                  "برای ایمیل‌های پنل اعضا: {name} {username} {set_password_url} {panel_url} {product} {member} {admin_url} {site_name}",
     )
     body_en = models.TextField("متن (انگلیسی)", blank=True)
 

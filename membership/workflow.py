@@ -32,6 +32,10 @@ ROLE_PERMS = {
 # directory app can create the public profile.  kwargs: application, certificate
 member_registered = Signal()
 
+# Sent after any staff action that changes a file's status, so the members
+# directory can keep the public profile in step.  kwargs: application, status
+status_entered = Signal()
+
 
 @dataclass(frozen=True)
 class Action:
@@ -204,6 +208,9 @@ def perform(application, action_key, user, message="", internal_note="", decisio
 
     if action.target:
         transaction.on_commit(lambda: notifications.status_changed(application, event, request=request))
+        transaction.on_commit(
+            lambda: status_entered.send(sender=MembershipApplication, application=application, status=action.target)
+        )
         if action.target == Status.COMMISSION:
             transaction.on_commit(lambda: notifications.to_commission(application, request=request))
     if certificate is not None:

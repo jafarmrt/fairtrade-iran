@@ -1,0 +1,12 @@
+{% extends "memberpanel/base.html" %}
+{% block heading %}{% if message_key == 'reset_sent' %}{% if IS_EN %}Check your e-mail{% else %}ایمیل خود را ببینید{% endif %}{% else %}{% if IS_EN %}Password saved{% else %}رمز ذخیره شد{% endif %}{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-auth">
+{% if message_key == 'reset_sent' %}
+    <p>{% if IS_EN %}If this address belongs to a member panel account, we have sent it a link to choose a password. If nothing arrives in a few minutes, check your spam folder or contact the secretariat.{% else %}اگر این نشانی متعلق به یکی از حساب‌های پنل اعضا باشد، پیوند ساختن رمز به آن فرستاده شد. اگر تا چند دقیقه چیزی نرسید، پوشه هرزنامه را ببینید یا با دبیرخانه تماس بگیرید.{% endif %}</p>
+{% else %}
+    <p>{% if IS_EN %}Your password is saved. You can now sign in.{% else %}رمز شما ذخیره شد. اکنون می‌توانید وارد شوید.{% endif %}</p>
+    <p><a class="btn btn--primary" href="{% url 'panel:login' %}">{% if IS_EN %}Sign in{% else %}ورود{% endif %}</a></p>
+{% endif %}
+</div>
+{% endblock %}

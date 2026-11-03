@@ -1,0 +1,29 @@
+{% extends "memberpanel/base.html" %}
+{% load wagtailimages_tags site_tags %}
+{% block heading %}{% if IS_EN %}Your products{% else %}محصولات شما{% endif %}{% endblock %}
+{% block panel_content %}
+{% if can_add %}<p><a class="btn btn--primary" href="{% url 'panel:product_add' member.pk %}">{% if IS_EN %}Add a product{% else %}افزودن محصول{% endif %}</a></p>{% endif %}
+{% if products %}
+<ul class="panel-products">
+    {% for p in products %}
+    <li class="panel-product">
+        <a class="panel-product__media" href="{% url 'panel:product_edit' member.pk p.pk %}">{% if p.main_image %}{% image p.main_image fill-120x120 alt="" %}{% else %}<span class="placeholder" aria-hidden="true">{{ p.name|first }}</span>{% endif %}</a>
+        <div class="panel-product__body">
+            <h2 class="h3"><a href="{% url 'panel:product_edit' member.pk p.pk %}">{% if IS_EN and p.name_en %}{{ p.name_en }}{% else %}{{ p.name }}{% endif %}</a></h2>
+            <p class="badges">
+                {% if p.needs_review %}<span class="badge badge--gold">{% if IS_EN %}Awaiting review{% else %}در انتظار بررسی{% endif %}</span>
+                {% elif p.is_published %}<span class="badge badge--ok">{% if IS_EN %}On the site{% else %}در سایت{% endif %}</span>
+                {% else %}<span class="badge">{% if IS_EN %}Hidden{% else %}پنهان{% endif %}</span>{% endif %}
+                {% if not p.in_stock %}<span class="badge">{% if IS_EN %}Out of stock{% else %}ناموجود{% endif %}</span>{% endif %}
+                {% if not p.name_en %}<span class="badge">{% if IS_EN %}No English name{% else %}بدون نام انگلیسی{% endif %}</span>{% endif %}
+            </p>
+            {% if p.price %}<p class="muted">{{ p.price|money }} {% if IS_EN %}IRR{% else %}ریال{% endif %}</p>{% endif %}
+        </div>
+        <a class="btn btn--outline" href="{% url 'panel:product_edit' member.pk p.pk %}">{% if IS_EN %}Edit{% else %}ویرایش{% endif %}</a>
+    </li>
+    {% endfor %}
+</ul>
+{% else %}
+<div class="notice">{% if IS_EN %}You have no products yet.{% else %}هنوز محصولی ثبت نکرده‌اید.{% endif %}</div>
+{% endif %}
+{% endblock %}
