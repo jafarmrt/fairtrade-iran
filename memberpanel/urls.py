@@ -1,5 +1,7 @@
 from django.urls import path
 
+from standing import panel_views as standing_views
+
 from . import views
 
 app_name = "panel"
@@ -14,6 +16,7 @@ urlpatterns = [
     path("password/set/done/", views.PasswordResetCompleteView.as_view(), name="password_reset_complete"),
     path("password/change/", views.PasswordChangeView.as_view(), name="password_change"),
     path("<int:member_id>/profile/", views.profile, name="profile"),
+    path("<int:member_id>/membership/", standing_views.membership, name="membership"),
     path("<int:member_id>/products/", views.product_list, name="products"),
     path("<int:member_id>/products/new/", views.product_add, name="product_add"),
     path("<int:member_id>/products/<int:product_id>/", views.product_edit, name="product_edit"),

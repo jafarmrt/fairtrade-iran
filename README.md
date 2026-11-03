@@ -104,6 +104,10 @@ Only users in a group with the permission «اقدامات دبیرخانه» or
 
 E-mail texts are editable under **عضویت › ایمیل‌ها**. Deadline reminders (`python manage.py membership_reminders`) run once a day in the `scheduler` service of `docker-compose.yml`, at `DAILY_JOBS_TIME` (default 08:00 Tehran time). Without Docker, run that command from cron.
 
+### Annual fees, suspension and cancellation
+
+App `standing` (governance doc 1.7, 1.8, 7, 8.2). Amounts are the annual fees in **Settings › تنظیمات عضویت**; the tab «حق عضویت سالانه و تعلیق» sets the membership year (fixed Jalali date or joining anniversary), billing, reminder and payment days, automatic written warning, suspension N months after the warning, maximum suspension, appeal days and reapply periods. `python manage.py membership_standing` (run daily by the scheduler, with `--today YYYY-MM-DD` for testing) issues dues, reminds, warns, suspends and e-mails a digest to the secretariat and commission. Members pay and upload receipts at `/fa/panel/<id>/membership/`; staff work in **وضعیت اعضا و حق عضویت** (confirm/reject receipts, record payments, waive, notices, warnings, suspension, lifting, cancellation, reinstatement). Receipts are private files under `PRIVATE_MEDIA_ROOT/dues/`.
+
 When the secretariat registers a full member, the signal `membership.workflow.member_registered` is sent (with `application` and `certificate`) so a members directory can create the public profile.
 
 ## Member panel
