@@ -104,7 +104,7 @@
 </div>
 </section>
 {% if form %}
-<script>
+<script nonce="{{ CSP_NONCE }}">
 (function () {
     var out = document.querySelector("[data-wh-count]");
     var inputs = document.querySelectorAll(".wh-qty");

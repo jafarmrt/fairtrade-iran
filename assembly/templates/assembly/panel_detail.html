@@ -103,7 +103,7 @@
 </div>
 {% include "memberpanel/includes/help.html" %}
 </div>
-<script>
+<script nonce="{{ CSP_NONCE }}">
 document.querySelectorAll("form[data-confirm]").forEach(function (f) {
     f.addEventListener("submit", function (e) { if (!window.confirm(f.dataset.confirm)) e.preventDefault(); });
 });

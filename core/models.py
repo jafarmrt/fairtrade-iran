@@ -371,3 +371,56 @@ class SeoSettings(BaseGenericSetting):
 
     def tr(self, field):
         return BilingualMixin.tr(self, field)
+
+
+@register_setting(icon="lock")
+class SecuritySettings(BaseGenericSetting):
+    """Content-Security-Policy and two-step sign-in for staff."""
+
+    class CspMode(models.TextChoices):
+        ENFORCE = "enforce", _("فعال (توصیه‌شده)")
+        REPORT = "report", _("فقط گزارش در کنسول مرورگر (برای آزمایش)")
+        OFF = "off", _("خاموش")
+
+    class TwoFactor(models.TextChoices):
+        OFF = "off", _("خاموش")
+        SUPERUSERS = "superusers", _("فقط مدیران کل (superuser)")
+        STAFF = "staff", _("همه کاربرانی که به پنل مدیریت دسترسی دارند")
+
+    csp_mode = models.CharField(
+        _("سیاست امنیت محتوا (CSP)"), max_length=10, choices=CspMode.choices, default=CspMode.ENFORCE,
+        help_text=_("جلوی اجرای اسکریپت‌های ناشناس در صفحه‌های عمومی را می‌گیرد. اگر سرویسی (آمار، نماد، ویدیو) "
+                    "پس از افزودن کار نکرد، نشانی آن را در فهرست زیر بیفزایید یا موقتاً «فقط گزارش» را بگذارید."),
+    )
+    csp_extra_sources = models.TextField(
+        _("نشانی‌های مجاز اضافه"), blank=True,
+        help_text=_("هر نشانی در یک خط، مثلاً https://stats.example.org — نشانی‌هایی که در «کد آمار بازدید» و "
+                    "«کد نمادهای اعتماد» آمده‌اند خودکار مجازند."),
+    )
+    two_factor = models.CharField(
+        _("ورود دومرحله‌ای"), max_length=12, choices=TwoFactor.choices, default=TwoFactor.OFF,
+        help_text=_("پس از رمز عبور، یک کد یک‌بار مصرف به ایمیل کاربر فرستاده می‌شود. پیش از روشن کردن، مطمئن شوید "
+                    "ارسال ایمیل سایت کار می‌کند و این کاربران ایمیل درست دارند."),
+    )
+    two_factor_remember_days = models.PositiveSmallIntegerField(
+        _("به خاطر سپردن مرورگر (روز)"), default=30, validators=[MaxValueValidator(365)],
+        help_text=_("پس از ورود موفق، تا این مدت از همان مرورگر کد خواسته نمی‌شود؛ ۰ یعنی هر بار کد بخواهد"),
+    )
+    two_factor_code_minutes = models.PositiveSmallIntegerField(
+        _("اعتبار کد (دقیقه)"), default=10, validators=[MinValueValidator(2), MaxValueValidator(60)],
+    )
+
+    panels = [
+        MultiFieldPanel([FieldPanel("two_factor"), FieldPanel("two_factor_remember_days"),
+                         FieldPanel("two_factor_code_minutes")], heading=_("ورود دومرحله‌ای کارکنان")),
+        MultiFieldPanel([FieldPanel("csp_mode"), FieldPanel("csp_extra_sources")],
+                        heading=_("سیاست امنیت محتوا")),
+    ]
+
+    class Meta:
+        verbose_name = _("امنیت")
+
+    def extra_sources(self):
+        from .security import origin
+
+        return [o for o in (origin(line) for line in self.csp_extra_sources.splitlines()) if o]

@@ -135,6 +135,7 @@ def seo_head(context):
 
     return {
         "request": request,
+        "CSP_NONCE": context.get("CSP_NONCE", ""),
         "seo": seo,
         "noindex": not seo.allow_indexing,
         "title": title,
@@ -271,3 +272,11 @@ def _json_ld(context, request, page, subject, site, description, image_url, cano
 @register.simple_tag(takes_context=True)
 def seo_settings(context):
     return SeoSettings.load(request_or_site=context["request"])
+
+
+@register.filter
+def with_nonce(code, nonce):
+    """Admin-entered HTML (analytics, trust badges) with the page's CSP nonce on its <script> tags."""
+    from core.security import add_nonce
+
+    return mark_safe(add_nonce(code or "", nonce))

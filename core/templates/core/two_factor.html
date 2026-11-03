@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% load membership_tags %}
+{% block title %}{% if IS_EN %}Sign-in code{% else %}کد ورود{% endif %}{% endblock %}
+{% block robots %}<meta name="robots" content="noindex, nofollow">{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container container--narrow">
+<h1>{% if IS_EN %}Enter your sign-in code{% else %}کد ورود را وارد کنید{% endif %}</h1>
+{% if email %}<p class="lead">{% if IS_EN %}We have e-mailed a 6-digit code to <bdi dir="ltr">{{ email }}</bdi>. It is valid for {{ minutes }} minutes.{% else %}یک کد ۶ رقمی به <bdi dir="ltr">{{ email }}</bdi> فرستادیم. این کد تا {{ minutes|fa_digits }} دقیقه معتبر است.{% endif %}</p>{% endif %}
+</div></section>
+<section class="section"><div class="container container--narrow">
+    {% if error %}<div class="notice notice--error" role="alert">{{ error }}</div>{% endif %}
+    {% if info %}<div class="notice notice--ok" role="status">{{ info }}</div>{% endif %}
+    {% if email %}
+    <form class="form" method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <div class="form-row">
+            <label for="id_code">{% if IS_EN %}Code{% else %}کد{% endif %}</label>
+            <input type="text" name="code" id="id_code" dir="ltr" inputmode="numeric" autocomplete="one-time-code" maxlength="12" required autofocus>
+        </div>
+        {% if remember_days %}
+        <div class="form-row"><label><input type="checkbox" name="remember" value="1"> {% if IS_EN %}Trust this browser for {{ remember_days }} days (not on a shared computer){% else %}تا {{ remember_days|fa_digits }} روز در این مرورگر دوباره کد نخواه (نه روی رایانه مشترک){% endif %}</label></div>
+        {% endif %}
+        <p class="panel-actions"><button class="btn btn--primary" type="submit">{% if IS_EN %}Continue{% else %}ادامه{% endif %}</button></p>
+    </form>
+    <form method="post" class="panel-actions">
+        {% csrf_token %}
+        <input type="hidden" name="next" value="{{ next }}">
+        <button class="btn btn--outline" type="submit" name="action" value="resend">{% if IS_EN %}Send a new code{% else %}فرستادن کد تازه{% endif %}</button>
+        <button class="btn btn--outline" type="submit" name="action" value="logout">{% if IS_EN %}Sign out{% else %}خروج{% endif %}</button>
+    </form>
+    {% else %}
+    <form method="post">{% csrf_token %}<button class="btn btn--primary" type="submit" name="action" value="logout">{% if IS_EN %}Sign out{% else %}خروج{% endif %}</button></form>
+    {% endif %}
+</div></section>
+{% endblock %}
