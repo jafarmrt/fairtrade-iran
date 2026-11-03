@@ -186,6 +186,11 @@ class Appeal(models.Model):
     tracking_code = models.CharField("کد پیگیری", max_length=12, unique=True, editable=False)
     member = models.ForeignKey("members.Member", verbose_name="عضو", null=True, on_delete=models.SET_NULL,
                                related_name="appeals")
+    application = models.ForeignKey(
+        "membership.MembershipApplication", verbose_name="پرونده عضویت", null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="appeals",
+        help_text="برای متقاضیانی که پیش از دوره آزمایشی رد شده‌اند و از صفحه پیگیری درخواست اعتراض کرده‌اند",
+    )
     member_name = models.CharField("نام عضو هنگام ثبت", max_length=200, editable=False)
     submitted_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="ثبت‌کننده", null=True, blank=True,
                                      on_delete=models.SET_NULL, related_name="+")

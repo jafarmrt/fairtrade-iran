@@ -10,6 +10,7 @@
 </div></header>
 <section class="section"><div class="container">
     {% if error %}<div class="notice notice--error" role="alert">{{ error }}</div>{% endif %}
+    {% if appealed %}<div class="notice notice--ok" role="status">{% if IS_EN %}Your appeal was registered and sent to the Secretary of the General Assembly. We have e-mailed you a confirmation.{% else %}اعتراض شما ثبت شد و به دبیر مجمع عمومی رسید. تأیید آن برایتان ایمیل شد.{% endif %}</div>{% endif %}
     {% if sent %}<div class="notice notice--ok" role="status">{% if IS_EN %}Thank you. We received your reply and documents.{% else %}سپاس. پاسخ و مدارک شما دریافت شد.{% endif %}</div>{% endif %}
 
     {% if application %}
@@ -43,6 +44,26 @@
                 {{ resubmit_form.non_field_errors }}
                 {% for field in resubmit_form %}{% include "membership/includes/field.html" %}{% endfor %}
                 <button class="btn btn--primary" type="submit">{% if IS_EN %}Send{% else %}ارسال{% endif %}</button>
+            </form>
+            {% endif %}
+            {% for a in appeals %}
+            <h3>{% if IS_EN %}Your appeal{% else %}اعتراض شما{% endif %}</h3>
+            <dl class="fee-list">
+                <div><dt>{% if IS_EN %}Code{% else %}کد پیگیری{% endif %}</dt><dd><span dir="ltr" class="mono">{{ a.tracking_code }}</span></dd></div>
+                <div><dt>{% if IS_EN %}Status{% else %}وضعیت{% endif %}</dt><dd>{{ a.status_display }}</dd></div>
+                {% if not a.is_final and a.decide_by %}<div><dt>{% if IS_EN %}Ruling due by{% else %}مهلت صدور رأی{% endif %}</dt><dd>{{ a.decide_by|jdate }}</dd></div>{% endif %}
+                {% if a.hearing_date and not a.is_final %}<div><dt>{% if IS_EN %}Hearing{% else %}جلسه رسیدگی{% endif %}</dt><dd>{{ a.hearing_date|jdate }}</dd></div>{% endif %}
+            </dl>
+            {% if a.ruling and a.is_final %}<div class="panel-case__answer"><div class="muted">{% if IS_EN %}Ruling of the Assembly Secretary (final){% else %}رأی دبیر مجمع (قطعی){% endif %}</div><p>{{ a.ruling|linebreaksbr }}</p></div>{% endif %}
+            {% endfor %}
+            {% if appeal_form %}
+            <h3>{% if IS_EN %}Appeal this decision{% else %}اعتراض به این رأی{% endif %}</h3>
+            <p>{% if IS_EN %}If you disagree with this decision, you can appeal in writing to the Secretary of the General Assembly until {{ appeal_deadline|jdate }}. The secretary reviews the file, may invite you to a hearing, and gives a final ruling within the period set by the governance document.{% else %}اگر با این رأی موافق نیستید، تا {{ appeal_deadline|jdate }} می‌توانید اعتراض کتبی خود را به دبیر مجمع عمومی بدهید. دبیر مجمع پرونده را بررسی می‌کند، ممکن است شما را به جلسه رسیدگی دعوت کند و در مهلت سند ارکان رأی قطعی می‌دهد.{% endif %}</p>
+            <form class="form" method="post" enctype="multipart/form-data" novalidate>
+                {% csrf_token %}<input type="hidden" name="step" value="appeal">
+                {{ appeal_form.non_field_errors }}
+                {% for field in appeal_form %}{% include "membership/includes/field.html" %}{% endfor %}
+                <button class="btn btn--primary" type="submit">{% if IS_EN %}Send to the Assembly Secretary{% else %}ارسال به دبیر مجمع{% endif %}</button>
             </form>
             {% endif %}
             {% if application.certificate_or_none %}

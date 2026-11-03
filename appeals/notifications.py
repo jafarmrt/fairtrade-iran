@@ -43,7 +43,12 @@ def appeal_context(appeal, lang):
     with translation.override(lang):
         member = appeal.member
         name = member.tr("name") if member else appeal.member_name
-        panel_url = base_url() + reverse("panel:appeals", args=[member.pk]) if member else ""
+        if member:
+            panel_url = base_url() + reverse("panel:appeals", args=[member.pk])
+        else:
+            from membership.notifications import membership_page_url
+
+            panel_url = membership_page_url(lang, "track/")
         return {
             "name": name,
             "code": appeal.tracking_code,

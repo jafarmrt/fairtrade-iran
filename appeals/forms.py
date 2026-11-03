@@ -98,6 +98,28 @@ class AppealForm(forms.ModelForm):
         return day
 
 
+class ApplicantAppealForm(forms.ModelForm):
+    """Appeal of a rejected applicant, filed from the application tracking page."""
+
+    class Meta:
+        model = Appeal
+        fields = ["grounds", "attachment", "phone"]
+        widgets = {
+            "grounds": forms.Textarea(attrs={"rows": 8}),
+            "phone": forms.TextInput(attrs={"dir": "ltr", "type": "tel", "autocomplete": "tel"}),
+            "attachment": forms.ClearableFileInput(attrs={"accept": ",".join(ALLOWED_EXTENSIONS)}),
+        }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        reference = AppealForm(window_days=0)
+        for name, field in self.fields.items():
+            field.label = reference.fields[name].label
+            field.help_text = reference.fields[name].help_text
+            if is_english() and field.required:
+                field.error_messages["required"] = "This field is required."
+
+
 class PanelComplaintForm(forms.ModelForm):
     """The confidential complaint form, for a member signed in to the panel."""
 
@@ -124,4 +146,4 @@ class PanelComplaintForm(forms.ModelForm):
                 field.error_messages["required"] = "This field is required."
 
 
-__all__ = ["AppealForm", "PanelComplaintForm", "MAX_ATTACHMENT_MB"]
+__all__ = ["AppealForm", "ApplicantAppealForm", "PanelComplaintForm", "MAX_ATTACHMENT_MB"]

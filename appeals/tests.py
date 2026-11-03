@@ -232,3 +232,64 @@ class AppealTests(CaseTestCase):
             self.assertEqual(self.client.get(f"/{lang}/panel/{self.member.pk}/appeals/").status_code, 200)
             self.assertEqual(self.client.get(f"/{lang}/panel/{self.member.pk}/appeals/new/").status_code, 200)
             self.assertContains(self.client.get(f"/{lang}/panel/"), f"/panel/{self.member.pk}/appeals/")
+
+
+class ApplicantAppealTests(CaseTestCase):
+    """Applicants rejected before the trial period appeal from the tracking page."""
+
+    def setUp(self):
+        self.client.logout()
+        self.application = MembershipApplication.objects.create(
+            member_type="producer", name="کارگاه نمونه", email="app@example.org", phone="0912",
+            status=Status.REJECTED,
+        )
+        ApplicationEvent.objects.create(application=self.application, action="reject", to_status=Status.REJECTED,
+                                        message="مدارک بازدید میدانی کافی نبود.",
+                                        created_at=timezone.now() - datetime.timedelta(days=5))
+
+    def lookup(self, lang="fa"):
+        self.client.post(f"/{lang}/membership/track/", {
+            "step": "lookup", "code": self.application.tracking_code, "email": "app@example.org"})
+
+    def test_rejected_applicant_can_appeal(self):
+        self.lookup()
+        page = self.client.get("/fa/membership/track/")
+        self.assertContains(page, 'name="step" value="appeal"')
+        with self.captureOnCommitCallbacks(execute=True):
+            response = self.client.post("/fa/membership/track/", {"step": "appeal", "grounds": "بازدید انجام نشد.",
+                                                                  "phone": ""})
+        self.assertRedirects(response, "/fa/membership/track/?appealed=1", fetch_redirect_response=False)
+        appeal = Appeal.objects.get()
+        self.assertEqual(appeal.application, self.application)
+        self.assertIsNone(appeal.member)
+        self.assertEqual(appeal.decision, "rejection")
+        self.assertEqual(appeal.email, "app@example.org")
+        self.assertEqual(appeal.decision_date, timezone.localdate() - datetime.timedelta(days=5))
+        recipients = {tuple(m.to) for m in mail.outbox}
+        self.assertIn(("app@example.org",), recipients)
+        self.assertIn(("dabir@example.org",), recipients)
+        self.assertIn("/fa/membership/track/", [m for m in mail.outbox if m.to == ["app@example.org"]][0].body)
+        # One appeal per decision; the page now shows its status instead of the form.
+        page = self.client.get("/fa/membership/track/")
+        self.assertContains(page, appeal.tracking_code)
+        self.assertNotContains(page, 'name="step" value="appeal"')
+
+    def test_no_appeal_after_window(self):
+        self.application.events.update(created_at=timezone.now() - datetime.timedelta(days=40))
+        self.lookup("en")
+        page = self.client.get("/en/membership/track/")
+        self.assertNotContains(page, 'name="step" value="appeal"')
+        self.client.post("/en/membership/track/", {"step": "appeal", "grounds": "late"})
+        self.assertFalse(Appeal.objects.exists())
+
+    def test_no_appeal_while_in_progress(self):
+        MembershipApplication.objects.filter(pk=self.application.pk).update(status=Status.COMMISSION)
+        self.lookup()
+        self.assertNotContains(self.client.get("/fa/membership/track/"), 'name="step" value="appeal"')
+
+    def test_members_with_a_profile_appeal_from_the_panel(self):
+        MembershipApplication.objects.filter(pk=self.application.pk).update(status=Status.NOT_ACCEPTED)
+        self.member.application = self.application
+        self.member.save()
+        self.lookup()
+        self.assertNotContains(self.client.get("/fa/membership/track/"), 'name="step" value="appeal"')
