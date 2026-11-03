@@ -1,0 +1,26 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load assembly_tags %}
+{% block main_content %}
+<p class="as-links">
+    {% if can_run %}<a class="button" href="{% url 'assemblies:add' %}">فراخواندن مجمع تازه</a>{% endif %}
+    <a href="{% url 'wagtailsettings:edit' 'assembly' 'assemblysettings' %}">تنظیمات مجمع (وزن رأی، حد نصاب، متن ایمیل‌ها)</a>
+</p>
+{% if assemblies %}
+<table class="listing">
+    <thead><tr><th>مجمع</th><th>نوع</th><th>زمان</th><th>شیوه</th><th>وضعیت</th><th>نتایج</th></tr></thead>
+    <tbody>
+    {% for a in assemblies %}
+    <tr>
+        <td><a href="{% url 'assembly_control:control' a.pk %}">{{ a.title }}</a></td>
+        <td>{{ a.get_kind_display }}، {{ a.get_call_display }}</td>
+        <td>{{ a.starts_at|jdatetime_fa }}</td>
+        <td>{{ a.get_mode_display }}</td>
+        <td>{{ a.get_status_display }}</td>
+        <td>{% if a.results_published_at %}منتشر شده{% else %}-{% endif %}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}<p>هنوز مجمعی ثبت نشده است.</p>{% endif %}
+<style>.as-links { display:flex; gap:1rem; align-items:center; flex-wrap:wrap; margin-block:1rem 1.5rem; }</style>
+{% endblock %}

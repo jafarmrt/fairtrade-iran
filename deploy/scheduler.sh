@@ -13,6 +13,8 @@ run_jobs() {
     python manage.py membership_reminders || echo "[scheduler] membership_reminders FAILED"
     echo "[scheduler] $(date '+%Y-%m-%d %H:%M'): membership_standing"
     python manage.py membership_standing || echo "[scheduler] membership_standing FAILED"
+    echo "[scheduler] $(date '+%Y-%m-%d %H:%M'): assembly_daily"
+    python manage.py assembly_daily || echo "[scheduler] assembly_daily FAILED"
     echo "[scheduler] $(date '+%Y-%m-%d %H:%M'): shop_daily"
     python manage.py shop_daily || echo "[scheduler] shop_daily FAILED"
 }

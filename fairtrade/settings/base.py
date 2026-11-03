@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "memberpanel",
     "standing",
     "appeals",
+    "assembly",
     "payments",
     "shop",
     "wholesale",

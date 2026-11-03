@@ -75,7 +75,10 @@ def member_view(editing=True):
 
 
 def render(request, template, context):
+    from assembly.models import AssemblySettings
+
     context.setdefault("panel_settings", PanelSettings.load(request_or_site=request))
+    context.setdefault("assembly_enabled", AssemblySettings.load(request_or_site=request).enabled)
     return TemplateResponse(request, template, context)
 
 
@@ -95,6 +98,8 @@ def dashboard(request):
         member.open_dues = member.dues.filter(status__in=("unpaid", "pending")).order_by("due_date").first()
         member.todo_orders = todo_orders(member).count()
         member.public_url = member.get_url() if member.is_published and not member.is_inactive else ""
+        member.assembly_seat = (member.assembly_seats.filter(assembly__status__in=("invited", "in_session"))
+                                .select_related("assembly").order_by("assembly__starts_at").first())
         member.wholesale_open = member.wholesale_shares.filter(status__in=("new", "seen")).exclude(
             inquiry__status__in=("ordered", "closed", "spam")).count()
     return render(request, "memberpanel/dashboard.html", {"members": members, "current": "dashboard"})

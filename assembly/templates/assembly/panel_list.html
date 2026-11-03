@@ -1,0 +1,34 @@
+{% extends "memberpanel/base.html" %}
+{% load wagtailcore_tags date_tags %}
+{% block heading %}{% if IS_EN %}General Assembly{% else %}مجمع عمومی{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-layout">
+<div>
+    {% with s=assembly_settings %}{% if IS_EN and s.intro_en %}<div class="prose">{{ s.intro_en|richtext }}</div>{% elif not IS_EN and s.intro %}<div class="prose">{{ s.intro|richtext }}</div>{% endif %}{% endwith %}
+    {% if not can_vote_now %}<p class="notice">{% if IS_EN %}Only full members vote in the General Assembly. Trial, suspended and cancelled members can follow the agenda and results here.{% else %}در مجمع عمومی فقط اعضای رسمی رأی می‌دهند. اعضای آزمایشی، تعلیق‌شده یا لغوشده دستور جلسه و نتایج را اینجا می‌بینند.{% endif %}</p>{% endif %}
+    {% if assemblies %}
+    <ul class="panel-cases">
+        {% for a in assemblies %}
+        <li class="card panel-case">
+            <div class="track-card__head">
+                <div>
+                    <div class="muted">{{ a.kind_display }} · {{ a.call_display }} · {{ a.mode_display }}</div>
+                    <strong><a href="{% url 'panel:assembly' member.pk a.pk %}">{% if IS_EN and a.title_en %}{{ a.title_en }}{% else %}{{ a.title }}{% endif %}</a></strong>
+                </div>
+                <span class="status-badge status-badge--assembly-{{ a.status }}">{{ a.status_display }}</span>
+            </div>
+            <dl class="fee-list">
+                <div><dt>{% if IS_EN %}When{% else %}زمان{% endif %}</dt><dd>{{ a.starts_at|jdatetime }}</dd></div>
+                <div><dt>{% if IS_EN %}Your vote{% else %}رأی شما{% endif %}</dt><dd>{% if a.seat %}{% if a.seat.proxy_holder_id %}{% if IS_EN %}Given by proxy{% else %}به وکالت سپرده شده{% endif %}{% else %}{% if IS_EN %}On the roll{% else %}دارای حق رأی{% endif %}{% endif %}{% else %}{% if IS_EN %}Not on the roll{% else %}بدون حق رأی در این مجمع{% endif %}{% endif %}</dd></div>
+                {% if a.results_published %}<div><dt>{% if IS_EN %}Results{% else %}نتایج{% endif %}</dt><dd><a href="{% url 'panel:assembly' member.pk a.pk %}#results">{% if IS_EN %}Published{% else %}منتشر شده{% endif %}</a></dd></div>{% endif %}
+            </dl>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="notice">{% if IS_EN %}No General Assembly has been called yet.{% else %}هنوز مجمعی فراخوانده نشده است.{% endif %}</p>
+    {% endif %}
+</div>
+{% include "memberpanel/includes/help.html" %}
+</div>
+{% endblock %}

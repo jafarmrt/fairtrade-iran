@@ -1,0 +1,172 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load assembly_tags membership_tags %}
+{% block main_content %}
+<p><a href="{% url 'assembly_control:index' %}">← همه مجامع</a>
+    {% if can_run %} · <a href="{% url 'assemblies:edit' assembly.pk %}">ویرایش مجمع، دعوت‌نامه و صورتجلسه</a>{% endif %}</p>
+
+<div class="as-summary">
+    <div><strong>وضعیت:</strong> {{ assembly.get_status_display }}</div>
+    <div><strong>نوع:</strong> {{ assembly.get_kind_display }}، {{ assembly.get_call_display }}{% if assembly.first_call %} (نوبت اول: {{ assembly.first_call.title }}){% endif %}</div>
+    <div><strong>زمان:</strong> {{ assembly.starts_at|jdatetime_fa }}{% if assembly.ends_at %} تا {{ assembly.ends_at|jdatetime_fa }}{% endif %}</div>
+    <div><strong>شیوه:</strong> {{ assembly.get_mode_display }}{% if assembly.location %} · {{ assembly.location }}{% endif %}</div>
+    {% if assembly.online_voting %}<div><strong>پیوند جلسه برخط:</strong> {% if assembly.meeting_url %}<a href="{{ assembly.meeting_url }}" dir="ltr" target="_blank" rel="noopener">{{ assembly.meeting_url }}</a>{% else %}<span class="as-bad">وارد نشده (شرط برگزاری برخط: امکان گفتگوی همزمان)</span>{% endif %}</div>{% endif %}
+    {% if assembly.invited_at %}<div><strong>دعوت‌نامه:</strong> {{ assembly.invited_at|jdatetime_fa }}</div>{% endif %}
+    {% if assembly.started_at %}<div><strong>آغاز جلسه:</strong> {{ assembly.started_at|jdatetime_fa }}</div>{% endif %}
+    {% if assembly.ended_at %}<div><strong>پایان جلسه:</strong> {{ assembly.ended_at|jdatetime_fa }}</div>{% endif %}
+    {% if assembly.results_published_at %}<div><strong>انتشار نتایج:</strong> {{ assembly.results_published_at|jdatetime_fa }}</div>{% endif %}
+</div>
+{% for w in warnings %}<p class="help-block help-warning">{{ w }}</p>{% endfor %}
+
+{% if can_run %}
+<div class="as-actions">
+    {% if assembly.status == S.DRAFT %}
+        <form method="post">{% csrf_token %}<input type="hidden" name="action" value="invite"><button class="button" type="submit" data-confirm="دعوت‌نامه برای همه اعضای رسمی فرستاده شود؟">ساخت دفتر حاضران و ارسال دعوت‌نامه</button></form>
+    {% endif %}
+    {% if assembly.status == S.DRAFT or assembly.status == S.INVITED %}
+        <form method="post">{% csrf_token %}<input type="hidden" name="action" value="roll"><button class="button button-secondary" type="submit">به‌روزرسانی دفتر حاضران</button></form>
+    {% endif %}
+    {% if assembly.status == S.INVITED %}
+        <form method="post">{% csrf_token %}<input type="hidden" name="action" value="start"><button class="button" type="submit" data-confirm="با آغاز جلسه، دفتر حاضران و وکالت‌ها ثابت می‌شود. آغاز شود؟">آغاز جلسه</button></form>
+    {% endif %}
+    {% if assembly.status == S.IN_SESSION %}
+        <form method="post">{% csrf_token %}<input type="hidden" name="action" value="end"><button class="button" type="submit" data-confirm="رأی‌گیری‌های باز بسته و شمرده می‌شوند. جلسه پایان یابد؟">پایان جلسه</button></form>
+    {% endif %}
+    {% if can_publish %}
+        <form method="post">{% csrf_token %}<input type="hidden" name="action" value="publish"><label><input type="checkbox" name="notify" value="1" checked> با ایمیل و پیامک به اعضا</label> <button class="button" type="submit">انتشار نتایج برای اعضا</button></form>
+    {% endif %}
+    {% if assembly.status != S.ENDED and assembly.status != S.CANCELLED %}
+        <form method="post">{% csrf_token %}<input type="hidden" name="action" value="cancel"><button class="button button-secondary no" type="submit" data-confirm="مجمع لغو شود؟">لغو مجمع</button></form>
+    {% endif %}
+</div>
+{% endif %}
+
+<section class="as-box" id="quorum">
+    <h2>حضور و حد نصاب</h2>
+    <table class="listing">
+        <thead><tr><th>گروه</th><th>وزن</th><th>دارای حق رأی</th><th>حاضر (با وکالت)</th>{% if has_paper %}<th>رأی کاغذی (در محل)</th>{% endif %}</tr></thead>
+        <tbody>
+        {% for g in groups %}<tr><td>{{ g.label }}</td><td>{{ g.weight|fa_digits }}</td><td>{{ g.eligible|fa_digits }}</td><td>{{ g.present|fa_digits }}</td>{% if has_paper %}<td>{{ g.paper|fa_digits }}</td>{% endif %}</tr>{% endfor %}
+        </tbody>
+    </table>
+    <p><strong>امتیاز وزنی حاضران: {{ quorum.score|fa_digits }}٪</strong> ·
+        {% if quorum.met %}<span class="as-good">جلسه رسمیت دارد</span>{% else %}<span class="as-bad">حد نصاب {% if assembly.call == 'second' %}نوبت دوم (دست‌کم {{ settings.quorum_second_num|fa_digits }}/{{ settings.quorum_second_den|fa_digits }}){% else %}نوبت اول (بیش از {{ settings.quorum_first_num|fa_digits }}/{{ settings.quorum_first_den|fa_digits }}){% endif %} فراهم نیست</span>{% endif %}</p>
+</section>
+
+<section class="as-box" id="agenda">
+    <h2>دستور جلسه و رأی‌گیری</h2>
+    {% if can_run and not assembly.roll_is_frozen %}<p><a class="button button-small" href="{% url 'assembly_items:add' %}?assembly={{ assembly.pk }}">افزودن بند</a></p>{% endif %}
+    {% for item in items %}
+    <div class="as-item" id="item-{{ item.pk }}">
+        <h3>{{ item.sort_order|fa_digits }}. {{ item.title }}
+            <small>({{ item.get_kind_display }}{% if item.kind == 'resolution' %}، {{ item.get_majority_display }}{% endif %}{% if item.kind == 'election' %}، {{ item.seats|fa_digits }} کرسی{% endif %}{% if item.secret %}، مخفی{% endif %})</small></h3>
+        {% if item.has_vote %}
+        <p>
+            {% if item.state == 'counted' %}<strong>شمرده شد</strong> ({{ item.counted_at|jdatetime_fa }})
+            {% elif item.state == 'open' %}<strong class="as-good">رأی‌گیری باز است</strong>{% if item.closes_at %} تا {{ item.closes_at|jdatetime_fa }}{% endif %}
+            {% elif item.state == 'closed' %}زمان رأی‌گیری تمام شده
+            {% else %}رأی‌گیری باز نشده{% if item.opens_at %} (زمان‌بندی: {{ item.opens_at|jdatetime_fa }}){% endif %}{% endif %}
+            · آرای برخط ثبت‌شده: {{ item.ballot_count|fa_digits }}
+        </p>
+        {% if can_run %}
+        <div class="as-actions">
+            {% if item.state == 'waiting' and assembly.status == S.IN_SESSION %}
+            <form method="post">{% csrf_token %}<input type="hidden" name="action" value="open"><input type="hidden" name="item" value="{{ item.pk }}"><input type="hidden" name="anchor" value="#item-{{ item.pk }}">
+                <label>مدت (دقیقه، خالی = تا بستن دستی) <input type="number" name="minutes" min="1" style="width:6em"></label>
+                <label><input type="checkbox" name="notify" value="1"> خبر به اعضا با ایمیل و پیامک</label>
+                <button class="button" type="submit">باز کردن رأی‌گیری</button></form>
+            {% endif %}
+            {% if item.state == 'open' or item.state == 'closed' %}
+            <form method="post">{% csrf_token %}<input type="hidden" name="action" value="close"><input type="hidden" name="item" value="{{ item.pk }}"><input type="hidden" name="anchor" value="#item-{{ item.pk }}"><button class="button" type="submit" data-confirm="رأی‌گیری بسته و نتیجه شمرده شود؟ {% if has_paper %}پیش از آن آرای کاغذی را ثبت کنید.{% endif %}">بستن و شمارش</button></form>
+            {% endif %}
+            {% if item.editable %}
+            <a class="button button-secondary" href="{% url 'assembly_items:edit' item.pk %}">ویرایش بند</a>
+            {% endif %}
+        </div>
+        {% if has_paper and item.state != 'counted' and item.choices and assembly.status == S.IN_SESSION %}
+        <form method="post" class="as-paper">{% csrf_token %}<input type="hidden" name="action" value="paper"><input type="hidden" name="item" value="{{ item.pk }}"><input type="hidden" name="anchor" value="#item-{{ item.pk }}">
+            <table class="listing"><thead><tr><th>آرای کاغذی</th>{% for l in group_labels %}<th>{{ l }}</th>{% endfor %}</tr></thead>
+            <tbody>{% for row in item.paper_rows %}<tr><td>{{ row.label }}</td>{% for c in row.cells %}<td><input type="number" min="0" name="t-{{ row.option.pk }}-{{ c.group }}" value="{{ c.value }}" style="width:6em"></td>{% endfor %}</tr>{% endfor %}</tbody></table>
+            <button class="button button-secondary" type="submit">ثبت آرای کاغذی</button>
+        </form>
+        {% endif %}
+        {% endif %}
+        {% if item.result %}
+        <table class="listing as-result">
+            <thead><tr><th>گزینه</th>{% for l in group_labels %}<th>{{ l }}</th>{% endfor %}<th>جمع آرا</th><th>امتیاز وزنی</th></tr></thead>
+            <tbody>{% for r in item.result_rows %}<tr{% if r.elected %} class="as-elected"{% endif %}><td>{{ r.label }}{% if r.elected %} ✓ منتخب{% endif %}</td>{% for n in r.counts %}<td>{{ n|fa_digits }}</td>{% endfor %}<td>{{ r.votes|fa_digits }}</td><td>{{ r.score|fa_digits }}٪</td></tr>{% endfor %}</tbody>
+        </table>
+        <p><strong>{% if item.kind == 'election' %}{% if item.result.passed %}منتخبان مشخص شدند{% else %}منتخبی مشخص نشد{% endif %}{% elif item.result.passed %}تصویب شد{% else %}تصویب نشد{% endif %}</strong>
+            · حضور: {{ item.result.quorum|fa_digits }}٪ {% if item.result.quorum_met %}(با رسمیت){% else %}<span class="as-bad">(بدون حد نصاب)</span>{% endif %}
+            {% if item.result.tie %} · <span class="as-bad">تساوی برای آخرین کرسی؛ تصمیم با مجمع (مثلاً رأی‌گیری دوباره)</span>{% endif %}</p>
+        {% if item.named_votes %}<details><summary>آرای علنی به تفکیک عضو</summary><ul>{% for label, names in item.named_votes %}<li><strong>{{ label }}:</strong> {{ names|join:"، " }}</li>{% endfor %}</ul></details>{% endif %}
+        {% endif %}
+        {% endif %}
+    </div>
+    {% empty %}<p>هنوز بندی در دستور جلسه نیست.</p>{% endfor %}
+</section>
+
+<section class="as-box" id="roll">
+    <h2>دفتر حاضران و وکالت‌ها</h2>
+    {% if not participants %}<p>دفتر حاضران هنوز ساخته نشده است؛ با «به‌روزرسانی دفتر حاضران» یا ارسال دعوت‌نامه، همه اعضای رسمی افزوده می‌شوند.</p>{% else %}
+    <table class="listing">
+        <thead><tr><th>عضو</th><th>گروه</th><th>حضور</th><th>وکالت</th></tr></thead>
+        <tbody>
+        {% for p in participants %}
+        <tr>
+            <td>{{ p.member.name }}</td>
+            <td>{{ p.get_group_display }}</td>
+            <td>
+                {% if can_run and not p.proxy_holder_id and assembly.status != S.ENDED and assembly.status != S.CANCELLED and assembly.status != S.DRAFT %}
+                <form method="post" class="as-inline">{% csrf_token %}<input type="hidden" name="action" value="presence"><input type="hidden" name="participant" value="{{ p.pk }}"><input type="hidden" name="anchor" value="#roll">
+                    <select name="presence" onchange="this.form.submit()">{% for value, label in presence_choices %}<option value="{{ value }}"{% if value == p.presence %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+                </form>
+                {% else %}{{ p.get_presence_display }}{% endif %}
+                {% if p.present_at %}<small>{{ p.present_at|jdatetime_fa }}</small>{% endif %}
+            </td>
+            <td>{% if p.proxy_holder_id %}وکیل: {{ p.proxy_holder.member.name }}{% if p.proxy_reference %} ({{ p.proxy_reference }}){% endif %}
+                {% if can_run and not assembly.roll_is_frozen %}<form method="post" class="as-inline">{% csrf_token %}<input type="hidden" name="action" value="unproxy"><input type="hidden" name="principal" value="{{ p.pk }}"><input type="hidden" name="anchor" value="#roll"><button class="button button-small button-secondary" type="submit">برداشتن</button></form>{% endif %}
+                {% else %}-{% endif %}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% if can_run and not assembly.roll_is_frozen %}
+    <form method="post" class="as-proxy">{% csrf_token %}<input type="hidden" name="action" value="proxy"><input type="hidden" name="anchor" value="#roll">
+        <h3>ثبت وکالت‌نامه</h3>
+        <p class="help">وکیل باید عضو رسمی همان گروه باشد و هر عضو حداکثر {{ settings.max_proxies_per_holder|fa_digits }} وکالت می‌پذیرد. نماینده معرفی‌شده عضو حقوقی وکیل نیست؛ او با حساب پنل همان عضو رأی می‌دهد.</p>
+        <label>موکل (رأی‌اش را می‌سپارد) <select name="principal">{% for p in participants %}{% if not p.proxy_holder_id %}<option value="{{ p.pk }}">{{ p.member.name }} ({{ p.get_group_display }})</option>{% endif %}{% endfor %}</select></label>
+        <label>وکیل <select name="holder">{% for p in participants %}{% if not p.proxy_holder_id %}<option value="{{ p.pk }}">{{ p.member.name }} ({{ p.get_group_display }})</option>{% endif %}{% endfor %}</select></label>
+        <label>شماره یا تاریخ وکالت‌نامه <input type="text" name="reference" maxlength="200"></label>
+        <button class="button" type="submit">ثبت وکالت</button>
+    </form>
+    {% endif %}
+    {% endif %}
+</section>
+
+<section class="as-box" id="log">
+    <h2>سوابق جلسه</h2>
+    {% if log %}<ul class="as-log">{% for e in log %}<li><small>{{ e.at|jdatetime_fa }}{% if e.user %} · {{ e.user.get_full_name|default:e.user.get_username }}{% endif %}</small> {{ e.text }}</li>{% endfor %}</ul>{% else %}<p>-</p>{% endif %}
+</section>
+
+<style>
+.as-summary { display:grid; gap:.4rem; margin-block:1rem; }
+.as-actions { display:flex; flex-wrap:wrap; gap:.75rem; align-items:center; margin-block:1rem; }
+.as-actions form { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; }
+.as-box { margin-block:2rem; }
+.as-item { border:1px solid var(--w-color-border-furniture, #ddd); border-radius:6px; padding:1rem; margin-block:1rem; }
+.as-item h3 small { font-weight:400; }
+.as-inline { display:inline-flex; gap:.5rem; align-items:center; }
+.as-proxy { display:flex; flex-wrap:wrap; gap:1rem; align-items:end; margin-top:1rem; }
+.as-proxy h3, .as-proxy .help { flex-basis:100%; margin:0; }
+.as-proxy label { display:flex; flex-direction:column; gap:.25rem; font-weight:600; }
+.as-good { color:#067647; font-weight:700; }
+.as-bad { color:#b42318; font-weight:700; }
+.as-elected td { font-weight:700; }
+.as-log { list-style:none; padding:0; display:grid; gap:.3rem; }
+</style>
+<script>
+document.querySelectorAll("[data-confirm]").forEach(function (b) {
+    b.addEventListener("click", function (e) { if (!window.confirm(b.dataset.confirm)) e.preventDefault(); });
+});
+</script>
+{% endblock %}

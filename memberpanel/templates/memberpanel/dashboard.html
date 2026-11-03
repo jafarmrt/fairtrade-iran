@@ -1,5 +1,5 @@
 {% extends "memberpanel/base.html" %}
-{% load wagtailcore_tags wagtailimages_tags membership_tags site_tags %}
+{% load date_tags wagtailcore_tags wagtailimages_tags membership_tags site_tags %}
 {% block heading %}{% if IS_EN %}Welcome{% else %}خوش آمدید{% endif %}{% if user.first_name %}{% if IS_EN %}, {% else %}، {% endif %}{{ user.first_name }}{% endif %}{% endblock %}
 {% block panel_content %}
 {% with s=panel_settings %}
@@ -29,6 +29,13 @@
             {% if m.open_dues.can_pay %}<p><a href="{% url 'panel:membership' m.pk %}">{% if IS_EN %}Pay and send the receipt{% else %}پرداخت و ارسال رسید{% endif %}</a></p>{% endif %}
         </div>
         {% endif %}
+        {% if m.assembly_seat %}{% with a=m.assembly_seat.assembly %}
+        <div class="notice{% if a.in_session %} notice--ok{% endif %} panel-assembly">
+            <p>{% if a.in_session %}{% if IS_EN %}The General Assembly is in session:{% else %}مجمع عمومی در حال برگزاری است:{% endif %}{% else %}{% if IS_EN %}You are invited:{% else %}دعوت به مجمع:{% endif %}{% endif %}
+            <strong>{% if IS_EN and a.title_en %}{{ a.title_en }}{% else %}{{ a.title }}{% endif %}</strong> · {{ a.starts_at|jdatetime }}</p>
+            <p><a href="{% url 'panel:assembly' m.pk a.pk %}">{% if a.in_session %}{% if IS_EN %}Attend and vote{% else %}حضور و رأی‌گیری{% endif %}{% else %}{% if IS_EN %}Invitation and agenda{% else %}دعوت‌نامه و دستور جلسه{% endif %}{% endif %}</a></p>
+        </div>
+        {% endwith %}{% endif %}
         {% if m.todo_orders %}
         <div class="notice panel-dues">
             <p>{% if IS_EN %}{{ m.todo_orders }} order(s) need your action.{% else %}{{ m.todo_orders|fa_digits }} سفارش منتظر اقدام شماست.{% endif %} <a href="{% url 'panel:orders' m.pk %}">{% if IS_EN %}See orders{% else %}دیدن سفارش‌ها{% endif %}</a></p>

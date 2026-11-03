@@ -1,0 +1,118 @@
+{% extends "memberpanel/base.html" %}
+{% load wagtailcore_tags date_tags membership_tags %}
+{% block heading %}{% if IS_EN and assembly.title_en %}{{ assembly.title_en }}{% else %}{{ assembly.title }}{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-layout">
+<div class="assembly">
+    <div class="card assembly-head">
+        <div class="track-card__head">
+            <div class="muted">{{ assembly.kind_display }} · {{ assembly.call_display }} · {{ assembly.mode_display }}</div>
+            <span class="status-badge status-badge--assembly-{{ assembly.status }}">{{ assembly.status_display }}</span>
+        </div>
+        <dl class="fee-list">
+            <div><dt>{% if IS_EN %}Starts{% else %}آغاز{% endif %}</dt><dd>{{ assembly.starts_at|jdatetime }}</dd></div>
+            {% if assembly.ends_at %}<div><dt>{% if IS_EN %}Ends (approx.){% else %}پایان (تقریبی){% endif %}</dt><dd>{{ assembly.ends_at|jdatetime }}</dd></div>{% endif %}
+            {% if assembly.location %}<div><dt>{% if IS_EN %}Place{% else %}محل{% endif %}</dt><dd class="wrap">{% if IS_EN and assembly.location_en %}{{ assembly.location_en }}{% else %}{{ assembly.location }}{% endif %}</dd></div>{% endif %}
+        </dl>
+        {% if seat and assembly.meeting_url and assembly.online_voting and assembly.status != 'ended' %}
+        <p class="panel-actions"><a class="btn btn--outline" href="{{ assembly.meeting_url }}" target="_blank" rel="noopener">{% if IS_EN %}Join the online meeting{% else %}ورود به جلسه برخط{% endif %}</a></p>
+        {% endif %}
+        {% if IS_EN and assembly.description_en %}<div class="prose">{{ assembly.description_en|richtext }}</div>{% elif assembly.description %}<div class="prose">{{ assembly.description|richtext }}</div>{% endif %}
+    </div>
+
+    <div class="notice{% if not seat %} notice--error{% endif %} assembly-right">
+        {% if seat %}
+            <p>{% if IS_EN %}You are on the roll in the group <strong>{{ seat.group_display }}</strong>.{% else %}شما در گروه <strong>{{ seat.group_display }}</strong> حق رأی دارید.{% endif %}
+            {% if seat.proxy_holder_id %}{% if IS_EN %}Your vote is given by proxy to <strong>{% firstof seat.proxy_holder.member.name_en seat.proxy_holder.member.name %}</strong>{% else %}رأی شما به وکالت به <strong>{{ seat.proxy_holder.member.name }}</strong> سپرده شده است{% endif %}.{% endif %}
+            {% for r in rights %}{% if r.member_id != member.pk %} {% if IS_EN %}You also vote by proxy for <strong>{% firstof r.member.name_en r.member.name %}</strong>.{% else %}به وکالت از <strong>{{ r.member.name }}</strong> هم رأی می‌دهید.{% endif %}{% endif %}{% endfor %}</p>
+            {% if seat.presence %}<p>{{ seat.presence_display }}{% if seat.present_at %} · {{ seat.present_at|jdatetime }}{% endif %}</p>{% endif %}
+            {% if can_check_in %}<form method="post" action="{% url 'panel:assembly_check_in' member.pk assembly.pk %}">{% csrf_token %}<button class="btn btn--primary" type="submit">{% if IS_EN %}I am at the online session{% else %}اعلام حضور در جلسه برخط{% endif %}</button></form>{% endif %}
+            {% if seat.presence == 'in_person' or seat.proxy_holder.presence == 'in_person' %}<p>{% if IS_EN %}You are registered in the room, so you vote on paper in the session.{% else %}حضور شما در محل جلسه ثبت شده و رأی را در جلسه روی برگه می‌دهید.{% endif %}</p>{% endif %}
+        {% else %}
+            <p>{% if IS_EN %}{{ member.name_en|default:member.name }} is not on the roll of this assembly: only full members with voting rights at the time of the invitation vote.{% else %}«{{ member.name }}» در دفتر حاضران این مجمع نیست: فقط اعضای رسمی که هنگام دعوت حق رأی داشته‌اند رأی می‌دهند.{% endif %}</p>
+        {% endif %}
+    </div>
+
+    <h2 class="h3">{% if IS_EN %}Agenda{% else %}دستور جلسه{% endif %}</h2>
+    <ol class="assembly-items">
+    {% for item in items %}
+        <li class="card assembly-item" id="item-{{ item.pk }}">
+            <div class="track-card__head">
+                <h3 class="h4">{% if IS_EN and item.title_en %}{{ item.title_en }}{% else %}{{ item.title }}{% endif %}</h3>
+                <span class="badges">
+                    {% if item.has_vote %}<span class="badge">{% if item.kind == 'election' %}{{ item.kind_display }}{% else %}{{ item.majority_display }}{% endif %}</span>{% endif %}
+                    {% if item.secret %}<span class="badge badge--gold">{% if IS_EN %}Secret ballot{% else %}رأی مخفی{% endif %}</span>{% endif %}
+                </span>
+            </div>
+            {% if IS_EN and item.description_en %}<div class="prose">{{ item.description_en|richtext }}</div>{% elif item.description %}<div class="prose">{{ item.description|richtext }}</div>{% endif %}
+
+            {% if item.has_vote %}
+                {% if item.state == 'open' %}
+                    <p class="assembly-state assembly-state--open">{% if IS_EN %}Voting is open{% else %}رأی‌گیری باز است{% endif %}{% if item.closes_at %} · {% if IS_EN %}until{% else %}تا{% endif %} {{ item.closes_at|jdatetime }}{% endif %}</p>
+                    {% for b in item.ballots_for %}
+                        {% if b.done %}
+                            <p class="notice notice--ok">✓ {% if b.proxy %}{% if IS_EN %}The proxy vote for {% firstof b.seat.member.name_en b.seat.member.name %} is recorded.{% else %}رأی وکالتی {{ b.seat.member.name }} ثبت شده است.{% endif %}{% else %}{% if IS_EN %}Your vote is recorded.{% else %}رأی شما ثبت شده است.{% endif %}{% endif %}</p>
+                        {% elif votes_online %}
+                            <form class="form ballot" method="post" action="{% url 'panel:assembly_vote' member.pk assembly.pk item.pk %}" {% if item.kind == 'election' %} data-max="{{ item.seats }}"{% endif %} data-confirm="{% if IS_EN %}A vote cannot be changed once recorded. Send it?{% else %}رأی پس از ثبت تغییر نمی‌کند. ارسال شود؟{% endif %}">
+                                {% csrf_token %}
+                                <input type="hidden" name="seat" value="{{ b.seat.pk }}">
+                                <fieldset>
+                                    <legend>{% if b.proxy %}{% if IS_EN %}Proxy vote for {% firstof b.seat.member.name_en b.seat.member.name %}{% else %}رأی وکالتی از طرف {{ b.seat.member.name }}{% endif %}{% else %}{% if IS_EN %}Your vote{% else %}رأی شما{% endif %}{% endif %}</legend>
+                                    {% if item.kind == 'election' %}<p class="helptext">{% if IS_EN %}Choose up to {{ item.seats }}. Sending with nothing chosen is a blank vote.{% else %}حداکثر {{ item.seats|fa_digits }} نامزد را انتخاب کنید. ارسال بدون انتخاب یعنی رأی سفید.{% endif %}</p>{% endif %}
+                                    {% for o in item.choices %}
+                                    <label class="ballot__choice"><input type="{% if item.kind == 'election' %}checkbox{% else %}radio{% endif %}" name="option" value="{{ o.pk }}"{% if item.kind == 'resolution' %} required{% endif %}>
+                                        <span>{% if IS_EN and o.label_en %}{{ o.label_en }}{% else %}{{ o.label }}{% endif %}{% if o.note %} <small class="muted">{% if IS_EN and o.note_en %}{{ o.note_en }}{% else %}{{ o.note }}{% endif %}</small>{% endif %}</span></label>
+                                    {% endfor %}
+                                </fieldset>
+                                {% if item.secret %}<p class="helptext">{% if IS_EN %}{{ assembly_settings.secret_note_en }}{% else %}{{ assembly_settings.secret_note }}{% endif %}</p>{% endif %}
+                                <button class="btn btn--primary" type="submit">{% if IS_EN %}Send vote{% else %}ثبت رأی{% endif %}</button>
+                            </form>
+                        {% endif %}
+                    {% endfor %}
+                {% elif item.state == 'waiting' %}
+                    <p class="assembly-state">{% if IS_EN %}Voting has not opened yet.{% else %}رأی‌گیری هنوز آغاز نشده است.{% endif %}</p>
+                {% else %}
+                    <p class="assembly-state">{% if IS_EN %}Voting is closed.{% else %}رأی‌گیری بسته شده است.{% endif %}{% for b in item.ballots_for %}{% if b.done %} ✓ {% if b.proxy %}{% if IS_EN %}Proxy vote recorded.{% else %}رأی وکالتی ثبت شد.{% endif %}{% else %}{% if IS_EN %}You voted.{% else %}رأی داده‌اید.{% endif %}{% endif %}{% endif %}{% endfor %}</p>
+                {% endif %}
+
+                {% if item.result_rows %}
+                <div class="assembly-result" id="results">
+                    <p><strong>{% if item.kind == 'election' %}{% if item.result.passed %}{% if IS_EN %}Elected{% else %}منتخبان مشخص شدند{% endif %}{% else %}{% if IS_EN %}No one elected{% else %}منتخبی مشخص نشد{% endif %}{% endif %}{% elif item.result.passed %}{% if IS_EN %}Approved{% else %}تصویب شد{% endif %}{% else %}{% if IS_EN %}Not approved{% else %}تصویب نشد{% endif %}{% endif %}</strong>
+                    {% if not item.result.quorum_met %} · {% if IS_EN %}no quorum{% else %}بدون حد نصاب{% endif %}{% endif %}
+                    {% if item.result.tie %} · {% if IS_EN %}tie for the last seat{% else %}تساوی برای آخرین کرسی{% endif %}{% endif %}</p>
+                    <table class="result-table">
+                        <thead><tr><th>{% if IS_EN %}Option{% else %}گزینه{% endif %}</th><th>{% if IS_EN %}Votes{% else %}تعداد رأی{% endif %}</th><th>{% if IS_EN %}Weighted score{% else %}امتیاز وزنی{% endif %}</th></tr></thead>
+                        <tbody>{% for r in item.result_rows %}<tr{% if r.elected %} class="is-elected"{% endif %}><td>{{ r.label }}{% if r.elected %} ✓{% endif %}</td><td>{{ r.votes|fa_digits }}</td><td>{{ r.score|fa_digits }}٪</td></tr>{% endfor %}</tbody>
+                    </table>
+                    <p class="muted">{% if IS_EN %}Attendance: {{ item.result.quorum }}% of the weighted score.{% else %}حضور: {{ item.result.quorum|fa_digits }}٪ امتیاز وزنی.{% endif %}</p>
+                </div>
+                {% endif %}
+            {% endif %}
+        </li>
+    {% endfor %}
+    </ol>
+
+    {% if assembly.minutes_published %}
+    <h2 class="h3" id="minutes">{% if IS_EN %}Minutes{% else %}صورتجلسه{% endif %}</h2>
+    <div class="card">
+        {% if IS_EN and assembly.minutes_en %}<div class="prose">{{ assembly.minutes_en|richtext }}</div>{% elif assembly.minutes %}<div class="prose">{{ assembly.minutes|richtext }}</div>{% endif %}
+        {% if assembly.minutes_document %}<p><a class="btn btn--outline" href="{{ assembly.minutes_document.url }}">{% if IS_EN %}Signed minutes (file){% else %}فایل صورتجلسه امضاشده{% endif %}</a></p>{% endif %}
+    </div>
+    {% endif %}
+    <p><a href="{% url 'panel:assemblies' member.pk %}">{% if IS_EN %}All assemblies{% else %}همه مجامع{% endif %}</a></p>
+</div>
+{% include "memberpanel/includes/help.html" %}
+</div>
+<script>
+document.querySelectorAll("form[data-confirm]").forEach(function (f) {
+    f.addEventListener("submit", function (e) { if (!window.confirm(f.dataset.confirm)) e.preventDefault(); });
+});
+document.querySelectorAll("form.ballot[data-max]").forEach(function (f) {
+    var max = parseInt(f.dataset.max, 10), boxes = f.querySelectorAll("input[type=checkbox]");
+    boxes.forEach(function (b) { b.addEventListener("change", function () {
+        var n = f.querySelectorAll("input[type=checkbox]:checked").length;
+        boxes.forEach(function (o) { o.disabled = !o.checked && n >= max; });
+    }); });
+});
+</script>
+{% endblock %}
