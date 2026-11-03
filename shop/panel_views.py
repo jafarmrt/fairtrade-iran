@@ -95,13 +95,9 @@ def order_detail(request, member, order_id):
 def refund_amount(value, order):
     """The refund amount typed in the page's unit (toman or rial), in rials; empty means the whole order."""
     from core import money
-    from core.iran import only_digits
 
-    digits = only_digits(value or "")
-    if not digits:
-        return order.total
-    amount = int(digits)
-    return amount * 10 if money.primary_unit() == money.TOMAN else amount
+    amount = money.parse_amount(value)
+    return order.total if amount is None else amount
 
 
 @member_view(editing=False)

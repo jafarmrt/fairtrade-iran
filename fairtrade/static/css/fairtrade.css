@@ -370,7 +370,9 @@ html[lang="en"] .step::before { content: counter(step); }
 .site-footer ul { list-style: none; padding: 0; margin: 0; }
 .site-footer li { margin-bottom: 6px; }
 .site-footer__logo img { height: 64px; width: auto; }
-.site-footer__bottom { border-top: 1px solid rgba(255, 255, 255, 0.15); margin-top: 32px; padding-top: 16px; font-size: 0.875rem; }
+.site-footer__bottom { border-top: 1px solid rgba(255, 255, 255, 0.15); margin-top: 32px; padding-top: 16px; font-size: 0.875rem;
+  display: flex; flex-wrap: wrap; gap: 8px 24px; justify-content: space-between; align-items: center; }
+.site-footer__legal { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 4px 20px; }
 .site-footer__badges { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 24px; }
 .site-footer__badges img { background: #fff; border-radius: 8px; padding: 4px; }
 .social { display: flex; gap: 12px; flex-wrap: wrap; }

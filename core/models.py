@@ -71,13 +71,23 @@ class SiteSettings(BaseGenericSetting):
         _("نمایش مبلغ‌ها"), max_length=10, default="toman",
         choices=[("toman", _("تومان")), ("rial", _("ریال")), ("both", _("تومان، با ریال در پرانتز"))],
         help_text=_("مبلغ‌ها همیشه به ریال ذخیره و به درگاه فرستاده می‌شوند؛ این گزینه فقط شیوه نمایش را تعیین می‌کند. "
-                    "خانه‌های ورود مبلغ در پنل همچنان ریالی‌اند."),
+                    "مبلغ رسید حق عضویت و بازپرداخت سفارش به همین واحد نوشته می‌شود؛ قیمت محصول و هزینه‌ها در فرم‌ها ریالی‌اند."),
     )
 
     notification_email = models.EmailField(
         _("ایمیل دبیرخانه برای اعلان‌ها"), blank=True,
         help_text=_("درخواست‌های عضویت و پیام‌های تماس به این نشانی خبر داده می‌شوند"),
     )
+
+    privacy_page = models.ForeignKey(
+        "wagtailcore.Page", verbose_name=_("صفحه حریم خصوصی"), null=True, blank=True, on_delete=models.SET_NULL,
+        related_name="+")
+    terms_page = models.ForeignKey(
+        "wagtailcore.Page", verbose_name=_("صفحه قوانین و مقررات"), null=True, blank=True, on_delete=models.SET_NULL,
+        related_name="+")
+    returns_page = models.ForeignKey(
+        "wagtailcore.Page", verbose_name=_("صفحه شرایط بازگشت کالا"), null=True, blank=True, on_delete=models.SET_NULL,
+        related_name="+")
 
     panels = [
         MultiFieldPanel(
@@ -95,8 +105,28 @@ class SiteSettings(BaseGenericSetting):
             heading=_("شبکه‌های اجتماعی"),
         ),
         MultiFieldPanel([FieldPanel("footer_text"), FieldPanel("footer_text_en")], heading=_("پانویس")),
+        MultiFieldPanel(
+            [FieldPanel("privacy_page"), FieldPanel("terms_page"), FieldPanel("returns_page")],
+            heading=_("صفحه‌های حقوقی"),
+            help_text=_("پیوند این صفحه‌ها در پانویس همه صفحه‌ها و در صفحه ثبت سفارش می‌آید (نسخه انگلیسی در سایت انگلیسی)."),
+        ),
         FieldPanel("price_display"),
     ]
+
+    def legal_pages(self):
+        """(page, title) in the current language, for the footer and checkout; skips missing or unpublished ones."""
+        from wagtail.models import Locale
+
+        locale = Locale.get_active()
+        result = {}
+        for key in ("privacy", "terms", "returns"):
+            page = getattr(self, f"{key}_page")
+            if page is None:
+                continue
+            page = page.get_translation_or_none(locale) or page
+            if page.live:
+                result[key] = page
+        return result
 
     class Meta:
         verbose_name = _("تنظیمات سایت")

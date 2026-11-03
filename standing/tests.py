@@ -233,13 +233,18 @@ class PanelTests(StandingTestCase):
         response = self.client.get(url)
         self.assertContains(response, "6037 0000 0000 0000")
         mail.outbox.clear()
-        response = self.client.post(url, {"dues": dues.pk, "amount": "5000000", "reference": "R1",
+        # typed in the display unit (toman by default), with Persian digits: less than the fee is refused
+        response = self.client.post(url, {"dues": dues.pk, "amount": "۴۰۰٬۰۰۰", "reference": "R1",
+                                          "paid_on_text": "۱۴۰۵/۰۸/۱۲", "receipt": self.receipt()})
+        self.assertContains(response, "کمتر است")
+        response = self.client.post(url, {"dues": dues.pk, "amount": "۵۰۰٬۰۰۰", "reference": "R1",
                                           "paid_on_text": "۱۴۰۵/۰۸/۱۲", "receipt": self.receipt()})
         self.assertRedirects(response, url, fetch_redirect_response=False)
         dues.refresh_from_db()
         self.assertEqual(dues.status, Dues.Status.PENDING)
         self.assertTrue(any("sec@example.org" in m.to for m in mail.outbox))
         payment = dues.payments.get()
+        self.assertEqual(payment.amount, 5_000_000)  # stored in rials
         self.assertTrue(payment.receipt.path.startswith(PRIVATE))
         # English page works too.
         self.assertContains(self.client.get(f"/en/panel/{self.member.pk}/membership/"), "Annual membership fee")

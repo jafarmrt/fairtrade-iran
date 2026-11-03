@@ -38,6 +38,12 @@
             </fieldset>
             {% endif %}{% endfor %}
             {% tr shop "terms_text" as terms %}{% if terms %}<div class="card card--note prose checkout__terms">{{ terms|richtext }}</div>{% endif %}
+            {% with legal=settings.core.SiteSettings.legal_pages %}{% if legal.terms or legal.returns or legal.privacy %}
+            <p class="muted checkout__legal">{% if IS_EN %}Please read:{% else %}پیش از ثبت سفارش بخوانید:{% endif %}
+                {% if legal.terms %}<a href="{% pageurl legal.terms %}" target="_blank" rel="noopener">{{ legal.terms.title }}</a>{% endif %}
+                {% if legal.returns %}· <a href="{% pageurl legal.returns %}" target="_blank" rel="noopener">{{ legal.returns.title }}</a>{% endif %}
+                {% if legal.privacy %}· <a href="{% pageurl legal.privacy %}" target="_blank" rel="noopener">{{ legal.privacy.title }}</a>{% endif %}</p>
+            {% endif %}{% endwith %}
             {% include "membership/includes/field.html" with field=form.accept_terms %}
             <div class="visually-hidden" aria-hidden="true">{{ form.nickname }}</div>
             <button class="btn btn--primary btn--large" type="submit">{% if IS_EN %}Place order{% else %}ثبت سفارش{% endif %}</button>

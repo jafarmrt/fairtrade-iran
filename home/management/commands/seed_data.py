@@ -324,3 +324,158 @@ CONTACT_FIELDS = [
     ("موضوع", "Subject", "singleline", False),
     ("پیام", "Message", "multiline", True),
 ]
+
+
+# ---- Legal pages (privacy, terms, returns): starting text for the board to review and edit ----
+
+PRIVACY = {
+    "fa": {
+        "title": "حریم خصوصی",
+        "slug": "privacy",
+        "intro": "خانه تجارت عادلانه ایران با اطلاعات شما چه می‌کند",
+        "body": stream(
+            ("paragraph",
+             "<h2>چه اطلاعاتی می‌گیریم</h2><p>فقط اطلاعاتی را که خودتان در فرم‌ها می‌نویسید نگه می‌داریم: در خرید از فروشگاه "
+             "نام، شماره موبایل، ایمیل و نشانی ارسال؛ در درخواست عضویت اطلاعات مجموعه، پاسخ پرسش‌ها و مدارک؛ در فرم تماس و "
+             "شکایت متن پیام و راه تماس شما. شماره کارت بانکی شما را نمی‌گیریم؛ پرداخت آنلاین در درگاه بانک انجام می‌شود.</p>"),
+            ("paragraph",
+             "<h2>برای چه کاری</h2><p>برای رساندن سفارش، فرستادن رسید و خبر وضعیت سفارش (با ایمیل و پیامک)، بررسی درخواست "
+             "عضویت طبق سند ارکان، و پاسخ به پیام‌ها و شکایت‌ها. اطلاعات شما را نمی‌فروشیم و برای تبلیغ به دیگران نمی‌دهیم.</p>"),
+            ("paragraph",
+             "<h2>چه کسی آن را می‌بیند</h2><p>اطلاعات ارسال سفارش را تولیدکننده‌ای که از او خرید کرده‌اید و دبیرخانه می‌بینند. "
+             "مدارک عضویت را دبیرخانه و کمیسیون نظارتی، و شکایت‌های محرمانه را فقط کمیسیون نظارتی می‌بیند. "
+             "این فایل‌ها در بخش جداگانه‌ای از سرور نگه داشته می‌شوند و نشانی عمومی ندارند.</p>"),
+            ("paragraph",
+             "<h2>کوکی‌ها</h2><p>سایت فقط کوکی‌های لازم برای کار خود را دارد: سبد خرید، ورود به پنل و زبان صفحه. "
+             "ابزار ردیابی تبلیغاتی به‌کار نمی‌بریم.</p>"),
+            ("paragraph",
+             "<h2>دسترسی و حذف</h2><p>می‌توانید دیدن، اصلاح یا حذف اطلاعات خود را از دبیرخانه بخواهید؛ از صفحه «تماس با ما» "
+             "پیام بفرستید. اطلاعاتی که قانون یا حساب‌رسی نگه‌داشتن آن را لازم می‌داند (مثل سابقه سفارش‌ها) تا زمان لازم نگه داشته می‌شود.</p>"),
+        ),
+    },
+    "en": {
+        "title": "Privacy",
+        "slug": "privacy",
+        "intro": "What the Fair Trade House of Iran does with your information",
+        "body": stream(
+            ("paragraph",
+             "<h2>What we collect</h2><p>Only what you type into our forms: for an order, your name, mobile number, e-mail "
+             "and delivery address; for a membership application, details of your organisation, your answers and "
+             "documents; for the contact and complaint forms, your message and how to reach you. We never receive your "
+             "card number: online payments are made on the bank's own payment page.</p>"),
+            ("paragraph",
+             "<h2>What for</h2><p>To deliver your order and keep you informed about it (by e-mail and SMS), to review "
+             "membership applications as our governance document requires, and to answer messages and complaints. We do "
+             "not sell your information or give it to others for advertising.</p>"),
+            ("paragraph",
+             "<h2>Who sees it</h2><p>Your delivery details are seen by the producer you bought from and by the "
+             "secretariat. Membership documents are seen by the secretariat and the Supervisory Commission; confidential "
+             "complaints only by the Supervisory Commission. These files are kept apart on the server and have no public "
+             "address.</p>"),
+            ("paragraph",
+             "<h2>Cookies</h2><p>The site only uses the cookies it needs to work: your cart, signing in to the member "
+             "panel, and the page language. We use no advertising trackers.</p>"),
+            ("paragraph",
+             "<h2>Access and deletion</h2><p>You can ask the secretariat to show, correct or delete your information; "
+             "write to us from the Contact page. Information the law or our accounts require us to keep (such as order "
+             "records) is kept for as long as needed.</p>"),
+        ),
+    },
+}
+
+TERMS = {
+    "fa": {
+        "title": "قوانین و مقررات",
+        "slug": "terms",
+        "intro": "شرایط استفاده از سایت و خرید از فروشگاه خانه تجارت عادلانه ایران",
+        "body": stream(
+            ("paragraph",
+             "<h2>فروشنده کیست</h2><p>محصولات فروشگاه را اعضای تولیدکننده خانه تجارت عادلانه می‌سازند و می‌فروشند. "
+             "نام تولیدکننده روی هر محصول و در فاکتور آمده است. در بعضی سفارش‌ها مبلغ به حساب خانه و در بعضی مستقیم به حساب "
+             "تولیدکننده پرداخت می‌شود؛ این را پیش از پرداخت در صفحه سفارش می‌بینید.</p>"),
+            ("paragraph",
+             "<h2>قیمت و پرداخت</h2><p>قیمت‌ها به تومان (یا ریال) و با هزینه ارسال جدا نوشته شده‌اند. سفارش پس از تأیید "
+             "پرداخت آماده و ارسال می‌شود. اگر سفارش در مهلت اعلام‌شده پرداخت نشود، به‌طور خودکار لغو می‌شود.</p>"),
+            ("paragraph",
+             "<h2>ارسال</h2><p>هر تولیدکننده سفارش خود را جداگانه و با روشی که هنگام سفارش انتخاب کرده‌اید می‌فرستد و کد "
+             "رهگیری را برایتان پیامک یا ایمیل می‌کند. زمان آماده‌سازی هر تولیدکننده در صفحه سبد خرید آمده است.</p>"),
+            ("paragraph",
+             "<h2>بازگشت کالا و شکایت</h2><p>شرایط بازگشت کالا در صفحه «شرایط بازگشت کالا» آمده است. اگر از خرید یا رفتار "
+             "یک عضو ناراضی هستید، از صفحه شکایت به کمیسیون نظارتی بنویسید. حقوق شما طبق قانون حمایت از حقوق مصرف‌کنندگان "
+             "محفوظ است.</p>"),
+            ("paragraph",
+             "<h2>محتوای سایت</h2><p>متن‌ها و تصاویر سایت از آنِ خانه تجارت عادلانه و اعضای آن است؛ استفاده از آن‌ها با ذکر "
+             "منبع آزاد است، مگر برای فروش. این شرایط ممکن است به‌روز شود.</p>"),
+        ),
+    },
+    "en": {
+        "title": "Terms and conditions",
+        "slug": "terms",
+        "intro": "Terms of using the site and buying from the Fair Trade House of Iran's shop",
+        "body": stream(
+            ("paragraph",
+             "<h2>Who sells</h2><p>The products in the shop are made and sold by producer members of the Fair Trade "
+             "House. The producer is named on every product and on the invoice. For some orders you pay the House, for "
+             "others the producer directly; the order page shows which before you pay.</p>"),
+            ("paragraph",
+             "<h2>Prices and payment</h2><p>Prices are in tomans (or rials), with shipping shown separately. An order is "
+             "prepared and shipped once its payment is confirmed. An order not paid within the stated time is cancelled "
+             "automatically.</p>"),
+            ("paragraph",
+             "<h2>Shipping</h2><p>Each producer ships their part of your order separately, by the method you chose at "
+             "checkout, and sends you the tracking code by SMS or e-mail. Each producer's preparation time is shown in "
+             "the cart.</p>"),
+            ("paragraph",
+             "<h2>Returns and complaints</h2><p>See the Returns page for how to return an item. If you are unhappy with a "
+             "purchase or with a member's conduct, write to the Supervisory Commission from the complaints page. Your "
+             "rights under Iran's consumer protection law are not affected.</p>"),
+            ("paragraph",
+             "<h2>Site content</h2><p>The texts and pictures on the site belong to the Fair Trade House and its members; "
+             "you may use them with credit, but not to sell. These terms may be updated.</p>"),
+        ),
+    },
+}
+
+RETURNS = {
+    "fa": {
+        "title": "شرایط بازگشت کالا",
+        "slug": "returns",
+        "intro": "اگر کالایی که خریده‌اید سالم نرسید یا با توضیحات آن نمی‌خواند",
+        "body": stream(
+            ("paragraph",
+             "<h2>چه زمانی</h2><p>تا چند روز پس از ارسال یا تحویل (مهلتی که در صفحه سفارش می‌بینید) می‌توانید از همان صفحه "
+             "«درخواست مرجوعی» بدهید و دلیل آن را بنویسید. تولیدکننده و دبیرخانه خبردار می‌شوند و با شما تماس می‌گیرند.</p>"),
+            ("paragraph",
+             "<h2>چه کالایی</h2><p>کالای آسیب‌دیده، اشتباه یا متفاوت با توضیحات سایت پس گرفته می‌شود. کالای خوراکی بازشده، "
+             "کالای سفارشی که به خواست شما ساخته شده و کالایی که پس از تحویل آسیب دیده، معمولاً پس گرفته نمی‌شود، مگر "
+             "تولیدکننده بپذیرد.</p>"),
+            ("paragraph",
+             "<h2>هزینه ارسال برگشت</h2><p>اگر ایراد از کالا یا ارسال باشد، هزینه برگشت با فروشنده است؛ در غیر این صورت با "
+             "خریدار. پیش از فرستادن کالا با فروشنده هماهنگ کنید.</p>"),
+            ("paragraph",
+             "<h2>بازپرداخت</h2><p>پس از رسیدن کالا و بررسی آن، مبلغ به کارت یا شبای شما بازگردانده می‌شود و نتیجه را "
+             "با پیامک و ایمیل خبر می‌دهیم. سفارش‌هایی که به حساب خانه پرداخت شده‌اند را دبیرخانه و سفارش‌های پرداخت مستقیم "
+             "را خود تولیدکننده بازپرداخت می‌کند.</p>"),
+        ),
+    },
+    "en": {
+        "title": "Returns",
+        "slug": "returns",
+        "intro": "If an item arrives damaged or is not as described",
+        "body": stream(
+            ("paragraph",
+             "<h2>When</h2><p>Within the days shown on your order page after shipping or delivery, use \"Return this "
+             "order\" on that page and say why. The producer and the secretariat are told and will contact you.</p>"),
+            ("paragraph",
+             "<h2>Which items</h2><p>Items that arrive damaged, wrong or not as described are taken back. Opened food, "
+             "items made to your order and items damaged after delivery are usually not, unless the producer agrees.</p>"),
+            ("paragraph",
+             "<h2>Return shipping</h2><p>If the fault is with the item or its delivery, the seller pays for return "
+             "shipping; otherwise the buyer does. Please agree with the seller before sending anything back.</p>"),
+            ("paragraph",
+             "<h2>Refunds</h2><p>Once the item is back and checked, the money is paid back to your card or account and "
+             "we tell you by SMS and e-mail. Orders paid to the House are refunded by the secretariat; orders paid "
+             "directly to a producer, by the producer.</p>"),
+        ),
+    },
+}

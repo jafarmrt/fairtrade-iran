@@ -121,9 +121,9 @@ def seo_head(context):
             og_type = "article"
     description = _clean(description) or _clean(seo.tr("default_description"))
 
-    image_url = _rendition_url(request, image, "fill-1200x630") if image else ""
+    image_url = _rendition_url(request, image, "fill-1200x630|format-jpeg") if image else ""
     if not image_url:
-        image_url = _rendition_url(request, seo.share_image, "fill-1200x630")
+        image_url = _rendition_url(request, seo.share_image, "fill-1200x630|format-jpeg")
 
     canonical = request.build_absolute_uri(request.path)
     page_number = request.GET.get("page", "")

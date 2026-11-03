@@ -1,6 +1,7 @@
 from django import forms
 from django.core.validators import MaxValueValidator
 
+from core import money
 from core.models import MembershipSettings, is_english
 from membership.forms import check_upload
 
@@ -16,7 +17,7 @@ class ReceiptForm(forms.Form):
     """The member sends the receipt of an annual fee payment from the panel."""
 
     dues = forms.ModelChoiceField(queryset=Dues.objects.none())
-    amount = forms.IntegerField(min_value=1)
+    amount = forms.CharField(max_length=30)
     reference = forms.CharField(max_length=100, required=False)
     paid_on_text = forms.CharField(max_length=40, required=False)
     receipt = forms.FileField()
@@ -29,13 +30,13 @@ class ReceiptForm(forms.Form):
         first = payable.first()
         if first is not None:
             self.fields["dues"].initial = first.pk
-            self.fields["amount"].initial = first.amount
+            self.fields["amount"].initial = money.number(first.amount, money.primary_unit(), "en")
         if payable.count() == 1:
             self.fields["dues"].widget = forms.HiddenInput()
         self.fields["dues"].label_from_instance = lambda d: t(f"حق عضویت سال {d.year}", f"Membership fee {d.year}")
         labels = {
             "dues": ("بابت", "For"),
-            "amount": ("مبلغ واریزی (ریال)", "Amount paid (rials)"),
+            "amount": (f"مبلغ واریزی ({money.unit_label('fa')})", f"Amount paid ({money.unit_label('en')})"),
             "reference": ("شماره پیگیری یا شماره سند", "Transaction or reference number"),
             "paid_on_text": ("تاریخ واریز", "Date of payment"),
             "receipt": ("تصویر یا فایل رسید", "Photo or file of the receipt"),
@@ -47,6 +48,24 @@ class ReceiptForm(forms.Form):
         self.fields["paid_on_text"].help_text = t("مثلاً ۱۴۰۵/۰۸/۱۲", "e.g. 2026-11-03")
         for name in ("amount", "reference"):
             self.fields[name].widget.attrs["dir"] = "ltr"
+        self.fields["amount"].widget.attrs["inputmode"] = "numeric"
+
+    def clean_amount(self):
+        amount = money.parse_amount(self.cleaned_data.get("amount"))
+        if not amount:
+            raise forms.ValidationError(t("مبلغ واریزی را با عدد بنویسید.", "Please enter the amount paid as a number."))
+        return amount
+
+    def clean(self):
+        cleaned = super().clean()
+        dues, amount = cleaned.get("dues"), cleaned.get("amount")
+        if dues is not None and amount is not None and amount < dues.amount:
+            self.add_error("amount", t(
+                f"مبلغ واریزی از حق عضویت سال {dues.year} ({money.amount(dues.amount, 'fa')}) کمتر است. "
+                "اگر بخشی را پرداخته‌اید، با دبیرخانه هماهنگ کنید.",
+                f"This is less than the {dues.year} membership fee ({money.amount(dues.amount, 'en')}). "
+                "If you paid part of it, please contact the secretariat."))
+        return cleaned
 
     def clean_receipt(self):
         upload = self.cleaned_data.get("receipt")

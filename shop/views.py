@@ -78,7 +78,10 @@ def checkout(page, request):
     groups = cart.groups()
     if not groups:
         return redirect(sub(page, "cart"))
-    has_terms = bool(shop.tr("terms_text"))
+    from core.models import SiteSettings
+
+    legal = SiteSettings.load(request_or_site=request).legal_pages()
+    has_terms = bool(shop.tr("terms_text")) or "terms" in legal or "returns" in legal
     form = CheckoutForm(request.POST or None, has_terms=has_terms)
     if request.method == "POST":
         for group in groups:  # the buyer's choice of shipping for each producer
@@ -150,12 +153,9 @@ def order_view(page, request, code):
                 raise Http404
             reason = request.POST.get("reason", "")[:2000]
             try:
-                if not reason.strip():
-                    raise services.OrderError(t("دلیل مرجوعی را بنویسید.", "Please write why you are returning it."))
                 services.request_return(order, reason)
-            except services.OrderError:
-                messages.error(request, t("برای این سفارش دیگر نمی‌توان درخواست مرجوعی داد، یا دلیل آن نوشته نشده است.",
-                                          "A return can no longer be requested for this order, or the reason is missing."))
+            except services.OrderError as e:
+                messages.error(request, str(e))
             else:
                 messages.success(request, t("درخواست مرجوعی ثبت شد و به فروشنده و دبیرخانه خبر داده شد.",
                                             "Your return request was sent to the producer and the secretariat."))
