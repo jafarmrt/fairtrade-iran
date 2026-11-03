@@ -18,7 +18,6 @@ import secrets
 import uuid
 
 from django.conf import settings
-from django.core.files.storage import FileSystemStorage
 from django.db import models
 from django.utils import timezone
 from wagtail import blocks
@@ -28,6 +27,7 @@ from wagtail.fields import RichTextField, StreamField
 from wagtail.models import Page
 from wagtail.search import index
 
+from archive.storage import PrivateStorage
 from core.blocks import BodyBlock
 from core.models import BilingualMixin, is_english
 
@@ -117,31 +117,23 @@ def add_months(day, months):
 # ---------------------------------------------------------------------------
 
 
-class PrivateStorage(FileSystemStorage):
-    """Files outside MEDIA_ROOT with no public URL; served only by a staff-checked view."""
+class ApplicationStorage(PrivateStorage):
+    """PRIVATE_MEDIA_ROOT/membership/, with no public URL; served only by a staff-checked view."""
 
     def __init__(self):
-        super().__init__(base_url=None)
-
-    @property
-    def base_location(self):
-        return settings.PRIVATE_MEDIA_ROOT
-
-    @property
-    def location(self):
-        return os.path.abspath(self.base_location)
+        super().__init__("membership")
 
     def url(self, name):
         raise ValueError("Private files have no public URL.")
 
 
 def private_storage():
-    return PrivateStorage()
+    return ApplicationStorage()
 
 
 def application_upload_to(instance, filename):
     ext = os.path.splitext(filename)[1].lower()[:10]
-    return f"membership/{instance.application.tracking_code}/{uuid.uuid4().hex}{ext}"
+    return f"{instance.application.tracking_code}/{uuid.uuid4().hex}{ext}"
 
 
 # ---------------------------------------------------------------------------
