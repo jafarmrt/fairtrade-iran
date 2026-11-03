@@ -344,4 +344,18 @@ DEFAULT_EMAILS = {
         "Order {code} ({member}) has been cancelled.\n\n{message}\n\nAny amount already paid will be refunded. "
         "Details:\n{order_url}" + SIGN_EN,
     ),
+    "order_return_request": (
+        "درخواست مرجوعی سفارش {code}",
+        "خریدار برای سفارش {code} ({member}) درخواست مرجوعی داده است.\n\nدلیل:\n{message}\n\n"
+        "پس از دریافت کالا، بازپرداخت را در صفحه سفارش ثبت کنید:\n{panel_url}\n{admin_url}" + SIGN_FA,
+        "", "",
+    ),
+    "order_refunded": (
+        "بازپرداخت سفارش {code}",
+        "{name} گرامی،\n\nمرجوعی سفارش {code} ({member}) ثبت و مبلغ آن بازپرداخت شد.\n\n{message}\n\n"
+        "جزئیات:\n{order_url}" + SIGN_FA,
+        "Refund for order {code}",
+        "Dear {name},\n\nThe return of order {code} ({member}) is recorded and the amount has been refunded.\n\n"
+        "{message}\n\nDetails:\n{order_url}" + SIGN_EN,
+    ),
 }

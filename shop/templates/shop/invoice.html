@@ -1,0 +1,71 @@
+{% load static site_tags membership_tags date_tags %}<!DOCTYPE html>
+<html lang="{{ LANG }}" dir="{{ DIR }}">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>{% if IS_EN %}Invoice{% else %}فاکتور فروش{% endif %} {{ order.code }}</title>
+<link rel="stylesheet" href="{% static 'css/fairtrade.css' %}">
+</head>
+<body class="invoice-page">
+<div class="invoice-tools no-print">
+    {% if back_url %}<a class="btn btn--outline" href="{{ back_url }}">{% if IS_EN %}Back to the order{% else %}بازگشت به سفارش{% endif %}</a>{% endif %}
+    <button class="btn btn--primary" type="button" id="print-invoice">{% if IS_EN %}Print or save as PDF{% else %}چاپ یا ذخیره PDF{% endif %}</button>
+</div>
+<main class="invoice">
+    <header class="invoice__head">
+        <div>
+            <h1>{% if IS_EN %}Invoice{% else %}فاکتور فروش{% endif %}</h1>
+            <p class="invoice__brand">{% tr site "site_name" %}</p>
+        </div>
+        <dl class="invoice__meta">
+            <div><dt>{% if IS_EN %}Order{% else %}شماره سفارش{% endif %}</dt><dd dir="ltr">{{ order.code }}</dd></div>
+            <div><dt>{% if IS_EN %}Date{% else %}تاریخ{% endif %}</dt><dd>{{ order.created_at|jdate }}</dd></div>
+            <div><dt>{% if IS_EN %}Status{% else %}وضعیت{% endif %}</dt><dd>{{ order.status_display }}</dd></div>
+        </dl>
+    </header>
+
+    <section class="invoice__parties">
+        <div>
+            <h2>{% if IS_EN %}Seller{% else %}فروشنده{% endif %}</h2>
+            <p><strong>{% tr order.member "name" %}</strong>{% tr order.member "city" as city %}{% if city %}، {{ city }}{% endif %}</p>
+            <p class="muted">{% if order.is_house %}{% if IS_EN %}Sold through the Fair Trade House; payment to the House.{% else %}فروش از طریق خانه تجارت عادلانه؛ پرداخت به حساب خانه.{% endif %}{% else %}{% if IS_EN %}Payment directly to the producer.{% else %}پرداخت مستقیم به تولیدکننده.{% endif %}{% endif %}</p>
+        </div>
+        <div>
+            <h2>{% if IS_EN %}Buyer{% else %}خریدار{% endif %}</h2>
+            <p dir="auto"><strong>{{ purchase.buyer_name }}</strong> · <span dir="ltr">{{ purchase.phone }}</span></p>
+            <p dir="auto">{{ purchase.full_address }}</p>
+        </div>
+    </section>
+
+    <div class="table-scroll"><table class="invoice__items">
+        <thead><tr>
+            <th>#</th><th>{% if IS_EN %}Item{% else %}شرح کالا{% endif %}</th>
+            <th class="num">{% if IS_EN %}Qty{% else %}تعداد{% endif %}</th>
+            <th class="num">{% if IS_EN %}Unit price{% else %}قیمت واحد{% endif %} ({% currency %})</th>
+            <th class="num">{% if IS_EN %}Amount{% else %}مبلغ{% endif %} ({% currency %})</th>
+        </tr></thead>
+        <tbody>{% for item in items %}
+            <tr><td>{{ forloop.counter|fa_digits }}</td><td>{{ item.tr_name }}</td><td class="num">{{ item.quantity|fa_digits }}</td>
+                <td class="num">{{ item.unit_price|money }}</td><td class="num">{{ item.line_total|money }}</td></tr>
+        {% endfor %}</tbody>
+        <tfoot>
+            <tr><td colspan="4">{% if IS_EN %}Items{% else %}جمع کالاها{% endif %}</td><td class="num">{{ order.subtotal|money }}</td></tr>
+            <tr><td colspan="4">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}{% if order.shipping_method %} · {{ order.shipping_method_display }}{% endif %}</td><td class="num">{{ order.shipping|money }}</td></tr>
+            <tr class="invoice__total"><td colspan="4">{% if IS_EN %}Total{% else %}مبلغ کل{% endif %}</td><td class="num">{{ order.total|amount }}</td></tr>
+        </tfoot>
+    </table></div>
+
+    <section class="invoice__payment">
+        {% if order.paid_at %}<p>{% if IS_EN %}Paid on{% else %}پرداخت شده در{% endif %} {{ order.paid_at|jdate }}{% if order.payment_reference %} · {% if IS_EN %}reference{% else %}شماره پیگیری{% endif %} <span dir="ltr">{{ order.payment_reference }}</span>{% endif %}</p>
+        {% else %}<p>{% if IS_EN %}Not paid yet.{% else %}هنوز پرداخت نشده است.{% endif %}</p>{% endif %}
+        {% if order.refunded_at %}<p>{% if IS_EN %}Returned and refunded on{% else %}مرجوع و بازپرداخت شده در{% endif %} {{ order.refunded_at|jdate }}: {{ order.refund_amount|amount }}</p>{% endif %}
+    </section>
+
+    <footer class="invoice__foot">
+        <p>{% if IS_EN %}This is a sales invoice, not an official tax invoice.{% else %}این فاکتور فروش است و صورتحساب رسمی مالیاتی نیست.{% endif %}</p>
+        <p>{% tr site "site_name" %}{% if site.phone %} · <span dir="ltr">{{ site.phone }}</span>{% endif %}{% if site.email %} · <span dir="ltr">{{ site.email }}</span>{% endif %}</p>
+    </footer>
+</main>
+<script nonce="{{ CSP_NONCE }}">document.getElementById("print-invoice").addEventListener("click", function () { window.print(); });</script>
+</body>
+</html>

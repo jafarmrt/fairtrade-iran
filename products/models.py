@@ -237,6 +237,10 @@ class ShopSettings(BaseGenericSetting):
         help_text="سهم خانه از مبلغ کالاهای هر سفارش (بدون هزینه ارسال). برای هر فروشنده می‌توان درصد جداگانه گذاشت. "
                   "در فروش با پرداخت به خانه از سهم تولیدکننده کم می‌شود؛ در پرداخت مستقیم، تولیدکننده آن را به خانه می‌پردازد.",
     )
+    return_days = models.PositiveSmallIntegerField(
+        "مهلت درخواست مرجوعی (روز)", default=7,
+        help_text="خریدار تا این چند روز پس از ارسال یا تحویل می‌تواند درخواست مرجوعی بدهد (حق انصراف قانون "
+                  "تجارت الکترونیکی هفت روز است). صفر یعنی دکمه درخواست مرجوعی نمایش داده نشود.")
     payment_days = models.PositiveSmallIntegerField(
         "مهلت پرداخت سفارش (روز)", default=3,
         help_text="سفارشی که تا این مدت پرداخت یا رسیدش فرستاده نشود، خودکار لغو و موجودی‌اش برگردانده می‌شود. ۰ یعنی لغو خودکار نشود.",
@@ -292,7 +296,7 @@ class ShopSettings(BaseGenericSetting):
         ObjectList([
             FieldPanel("cart_enabled"), FieldPanel("cart_enabled_en"),
             FieldPanel("add_to_cart_label"), FieldPanel("add_to_cart_label_en"),
-            FieldPanel("commission_percent"), FieldPanel("payment_days"),
+            FieldPanel("commission_percent"), FieldPanel("payment_days"), FieldPanel("return_days"),
             FieldPanel("checkout_text"), FieldPanel("checkout_text_en"),
             FieldPanel("terms_text"), FieldPanel("terms_text_en"),
             FieldPanel("order_notification_email"), FieldPanel("notify_staff_all_orders"),
@@ -433,6 +437,12 @@ class ProductIndexPage(RoutablePageMixin, Page):
         from shop.views import order_view
 
         return order_view(self, request, code)
+
+    @re_path(r"^order/(?P<code>[-A-Za-z0-9]+)/invoice/(?P<order_id>[0-9]+)/$", name="invoice")
+    def invoice(self, request, code, order_id):
+        from shop.views import invoice_view
+
+        return invoice_view(self, request, code, int(order_id))
 
     @re_path(r"^(?P<slug>[-\w]+)/$", name="product_detail")
     def product_detail(self, request, slug):

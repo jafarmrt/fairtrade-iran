@@ -203,3 +203,14 @@ def cancelled(order, was_paid, by):
         to_seller(order, "order_cancelled", order.cancel_reason)
     if was_paid and order.is_house:
         to_staff("order_cancelled", order.purchase, order, order.cancel_reason)
+
+
+def return_requested(order):
+    to_seller(order, "order_return_request", order.return_reason)
+    to_staff("order_return_request", order.purchase, order, order.return_reason)
+
+
+def refunded(order, message=""):
+    to_buyer(order.purchase, "order_refunded", order, message)
+    if order.is_house:
+        to_seller(order, "order_refunded", message)

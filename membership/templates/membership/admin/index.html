@@ -10,6 +10,7 @@
     </label>
     <label>جست‌وجو <input type="search" name="q" value="{{ q }}" placeholder="نام، کد پیگیری، ایمیل، تلفن"></label>
     <button class="button" type="submit">نمایش</button>
+    <a href="?{{ export_query }}">خروجی اکسل (CSV) همین فهرست</a>
 </form>
 
 {% if applications %}

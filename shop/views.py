@@ -13,6 +13,7 @@ from products.models import Product, ShopSettings
 
 from . import services
 from .cart import MAX_QUANTITY, Cart
+from .invoice import render_invoice
 from .forms import CheckoutForm, LookupForm, PaymentInfoForm
 from .models import Order, Purchase
 
@@ -79,6 +80,12 @@ def checkout(page, request):
         return redirect(sub(page, "cart"))
     has_terms = bool(shop.tr("terms_text"))
     form = CheckoutForm(request.POST or None, has_terms=has_terms)
+    if request.method == "POST":
+        for group in groups:  # the buyer's choice of shipping for each producer
+            chosen = _int(request.POST.get(f"ship_{group.member.pk}"), 0)
+            if any(o.pk == chosen for o in group.options):
+                cart.choose_shipping(group.member.pk, chosen)
+        groups = cart.groups()
     if request.method == "POST" and form.is_valid():
         if form.cleaned_data.get("nickname"):
             return redirect(sub(page, "cart"))  # a bot filled the honeypot
@@ -137,6 +144,22 @@ def order_view(page, request, code):
                                                 "Payment details sent. We will let you know once they are checked."))
                     return redirect(url)
             payment_forms[order.pk] = form
+        if step == "return_request":
+            order = purchase.orders.filter(pk=_int(request.POST.get("order"))).first()
+            if order is None:
+                raise Http404
+            reason = request.POST.get("reason", "")[:2000]
+            try:
+                if not reason.strip():
+                    raise services.OrderError(t("دلیل مرجوعی را بنویسید.", "Please write why you are returning it."))
+                services.request_return(order, reason)
+            except services.OrderError:
+                messages.error(request, t("برای این سفارش دیگر نمی‌توان درخواست مرجوعی داد، یا دلیل آن نوشته نشده است.",
+                                          "A return can no longer be requested for this order, or the reason is missing."))
+            else:
+                messages.success(request, t("درخواست مرجوعی ثبت شد و به فروشنده و دبیرخانه خبر داده شد.",
+                                            "Your return request was sent to the producer and the secretariat."))
+                return redirect(url)
     orders = list(purchase.orders.select_related("member").prefetch_related("items", "events"))
     shop = ShopSettings.load(request_or_site=request)
     from .models import Seller
@@ -159,6 +182,16 @@ def order_view(page, request, code):
         "last_payment": Payment.for_object(purchase).first() if payment_state else None,
         "shop": shop,
     }, f"order/{purchase.code}/")
+
+
+def invoice_view(page, request, code, order_id):
+    purchase = Purchase.objects.filter(code=code.upper()).first()
+    if purchase is None or not can_see(request, purchase):
+        return redirect(f"{sub(page, 'orders')}?code={code}")
+    order = purchase.orders.select_related("member").filter(pk=order_id).first()
+    if order is None:
+        raise Http404
+    return render_invoice(request, order, back_url=sub(page, "order", code=purchase.code))
 
 
 def lookup(page, request):

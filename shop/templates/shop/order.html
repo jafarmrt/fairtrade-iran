@@ -40,7 +40,7 @@
                 <div class="muted"><span dir="ltr" class="mono">{{ order.code }}</span> · {{ order.created_at|jdate }}</div>
                 <h2 class="h3">{% tr order.member "name" %}</h2>
             </div>
-            <span class="badge{% if order.status == 'paid' or order.status == 'shipped' or order.status == 'completed' %} badge--ok{% elif order.status == 'cancelled' %} badge--error{% elif order.status == 'payment_review' %} badge--gold{% endif %}">{{ order.status_display }}</span>
+            <span class="badge{% if order.status == 'paid' or order.status == 'shipped' or order.status == 'completed' %} badge--ok{% elif order.status == 'cancelled' or order.status == 'returned' %} badge--error{% elif order.status == 'payment_review' %} badge--gold{% endif %}">{{ order.status_display }}</span>
         </div>
         <div class="table-scroll">
         <table class="cart-table">
@@ -50,7 +50,7 @@
             {% endfor %}
             </tbody>
             <tfoot>
-                <tr><td colspan="2">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}</td><td class="num">{% if order.shipping %}{{ order.shipping|money }}{% else %}{% if IS_EN %}Free{% else %}رایگان{% endif %}{% endif %}</td></tr>
+                <tr><td colspan="2">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}{% if order.shipping_method %} · {{ order.shipping_method_display }}{% endif %}</td><td class="num">{% if order.shipping %}{{ order.shipping|money }}{% else %}{% if IS_EN %}Free{% else %}رایگان{% endif %}{% endif %}</td></tr>
                 <tr class="cart-table__total"><td colspan="2">{% if IS_EN %}Total{% else %}جمع{% endif %}</td><td class="num">{{ order.total|amount }}</td></tr>
             </tfoot>
         </table>
@@ -80,7 +80,23 @@
         <p class="notice notice--ok">{% if IS_EN %}Shipped on {{ order.shipped_at|jdate }}.{% else %}در {{ order.shipped_at|jdate }} ارسال شد.{% endif %}{% if order.tracking_code %} {% if IS_EN %}Tracking code:{% else %}کد رهگیری:{% endif %} <span dir="ltr" class="mono">{{ order.tracking_code }}</span>{% endif %}{% if order.shipping_message %}<br>{{ order.shipping_message|linebreaksbr }}{% endif %}</p>
         {% elif order.status == 'cancelled' and order.cancel_reason %}
         <p class="notice notice--error">{{ order.cancel_reason|linebreaksbr }}</p>
+        {% elif order.status == 'returned' %}
+        <p class="notice">{% if IS_EN %}Refunded {{ order.refund_amount|amount }} on {{ order.refunded_at|jdate }}.{% else %}مبلغ {{ order.refund_amount|amount }} در {{ order.refunded_at|jdate }} بازپرداخت شد.{% endif %}{% if order.refund_reference %} <span dir="ltr" class="mono">{{ order.refund_reference }}</span>{% endif %}</p>
         {% endif %}
+        {% if order.return_requested_at and order.status != 'returned' %}
+        <p class="notice">{% if IS_EN %}You asked to return this order on {{ order.return_requested_at|jdate }}. The producer or the secretariat will contact you.{% else %}در {{ order.return_requested_at|jdate }} درخواست مرجوعی دادید؛ تولیدکننده یا دبیرخانه با شما تماس می‌گیرد.{% endif %}</p>
+        {% elif order.can_request_return %}
+        <details class="order-pay__form">
+            <summary>{% if IS_EN %}Return this order{% else %}درخواست مرجوعی{% endif %}</summary>
+            <form method="post" class="form">{% csrf_token %}
+                <input type="hidden" name="step" value="return_request"><input type="hidden" name="order" value="{{ order.pk }}">
+                <p class="muted">{% if IS_EN %}You can ask to return it within {{ shop.return_days }} days of delivery.{% else %}تا {{ shop.return_days|fa_digits }} روز پس از تحویل می‌توانید درخواست مرجوعی بدهید.{% endif %}</p>
+                <div class="form-row"><label for="reason-{{ order.pk }}">{% if IS_EN %}Why are you returning it?{% else %}دلیل مرجوعی{% endif %}</label><textarea id="reason-{{ order.pk }}" name="reason" rows="3" required></textarea></div>
+                <button class="btn btn--outline" type="submit">{% if IS_EN %}Send return request{% else %}ثبت درخواست مرجوعی{% endif %}</button>
+            </form>
+        </details>
+        {% endif %}
+        {% if order.status != 'cancelled' %}<p><a href="{% routablepageurl page 'invoice' purchase.code order.pk %}" target="_blank" rel="noopener">{% if IS_EN %}Printable invoice{% else %}فاکتور قابل چاپ{% endif %}</a></p>{% endif %}
 
         {% with events=order.events.all %}{% if events|length > 1 %}
         <details class="order-history"><summary>{% if IS_EN %}History{% else %}سابقه سفارش{% endif %}</summary>

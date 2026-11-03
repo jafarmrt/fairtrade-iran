@@ -124,3 +124,9 @@ def translation_url(context, lang_code):
 @register.simple_tag
 def current_lang():
     return (get_language() or "fa")[:2]
+
+
+@register.filter
+def ship_price(option, group):
+    """What a shipping option costs for this cart group (0 when shipping is free over the threshold)."""
+    return group.option_price(option)

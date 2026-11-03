@@ -294,6 +294,16 @@ class AdminTests(StandingTestCase):
         self.assertTrue(self.member.decisions.filter(kind="notice").exists())
         self.assertEqual(self.client.get("/admin/").status_code, 200)
 
+    def test_dues_csv_export(self):
+        dues = issue_by_hand(self.member)
+        submit_receipt(dues, self.user, 5_000_000, receipt=self.receipt())
+        self.client.force_login(self.secretary)
+        text = self.client.get("/admin/standing/?show=all&export=csv").content.decode("utf-8")
+        self.assertTrue(text.startswith("\ufeff"))
+        self.assertIn(self.member.name, text)
+        self.assertIn("5000000", text)
+        self.assertIn(str(dues.year), text)
+
     def test_access(self):
         member_user = self.user
         self.client.force_login(member_user)

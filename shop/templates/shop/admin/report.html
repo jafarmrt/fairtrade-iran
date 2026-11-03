@@ -1,0 +1,39 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load membership_tags site_tags %}
+{% block main_content %}
+<p><a href="{% url 'shop_orders:index' %}">← همه سفارش‌ها</a></p>
+<form method="get" class="st-filters">
+    <a class="button button-secondary" href="?month={{ prev_key }}">ماه قبل</a>
+    <label>ماه (سال-ماه شمسی) <input type="text" name="month" value="{{ month_key }}" dir="ltr" size="8" placeholder="1405-08"></label>
+    <button class="button" type="submit">نمایش</button>
+    <a class="button button-secondary" href="?month={{ next_key }}">ماه بعد</a>
+    <a href="?month={{ month_key }}&amp;export=csv">خروجی اکسل (CSV) سفارش‌های {{ month_label|fa_digits }}</a>
+</form>
+<p class="help">فروش هر سفارش در ماهی حساب می‌شود که پرداخت آن تأیید شده است. مبالغ به {% currency %} است؛ در فایل CSV به ریال.</p>
+
+<h2>{{ month_label|fa_digits }}</h2>
+<div class="st-summary">
+    <div><strong>تعداد سفارش:</strong> {{ summary.count|default:0|fa_digits }}</div>
+    <div><strong>فروش (با ارسال):</strong> {{ summary.sales|default:0|amount }}</div>
+    <div><strong>هزینه ارسال:</strong> {{ summary.shipping|default:0|amount }}</div>
+    <div><strong>کارمزد خانه:</strong> {{ summary.commission|default:0|amount }}</div>
+    <div><strong>بازپرداخت‌ها:</strong> {{ summary.refunds|default:0|amount }}</div>
+</div>
+{% if producers %}
+<table class="listing">
+    <thead><tr><th>تولیدکننده</th><th>سفارش</th><th>فروش</th><th>پرداخت‌شده به حساب خانه</th><th>کارمزد</th><th>بازپرداخت</th></tr></thead>
+    <tbody>{% for p in producers %}<tr><td>{{ p.member__name }}</td><td>{{ p.count|fa_digits }}</td><td>{{ p.sales|default:0|money }}</td><td>{{ p.house|default:0|money }}</td><td>{{ p.commission|default:0|money }}</td><td>{{ p.refunds|default:0|money }}</td></tr>{% endfor %}</tbody>
+</table>
+{% else %}<p>در این ماه فروشی ثبت نشده است.</p>{% endif %}
+
+<h2 style="margin-top:2rem">دوازده ماه اخیر</h2>
+<table class="listing">
+    <thead><tr><th>ماه</th><th>سفارش</th><th>فروش</th><th>کارمزد</th><th>بازپرداخت</th></tr></thead>
+    <tbody>{% for m in months %}<tr{% if m.current %} style="font-weight:700"{% endif %}><td><a href="?month={{ m.key }}">{{ m.label|fa_digits }}</a></td><td>{{ m.count|fa_digits }}</td><td>{{ m.sales|default:0|money }}</td><td>{{ m.commission|default:0|money }}</td><td>{{ m.refunds|default:0|money }}</td></tr>{% endfor %}</tbody>
+</table>
+<style>
+.st-filters { display:flex; flex-wrap:wrap; gap:1rem; align-items:end; margin-block:1rem 1.5rem; }
+.st-filters label { display:flex; flex-direction:column; gap:.25rem; font-weight:600; }
+.st-summary { display:grid; grid-template-columns:repeat(auto-fill,minmax(200px,1fr)); gap:.75rem 1.5rem; padding:1rem 1.25rem; border:1px solid var(--w-color-border-furniture, #ddd); border-radius:8px; margin-block:1rem; }
+</style>
+{% endblock %}
