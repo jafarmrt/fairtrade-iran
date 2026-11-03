@@ -1,0 +1,36 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load membership_tags site_tags %}
+{% block main_content %}
+{% if pending_count %}<p class="help-block help-warning"><a href="?show=pending">{{ pending_count|fa_digits }} رسید حق عضویت در انتظار بررسی است.</a></p>{% endif %}
+<form method="get" class="st-filters">
+    <label>نمایش
+        <select name="show">{% for value, label in filters %}<option value="{{ value }}"{% if value == show %} selected{% endif %}>{{ label }}</option>{% endfor %}</select>
+    </label>
+    <label>جست‌وجو <input type="search" name="q" value="{{ q }}" placeholder="نام عضو"></label>
+    <button class="button" type="submit">نمایش</button>
+    <a href="{% url 'wagtailsettings:edit' 'core' 'membershipsettings' %}">تنظیمات حق عضویت و تعلیق</a>
+</form>
+{% if members %}
+<table class="listing">
+    <thead><tr><th>عضو</th><th>نوع</th><th>وضعیت</th><th>حق عضویت</th><th>تعلیق تا</th><th>آرا</th></tr></thead>
+    <tbody>
+    {% for m in members %}
+    <tr>
+        <td><a href="{% url 'standing:member' m.pk %}">{{ m.name }}</a></td>
+        <td>{{ m.get_member_type_display }}</td>
+        <td>{{ m.get_status_display }}</td>
+        <td>{% if m.pending %}<strong class="st-soon">رسید در انتظار بررسی</strong>{% elif m.overdue %}<strong class="st-overdue">گذشته از مهلت</strong>{% elif m.owes %}پرداخت نشده{% else %}-{% endif %}</td>
+        <td>{% if m.suspended_until and m.status == 'suspended' %}<span class="{% if m.suspended_until <= today %}st-overdue{% endif %}">{{ m.suspended_until|jdate_fa }}</span>{% else %}-{% endif %}</td>
+        <td>{{ m.decision_count|fa_digits }}</td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% else %}<p>عضوی با این فیلتر نیست.</p>{% endif %}
+<style>
+.st-filters { display:flex; flex-wrap:wrap; gap:1rem; align-items:end; margin-block:1rem 1.5rem; }
+.st-filters label { display:flex; flex-direction:column; gap:.25rem; font-weight:600; }
+.st-overdue { color:#b42318; font-weight:700; }
+.st-soon { color:#a15c07; font-weight:700; }
+</style>
+{% endblock %}

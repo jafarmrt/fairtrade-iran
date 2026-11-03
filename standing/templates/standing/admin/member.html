@@ -1,0 +1,138 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% load membership_tags site_tags %}
+{% block main_content %}
+<p><a href="{% url 'standing:index' %}">← فهرست اعضا</a> · <a href="{% url 'wagtailsnippets_members_member:edit' member.pk %}">ویرایش پروفایل عضو</a>
+{% if member.application %} · <a href="{% url 'membership_applications:detail' member.application.pk %}">پرونده عضویت</a>{% endif %}</p>
+
+<div class="st-summary">
+    <div><strong>وضعیت:</strong> {{ member.get_status_display }}</div>
+    <div><strong>نوع عضویت:</strong> {{ member.get_member_type_display }}</div>
+    <div><strong>عضو از:</strong> {{ member.joined_on|jdate_fa|default:"-" }}</div>
+    <div><strong>حق عضویت سالانه این نوع:</strong> {% if annual_fee %}{{ annual_fee|money }} ریال{% else %}<span class="st-overdue">در تنظیمات عضویت وارد نشده</span>{% endif %}</div>
+    {% if member.status == 'suspended' %}<div><strong>تعلیق تا:</strong> <span class="{% if member.suspended_until and member.suspended_until <= today %}st-overdue{% endif %}">{{ member.suspended_until|jdate_fa|default:"-" }}</span>{% if member.suspended_until and member.suspended_until <= today %} (تمام شده؛ رفع تعلیق یا لغو){% endif %}</div>{% endif %}
+    {% if member.status == 'cancelled' %}<div><strong>لغو در:</strong> {{ member.cancelled_on|jdate_fa|default:"-" }} · <strong>درخواست دوباره از:</strong> {{ member.reapply_after|jdate_fa|default:"-" }}</div>{% endif %}
+    {% if certificate %}<div><strong>گواهی:</strong> <span dir="ltr">{{ certificate.number }}</span>{% if certificate.revoked %} <span class="st-overdue">(باطل: {{ certificate.revoked_reason }})</span>{% endif %}</div>{% endif %}
+    <div><strong>مدیران پنل:</strong> {% for u in member.managers.all %}{{ u.email|default:u.get_username }}{% if not forloop.last %}، {% endif %}{% empty %}<span class="st-overdue">ندارد (ایمیل‌ها به ایمیل پرونده می‌رود)</span>{% endfor %}</div>
+</div>
+
+<section class="st-box">
+    <h2>حق عضویت سالانه</h2>
+    {% if dues_list %}
+    <table class="listing">
+        <thead><tr><th>سال</th><th>مبلغ</th><th>مهلت</th><th>وضعیت</th><th>اخطار / تعلیق</th></tr></thead>
+        <tbody>
+        {% for d in dues_list %}
+        <tr>
+            <td>{{ d.year|fa_digits }}</td>
+            <td>{{ d.amount|money }} ریال</td>
+            <td><span class="{% if d.is_overdue %}st-overdue{% endif %}">{{ d.due_date|jdate_fa }}</span></td>
+            <td>{{ d.get_status_display }}{% if d.paid_on %} ({{ d.paid_on|jdate_fa }}){% endif %}</td>
+            <td>{% if d.warned_on %}اخطار: {{ d.warned_on|jdate_fa }}{% if d.is_open and d.suspend_on %}<br>زمان تعلیق: {{ d.suspend_on|jdate_fa }}{% endif %}{% else %}-{% endif %}</td>
+        </tr>
+        {% for p in d.payments.all %}
+        <tr class="st-payment">
+            <td colspan="5">
+                <strong>{% if p.recorded_by_staff %}پرداخت ثبت‌شده توسط دبیرخانه{% else %}رسید عضو{% endif %}:</strong>
+                {{ p.amount|money }} ریال · شماره پیگیری: <span dir="ltr">{{ p.reference|default:"-" }}</span> · تاریخ واریز: {{ p.paid_on_text|default:"-" }}
+                · فرستاده در {{ p.submitted_at|jdate_fa:"short" }}{% if p.submitted_by %} ({{ p.submitted_by.email|default:p.submitted_by.get_username }}){% endif %}
+                {% if p.receipt %} · <a href="{% url 'standing:receipt' p.pk %}">دریافت رسید</a>{% endif %}
+                · <strong>{{ p.get_status_display }}</strong>{% if p.reviewed_by %} ({{ p.reviewed_by.get_full_name|default:p.reviewed_by.get_username }}){% endif %}
+                {% if p.payer_note %}<br>توضیح عضو: {{ p.payer_note|linebreaksbr }}{% endif %}
+                {% if p.staff_message %}<br>پیام دبیرخانه: {{ p.staff_message|linebreaksbr }}{% endif %}
+                {% if p.status == 'pending' and is_secretariat %}
+                <form method="post" class="st-inline">{% csrf_token %}
+                    <input type="hidden" name="dues" value="{{ d.pk }}"><input type="hidden" name="payment" value="{{ p.pk }}">
+                    <button class="button button-small" name="action" value="confirm" type="submit">تأیید پرداخت</button>
+                    <input type="text" name="message" placeholder="دلیل نپذیرفتن (برای عضو فرستاده می‌شود)">
+                    <button class="button button-small no" name="action" value="reject" type="submit">نپذیرفتن رسید</button>
+                </form>
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+        {% if d.is_open and is_secretariat %}
+        <tr class="st-payment"><td colspan="5">
+            <details><summary>اقدام دبیرخانه برای سال {{ d.year|fa_digits }}</summary>
+            <form method="post" class="st-form">{% csrf_token %}
+                <input type="hidden" name="dues" value="{{ d.pk }}">
+                <label>مبلغ دریافتی (ریال) <input type="number" name="amount" value="{{ d.amount }}" dir="ltr"></label>
+                <label>شماره پیگیری <input type="text" name="reference" dir="ltr"></label>
+                <label>یادداشت / پیام <textarea name="note" rows="2"></textarea></label>
+                <div class="st-buttons">
+                    <button class="button" name="action" value="record" type="submit">ثبت پرداختی که دبیرخانه دریافت کرده</button>
+                    <button class="button button-secondary" name="action" value="waive" type="submit">بخشودن حق عضویت این سال</button>
+                </div>
+            </form>
+            {% if not d.warned_on %}
+            <form method="post" class="st-form">{% csrf_token %}
+                <input type="hidden" name="dues" value="{{ d.pk }}">
+                <label>پیام اخطار کتبی (اختیاری) <textarea name="message" rows="2"></textarea></label>
+                <button class="button no" name="action" value="warn" type="submit">فرستادن اخطار کتبی حق عضویت (بند ۱.۷)</button>
+            </form>
+            {% endif %}
+            </details>
+        </td></tr>
+        {% endif %}
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}<p>هنوز حق عضویتی برای این عضو ثبت نشده است.</p>{% endif %}
+    {% if is_secretariat and member.status != 'cancelled' %}
+    <form method="post" class="st-inline">{% csrf_token %}
+        <button class="button button-secondary" name="action" value="issue" type="submit">ثبت حق عضویت سال جاری برای این عضو</button>
+        <span class="help">مهلت پرداخت از امروز {{ ms.dues_payment_days|fa_digits }} روز است. صدور خودکار سالانه در «تنظیمات عضویت» تنظیم می‌شود.</span>
+    </form>
+    {% endif %}
+</section>
+
+{% if decision_form %}
+<section class="st-box">
+    <h2>ثبت رأی یا اقدام</h2>
+    <p class="help">تذکر و اخطار و تعلیق و لغو مطابق بندهای ۱.۷، ۱.۸ و بخش ۷ سند ارکان. اقدامات مربوط به بدهی حق عضویت با دبیرخانه و اقدامات مربوط به رعایت استانداردها با رأی کمیسیون نظارتی است. آرای تعلیق و لغو کمیسیون جمعی است و صورتجلسه لازم دارد.</p>
+    <form method="post" class="st-form">{% csrf_token %}
+        <input type="hidden" name="action" value="decision">
+        {% for field in decision_form %}
+        <label>{{ field.label }} {{ field }}{% if field.help_text %}<small>{{ field.help_text }}</small>{% endif %}</label>
+        {% endfor %}
+        <button class="button" type="submit">ثبت و ایمیل به عضو</button>
+    </form>
+</section>
+{% endif %}
+
+<section class="st-box">
+    <h2>سابقه آرا و اقدامات</h2>
+    {% if decisions %}
+    <table class="listing">
+        <thead><tr><th>تاریخ</th><th>اقدام</th><th>دلیل</th><th>مرجع</th><th>جزئیات</th><th>پیام به عضو</th><th>یادداشت داخلی</th></tr></thead>
+        <tbody>
+        {% for dec in decisions %}
+        <tr>
+            <td>{{ dec.decided_on|jdate_fa:"short" }}</td>
+            <td>{{ dec.get_kind_display }}</td>
+            <td>{{ dec.get_reason_display }}{% if dec.dues %} ({{ dec.dues.year|fa_digits }}){% endif %}</td>
+            <td>{{ dec.get_decided_by_display }}{% if dec.created_by %}<br><small>{{ dec.created_by.get_full_name|default:dec.created_by.get_username }}</small>{% endif %}{% if dec.decision_reference %}<br><small>صورتجلسه: {{ dec.decision_reference }}</small>{% endif %}</td>
+            <td>{% if dec.ends_on %}تا {{ dec.ends_on|jdate_fa }}<br>{% endif %}{% if dec.reapply_after %}درخواست دوباره از {{ dec.reapply_after|jdate_fa }}<br>{% endif %}{% if dec.appeal_until %}مهلت اعتراض: {{ dec.appeal_until|jdate_fa }}{% endif %}</td>
+            <td>{{ dec.message|linebreaksbr }}</td>
+            <td>{{ dec.internal_note|linebreaksbr }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    {% else %}<p>سابقه‌ای ثبت نشده است.</p>{% endif %}
+</section>
+
+<style>
+.st-summary { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:.75rem 1.5rem; padding:1rem 1.25rem; border:1px solid var(--w-color-border-furniture, #ddd); border-radius:8px; margin-block:1rem 1.5rem; }
+.st-box { margin-block:2rem; }
+.st-box h2 { margin-bottom:.75rem; }
+.st-payment td { background: var(--w-color-surface-page, #fafafa); font-size:.95em; }
+.st-form { display:flex; flex-direction:column; gap:.75rem; margin-top:.75rem; max-width:640px; }
+.st-form label { display:flex; flex-direction:column; gap:.25rem; font-weight:600; }
+.st-form label small { font-weight:400; }
+.st-form button { align-self:flex-start; }
+.st-buttons { display:flex; flex-wrap:wrap; gap:.5rem; }
+.st-inline { display:flex; flex-wrap:wrap; gap:.5rem; align-items:center; margin-top:.5rem; }
+.st-overdue { color:#b42318; font-weight:700; }
+.st-soon { color:#a15c07; font-weight:700; }
+</style>
+{% endblock %}

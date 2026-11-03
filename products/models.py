@@ -143,7 +143,7 @@ class Product(BilingualMixin, index.Indexed, ClusterableModel):
     def visible(cls):
         qs = (
             cls.objects.filter(is_published=True, needs_review=False, member__is_published=True)
-            .exclude(member__status=Member.SUSPENDED)
+            .exclude(member__status__in=Member.INACTIVE_STATUSES)
             .select_related("member", "category", "member__region")
             .prefetch_related("images__image")
         )

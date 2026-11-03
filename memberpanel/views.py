@@ -59,9 +59,9 @@ def member_view(editing=True):
         @wraps(view)
         def wrapper(request, member_id, *args, **kwargs):
             member = get_object_or_404(request.user.managed_members.all(), pk=member_id)
-            if editing and member.status == Member.SUSPENDED:
-                messages.error(request, t("عضویت این مجموعه تعلیق شده و ویرایش آن ممکن نیست.",
-                                          "This membership is suspended, so it cannot be edited."))
+            if editing and member.is_inactive:
+                messages.error(request, t("عضویت این مجموعه تعلیق یا لغو شده و ویرایش آن ممکن نیست.",
+                                          "This membership is suspended or cancelled, so it cannot be edited."))
                 return redirect("panel:dashboard")
             return view(request, member, *args, **kwargs)
         return wrapper
@@ -86,7 +86,8 @@ def dashboard(request):
             "live": products.filter(is_published=True, needs_review=False).count(),
             "review": products.filter(needs_review=True).count(),
         }
-        member.public_url = member.get_url() if member.is_published and member.status != Member.SUSPENDED else ""
+        member.open_dues = member.dues.filter(status__in=("unpaid", "pending")).order_by("due_date").first()
+        member.public_url = member.get_url() if member.is_published and not member.is_inactive else ""
     return render(request, "memberpanel/dashboard.html", {"members": members, "current": "dashboard"})
 
 
@@ -120,7 +121,7 @@ def profile(request, member):
 def product_list(request, member):
     products = member.products.all().select_related("category").prefetch_related("images__image")
     settings = PanelSettings.load(request_or_site=request)
-    can_add = member.status != Member.SUSPENDED and (
+    can_add = not member.is_inactive and (
         not settings.max_products or products.count() < settings.max_products)
     return render(request, "memberpanel/product_list.html",
                   {"member": member, "products": products, "can_add": can_add, "current": "products"})

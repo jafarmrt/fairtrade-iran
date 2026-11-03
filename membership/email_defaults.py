@@ -151,4 +151,124 @@ DEFAULT_EMAILS = {
         "برای انتشار، تیک «در انتظار بررسی» را بردارید.",
         "", "",
     ),
+    # ---- annual dues ----
+    "dues_issued": (
+        "حق عضویت سالانه {year}",
+        "{name} گرامی،\n\nحق عضویت سالانه سال {year} شما {amount} است. لطفاً تا {due_date} آن را به حساب زیر "
+        "واریز کنید و تصویر رسید را در پنل اعضا بفرستید:\n\n{bank}\n\n{panel_url}" + SIGN_FA,
+        "Annual membership fee {year}",
+        "Dear {name},\n\nYour annual membership fee for {year} is {amount}. Please pay it into the account "
+        "below by {due_date} and upload the receipt in the member panel:\n\n{bank}\n\n{panel_url}" + SIGN_EN,
+    ),
+    "dues_reminder": (
+        "یادآوری: مهلت پرداخت حق عضویت {year}",
+        "{name} گرامی،\n\nیادآوری می‌کنیم که مهلت پرداخت حق عضویت سال {year} ({amount}) تا {due_date} است. "
+        "اگر پرداخت کرده‌اید، رسید را در پنل اعضا بفرستید:\n{panel_url}\n\n{bank}" + SIGN_FA,
+        "Reminder: membership fee {year} is due",
+        "Dear {name},\n\nA reminder that your membership fee for {year} ({amount}) is due by {due_date}. "
+        "If you have paid, please upload the receipt in the member panel:\n{panel_url}\n\n{bank}" + SIGN_EN,
+    ),
+    "dues_warning": (
+        "اخطار کتبی: حق عضویت {year} پرداخت نشده است",
+        "{name} گرامی،\n\nمهلت پرداخت حق عضویت سال {year} ({amount}) در {due_date} به پایان رسید و پرداختی "
+        "ثبت نشده است. این ایمیل اخطار کتبی موضوع بند ۱.۷ سند ارکان است.\n\nاگر تا {suspend_date} حق عضویت "
+        "پرداخت نشود، عضویت شما تعلیق می‌شود. عضو تعلیق‌شده حق رأی، استفاده از نشان و خدمات خانه را ندارد.\n\n"
+        "{message}\n\nپرداخت و ارسال رسید:\n{panel_url}\n\n{bank}\n\nاگر به این اخطار اعتراض دارید، تا {appeal_until} "
+        "می‌توانید اعتراض کتبی خود را به دبیر مجمع عمومی بدهید." + SIGN_FA,
+        "Written warning: membership fee {year} not paid",
+        "Dear {name},\n\nThe deadline for your membership fee for {year} ({amount}) was {due_date} and we have "
+        "not received a payment. This e-mail is the written warning under section 1.7 of the governance "
+        "document.\n\nIf the fee is not paid by {suspend_date}, your membership will be suspended. A suspended "
+        "member cannot vote, use the House's mark or use its services.\n\n{message}\n\nPay and upload the "
+        "receipt here:\n{panel_url}\n\n{bank}\n\nIf you disagree with this warning, you may send a written "
+        "appeal to the Secretary of the General Assembly by {appeal_until}." + SIGN_EN,
+    ),
+    "dues_receipt_staff": (
+        "رسید تازه حق عضویت: {member} ({year})",
+        "عضو «{member}» رسید حق عضویت سال {year} ({amount}) را از پنل اعضا فرستاد.\n\n{message}\n\n"
+        "بررسی و تأیید:\n{admin_url}",
+        "", "",
+    ),
+    "dues_confirmed": (
+        "پرداخت حق عضویت {year} تأیید شد",
+        "{name} گرامی،\n\nپرداخت حق عضویت سال {year} ({amount}) شما تأیید شد. سپاس از همراهی شما.\n\n{message}"
+        + SIGN_FA,
+        "Membership fee {year} received",
+        "Dear {name},\n\nWe have confirmed your membership fee for {year} ({amount}). Thank you.\n\n{message}"
+        + SIGN_EN,
+    ),
+    "dues_rejected": (
+        "رسید حق عضویت {year} پذیرفته نشد",
+        "{name} گرامی،\n\nرسیدی که برای حق عضویت سال {year} فرستادید پذیرفته نشد:\n\n{message}\n\n"
+        "لطفاً رسید درست را تا {due_date} در پنل اعضا بفرستید:\n{panel_url}" + SIGN_FA,
+        "Membership fee receipt {year} not accepted",
+        "Dear {name},\n\nThe receipt you sent for your membership fee for {year} was not accepted:\n\n"
+        "{message}\n\nPlease upload the right receipt by {due_date} in the member panel:\n{panel_url}" + SIGN_EN,
+    ),
+    # ---- standing (sections 1.7, 1.8, 7 and 8.2) ----
+    "standing_notice": (
+        "تذکر کتبی خانه تجارت عادلانه",
+        "{name} گرامی،\n\nاین ایمیل تذکر کتبی خانه به شما است.\n\nموضوع: {reason}\n\n{message}\n\n"
+        "اگر اعتراضی دارید، تا {appeal_until} می‌توانید آن را کتبی به دبیر مجمع عمومی بدهید." + SIGN_FA,
+        "Written notice from the Fair Trade House",
+        "Dear {name},\n\nThis e-mail is a written notice from the House.\n\nSubject: {reason}\n\n{message}"
+        + SIGN_EN,
+    ),
+    "standing_warning": (
+        "اخطار کتبی خانه تجارت عادلانه",
+        "{name} گرامی،\n\nاین ایمیل اخطار کتبی خانه به شما است.\n\nموضوع: {reason}\n\n{message}\n\n"
+        "اگر به این اخطار اعتراض دارید، تا {appeal_until} می‌توانید اعتراض کتبی خود را به دبیر مجمع عمومی بدهید."
+        + SIGN_FA,
+        "Written warning from the Fair Trade House",
+        "Dear {name},\n\nThis e-mail is a written warning from the House.\n\nSubject: {reason}\n\n{message}\n\n"
+        "If you disagree, you may send a written appeal to the Secretary of the General Assembly by {appeal_until}."
+        + SIGN_EN,
+    ),
+    "standing_suspend": (
+        "تعلیق عضویت شما",
+        "{name} گرامی،\n\nعضویت شما در خانه تا {until} تعلیق شد.\n\nدلیل: {reason}\n{message}\n\n"
+        "طبق بند ۱.۷ سند ارکان، عضو تعلیق‌شده حق رأی، استفاده از نشان و خدمات خانه را ندارد. تعلیق حداکثر "
+        "شش ماه است و پس از آن به رفع تعلیق یا لغو عضویت می‌انجامد.\n\nاگر به این رأی اعتراض دارید، تا "
+        "{appeal_until} می‌توانید اعتراض کتبی خود را به دبیر مجمع عمومی بدهید. اعتراض، اجرای تعلیق را متوقف "
+        "نمی‌کند.\n\n{panel_url}" + SIGN_FA,
+        "Your membership has been suspended",
+        "Dear {name},\n\nYour membership of the House is suspended until {until}.\n\nReason: {reason}\n"
+        "{message}\n\nUnder section 1.7 of the governance document, a suspended member cannot vote, use the "
+        "House's mark or use its services. A suspension lasts at most six months and then ends with the "
+        "suspension being lifted or the membership cancelled.\n\nIf you disagree, you may send a written appeal "
+        "to the Secretary of the General Assembly by {appeal_until}. An appeal does not pause the suspension."
+        "\n\n{panel_url}" + SIGN_EN,
+    ),
+    "standing_lift": (
+        "رفع تعلیق عضویت",
+        "{name} گرامی،\n\nتعلیق عضویت شما رفع شد و از امروز دوباره از همه حقوق عضویت برخوردارید.\n\n"
+        "{message}" + SIGN_FA,
+        "Your suspension has been lifted",
+        "Dear {name},\n\nThe suspension of your membership has been lifted; from today you have all the rights "
+        "of membership again.\n\n{message}" + SIGN_EN,
+    ),
+    "standing_cancel": (
+        "لغو عضویت",
+        "{name} گرامی،\n\nعضویت شما در خانه لغو شد.\n\nدلیل: {reason}\n{message}\n\n"
+        "اگر به این رأی اعتراض دارید، تا {appeal_until} می‌توانید اعتراض کتبی خود را به دبیر مجمع عمومی بدهید؛ "
+        "تا صدور رأی اعتراض، عضویت شما در وضعیت تعلیق می‌ماند.\n\nدرخواست دوباره عضویت از {reapply_after} ممکن "
+        "است." + SIGN_FA,
+        "Your membership has been cancelled",
+        "Dear {name},\n\nYour membership of the House has been cancelled.\n\nReason: {reason}\n{message}\n\n"
+        "If you disagree, you may send a written appeal to the Secretary of the General Assembly by "
+        "{appeal_until}.\n\nYou may apply for membership again from {reapply_after}." + SIGN_EN,
+    ),
+    "standing_reinstate": (
+        "بازگشت عضویت",
+        "{name} گرامی،\n\nرأی لغو عضویت شما در رسیدگی به اعتراض نقض شد و عضویت شما برقرار است.\n\n{message}"
+        + SIGN_FA,
+        "Your membership has been reinstated",
+        "Dear {name},\n\nThe decision to cancel your membership was overturned on appeal and your membership "
+        "continues.\n\n{message}" + SIGN_EN,
+    ),
+    "standing_digest": (
+        "گزارش روزانه حق عضویت و وضعیت اعضا",
+        "این موارد به اقدام شما نیاز دارند:\n\n{list}\n\nفهرست کامل:\n{admin_url}",
+        "", "",
+    ),
 }

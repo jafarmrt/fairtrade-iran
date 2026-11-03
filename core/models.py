@@ -3,11 +3,13 @@ Site-wide settings that the secretariat and PR working group edit from the
 admin panel (Settings menu). Nothing here is hard-coded in templates.
 """
 
+from django.core.validators import MaxValueValidator, MinValueValidator
 from django.db import models
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel, ObjectList, TabbedInterface
 from wagtail.contrib.settings.models import BaseGenericSetting, register_setting
+from wagtail.fields import RichTextField
 
 
 def is_english():
@@ -149,6 +151,88 @@ class MembershipSettings(BaseGenericSetting):
         help_text=_("خالی بگذارید اگر گواهی تاریخ انقضا ندارد"),
     )
 
+    # ---- annual dues, suspension and cancellation (sections 1.7 and 1.8 of the governance document) ----
+    DUES_FIXED = "fixed"
+    DUES_ANNIVERSARY = "anniversary"
+    DUES_CYCLE_CHOICES = [
+        (DUES_FIXED, "تاریخ ثابت برای همه اعضا (مثلاً اول فروردین)"),
+        (DUES_ANNIVERSARY, "سالگرد عضویت هر عضو"),
+    ]
+    dues_enabled = models.BooleanField(
+        _("صدور خودکار حق عضویت سالانه فعال است"), default=True,
+        help_text=_("اگر خاموش باشد، حق عضویت فقط دستی از صفحه وضعیت هر عضو ثبت می‌شود"),
+    )
+    dues_cycle = models.CharField(_("آغاز سال عضویت"), max_length=20, choices=DUES_CYCLE_CHOICES, default=DUES_FIXED)
+    dues_start_month = models.PositiveSmallIntegerField(
+        _("ماه آغاز سال عضویت (شمسی)"), default=1, validators=[MinValueValidator(1), MaxValueValidator(12)],
+        help_text=_("برای «تاریخ ثابت»: ۱ یعنی فروردین، ۷ یعنی مهر"),
+    )
+    dues_start_day = models.PositiveSmallIntegerField(
+        _("روز آغاز سال عضویت (شمسی)"), default=1, validators=[MinValueValidator(1), MaxValueValidator(29)],
+    )
+    dues_for_trial = models.BooleanField(
+        _("اعضای آزمایشی هم حق عضویت سالانه بپردازند"), default=False,
+    )
+    dues_issue_days_before = models.PositiveSmallIntegerField(
+        _("صدور صورت‌حساب (روز پیش از آغاز سال عضویت)"), default=30,
+        help_text=_("در این روز برای عضو ایمیل صورت‌حساب فرستاده می‌شود و در پنل اعضا دیده می‌شود"),
+    )
+    dues_payment_days = models.PositiveSmallIntegerField(
+        _("مهلت پرداخت (روز پس از آغاز سال عضویت)"), default=30,
+    )
+    dues_reminder_days_before = models.PositiveSmallIntegerField(
+        _("یادآوری پرداخت (روز پیش از پایان مهلت)"), default=7,
+    )
+    dues_auto_warning = models.BooleanField(
+        _("پس از پایان مهلت، اخطار کتبی خودکار فرستاده شود"), default=True,
+        help_text=_("اگر خاموش باشد، دبیرخانه اخطار را از صفحه وضعیت عضو می‌فرستد"),
+    )
+    dues_suspend_months = models.PositiveSmallIntegerField(
+        _("تعلیق پس از چند ماه از اخطار کتبی"), default=3,
+        help_text=_("بند ۱.۷: عدم پرداخت حق عضویت بیش از سه ماه پس از اخطار کتبی"),
+    )
+    dues_auto_suspend = models.BooleanField(
+        _("تعلیق خودکار پس از این مدت"), default=True,
+        help_text=_("اگر خاموش باشد، این اعضا در ایمیل روزانه دبیرخانه می‌آیند تا دبیرخانه تصمیم بگیرد"),
+    )
+    dues_lift_on_payment = models.BooleanField(
+        _("با تأیید پرداخت، تعلیقِ ناشی از بدهی خودکار رفع شود"), default=True,
+    )
+    suspension_max_months = models.PositiveSmallIntegerField(
+        _("بیشترین مدت تعلیق (ماه)"), default=6,
+        help_text=_("بند ۱.۷: تعلیق حداکثر شش ماه است و پس از آن به رفع تعلیق یا لغو عضویت می‌انجامد"),
+    )
+    appeal_days = models.PositiveSmallIntegerField(
+        _("مهلت اعتراض (روز پس از ابلاغ)"), default=30, help_text=_("بخش ۸.۲ سند ارکان"),
+    )
+    reapply_after_months = models.PositiveSmallIntegerField(
+        _("درخواست دوباره پس از لغو عضویت (ماه)"), default=12,
+    )
+    reapply_after_serious_months = models.PositiveSmallIntegerField(
+        _("درخواست دوباره پس از لغو به دلیل تخلف جدی (ماه)"), default=36,
+    )
+    dues_text = RichTextField(
+        _("راهنمای پرداخت حق عضویت در پنل (فارسی)"), blank=True,
+        default="<p>مبلغ حق عضویت را به حساب زیر واریز کنید و تصویر رسید را این‌جا بفرستید. "
+                "دبیرخانه پس از بررسی، پرداخت را تأیید می‌کند.</p>",
+    )
+    dues_text_en = RichTextField(
+        _("راهنمای پرداخت حق عضویت در پنل (انگلیسی)"), blank=True,
+        default="<p>Pay the membership fee into the account below and upload a photo of the receipt here. "
+                "The secretariat confirms the payment once it has checked it.</p>",
+    )
+    suspended_text = RichTextField(
+        _("متن برای عضو تعلیق‌شده یا لغوشده (فارسی)"), blank=True,
+        default="<p>طبق بند ۱.۷ سند ارکان، عضو تعلیق‌شده حق رأی، استفاده از نشان و خدمات خانه را ندارد. "
+                "اگر به این رأی اعتراض دارید، می‌توانید در مهلت اعتراض، اعتراض کتبی خود را به دبیر مجمع عمومی بدهید.</p>",
+    )
+    suspended_text_en = RichTextField(
+        _("متن برای عضو تعلیق‌شده یا لغوشده (انگلیسی)"), blank=True,
+        default="<p>Under section 1.7 of the governance document, a suspended member cannot vote, use the "
+                "House's mark or use its services. If you disagree with this decision, you may send a written "
+                "appeal to the Secretary of the General Assembly within the appeal period.</p>",
+    )
+
     fee_panels = [
         MultiFieldPanel(
             [FieldPanel("application_fee_producer"), FieldPanel("application_fee_institution"),
@@ -181,11 +265,27 @@ class MembershipSettings(BaseGenericSetting):
         FieldPanel("certificate_signatory"), FieldPanel("certificate_signatory_en"),
         FieldPanel("certificate_signatory_title"), FieldPanel("certificate_signatory_title_en"),
     ]
+    dues_panels = [
+        FieldPanel("dues_enabled"),
+        MultiFieldPanel([FieldPanel("dues_cycle"), FieldPanel("dues_start_month"), FieldPanel("dues_start_day"),
+                         FieldPanel("dues_for_trial")], heading=_("سال عضویت")),
+        MultiFieldPanel([FieldPanel("dues_issue_days_before"), FieldPanel("dues_payment_days"),
+                         FieldPanel("dues_reminder_days_before")], heading=_("صورت‌حساب و یادآوری")),
+        MultiFieldPanel([FieldPanel("dues_auto_warning"), FieldPanel("dues_suspend_months"),
+                         FieldPanel("dues_auto_suspend"), FieldPanel("dues_lift_on_payment")],
+                        heading=_("اخطار و تعلیق برای بدهی (بند ۱.۷)")),
+        MultiFieldPanel([FieldPanel("suspension_max_months"), FieldPanel("appeal_days"),
+                         FieldPanel("reapply_after_months"), FieldPanel("reapply_after_serious_months")],
+                        heading=_("تعلیق، لغو و اعتراض (بندهای ۱.۷، ۱.۸ و ۸.۲)")),
+        MultiFieldPanel([FieldPanel("dues_text"), FieldPanel("dues_text_en"),
+                         FieldPanel("suspended_text"), FieldPanel("suspended_text_en")], heading=_("متن‌های پنل اعضا")),
+    ]
     edit_handler = TabbedInterface([
         ObjectList(fee_panels, heading=_("مبالغ")),
         ObjectList(bank_panels, heading=_("حساب بانکی")),
         ObjectList(process_panels, heading=_("فرایند و مهلت‌ها")),
         ObjectList(certificate_panels, heading=_("گواهی عضویت")),
+        ObjectList(dues_panels, heading=_("حق عضویت سالانه و تعلیق")),
     ])
 
     class Meta:
