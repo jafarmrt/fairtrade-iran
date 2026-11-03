@@ -1,5 +1,6 @@
 import logging
-from collections import defaultdict
+
+from core.templating import fill
 
 from . import registry
 from .backends import SmsError, get_backend
@@ -7,11 +8,6 @@ from .models import SmsLog, SmsSettings, SmsTemplate
 from .phone import mobile_list
 
 logger = logging.getLogger(__name__)
-
-
-class SafeDict(defaultdict):
-    def __missing__(self, key):
-        return "{" + key + "}"
 
 
 def render(event, lang, context):
@@ -29,7 +25,7 @@ def render(event, lang, context):
     text = (text or "").strip()
     if not text:
         return None
-    return text.format_map(SafeDict(str, {k: "" if v is None else v for k, v in (context or {}).items()}))
+    return fill(text, context or {})
 
 
 def send_text(mobiles, text, event="", config=None):

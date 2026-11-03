@@ -3,7 +3,7 @@
 {% block heading %}{% if IS_EN %}Selling settings{% else %}تنظیمات فروش{% endif %}{% endblock %}
 {% block panel_content %}
 <div class="card card--note">
-    <p><strong>{% if IS_EN %}How you sell through the site:{% else %}شیوه فروش شما از سایت:{% endif %}</strong> {{ seller.get_mode_display }}
+    <p><strong>{% if IS_EN %}How you sell through the site:{% else %}شیوه فروش شما از سایت:{% endif %}</strong> {% if IS_EN %}{% if seller.mode == 'house' %}Paid to the House's account{% elif seller.mode == 'producer' %}Paid directly to you{% else %}Direct purchase link only (no cart){% endif %}{% else %}{{ seller.get_mode_display }}{% endif %}
     {% if seller.mode != 'none' %}· {% if IS_EN %}House commission{% else %}کارمزد خانه{% endif %}: {{ commission|floatformat:"-2"|fa_digits }}{% if IS_EN %}%{% else %}٪{% endif %}{% endif %}</p>
     <p class="muted">{% if IS_EN %}The secretariat sets the selling mode and commission. Products need a price to be sold through the cart; set "number in stock" on a product to stop orders when it runs out.{% else %}شیوه فروش و کارمزد را دبیرخانه تعیین می‌کند. محصول برای فروش از سبد خرید باید قیمت داشته باشد؛ با پر کردن «تعداد موجود» در هر محصول، با تمام شدن موجودی سفارش هم بسته می‌شود.{% endif %}</p>
 </div>

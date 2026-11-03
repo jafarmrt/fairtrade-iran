@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}{% if IS_EN %}Please try again later{% else %}لطفاً کمی بعد دوباره بکوشید{% endif %}{% endblock %}
+{% block content %}
+<section class="page-header"><div class="container">
+<h1>{% if IS_EN %}Please try again later{% else %}لطفاً کمی بعد دوباره بکوشید{% endif %}</h1>
+<p class="lead">{% if IS_EN %}We have received many requests from your connection in a short time. Please wait a while and try again, or contact us directly.{% else %}در مدت کوتاهی درخواست‌های زیادی از نشانی شما رسیده است. لطفاً کمی صبر کنید و دوباره بکوشید، یا مستقیم با ما تماس بگیرید.{% endif %}</p>
+</div></section>
+<section class="section"><div class="container"><a class="btn btn--primary" href="/{{ LANG }}/">{% if IS_EN %}Back to home{% else %}بازگشت به صفحه اصلی{% endif %}</a></div></section>
+{% endblock %}

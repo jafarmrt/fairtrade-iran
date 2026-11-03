@@ -121,7 +121,11 @@ def attachment(request, pk):
     if not appeal.attachment:
         raise Http404
     ext = os.path.splitext(appeal.attachment.name)[1]
-    response = FileResponse(appeal.attachment.open("rb"), as_attachment=True,
+    try:
+        handle = appeal.attachment.open("rb")
+    except FileNotFoundError:
+        raise Http404
+    response = FileResponse(handle, as_attachment=True,
                             filename=f"appeal-{appeal.tracking_code}{ext}")
     response["Cache-Control"] = "private, no-store"
     response["X-Content-Type-Options"] = "nosniff"

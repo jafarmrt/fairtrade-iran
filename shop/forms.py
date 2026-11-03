@@ -138,6 +138,11 @@ class SellerForm(forms.ModelForm):
                       "Buyers pay into this account for direct payment; for sales paid to the House, your share is paid here."),
             "free_shipping_over": ("خالی بگذارید اگر ارسال رایگان ندارید.", "Leave empty if you never ship for free."),
             "order_mobile": ("اگر خالی باشد، تلفن پرونده عضویت شما.", "If empty, the phone in your membership file."),
+            "shipping_note": ("مثلاً «ارسال با پست پیشتاز به سراسر ایران»",
+                              "For example “Express post to all of Iran”, in Persian."),
+            "shipping_note_en": ("", "For foreign visitors, if you ship abroad."),
+            "order_email": ("جز مدیران پنل این عضو، سفارش‌ها به این نشانی هم خبر داده می‌شود",
+                            "Besides this member's panel managers, order updates also go to this address."),
         }
         i = 1 if is_english() else 0
         for name, pair in hints.items():

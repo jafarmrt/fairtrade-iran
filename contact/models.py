@@ -21,6 +21,7 @@ from wagtail.contrib.forms.panels import FormSubmissionsPanel
 from wagtail.fields import RichTextField
 from wagtail.models import Page
 
+from core import throttle
 from core.models import SiteSettings, is_english
 from sms import notify_role as sms_notify_role
 
@@ -80,6 +81,8 @@ class ContactPage(AbstractEmailForm):
         # Bots fill every field, including the hidden one; pretend all went well.
         if request.method == "POST" and request.POST.get(HONEYPOT_FIELD):
             return self.render_landing_page(request)
+        if request.method == "POST" and throttle.hit(request, "contact"):
+            return throttle.throttled_response(request)
         return super().serve(request, *args, **kwargs)
 
     def notification_addresses(self):
@@ -245,6 +248,8 @@ class ComplaintPage(Page):
         if request.method == "POST":
             if request.POST.get(HONEYPOT_FIELD):
                 return self.render_done(request, None)
+            if throttle.hit(request, "complaint"):
+                return throttle.throttled_response(request)
             form = self.get_form(request.POST, request.FILES)
             if form.is_valid():
                 complaint = form.save(commit=False)

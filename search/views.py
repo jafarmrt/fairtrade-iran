@@ -17,7 +17,7 @@ def search(request):
 
     # Search
     if search_query:
-        search_results = Page.objects.live().filter(locale=Locale.get_active()).search(search_query)
+        search_results = Page.objects.live().public().filter(locale=Locale.get_active()).search(search_query)
 
         # To log this query for use with the "Promoted search results" module:
 

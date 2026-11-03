@@ -73,3 +73,82 @@ class SeoTests(TestCase):
         response = self.client.get("/fa/")
         self.assertContains(response, '<meta name="robots" content="noindex, nofollow">')
         self.assertContains(response, 'id="enamad-badge"')
+
+
+# ---- request limits and admin text placeholders ----
+
+from django.contrib.auth import get_user_model  # noqa: E402
+from django.core import mail  # noqa: E402
+from django.core.cache import cache  # noqa: E402
+from django.test import SimpleTestCase, override_settings  # noqa: E402
+
+from contact.models import ContactPage  # noqa: E402
+from core.templating import fill  # noqa: E402
+
+LOCMEM = {"default": {"BACKEND": "django.core.cache.backends.locmem.LocMemCache", "LOCATION": "throttle-tests"}}
+
+
+@override_settings(CACHES=LOCMEM, THROTTLE_LIMITS={"login_user": (3, 900), "login_ip": (5, 900),
+                                                    "password_reset": (2, 3600), "contact": (2, 3600)})
+class ThrottleTests(TestCase):
+    @classmethod
+    def setUpTestData(cls):
+        call_command("seed_content", stdout=open("/dev/null", "w"))
+        cls.user = get_user_model().objects.create_user("maryam", "maryam@example.org", "pw-12345")
+
+    def setUp(self):
+        cache.clear()
+
+    def login(self, password, username="maryam", ip="10.0.0.1"):
+        return self.client.post("/fa/panel/login/", {"username": username, "password": password}, REMOTE_ADDR=ip)
+
+    def test_username_locked_after_failed_sign_ins_even_with_right_password(self):
+        for _ in range(3):
+            self.assertEqual(self.login("wrong").status_code, 200)
+        response = self.login("pw-12345")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "۱۵ دقیقه")
+        self.assertNotIn("_auth_user_id", self.client.session)
+
+    def test_success_before_limit_resets_the_count(self):
+        self.login("wrong")
+        self.login("wrong")
+        self.assertEqual(self.login("pw-12345").status_code, 302)
+        self.client.logout()
+        self.login("wrong")
+        self.login("wrong")
+        self.assertEqual(self.login("pw-12345").status_code, 302)
+
+    def test_address_locked_after_many_usernames(self):
+        for n in range(5):
+            self.login("wrong", username=f"guess{n}")
+        self.assertEqual(self.login("pw-12345").status_code, 200)
+        self.assertEqual(self.login("pw-12345", ip="10.0.0.2").status_code, 302)
+
+    def test_admin_sign_in_is_limited_too(self):
+        for _ in range(3):
+            self.client.post("/admin/login/", {"username": "maryam", "password": "wrong"}, REMOTE_ADDR="10.0.0.9")
+        get_user_model().objects.filter(pk=self.user.pk).update(is_staff=True, is_superuser=True)
+        self.client.post("/admin/login/", {"username": "maryam", "password": "pw-12345"}, REMOTE_ADDR="10.0.0.9")
+        self.assertNotIn("_auth_user_id", self.client.session)
+
+    def test_password_reset_emails_are_limited(self):
+        for _ in range(4):
+            response = self.client.post("/fa/panel/password/reset/", {"email": "maryam@example.org"})
+            self.assertEqual(response.status_code, 302)
+        self.assertEqual(len(mail.outbox), 2)
+
+    def test_contact_form_is_limited(self):
+        page = ContactPage.objects.live().filter(locale__language_code="fa").first()
+        for _ in range(2):
+            self.assertNotEqual(self.client.post(page.url, {}).status_code, 429)
+        self.assertEqual(self.client.post(page.url, {}).status_code, 429)
+
+
+class FillTests(SimpleTestCase):
+    def test_fills_known_names_and_keeps_the_rest(self):
+        self.assertEqual(fill("سلام {name} {unknown}", {"name": "مریم"}), "سلام مریم {unknown}")
+
+    def test_typos_and_attribute_access_do_not_break_or_leak(self):
+        self.assertEqual(fill("{name.__class__} {0} {", {"name": "x"}), "{name.__class__} {0} {")
+        self.assertEqual(fill("{a}", {"a": None}), "")

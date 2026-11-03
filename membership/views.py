@@ -6,6 +6,7 @@ from django.shortcuts import redirect
 from django.template.response import TemplateResponse
 from django.utils import timezone
 
+from core import throttle
 from core.models import MembershipSettings, is_english
 
 from . import notifications
@@ -66,6 +67,8 @@ def apply(page, request, member_type):
         return render(page, request, "membership/apply_closed.html", ctx, suffix)
 
     if request.method == "POST":
+        if throttle.hit(request, "apply"):
+            return throttle.throttled_response(request)
         form = ApplicationForm(request.POST, request.FILES, member_type=member_type, is_en=is_en, page=page)
         if form.is_valid():
             application = save_application(form, member_type, is_en, ms)
@@ -163,6 +166,8 @@ def track(page, request):
         application = MembershipApplication.objects.filter(pk=session_id).first()
 
     if request.method == "POST" and request.POST.get("step") == "lookup":
+        if throttle.hit(request, "lookup"):
+            return throttle.throttled_response(request)
         lookup_form = TrackForm(request.POST, is_en=is_en)
         application = None
         request.session.pop(SESSION_TRACK, None)

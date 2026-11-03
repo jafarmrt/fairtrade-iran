@@ -16,7 +16,7 @@ from wagtail.admin.menu import MenuItem
 from wagtail.admin.viewsets.base import ViewSet
 
 from . import notifications, services
-from .models import GROUP_LABELS, GROUPS, AgendaItem, Assembly, AssemblySettings, Participant
+from .models import GROUP_LABELS, GROUPS, Assembly, AssemblySettings, Participant
 from .services import AssemblyError, option_label
 
 

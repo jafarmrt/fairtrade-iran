@@ -9,7 +9,7 @@
         <h2 class="h3">{% if IS_EN %}The buyer{% else %}خریدار{% endif %}</h2>
         <dl class="fee-list wh-buyer">
             <div><dt>{% if IS_EN %}Received{% else %}تاریخ{% endif %}</dt><dd>{{ inquiry.created_at|jdate }}</dd></div>
-            <div><dt>{% if IS_EN %}Country{% else %}کشور{% endif %}</dt><dd>{{ inquiry.country }}{% if inquiry.city %}، {{ inquiry.city }}{% endif %}</dd></div>
+            <div><dt>{% if IS_EN %}Country{% else %}کشور{% endif %}</dt><dd>{{ inquiry.country }}{% if inquiry.city %}{% if IS_EN %}, {% else %}، {% endif %}{{ inquiry.city }}{% endif %}</dd></div>
             <div><dt>{% if IS_EN %}Type of business{% else %}نوع کسب‌وکار{% endif %}</dt><dd>{{ inquiry.buyer_type_display }}</dd></div>
             {% if show_contact %}
             <div><dt>{% if IS_EN %}Company{% else %}شرکت{% endif %}</dt><dd>{{ inquiry.company }}</dd></div>

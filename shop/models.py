@@ -1,6 +1,5 @@
 import os
 import secrets
-import uuid
 from decimal import Decimal
 
 from django.conf import settings

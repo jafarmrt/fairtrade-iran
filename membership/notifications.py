@@ -13,6 +13,7 @@ from django.utils import translation
 from wagtail.models import Locale
 
 from core.models import SiteSettings
+from core.templating import fill
 from sms import notify as sms_notify
 from sms import notify_role as sms_notify_role
 
@@ -93,7 +94,7 @@ def render(event, lang, context):
         if lang == "en" and default[2]:
             subject, body = default[2], default[3]
     values = SafeDict(str, context)
-    return subject.format_map(values).replace("\n", " "), body.format_map(values)
+    return fill(subject, values).replace("\n", " "), fill(body, values)
 
 
 def application_context(application, lang, message=""):
