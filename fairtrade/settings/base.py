@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     "standing",
     "appeals",
     "assembly",
+    "wholesale",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",

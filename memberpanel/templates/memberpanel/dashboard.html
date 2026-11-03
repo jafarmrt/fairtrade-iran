@@ -47,8 +47,12 @@
             <a class="btn btn--outline" href="{% url 'panel:membership' m.pk %}">{% if IS_EN %}Membership and fees{% else %}عضویت و حق عضویت{% endif %}</a>
             {% if m.public_url %}<a href="{{ m.public_url }}">{% if IS_EN %}View public page{% else %}دیدن صفحه عمومی{% endif %}</a>{% endif %}
         </p>
+        {% if m.wholesale_open %}
+        <p class="notice">{% if IS_EN %}{{ m.wholesale_open }} wholesale enquir{{ m.wholesale_open|pluralize:"y,ies" }} waiting for your answer.{% else %}{{ m.wholesale_open|fa_digits }} درخواست سفارش عمده منتظر پاسخ شماست.{% endif %} <a href="{% url 'panel:wholesale' m.pk %}">{% if IS_EN %}Answer{% else %}پاسخ دادن{% endif %}</a></p>
+        {% endif %}
         <p class="panel-actions panel-actions--minor">
             <a href="{% url 'panel:complaints' m.pk %}">{% if IS_EN %}File a complaint{% else %}ثبت شکایت{% endif %}</a>
+            <a href="{% url 'panel:wholesale' m.pk %}">{% if IS_EN %}Wholesale enquiries{% else %}درخواست‌های سفارش عمده{% endif %}</a>
             <a href="{% url 'panel:appeals' m.pk %}">{% if IS_EN %}Appeal a decision{% else %}اعتراض به رأی{% endif %}</a>
         </p>
         {% endif %}

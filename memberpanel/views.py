@@ -93,6 +93,8 @@ def dashboard(request):
         member.public_url = member.get_url() if member.is_published and not member.is_inactive else ""
         member.assembly_seat = (member.assembly_seats.filter(assembly__status__in=("invited", "in_session"))
                                 .select_related("assembly").order_by("assembly__starts_at").first())
+        member.wholesale_open = member.wholesale_shares.filter(status__in=("new", "seen")).exclude(
+            inquiry__status__in=("ordered", "closed", "spam")).count()
     return render(request, "memberpanel/dashboard.html", {"members": members, "current": "dashboard"})
 
 

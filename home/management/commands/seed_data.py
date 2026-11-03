@@ -207,7 +207,8 @@ BOARD = "هیئت مدیره"
 PR = "روابط عمومی"
 MEMBERS_GROUP = "اعضا"
 ASSEMBLY_SECRETARY = "دبیر مجمع"  # secretary of the general assembly and deputy; hears appeals (section 8.2)
-GROUPS = [SECRETARIAT, COMMISSION, BOARD, PR, MEMBERS_GROUP, ASSEMBLY_SECRETARY]
+MARKET = "کارگروه توسعه بازار"  # market development working group; handles wholesale enquiries
+GROUPS = [SECRETARIAT, COMMISSION, BOARD, PR, MEMBERS_GROUP, ASSEMBLY_SECRETARY, MARKET]
 
 # Document collections and who may download their files.
 # An empty list means public.
