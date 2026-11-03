@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load wagtailcore_tags wagtailimages_tags site_tags directory_tags %}
+{% load wagtailcore_tags wagtailimages_tags site_tags directory_tags wholesale_tags %}
 {% block body_class %}page-product{% endblock %}
 {% block title %}{% tr product "name" %}{% endblock %}
 {% block content %}
@@ -38,6 +38,11 @@
                     <a class="btn btn--primary btn--large" href="{{ product.direct_purchase_url }}" rel="noopener" target="_blank">{% tr shop "direct_purchase_label" %}</a>
                     {% tr shop "purchase_note" as note %}{% if note %}<p class="muted">{{ note }}</p>{% endif %}
                 </div>
+                {% endif %}
+
+                {% wholesale_page as wholesale %}
+                {% if wholesale %}
+                <p class="wh-cta"><a class="btn btn--outline" href="{% pageurl wholesale %}?product={{ product.slug|urlencode }}#product-{{ product.slug }}">{% if IS_EN %}Wholesale or export enquiry{% else %}درخواست خرید عمده یا صادراتی{% endif %}</a></p>
                 {% endif %}
 
                 {% tr product "description" as description %}

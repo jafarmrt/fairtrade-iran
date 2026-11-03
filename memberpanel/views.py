@@ -88,6 +88,8 @@ def dashboard(request):
         }
         member.open_dues = member.dues.filter(status__in=("unpaid", "pending")).order_by("due_date").first()
         member.public_url = member.get_url() if member.is_published and not member.is_inactive else ""
+        member.wholesale_open = member.wholesale_shares.filter(status__in=("new", "seen")).exclude(
+            inquiry__status__in=("ordered", "closed", "spam")).count()
     return render(request, "memberpanel/dashboard.html", {"members": members, "current": "dashboard"})
 
 
