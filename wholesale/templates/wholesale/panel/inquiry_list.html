@@ -1,0 +1,33 @@
+{% extends "memberpanel/base.html" %}
+{% load membership_tags %}
+{% block heading %}{% if IS_EN %}Wholesale enquiries{% else %}درخواست‌های سفارش عمده{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-layout">
+<div>
+    <p class="muted">{% if IS_EN %}Buyers, often from abroad, send wholesale enquiries through the House's website. Enquiries that include your products appear here. Tell the House whether you can supply them, at what price and how soon; the House replies to the buyer.{% else %}خریداران، بیشتر از خارج از کشور، از راه سایت خانه درخواست سفارش عمده می‌فرستند. درخواست‌هایی که محصولات شما در آن‌هاست این‌جا می‌آید. به خانه بگویید آیا می‌توانید تأمین کنید، با چه قیمتی و در چه زمانی؛ خانه به خریدار پاسخ می‌دهد.{% endif %}</p>
+    {% if shares %}
+    <ul class="panel-cases">
+        {% for share in shares %}
+        <li class="card panel-case">
+            <div class="track-card__head">
+                <div>
+                    <div class="muted"><span dir="ltr" class="mono">{{ share.inquiry.tracking_code }}</span> · {{ share.inquiry.created_at|jdate }}</div>
+                    <strong>{% if IS_EN %}From {{ share.inquiry.country }}{% else %}از {{ share.inquiry.country }}{% endif %}</strong>
+                    <span class="muted">({{ share.inquiry.buyer_type_display }})</span>
+                </div>
+                <span class="status-badge status-badge--wh-{{ share.status }}">{{ share.status_display }}</span>
+            </div>
+            <ul class="wh-lines">
+                {% for line in share.own_lines %}<li>{{ line.product_name }}: <strong>{{ line.quantity }}</strong> {{ line.unit_display }}</li>{% empty %}<li class="muted">{% if IS_EN %}See the details{% else %}جزئیات را ببینید{% endif %}</li>{% endfor %}
+            </ul>
+            <p><a class="btn {% if share.is_answered %}btn--outline{% else %}btn--primary{% endif %}" href="{% url 'panel:wholesale_detail' member.pk share.pk %}">{% if share.is_answered %}{% if IS_EN %}View or change your answer{% else %}دیدن یا تغییر پاسخ{% endif %}{% else %}{% if IS_EN %}Answer{% else %}پاسخ دادن{% endif %}{% endif %}</a></p>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p class="notice">{% if IS_EN %}No wholesale enquiries for your products yet.{% else %}هنوز درخواست سفارش عمده‌ای برای محصولات شما نرسیده است.{% endif %}</p>
+    {% endif %}
+</div>
+{% include "memberpanel/includes/help.html" %}
+</div>
+{% endblock %}

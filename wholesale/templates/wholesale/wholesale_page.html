@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% load wagtailcore_tags wagtailimages_tags site_tags directory_tags %}
+{% block body_class %}page-wholesale{% endblock %}
+{% block content %}
+<header class="page-header">
+    <div class="container">
+        <p class="eyebrow">{% if IS_EN %}Wholesale and export{% else %}فروش عمده و صادرات{% endif %}</p>
+        <h1>{{ page.title }}</h1>
+        {% if page.intro %}<div class="lead prose">{{ page.intro|richtext }}</div>{% endif %}
+        <ol class="wh-steps">
+            <li>{% if IS_EN %}Choose products and quantities{% else %}محصولات و مقدار را انتخاب کنید{% endif %}</li>
+            <li>{% if IS_EN %}Tell us about your business and delivery terms{% else %}مشخصات کسب‌وکار و شرایط تحویل را بنویسید{% endif %}</li>
+            <li>{% if IS_EN %}We check with the producers and send you a quotation{% else %}با تولیدکنندگان هماهنگ می‌کنیم و پیشنهاد قیمت می‌فرستیم{% endif %}</li>
+        </ol>
+    </div>
+</header>
+
+<section class="section">
+<div class="container">
+    {% if not form %}<p class="notice">{% tr wholesale_settings "closed_text" %}</p>{% endif %}
+    {% if errors %}<div class="notice notice--error" role="alert"><ul class="wh-errors">{% for e in errors %}<li>{{ e }}</li>{% endfor %}</ul></div>{% endif %}
+
+    <form class="form form--wide wh-form" action="{% pageurl page %}" method="post" novalidate>
+        {% csrf_token %}
+        <input type="hidden" name="started" value="{{ started_token }}">
+
+        <h2>{% if IS_EN %}1. Products{% else %}۱. محصولات{% endif %}</h2>
+        <p class="muted">{% if IS_EN %}Enter the quantity you are interested in next to each product. Leave the others empty. Prices are quoted on request, depending on quantity and delivery terms.{% else %}کنار هر محصولی که می‌خواهید مقدار را بنویسید و بقیه را خالی بگذارید. قیمت عمده بسته به مقدار و شرایط تحویل اعلام می‌شود.{% endif %}</p>
+
+        {% for group in groups %}
+        {% tr group.member "name" as member_name %}
+        <fieldset class="card wh-producer">
+            <legend class="wh-producer__name">
+                <a href="{% item_url group.member %}">{{ member_name }}</a>
+                {% if group.member.region %}<span class="muted">· {% tr group.member.region "name" %}</span>{% endif %}
+            </legend>
+            {% tr group.member "summary" as member_summary %}{% if member_summary %}<p class="muted wh-producer__summary">{{ member_summary }}</p>{% endif %}
+            <ul class="wh-items">
+                {% for product in group.products %}
+                {% tr product "name" as product_name %}
+                <li class="wh-item{% if product.wh_selected %} is-selected{% endif %}{% if product.wh_error %} has-error{% endif %}" id="product-{{ product.slug }}">
+                    <div class="wh-item__thumb">{% if product.main_image %}{% image product.main_image fill-96x96 loading="lazy" alt="" %}{% else %}<span class="placeholder" aria-hidden="true">{{ product_name|first }}</span>{% endif %}</div>
+                    <div class="wh-item__text">
+                        <a href="{% item_url product %}" class="wh-item__name">{{ product_name }}</a>
+                        {% tr product "summary" as summary %}{% if summary %}<p class="muted">{{ summary }}</p>{% endif %}
+                        {% if not product.in_stock %}<span class="badge">{% if IS_EN %}Made to order{% else %}سفارشی ساخته می‌شود{% endif %}</span>{% endif %}
+                    </div>
+                    {% if form %}
+                    <div class="wh-item__qty">
+                        <label class="visually-hidden" for="qty-{{ product.pk }}">{% if IS_EN %}Quantity of {{ product_name }}{% else %}مقدار {{ product_name }}{% endif %}</label>
+                        <input id="qty-{{ product.pk }}" name="qty_{{ product.pk }}" type="text" inputmode="numeric" dir="ltr" autocomplete="off"
+                               value="{{ product.wh_qty }}" placeholder="0" class="wh-qty"{% if product.wh_selected %} autofocus{% endif %}{% if product.wh_error %} aria-invalid="true"{% endif %}>
+                        {% if unit_choices %}
+                        <label class="visually-hidden" for="unit-{{ product.pk }}">{% if IS_EN %}Unit{% else %}واحد{% endif %}</label>
+                        <select id="unit-{{ product.pk }}" name="unit_{{ product.pk }}">
+                            {% for value, label in unit_choices %}<option value="{{ value }}"{% if value == product.wh_unit %} selected{% endif %}>{{ label }}</option>{% endfor %}
+                        </select>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </fieldset>
+        {% empty %}
+        <p class="notice">{% if IS_EN %}Our members' product list is being prepared. You can still describe what you are looking for below.{% else %}فهرست محصولات اعضا در حال آماده شدن است. می‌توانید آن‌چه می‌خواهید را پایین‌تر بنویسید.{% endif %}</p>
+        {% endfor %}
+
+        {% if form %}
+        <div class="contact-layout wh-details">
+            <div>
+                <h2>{% if IS_EN %}2. Your business and delivery{% else %}۲. مشخصات شما و شرایط تحویل{% endif %}</h2>
+                {% if page.form_intro %}<div class="prose">{{ page.form_intro|richtext }}</div>{% endif %}
+                {% if form.non_field_errors %}<ul class="errorlist">{% for e in form.non_field_errors %}<li>{{ e }}</li>{% endfor %}</ul>{% endif %}
+                <div class="form-grid">
+                {% for field in form.visible_fields %}
+                    <div class="form-row{% if field.name in form.wide_fields %} form-row--wide{% endif %}">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} <span class="req" aria-hidden="true">*</span>{% endif %}</label>
+                        {{ field }}
+                        {% if field.help_text %}<p class="helptext">{{ field.help_text }}</p>{% endif %}
+                        {{ field.errors }}
+                    </div>
+                {% endfor %}
+                </div>
+                {# Left empty by people; bots fill it in. #}
+                <div class="hp-field" aria-hidden="true"><label for="id_hp_website">Website</label><input type="text" name="{{ honeypot }}" id="id_hp_website" tabindex="-1" autocomplete="off"></div>
+                <p class="wh-submit">
+                    <button class="btn btn--primary btn--large" type="submit">{% if IS_EN %}Send enquiry{% else %}ارسال درخواست{% endif %}</button>
+                    <span class="muted" data-wh-count hidden></span>
+                </p>
+                <p class="muted">{% if IS_EN %}This is a request for a quotation, not an order. Nothing is charged.{% else %}این درخواست پیشنهاد قیمت است، نه سفارش قطعی؛ هزینه‌ای گرفته نمی‌شود.{% endif %}</p>
+            </div>
+            {% if page.side_note %}
+            <aside class="contact-aside">
+                <div class="card card--note">
+                    <h2>{% if IS_EN %}Good to know{% else %}خوب است بدانید{% endif %}</h2>
+                    <div class="prose">{{ page.side_note|richtext }}</div>
+                </div>
+            </aside>
+            {% endif %}
+        </div>
+        {% endif %}
+    </form>
+</div>
+</section>
+{% if form %}
+<script>
+(function () {
+    var out = document.querySelector("[data-wh-count]");
+    var inputs = document.querySelectorAll(".wh-qty");
+    if (!out || !inputs.length) return;
+    var en = document.documentElement.lang === "en";
+    function update() {
+        var n = 0;
+        inputs.forEach(function (input) {
+            var v = parseInt(input.value.replace(/[۰-۹]/g, function (d) { return "۰۱۲۳۴۵۶۷۸۹".indexOf(d); }), 10);
+            var row = input.closest(".wh-item");
+            if (v > 0) n++;
+            if (row) row.classList.toggle("is-chosen", v > 0);
+        });
+        out.hidden = n === 0;
+        out.textContent = en ? (n === 1 ? "1 product selected" : n + " products selected")
+                             : n.toLocaleString("fa-IR") + " محصول انتخاب شده";
+    }
+    inputs.forEach(function (input) { input.addEventListener("input", update); });
+    update();
+})();
+</script>
+{% endif %}
+{% endblock %}
