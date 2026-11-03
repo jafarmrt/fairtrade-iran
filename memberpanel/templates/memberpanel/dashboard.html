@@ -1,5 +1,5 @@
 {% extends "memberpanel/base.html" %}
-{% load wagtailcore_tags wagtailimages_tags membership_tags site_tags %}
+{% load date_tags wagtailcore_tags wagtailimages_tags membership_tags site_tags %}
 {% block heading %}{% if IS_EN %}Welcome{% else %}خوش آمدید{% endif %}{% if user.first_name %}{% if IS_EN %}, {% else %}، {% endif %}{{ user.first_name }}{% endif %}{% endblock %}
 {% block panel_content %}
 {% with s=panel_settings %}
@@ -29,6 +29,13 @@
             {% if m.open_dues.can_pay %}<p><a href="{% url 'panel:membership' m.pk %}">{% if IS_EN %}Pay and send the receipt{% else %}پرداخت و ارسال رسید{% endif %}</a></p>{% endif %}
         </div>
         {% endif %}
+        {% if m.assembly_seat %}{% with a=m.assembly_seat.assembly %}
+        <div class="notice{% if a.in_session %} notice--ok{% endif %} panel-assembly">
+            <p>{% if a.in_session %}{% if IS_EN %}The General Assembly is in session:{% else %}مجمع عمومی در حال برگزاری است:{% endif %}{% else %}{% if IS_EN %}You are invited:{% else %}دعوت به مجمع:{% endif %}{% endif %}
+            <strong>{% if IS_EN and a.title_en %}{{ a.title_en }}{% else %}{{ a.title }}{% endif %}</strong> · {{ a.starts_at|jdatetime }}</p>
+            <p><a href="{% url 'panel:assembly' m.pk a.pk %}">{% if a.in_session %}{% if IS_EN %}Attend and vote{% else %}حضور و رأی‌گیری{% endif %}{% else %}{% if IS_EN %}Invitation and agenda{% else %}دعوت‌نامه و دستور جلسه{% endif %}{% endif %}</a></p>
+        </div>
+        {% endwith %}{% endif %}
         {% if m.is_inactive %}
             <p class="notice notice--error">{% if m.status == 'cancelled' %}{% if IS_EN %}This membership has been cancelled.{% else %}این عضویت لغو شده است.{% endif %}{% else %}{% if IS_EN %}This membership is suspended{% if m.suspended_until %} until {{ m.suspended_until|jdate }}{% endif %}.{% else %}این عضویت{% if m.suspended_until %} تا {{ m.suspended_until|jdate }}{% endif %} تعلیق شده است.{% endif %}{% endif %}
             <a href="{% url 'panel:membership' m.pk %}">{% if IS_EN %}Details{% else %}جزئیات{% endif %}</a>
@@ -39,10 +46,6 @@
             <a class="btn btn--outline" href="{% url 'panel:products' m.pk %}">{% if IS_EN %}Products{% else %}محصولات{% endif %}</a>
             <a class="btn btn--outline" href="{% url 'panel:membership' m.pk %}">{% if IS_EN %}Membership and fees{% else %}عضویت و حق عضویت{% endif %}</a>
             {% if m.public_url %}<a href="{{ m.public_url }}">{% if IS_EN %}View public page{% else %}دیدن صفحه عمومی{% endif %}</a>{% endif %}
-        </p>
-        <p class="panel-actions panel-actions--minor">
-            <a href="{% url 'panel:complaints' m.pk %}">{% if IS_EN %}File a complaint{% else %}ثبت شکایت{% endif %}</a>
-            <a href="{% url 'panel:appeals' m.pk %}">{% if IS_EN %}Appeal a decision{% else %}اعتراض به رأی{% endif %}</a>
         </p>
         <p class="panel-actions panel-actions--minor">
             <a href="{% url 'panel:complaints' m.pk %}">{% if IS_EN %}File a complaint{% else %}ثبت شکایت{% endif %}</a>

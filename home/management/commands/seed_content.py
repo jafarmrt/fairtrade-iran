@@ -217,6 +217,15 @@ class Command(BaseCommand):
             secretary.permissions.add(
                 Permission.objects.get(content_type__app_label="appeals", codename=codename)
             )
+        # The Assembly Secretary runs the General Assembly; the board and secretariat follow it.
+        secretary.permissions.add(*Permission.objects.filter(
+            content_type__app_label="assembly",
+            codename__in=["add_assembly", "change_assembly", "view_assembly",
+                          "add_agendaitem", "change_agendaitem", "delete_agendaitem", "view_agendaitem"],
+        ))
+        view_assembly = Permission.objects.get(content_type__app_label="assembly", codename="view_assembly")
+        for name in (data.BOARD, data.SECRETARIAT):
+            groups[name].permissions.add(view_assembly)
 
     # ---- news, documents, contact ----
 

@@ -647,3 +647,29 @@ html[lang="en"] .step::before { content: counter(step); }
 .panel-actions + h2 { margin-top: 32px; }
 .panel-subhead { font-size: 1rem; margin: 20px 0 8px; }
 .standing-section .cert-result { max-width: none; }
+
+/* ---- General Assembly (member panel) ---- */
+.assembly { display: grid; gap: 20px; align-content: start; }
+.assembly-head .fee-list { margin: 8px 0 12px; }
+.assembly-head .panel-actions { margin-bottom: 16px; }
+.fee-list dd.wrap { white-space: normal; }
+.assembly-items { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; counter-reset: agenda; }
+.assembly-item { counter-increment: agenda; }
+.assembly-item h3 { margin: 0; }
+.assembly-item h3::before { content: counter(agenda) ". "; color: var(--gold); }
+[dir="rtl"] .assembly-item h3::before { content: counter(agenda, persian) ". "; }
+.assembly-state { margin: 12px 0; color: var(--text-muted); }
+.assembly-state--open { color: #14532d; font-weight: 700; }
+.ballot { margin-top: 12px; padding: 16px; border: 1px solid var(--line); border-radius: 10px; }
+.ballot fieldset { border: 0; margin: 0 0 12px; padding: 0; display: grid; gap: 8px; }
+.ballot legend { font-weight: 700; color: var(--navy); margin-bottom: 8px; }
+.ballot__choice { display: flex; gap: 10px; align-items: flex-start; padding: 10px 12px; border: 1px solid var(--line); border-radius: 8px; cursor: pointer; }
+.ballot__choice:has(input:checked) { border-color: var(--gold); background: var(--gold-tint); }
+.ballot__choice input { margin-block-start: 4px; }
+.assembly-result { margin-top: 12px; padding: 12px 16px; border-inline-start: 4px solid var(--gold); background: var(--gold-tint); border-radius: 8px; overflow-x: auto; }
+.result-table { width: 100%; border-collapse: collapse; margin: 8px 0; }
+.result-table th, .result-table td { text-align: start; padding: 6px 8px; border-bottom: 1px solid var(--line); }
+.result-table .is-elected td { font-weight: 700; color: var(--brown); }
+.status-badge--assembly-in_session { background: #e8f5ee; color: #14532d; }
+.status-badge--assembly-ended { background: #eef0f5; color: var(--navy); }
+.panel-assembly p { margin: 0 0 4px; }

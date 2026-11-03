@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "memberpanel",
     "standing",
     "appeals",
+    "assembly",
     # Wagtail
     "wagtail.contrib.forms",
     "wagtail.contrib.redirects",

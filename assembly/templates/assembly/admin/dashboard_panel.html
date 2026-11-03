@@ -1,0 +1,9 @@
+{% load assembly_tags %}
+<section class="panel summary nice-padding">
+    <h2>مجمع عمومی</h2>
+    <ul>
+        {% for a in assemblies %}
+        <li><a href="{% url 'assembly_control:control' a.pk %}">{{ a.title }}</a> · {{ a.get_status_display }} · {{ a.starts_at|jdatetime_fa }}</li>
+        {% endfor %}
+    </ul>
+</section>
