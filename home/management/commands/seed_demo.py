@@ -39,23 +39,23 @@ from . import seed_data as data
 # (member slug, category slug, fa name, en name, fa summary, en summary, price in rial, colour, featured)
 PRODUCTS = [
     ("armoz", "food", "رب انار میناب", "Minab pomegranate paste", "رب انار خانگی بدون افزودنی",
-     "Home-made pomegranate paste, no additives", 2_400_000, "#873319", True),
+     "Home-made pomegranate paste, no additives", 2_400_000, "#1c1f4a", True),
     ("armoz", "food", "خرمای مضافتی", "Mazafati dates", "خرمای تازه هرمزگان، بسته یک کیلویی",
-     "Fresh dates from Hormozgan, 1 kg box", 1_850_000, "#5b3a1e", False),
+     "Fresh dates from Hormozgan, 1 kg box", 1_850_000, "#a87d1c", False),
     ("papital", "jewellery", "گردنبند نقره دست‌ساز", "Handmade silver necklace", "نقره و سنگ فیروزه",
-     "Silver with turquoise", 9_500_000, "#1a1c46", True),
+     "Silver with turquoise", 9_500_000, "#031bff", True),
     ("papital", "jewellery", "گوشواره پته", "Pateh earrings", "گوشواره با سوزن‌دوزی پته کرمان",
      "Earrings with Kerman pateh embroidery", 3_200_000, "#cf9d2b", False),
     ("tida", "textiles", "شال ابریشمی ترکمن", "Turkmen silk shawl", "بافت دست زنان ترکمن",
-     "Hand-woven by Turkmen women", 12_000_000, "#a03030", True),
+     "Hand-woven by Turkmen women", 12_000_000, "#1c1f4a", True),
     ("chagerd", "handicrafts", "کیف سوزن‌دوزی بلوچ", "Baluch embroidered bag", "سوزن‌دوزی سنتی بلوچستان",
-     "Traditional Baluch needlework", 6_800_000, "#2e6b5e", True),
+     "Traditional Baluch needlework", 6_800_000, "#0b6b68", True),
     ("lena", "handicrafts", "رومیزی پته", "Pateh table runner", "سوزن‌دوزی پته روی پارچه پشمی",
-     "Pateh needlework on wool", 7_400_000, "#7a2e4a", False),
+     "Pateh needlework on wool", 7_400_000, "#5f6b66", False),
     ("mehrbaf", "home-decor", "کوسن گلیم‌بافت", "Kilim cushion", "روکش کوسن با بافت گلیم",
      "Kilim-woven cushion cover", 4_500_000, "#a87d1c", True),
     ("parvand-boom", "food", "عسل کوهی", "Mountain honey", "عسل طبیعی کوه‌های جنوب فارس",
-     "Natural honey from the mountains of southern Fars", 5_200_000, "#d9a21b", False),
+     "Natural honey from the mountains of southern Fars", 5_200_000, "#cf9d2b", False),
 ]
 
 # Which demo producers sell through the site's cart, and how.

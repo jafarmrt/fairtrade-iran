@@ -470,7 +470,7 @@ class SecuritySettings(BaseGenericSetting):
         return [o for o in (origin(line) for line in self.csp_extra_sources.splitlines()) if o]
 
 
-HEX_COLOR = RegexValidator(r"^#[0-9a-fA-F]{6}$", _("رنگ را به شکل #RRGGBB بنویسید، مثلاً #1a1c46"))
+HEX_COLOR = RegexValidator(r"^#[0-9a-fA-F]{6}$", _("رنگ را به شکل #RRGGBB بنویسید، مثلاً #1c1f4a"))
 
 
 @register_setting(icon="mobile-alt")
@@ -511,12 +511,12 @@ class PwaSettings(BaseGenericSetting):
                     "گرد یا دایره‌ای می‌بُرد."),
     )
     theme_color = models.CharField(
-        _("رنگ نوار بالای برنامه"), max_length=7, default="#1a1c46", validators=[HEX_COLOR],
+        _("رنگ نوار بالای برنامه"), max_length=7, default="#1c1f4a", validators=[HEX_COLOR],
         help_text=_("رنگ نوار وضعیت گوشی وقتی برنامه باز است؛ پیش‌فرض سرمه‌ای برند"),
     )
     background_color = models.CharField(
-        _("رنگ صفحه بازشدن"), max_length=7, default="#fbf8f2", validators=[HEX_COLOR],
-        help_text=_("رنگ زمینه هنگام باز شدن برنامه، پیش از نمایش صفحه"),
+        _("رنگ صفحه بازشدن"), max_length=7, default="#1c1f4a", validators=[HEX_COLOR],
+        help_text=_("رنگ زمینه هنگام باز شدن برنامه، پیش از نمایش صفحه؛ پیش‌فرض سرمه‌ای برند، هم‌رنگ زمینه آیکون"),
     )
 
     show_install_prompt = models.BooleanField(
