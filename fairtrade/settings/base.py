@@ -88,6 +88,7 @@ MIDDLEWARE = [
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     "wagtail.contrib.redirects.middleware.RedirectMiddleware",
+    "core.pwa.PwaCacheHintMiddleware",
 ]
 
 ROOT_URLCONF = "fairtrade.urls"

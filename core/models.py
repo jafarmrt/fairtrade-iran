@@ -3,7 +3,7 @@ Site-wide settings that the secretariat and PR working group edit from the
 admin panel (Settings menu). Nothing here is hard-coded in templates.
 """
 
-from django.core.validators import MaxValueValidator, MinValueValidator
+from django.core.validators import MaxValueValidator, MinValueValidator, RegexValidator
 from django.db import models
 from django.utils.translation import get_language
 from django.utils.translation import gettext_lazy as _
@@ -468,3 +468,126 @@ class SecuritySettings(BaseGenericSetting):
         from .security import origin
 
         return [o for o in (origin(line) for line in self.csp_extra_sources.splitlines()) if o]
+
+
+HEX_COLOR = RegexValidator(r"^#[0-9a-fA-F]{6}$", _("رنگ را به شکل #RRGGBB بنویسید، مثلاً #1a1c46"))
+
+
+@register_setting(icon="mobile-alt")
+class PwaSettings(BaseGenericSetting):
+    """The installable phone version of the site (Progressive Web App): name, icon, colours, offline page."""
+
+    enabled = models.BooleanField(
+        _("نسخه نصب‌شدنی فعال باشد"), default=True,
+        help_text=_("با خاموش کردن، دکمه نصب برداشته می‌شود و نسخه‌های نصب‌شده در گوشی‌ها در بازدید بعدی "
+                    "خودشان را پاک می‌کنند و مثل سایت معمولی کار می‌کنند."),
+    )
+    app_name = models.CharField(
+        _("نام برنامه (فارسی)"), max_length=120, blank=True,
+        help_text=_("اگر خالی باشد، نام سایت از «تنظیمات سایت» به کار می‌رود"),
+    )
+    app_name_en = models.CharField(_("نام برنامه (انگلیسی)"), max_length=120, blank=True)
+    short_name = models.CharField(
+        _("نام کوتاه زیر آیکون (فارسی)"), max_length=30, default="تجارت عادلانه",
+        help_text=_("زیر آیکون روی صفحه گوشی نمایش داده می‌شود؛ ترجیحاً کمتر از ۱۲ نویسه"),
+    )
+    short_name_en = models.CharField(_("نام کوتاه زیر آیکون (انگلیسی)"), max_length=30, default="Fair Trade Iran")
+    description = models.TextField(
+        _("توضیح برنامه (فارسی)"), max_length=300, blank=True,
+        help_text=_("اگر خالی باشد، توضیح پیش‌فرض سایت از «سئو، آمار و نمادها» به کار می‌رود"),
+    )
+    description_en = models.TextField(_("توضیح برنامه (انگلیسی)"), max_length=300, blank=True)
+
+    icon = models.ForeignKey(
+        "wagtailimages.Image", verbose_name=_("آیکون برنامه"), null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="+",
+        help_text=_("تصویر مربعی PNG، دست‌کم ۵۱۲×۵۱۲ پیکسل. اگر خالی باشد، آیکون سایت (فاوآیکون) و در نبود آن "
+                    "آیکون پیش‌فرض با لوگوی خانه به کار می‌رود."),
+    )
+    maskable_icon = models.ForeignKey(
+        "wagtailimages.Image", verbose_name=_("آیکون اندروید (با حاشیه)"), null=True, blank=True,
+        on_delete=models.SET_NULL, related_name="+",
+        help_text=_("اختیاری؛ ۵۱۲×۵۱۲ پیکسل با زمینه پر و لوگو در ۶۰٪ میانی تصویر، چون اندروید گوشه‌ها را "
+                    "گرد یا دایره‌ای می‌بُرد."),
+    )
+    theme_color = models.CharField(
+        _("رنگ نوار بالای برنامه"), max_length=7, default="#1a1c46", validators=[HEX_COLOR],
+        help_text=_("رنگ نوار وضعیت گوشی وقتی برنامه باز است؛ پیش‌فرض سرمه‌ای برند"),
+    )
+    background_color = models.CharField(
+        _("رنگ صفحه بازشدن"), max_length=7, default="#fbf8f2", validators=[HEX_COLOR],
+        help_text=_("رنگ زمینه هنگام باز شدن برنامه، پیش از نمایش صفحه"),
+    )
+
+    show_install_prompt = models.BooleanField(
+        _("پیشنهاد نصب به بازدیدکنندگان"), default=True,
+        help_text=_("نوار کوچکی پایین صفحه که نصب برنامه را پیشنهاد می‌دهد؛ با «بعداً» تا یک ماه نمایش داده نمی‌شود"),
+    )
+    install_text = models.CharField(
+        _("متن پیشنهاد نصب (فارسی)"), max_length=200,
+        default="سایت خانه تجارت عادلانه را مثل یک برنامه روی گوشی خود نصب کنید.",
+    )
+    install_text_en = models.CharField(
+        _("متن پیشنهاد نصب (انگلیسی)"), max_length=200,
+        default="Install the Fair Trade House site on your phone like an app.",
+    )
+    ios_install_text = models.CharField(
+        _("راهنمای نصب در آیفون (فارسی)"), max_length=250,
+        default="برای نصب در آیفون، در سافاری دکمه «اشتراک‌گذاری» را بزنید و «\u2068Add to Home Screen\u2069» را انتخاب کنید.",
+        help_text=_("آیفون دکمه نصب خودکار ندارد؛ این راهنما به جای آن نمایش داده می‌شود"),
+    )
+    ios_install_text_en = models.CharField(
+        _("راهنمای نصب در آیفون (انگلیسی)"), max_length=250,
+        default="To install on iPhone, tap the Share button in Safari and choose “Add to Home Screen”.",
+    )
+
+    cache_pages = models.BooleanField(
+        _("نگه‌داری صفحه‌های بازدیدشده برای حالت بدون اینترنت"), default=True,
+        help_text=_("فقط صفحه‌های عمومی که بازدیدکننده واردنشده دیده است، روی همان گوشی نگه داشته می‌شوند. "
+                    "پنل اعضا، مدیریت، فرم‌ها، سبد خرید و پرداخت هرگز ذخیره نمی‌شوند."),
+    )
+    offline_title = models.CharField(
+        _("عنوان صفحه بدون اینترنت (فارسی)"), max_length=120, default="اتصال اینترنت برقرار نیست",
+    )
+    offline_title_en = models.CharField(
+        _("عنوان صفحه بدون اینترنت (انگلیسی)"), max_length=120, default="You are offline",
+    )
+    offline_text = models.TextField(
+        _("متن صفحه بدون اینترنت (فارسی)"),
+        default="این صفحه بدون اینترنت در دسترس نیست. پس از وصل شدن دوباره امتحان کنید. "
+                "صفحه‌هایی که پیش‌تر دیده‌اید ممکن است بدون اینترنت هم باز شوند.",
+    )
+    offline_text_en = models.TextField(
+        _("متن صفحه بدون اینترنت (انگلیسی)"),
+        default="This page isn't available offline. Please try again once you're connected. "
+                "Pages you have visited before may still open without a connection.",
+    )
+
+    panels = [
+        FieldPanel("enabled"),
+        MultiFieldPanel(
+            [FieldPanel("app_name"), FieldPanel("app_name_en"), FieldPanel("short_name"), FieldPanel("short_name_en"),
+             FieldPanel("description"), FieldPanel("description_en")],
+            heading=_("نام و توضیح"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("icon"), FieldPanel("maskable_icon"), FieldPanel("theme_color"), FieldPanel("background_color")],
+            heading=_("آیکون و رنگ‌ها"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("show_install_prompt"), FieldPanel("install_text"), FieldPanel("install_text_en"),
+             FieldPanel("ios_install_text"), FieldPanel("ios_install_text_en")],
+            heading=_("پیشنهاد نصب"),
+        ),
+        MultiFieldPanel(
+            [FieldPanel("cache_pages"), FieldPanel("offline_title"), FieldPanel("offline_title_en"),
+             FieldPanel("offline_text"), FieldPanel("offline_text_en")],
+            heading=_("بدون اینترنت"),
+        ),
+    ]
+
+    class Meta:
+        verbose_name = _("نسخه موبایلی (نصب روی گوشی)")
+
+    def tr(self, field):
+        return BilingualMixin.tr(self, field)

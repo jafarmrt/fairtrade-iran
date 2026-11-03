@@ -857,3 +857,35 @@ html[lang="en"] .step::before { content: counter(step); }
   .invoice-page { background: #fff; }
   .invoice { border: 0; margin: 0; padding: 0; max-width: none; }
 }
+
+/* Phone version (PWA): install suggestion and offline notice — core/templates/core/pwa/body.html */
+.install-banner {
+  position: fixed;
+  inset-inline: 12px;
+  bottom: max(12px, env(safe-area-inset-bottom));
+  z-index: 90;
+  max-width: 560px;
+  margin-inline: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px 16px;
+  padding: 14px 16px;
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-inline-start: 4px solid var(--gold);
+  border-radius: var(--radius);
+  box-shadow: 0 8px 28px rgba(26, 28, 70, 0.18);
+}
+.install-banner[hidden], .offline-note[hidden], .install-banner [hidden] { display: none; }
+.install-banner__text { flex: 1 1 220px; margin: 0; font-size: .95rem; line-height: 1.7; }
+.install-banner__actions { display: flex; gap: 8px; }
+.install-banner__actions .btn { padding: 8px 18px; }
+.offline-note {
+  background: var(--navy);
+  color: #fff;
+  text-align: center;
+  font-size: .875rem;
+  padding: 6px 12px;
+}
+@media print { .install-banner, .offline-note { display: none !important; } }
