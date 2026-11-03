@@ -4,7 +4,7 @@ from django.contrib import messages
 from django.shortcuts import redirect
 
 from core.models import MembershipSettings
-from memberpanel.views import member_view, render, t
+from memberpanel.views import member_view, membership_record, render, t
 
 from .forms import ReceiptForm
 from .models import Dues
@@ -34,4 +34,5 @@ def membership(request, member):
         "decisions": member.decisions.all().order_by("-created_at"),
         "ms": MembershipSettings.load(request_or_site=request),
         "current": "membership",
+        **membership_record(request, member),
     })

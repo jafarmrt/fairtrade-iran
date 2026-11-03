@@ -212,6 +212,11 @@ class Command(BaseCommand):
             commission.permissions.add(
                 Permission.objects.get(content_type__app_label="contact", codename=codename)
             )
+        secretary = groups[data.ASSEMBLY_SECRETARY]
+        for codename in ("view_appeal", "change_appeal"):
+            secretary.permissions.add(
+                Permission.objects.get(content_type__app_label="appeals", codename=codename)
+            )
 
     # ---- news, documents, contact ----
 

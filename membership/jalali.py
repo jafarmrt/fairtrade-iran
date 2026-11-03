@@ -92,3 +92,31 @@ def to_gregorian(jy, jm, jd):
         gd -= month_days[gm]
         gm += 1
     return datetime.date(gy, gm + 1, gd)
+
+
+LATIN_DIGITS = str.maketrans("۰۱۲۳۴۵۶۷۸۹٠١٢٣٤٥٦٧٨٩", "01234567890123456789")
+
+
+def parse_date(value):
+    """
+    A date typed as 1405/08/12 (Jalali) or 2026-11-03 (Gregorian), with
+    Persian or Latin digits. Years below 1700 are read as Jalali.
+    Returns a datetime.date or None.
+    """
+    import re
+
+    parts = re.split(r"[/\-.\s]+", str(value or "").translate(LATIN_DIGITS).strip())
+    if len(parts) != 3 or not all(p.isdigit() for p in parts):
+        return None
+    y, m, d = (int(p) for p in parts)
+    if d > 31 and y <= 31:  # written day first: 12/08/1405
+        y, d = d, y
+    try:
+        if y < 1700:
+            if not (1 <= m <= 12 and 1 <= d <= (31 if m <= 6 else 30)):
+                return None
+            result = to_gregorian(y, m, d)
+            return result if to_jalali(result.year, result.month, result.day) == (y, m, d) else None
+        return datetime.date(y, m, d)
+    except ValueError:
+        return None

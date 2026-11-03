@@ -263,3 +263,43 @@ class PasswordChangeView(auth_views.PasswordChangeView):
     def form_valid(self, form):
         messages.success(self.request, t("رمز عبور شما تغییر کرد.", "Your password was changed."))
         return super().form_valid(form)
+
+
+# ---- membership file and certificate ----
+
+APPEALABLE_STATUSES = {"rejected": "rejection", "not_accepted": "rejection"}
+
+
+def membership_record(request, member):
+    """The membership file and certificate, shown on the panel's membership page."""
+    import datetime
+
+    from django.utils import timezone
+
+    from appeals.models import AppealSettings
+    from core.models import MembershipSettings
+
+    application = member.application
+    certificate = application.certificate_or_none if application else None
+    events = []
+    if application:
+        enabled = AppealSettings.load(request_or_site=request).enabled
+        window = MembershipSettings.load(request_or_site=request).appeal_days
+        cutoff = timezone.localdate() - datetime.timedelta(days=window)
+        for event in application.public_events():
+            day = timezone.localtime(event.created_at).date()
+            event.appeal_decision = APPEALABLE_STATUSES.get(event.to_status, "") if enabled and day >= cutoff else ""
+            event.day = day
+            events.append(event)
+    return {"application": application, "certificate": certificate, "file_events": events}
+
+
+@member_view(editing=False)
+def certificate(request, member):
+    from membership.admin_views import certificate_context
+
+    cert = member.application.certificate_or_none if member.application else None
+    if cert is None or cert.revoked:
+        raise Http404
+    context = certificate_context(cert, "en" if is_english() else "fa")
+    return TemplateResponse(request, "membership/admin/certificate_print.html", context)

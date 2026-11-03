@@ -47,6 +47,7 @@ class ComplaintViewSet(ModelViewSet):
             FieldPanel("email", read_only=True),
             FieldPanel("phone", read_only=True),
             FieldPanel("relation", read_only=True),
+            FieldPanel("member", read_only=True),
         ], heading="شاکی"),
         MultiFieldPanel([
             FieldPanel("subject_of_complaint", read_only=True),
@@ -56,6 +57,7 @@ class ComplaintViewSet(ModelViewSet):
         ], heading="شکایت"),
         MultiFieldPanel([
             FieldPanel("status"),
+            FieldPanel("response"),
             FieldPanel("commission_notes"),
         ], heading="رسیدگی کمیسیون"),
     ]

@@ -21,6 +21,7 @@ urlpatterns = [
     path("favicon.ico", core_views.favicon, name="favicon"),
     path("sitemap.xml", sitemap, {"sitemaps": {"pages": AllLanguagesSitemap}}, name="sitemap"),
     path("", include("contact.urls")),
+    path("", include("appeals.urls")),
 ]
 
 if settings.DEBUG:
