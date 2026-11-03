@@ -28,6 +28,8 @@ DEFAULT_LIMITS = {
     "apply": (5, 60 * 60),             # membership applications
     "checkout": (10, 60 * 60),         # orders placed
     "two_factor_send": (8, 60 * 60),   # sign-in codes e-mailed to one user
+    "sms_code_mobile": (5, 60 * 60),   # SMS sign-in codes sent to one mobile
+    "sms_code_ip": (10, 60 * 60),      # SMS sign-in codes asked from one address
 }
 
 

@@ -243,6 +243,11 @@ class LoginView(auth_views.LoginView):
     def get_default_redirect_url(self):
         return reverse("panel:dashboard")
 
+    def get_context_data(self, **kwargs):
+        from .sms_login import enabled
+
+        return {**super().get_context_data(**kwargs), "sms_login": enabled(self.request)}
+
 
 class LogoutView(auth_views.LogoutView):
     def get_success_url(self):

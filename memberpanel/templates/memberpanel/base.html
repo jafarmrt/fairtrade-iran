@@ -22,6 +22,7 @@
         {% if assembly_enabled %}<a href="{% url 'panel:assemblies' member.pk %}"{% if current == 'assembly' %} aria-current="page"{% endif %}>{% if IS_EN %}General Assembly{% else %}مجمع عمومی{% endif %}</a>{% endif %}
         {% endif %}
         <a href="{% url 'panel:password_change' %}"{% if current == 'password' %} aria-current="page"{% endif %}>{% if IS_EN %}Password{% else %}رمز عبور{% endif %}</a>
+        <a href="{% url 'panel:mobile' %}"{% if current == 'mobile' %} aria-current="page"{% endif %}>{% if IS_EN %}Sign-in mobile{% else %}موبایل ورود{% endif %}</a>
         {% endblock %}
         <form method="post" action="{% url 'panel:logout' %}" class="panel-nav__logout">{% csrf_token %}<button type="submit" class="linklike">{% if IS_EN %}Sign out{% else %}خروج{% endif %}</button></form>
     </nav>

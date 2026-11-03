@@ -40,6 +40,9 @@ def _website(value):
     return value if value.startswith(("http://", "https://")) else ""
 
 
+IDENTITY_ANSWERS = {"national_id": "national_id", "legal_id": "legal_id", "postal_code": "postal_code"}
+
+
 @transaction.atomic
 def sync_profile(application, status):
     """Create or update the public profile of a membership file. Returns (member, created)."""
@@ -64,6 +67,10 @@ def sync_profile(application, status):
             joined_on=timezone.localdate(),
             is_published=settings.publish_new_profiles,
         )
+        for answer in application.answers or []:  # answers to «کد ملی» / «شناسه ملی» / «کد پستی» questions
+            field = IDENTITY_ANSWERS.get(answer.get("type")) if isinstance(answer, dict) else None
+            if field and answer.get("value") and not getattr(member, field):
+                setattr(member, field, str(answer["value"])[:11])
         member.save()
         created = True
     else:
@@ -77,9 +84,22 @@ def sync_profile(application, status):
         user = ensure_user(application.email, application.contact_person or application.name)
         if user is not None:
             member.managers.add(user)
+            remember_mobile(user, application.phone)
             lang = application.language if application.language in ("fa", "en") else "fa"
             transaction.on_commit(lambda: send_invite(user, member, lang))
     return member, created
+
+
+def remember_mobile(user, phone):
+    """Keep the applicant's mobile as the user's sign-in mobile, if it is one and nobody has it yet."""
+    from core.iran import normalize_mobile
+
+    from .models import LoginMobile
+
+    mobile = normalize_mobile(phone)
+    if mobile and not LoginMobile.objects.filter(user=user).exists() \
+            and not LoginMobile.objects.filter(mobile=mobile).exists():
+        LoginMobile.objects.create(user=user, mobile=mobile)
 
 
 def ensure_user(email, display_name=""):

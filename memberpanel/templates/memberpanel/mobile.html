@@ -1,0 +1,36 @@
+{% extends "memberpanel/base.html" %}
+{% block heading %}{% if IS_EN %}Sign-in mobile{% else %}موبایل ورود{% endif %}{% endblock %}
+{% block panel_content %}
+<div class="panel-auth">
+    {% if error %}<div class="notice notice--error" role="alert">{{ error }}</div>{% endif %}
+    {% if entry %}
+    <p>{% if IS_EN %}Your sign-in mobile:{% else %}شماره موبایل ورود شما:{% endif %} <strong dir="ltr">{{ entry.mobile }}</strong>{% if not entry.verified_at %} <span class="badge">{% if IS_EN %}not confirmed yet{% else %}هنوز تأیید نشده{% endif %}</span>{% endif %}</p>
+    {% else %}
+    <p>{% if IS_EN %}No mobile is set for your account yet.{% else %}هنوز شماره موبایلی برای حساب شما ثبت نشده است.{% endif %}</p>
+    {% endif %}
+    <p class="muted">{% if sms_login %}{% if IS_EN %}With this number you can sign in by a code sent by SMS, without your password.{% else %}با این شماره می‌توانید بدون رمز و با کد پیامکی وارد پنل شوید.{% endif %}{% else %}{% if IS_EN %}Sign-in by SMS code is not switched on yet; the number is kept for when it is.{% else %}ورود با کد پیامکی هنوز روشن نشده است؛ شماره برای وقتی که روشن شود نگه داشته می‌شود.{% endif %}{% endif %}</p>
+
+    {% if not sms_on %}
+    <p class="notice">{% if IS_EN %}SMS is not available on the site yet. Please ask the secretariat to set your number.{% else %}ارسال پیامک در سایت هنوز فعال نیست؛ برای ثبت شماره با دبیرخانه تماس بگیرید.{% endif %}</p>
+    {% elif pending %}
+    <p>{% if IS_EN %}A code has been sent to <span dir="ltr">{{ pending }}</span>.{% else %}کد تأیید به <span dir="ltr">{{ pending }}</span> فرستاده شد.{% endif %}</p>
+    <form class="form" method="post" novalidate>{% csrf_token %}
+        <input type="hidden" name="step" value="verify">
+        <div class="form-row"><label for="id_code">{% if IS_EN %}Code{% else %}کد{% endif %}</label>
+            <input type="text" name="code" id="id_code" dir="ltr" inputmode="numeric" autocomplete="one-time-code" maxlength="12" required autofocus></div>
+        <p class="panel-actions"><button class="btn btn--primary" type="submit">{% if IS_EN %}Confirm{% else %}تأیید شماره{% endif %}</button></p>
+    </form>
+    <form method="post">{% csrf_token %}<input type="hidden" name="step" value="restart"><button class="linklike" type="submit">{% if IS_EN %}Use another number{% else %}شماره دیگر{% endif %}</button></form>
+    {% else %}
+    <form class="form" method="post" novalidate>{% csrf_token %}
+        <input type="hidden" name="step" value="send">
+        <div class="form-row"><label for="id_mobile">{% if entry %}{% if IS_EN %}New mobile number{% else %}شماره موبایل تازه{% endif %}{% else %}{% if IS_EN %}Mobile number{% else %}شماره موبایل{% endif %}{% endif %}</label>
+            <input type="tel" name="mobile" id="id_mobile" dir="ltr" inputmode="tel" autocomplete="tel" placeholder="09123456789" required></div>
+        <p class="panel-actions"><button class="btn btn--primary" type="submit">{% if IS_EN %}Send confirmation code{% else %}فرستادن کد تأیید{% endif %}</button></p>
+    </form>
+    {% endif %}
+    {% if entry %}
+    <form method="post">{% csrf_token %}<input type="hidden" name="step" value="remove"><button class="linklike" type="submit">{% if IS_EN %}Remove this number{% else %}حذف این شماره{% endif %}</button></form>
+    {% endif %}
+</div>
+{% endblock %}

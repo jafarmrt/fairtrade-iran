@@ -593,7 +593,8 @@ html[lang="en"] .step::before { content: counter(step); }
 .panel-auth { max-width: 480px; }
 .panel-fieldset { border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); padding: 16px 20px 4px; margin: 0 0 24px; min-width: 0; }
 .panel-fieldset legend { font-weight: 700; color: var(--navy); padding-inline: 6px; }
-.panel-form input[type="password"], .panel-auth input[type="password"], .panel-auth input[type="text"] { width: 100%; }
+.panel-form input[type="password"], .panel-auth input[type="password"], .panel-auth input[type="text"], .panel-auth input[type="tel"] { width: 100%; }
+.panel-auth__alt { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--line); }
 .panel-auth .form input[type="password"] {
   padding: 10px 12px; border: 1px solid #cfc7b6; border-radius: 10px; font: inherit; background: #fff;
 }

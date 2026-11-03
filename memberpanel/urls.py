@@ -6,13 +6,15 @@ from shop import panel_views as shop_views
 from standing import panel_views as standing_views
 from wholesale import views as wholesale_views
 
-from . import views
+from . import sms_login, views
 
 app_name = "panel"
 
 urlpatterns = [
     path("", views.dashboard, name="dashboard"),
     path("login/", views.LoginView.as_view(), name="login"),
+    path("login/sms/", sms_login.login_view, name="sms_login"),
+    path("mobile/", sms_login.mobile_view, name="mobile"),
     path("logout/", views.LogoutView.as_view(), name="logout"),
     path("password/reset/", views.PasswordResetView.as_view(), name="password_reset"),
     path("password/reset/sent/", views.PasswordResetDoneView.as_view(), name="password_reset_done"),

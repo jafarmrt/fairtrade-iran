@@ -3,6 +3,7 @@ from wagtail.admin.ui.tables import BooleanColumn, Column
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet, SnippetViewSetGroup
 
+from memberpanel.models import LoginMobile
 from products.models import Category, Product
 
 from .models import Member, Region
@@ -67,8 +68,16 @@ class CategoryViewSet(SnippetViewSet):
     list_display = ["name", "name_en", "sort_order"]
 
 
+class LoginMobileViewSet(SnippetViewSet):
+    model = LoginMobile
+    icon = "mobile-alt"
+    menu_label = "شماره‌های موبایل ورود"
+    list_display = ["user", "mobile", Column("verified_at", label="تأیید با کد")]
+    search_fields = ["mobile", "user__username", "user__email"]
+
+
 class DirectoryGroup(SnippetViewSetGroup):
-    items = (MemberViewSet, ProductViewSet, CategoryViewSet, RegionViewSet)
+    items = (MemberViewSet, ProductViewSet, CategoryViewSet, RegionViewSet, LoginMobileViewSet)
     menu_icon = "group"
     menu_label = "اعضا و فروشگاه"
     menu_name = "directory"
