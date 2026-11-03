@@ -1,6 +1,7 @@
 """Everything that changes an order goes through here, so stock, history and notifications stay right."""
 
 from django.db import transaction
+from django.db.models import Exists, OuterRef
 from django.utils import timezone
 
 from products.models import Product, ShopSettings
@@ -40,10 +41,12 @@ def place_order(cart, buyer, language="fa", user=None):
     groups = cart.groups(products)
     if not groups:
         raise OrderError("سبد خرید خالی است یا محصولات آن دیگر فروخته نمی‌شوند.")
-    for group in groups:
-        for line in group.lines:
-            if line.reduced or line.quantity <= 0:
-                raise OrderError(f"از «{line.product.name}» فقط {line.quantity} عدد موجود است؛ سبد را به‌روز کردیم.")
+    short = [line for group in groups for line in group.lines if line.reduced or line.quantity <= 0]
+    if short:
+        for line in short:  # fix the cart, so the next try goes through
+            cart.set(line.product.pk, line.quantity)
+        line = short[0]
+        raise OrderError(f"از «{line.product.name}» فقط {line.quantity} عدد موجود است؛ سبد را به‌روز کردیم.")
 
     purchase = Purchase.objects.create(language=language, user=user if user and user.is_authenticated else None,
                                        **buyer)
@@ -237,7 +240,10 @@ def cancel_overdue(today=None):
         timezone.datetime.combine(today, timezone.datetime.min.time()))
     limit = now - timezone.timedelta(days=shop.payment_days)
     count = 0
-    for order in Order.objects.filter(status=Order.Status.AWAITING_PAYMENT, created_at__lt=limit):
+    # A rejected receipt restarts the clock, so the buyer has the full time to send a correct one.
+    recently_rejected = OrderEvent.objects.filter(order=OuterRef("pk"), action="reject_payment", created_at__gte=limit)
+    for order in Order.objects.filter(status=Order.Status.AWAITING_PAYMENT, created_at__lt=limit).exclude(
+            Exists(recently_rejected)):
         cancel(order, None, "مهلت پرداخت سفارش به پایان رسید.", by=SYSTEM)
         count += 1
     return count

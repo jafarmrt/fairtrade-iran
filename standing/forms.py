@@ -1,4 +1,5 @@
 from django import forms
+from django.core.validators import MaxValueValidator
 
 from core.models import MembershipSettings, is_english
 from membership.forms import check_upload
@@ -86,6 +87,8 @@ class DecisionForm(forms.Form):
         self.reasons_by_kind = {k: [v for v, _ in reason_choices_for(k, bodies)] for k in kinds}
         ms = MembershipSettings.load()
         self.fields["months"].max_value = ms.suspension_max_months
+        self.fields["months"].validators.append(MaxValueValidator(ms.suspension_max_months))
+        self.fields["months"].widget.attrs["max"] = ms.suspension_max_months
         self.fields["months"].initial = ms.suspension_max_months
         self.fields["months"].help_text = f"حداکثر {ms.suspension_max_months} ماه (بند ۱.۷)"
 

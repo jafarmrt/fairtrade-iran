@@ -313,6 +313,12 @@ class ApplicationQuestion(BilingualMixin, models.Model):
         SELECT = "select", "انتخاب از فهرست"
         CHECKBOX = "checkbox", "تیک (بله/خیر)"
         FILE = "file", "بارگذاری فایل"
+        MOBILE = "mobile", "شماره موبایل (۰۹…)"
+        NATIONAL_ID = "national_id", "کد ملی (۱۰ رقم)"
+        LEGAL_ID = "legal_id", "شناسه ملی شخص حقوقی (۱۱ رقم)"
+        POSTAL_CODE = "postal_code", "کد پستی (۱۰ رقم)"
+        SHEBA = "sheba", "شماره شبا"
+        PROVINCE = "province", "استان (از فهرست)"
 
     label = models.CharField("پرسش (فارسی)", max_length=255)
     label_en = models.CharField("پرسش (انگلیسی)", max_length=255, blank=True)

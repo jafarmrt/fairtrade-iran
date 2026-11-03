@@ -9,7 +9,7 @@ import os
 
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.db.models import Count, Exists, OuterRef, Q
+from django.db.models import Count, Exists, OuterRef
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
@@ -18,6 +18,7 @@ from django.utils import timezone
 from wagtail.admin.menu import MenuItem
 from wagtail.admin.viewsets.base import ViewSet
 
+from core.iran import text_search
 from core.models import MembershipSettings
 from members.models import Member
 
@@ -36,6 +37,11 @@ from .services import (
     user_bodies,
     waive,
 )
+
+
+def _int(value):
+    """A POSTed id, or 0 (no match, so a 404) when it is not a number."""
+    return int(value) if str(value or "").isdigit() else 0
 
 
 def require_view(request):
@@ -76,7 +82,7 @@ def index(request):
     elif show == "cancelled":
         qs = qs.filter(status=Member.CANCELLED)
     if q:
-        qs = qs.filter(Q(name__icontains=q) | Q(name_en__icontains=q))
+        qs = qs.filter(text_search(q, "name", "name_en"))
     return TemplateResponse(request, "standing/admin/index.html", {
         "page_title": "وضعیت اعضا و حق عضویت",
         "header_icon": "user",
@@ -107,7 +113,7 @@ def _act(request, member):
     if action == "issue":
         issue_by_hand(member)
         return ""
-    dues = get_object_or_404(member.dues.all(), pk=request.POST.get("dues"))
+    dues = get_object_or_404(member.dues.all(), pk=_int(request.POST.get("dues")))
     form = StaffPaymentForm(request.POST)
     form.is_valid()
     d = form.cleaned_data

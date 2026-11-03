@@ -17,6 +17,7 @@ from wagtail.fields import RichTextField
 from wagtail.models import Page
 from wagtail.search import index
 
+from core.iran import text_search
 from core.models import BilingualMixin, is_english
 
 
@@ -346,10 +347,7 @@ class MemberIndexPage(RoutablePageMixin, Page):
             members = members.filter(status=filters["status"])
         if filters["q"]:
             q = filters["q"]
-            members = members.filter(
-                models.Q(name__icontains=q) | models.Q(name_en__icontains=q)
-                | models.Q(summary__icontains=q) | models.Q(summary_en__icontains=q)
-            )
+            members = members.filter(text_search(q, "name", "name_en", "summary", "summary_en"))
 
         type_labels = Member.TYPE_LABELS_EN if is_english() else dict(Member.TYPE_CHOICES)
         regions = Region.objects.filter(members__in=Member.visible()).distinct()

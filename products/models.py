@@ -15,6 +15,7 @@ from wagtail.fields import RichTextField
 from wagtail.models import Locale, Orderable, Page
 from wagtail.search import index
 
+from core.iran import text_search
 from core.models import BilingualMixin, is_english
 from members.models import Member, Region, paginate, querystring_without_page, unique_slug
 
@@ -323,6 +324,12 @@ class ShopSettings(BaseGenericSetting):
     def cart_active(self):
         return self.cart_enabled and (self.cart_enabled_en or not is_english())
 
+    def clean(self):
+        super().clean()
+        from core.iran import clean_bank_fields
+
+        clean_bank_fields(self)
+
     def house_account(self):
         """The account buyers pay into for orders paid to the House."""
         if self.card_number or self.sheba:
@@ -385,11 +392,8 @@ class ProductIndexPage(RoutablePageMixin, Page):
             products = products.filter(in_stock=True)
         if filters["q"]:
             q = filters["q"]
-            products = products.filter(
-                models.Q(name__icontains=q) | models.Q(name_en__icontains=q)
-                | models.Q(summary__icontains=q) | models.Q(summary_en__icontains=q)
-                | models.Q(member__name__icontains=q) | models.Q(member__name_en__icontains=q)
-            )
+            products = products.filter(text_search(
+                q, "name", "name_en", "summary", "summary_en", "member__name", "member__name_en"))
 
         visible = Product.visible()
         categories = Category.objects.filter(products__in=visible).distinct()

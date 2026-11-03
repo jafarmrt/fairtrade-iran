@@ -18,6 +18,7 @@ from payments.models import Payment
 from . import services
 from .models import Order, Seller
 from .panel_views import receipt_response
+from core.iran import text_search
 
 
 def can_manage(user):
@@ -50,8 +51,7 @@ def index(request):
     condition = dict((k, c) for k, _, c in FILTERS).get(show, Q())
     qs = Order.objects.filter(condition).select_related("purchase", "member").order_by("-created_at")
     if q:
-        qs = qs.filter(Q(purchase__code__icontains=q) | Q(purchase__buyer_name__icontains=q)
-                       | Q(purchase__phone__icontains=q) | Q(member__name__icontains=q))
+        qs = qs.filter(text_search(q, "purchase__code", "purchase__buyer_name", "purchase__phone", "member__name"))
     counts = {k: Order.objects.filter(c).count() for k, _, c in FILTERS if k in ("todo", "ship", "settle")}
     totals = Order.objects.filter(status__in=(S.PAID, S.SHIPPED, S.COMPLETED)).aggregate(
         sales=Sum("total"), commission=Sum("commission"))

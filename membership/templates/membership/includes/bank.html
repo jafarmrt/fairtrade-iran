@@ -1,9 +1,9 @@
-{% load membership_tags %}
+{% load membership_tags site_tags %}
 {% if ms.has_bank_details %}
 <dl class="bank-details">
     {% if ms.account_holder %}<div><dt>{% if IS_EN %}Account holder{% else %}به نام{% endif %}</dt><dd>{{ ms.account_holder }}</dd></div>{% endif %}
     {% if ms.bank_name %}<div><dt>{% if IS_EN %}Bank{% else %}بانک{% endif %}</dt><dd>{{ ms.bank_name }}</dd></div>{% endif %}
-    {% if ms.card_number %}<div><dt>{% if IS_EN %}Card number{% else %}شماره کارت{% endif %}</dt><dd dir="ltr" class="mono">{{ ms.card_number }}</dd></div>{% endif %}
-    {% if ms.sheba %}<div><dt>{% if IS_EN %}IBAN (Sheba){% else %}شماره شبا{% endif %}</dt><dd dir="ltr" class="mono">{{ ms.sheba }}</dd></div>{% endif %}
+    {% if ms.card_number %}<div><dt>{% if IS_EN %}Card number{% else %}شماره کارت{% endif %}</dt><dd dir="ltr" class="mono">{{ ms.card_number|card_format }}</dd></div>{% endif %}
+    {% if ms.sheba %}<div><dt>{% if IS_EN %}IBAN (Sheba){% else %}شماره شبا{% endif %}</dt><dd dir="ltr" class="mono">{{ ms.sheba|sheba_format }}</dd></div>{% endif %}
 </dl>
 {% endif %}

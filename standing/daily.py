@@ -10,7 +10,7 @@ from django.utils import timezone
 
 from core.models import MembershipSettings
 from members.models import Member
-from membership.jalali import format_jalali
+from membership.jalali import format_jalali, persian_digits
 
 from . import notifications
 from .models import Decision, Dues, DuesPayment
@@ -53,15 +53,17 @@ def run(today=None):
         report["warned"] += 1
 
     # Suspension N months after the warning (section 1.7, "at the secretariat's discretion").
+    handled = set()
     for dues in open_dues.filter(warned_on__isnull=False, suspension_flagged_on__isnull=True):
         when = dues.suspension_date(ms)
         if when is None or when > today:
             continue
-        member = dues.member
+        member = Member.objects.get(pk=dues.member_id)  # fresh: an earlier dues may have just suspended them
         dues.suspension_flagged_on = today
         dues.save(update_fields=["suspension_flagged_on"])
-        if member.status not in (Member.TRIAL, Member.OFFICIAL):
+        if member.status not in (Member.TRIAL, Member.OFFICIAL) or member.pk in handled:
             continue
+        handled.add(member.pk)
         if ms.dues_auto_suspend:
             decide(member, Decision.Kind.SUSPEND, Decision.Reason.DUES, body=SYSTEM, dues=dues, today=today)
             report["suspended"] += 1
@@ -70,7 +72,8 @@ def run(today=None):
                 f"{notifications.admin_url(member)}")
         else:
             digest[SECRETARIAT].append(
-                f"- سه ماه از اخطار حق عضویت {dues.year} «{member}» گذشته است؛ درباره تعلیق تصمیم بگیرید.\n  "
+                f"- {persian_digits(ms.dues_suspend_months)} ماه از اخطار حق عضویت {dues.year} «{member}» گذشته است؛ "
+                f"درباره تعلیق تصمیم بگیرید.\n  "
                 f"{notifications.admin_url(member)}")
 
     # Suspensions that reached their end: lift or cancel (sections 1.7 and 1.8).

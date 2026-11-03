@@ -77,6 +77,11 @@ def appeal_new(request, member):
     initial = {"email": request.user.email}
     ref = request.GET.get("ref") or request.POST.get("ref")
     standing_decision = member.decisions.filter(pk=ref).first() if ref and ref.isdigit() else None
+    if standing_decision is not None and not standing_decision.can_appeal:
+        messages.error(request, t("این رأی دیگر قابل اعتراض نیست: یا مهلت اعتراض گذشته، یا پیش‌تر به آن اعتراض شده است.",
+                                  "This decision can no longer be appealed: the appeal period has passed or "
+                                  "an appeal was already made."))
+        return redirect("panel:appeals", member_id=member.pk)
     if standing_decision is not None:
         initial.update(STANDING_MAP.get(standing_decision.kind, {}))
         initial["decision_body"] = standing_decision.decided_by if standing_decision.decided_by in Appeal.Body.values else "other"
@@ -97,6 +102,8 @@ def appeal_new(request, member):
             appeal.member_name = member.name
             appeal.submitted_by = request.user
             appeal.standing_decision = standing_decision
+            if standing_decision is not None:
+                appeal.decision_date = standing_decision.decided_on  # the recorded date, not the one typed
             appeal.language = "en" if is_english() else "fa"
             appeal.save()
             transaction.on_commit(lambda: notifications.submitted(appeal))

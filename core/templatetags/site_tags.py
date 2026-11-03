@@ -2,6 +2,7 @@ from django import template
 from django.utils.translation import get_language
 from wagtail.models import Locale, Page
 
+from core.iran import format_card, persian_digits
 from core.models import is_english
 
 register = template.Library()
@@ -23,10 +24,26 @@ def tr(obj, field):
 
 @register.filter
 def money(value):
-    """Format a rial amount with thousands separators."""
+    """A rial amount with thousands separators: ۱۲٬۴۵۰٬۰۰۰ on Persian pages, 12,450,000 on English ones."""
     if value in (None, ""):
         return ""
-    return f"{int(value):,}"
+    text = f"{int(value):,}"
+    if is_english():
+        return text
+    return persian_digits(text).replace(",", "٬")
+
+
+@register.filter
+def card_format(value):
+    """A 16-digit card number in groups of four (always Latin digits, shown left to right)."""
+    return format_card(value or "")
+
+
+@register.filter
+def sheba_format(value):
+    """IR12 3456 … in groups of four."""
+    s = str(value or "")
+    return " ".join(s[i:i + 4] for i in range(0, len(s), 4)) if s.startswith("IR") and len(s) == 26 else s
 
 
 def _localized_home(request):

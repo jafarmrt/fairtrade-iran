@@ -10,7 +10,6 @@ import os
 
 from django.contrib import messages
 from django.core.exceptions import PermissionDenied
-from django.db.models import Q
 from django.http import FileResponse, Http404
 from django.shortcuts import get_object_or_404, redirect
 from django.template.response import TemplateResponse
@@ -19,6 +18,7 @@ from django.utils import timezone
 from wagtail.admin.menu import MenuItem
 from wagtail.admin.viewsets.base import ViewSet
 
+from core.iran import text_search
 from core.models import MembershipSettings, SiteSettings
 
 from .forms import StaffActionForm
@@ -79,8 +79,7 @@ def index(request):
     if member_type in MemberType.values:
         qs = qs.filter(member_type=member_type)
     if q:
-        qs = qs.filter(Q(name__icontains=q) | Q(name_en__icontains=q) | Q(tracking_code__icontains=q)
-                       | Q(email__icontains=q) | Q(phone__icontains=q))
+        qs = qs.filter(text_search(q, "name", "name_en", "tracking_code", "email", "phone"))
     status_filters = [("open", "پرونده‌های باز"), ("mine", "نیازمند اقدام من"), ("overdue", "گذشته از مهلت"),
                       ("all", "همه")] + list(Status.choices)
     return TemplateResponse(request, "membership/admin/index.html", {

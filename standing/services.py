@@ -229,7 +229,9 @@ def review_payment(payment, user, confirm, message=""):
         dues.status = Dues.Status.PAID
         dues.paid_on = timezone.localdate()
         dues.closed_by = user
-    elif not dues.payments.filter(status=DuesPayment.Status.PENDING).exists():
+    elif (dues.status == Dues.Status.PENDING
+          and not dues.payments.filter(status=DuesPayment.Status.PENDING).exists()):
+        # Only a dues waiting on this receipt goes back to unpaid; paid or waived dues stay closed.
         dues.status = Dues.Status.UNPAID
     dues.save()
     from . import notifications

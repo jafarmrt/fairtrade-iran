@@ -1,5 +1,6 @@
 from django import forms
 
+from core import iran
 from core.models import MembershipSettings, is_english
 from membership.forms import check_upload
 
@@ -21,7 +22,7 @@ class CheckoutForm(forms.Form):
     buyer_name = forms.CharField(max_length=150)
     phone = forms.CharField(max_length=40)
     email = forms.EmailField(required=False)
-    province = forms.CharField(max_length=60, required=False)
+    province = forms.ChoiceField(required=False)
     city = forms.CharField(max_length=80)
     address = forms.CharField(widget=forms.Textarea(attrs={"rows": 3}))
     postal_code = forms.CharField(max_length=20, required=False)
@@ -51,14 +52,25 @@ class CheckoutForm(forms.Form):
         self.fields["phone"].widget.attrs.update({"autocomplete": "tel", "inputmode": "tel"})
         self.fields["email"].widget.attrs["autocomplete"] = "email"
         self.fields["buyer_name"].widget.attrs["autocomplete"] = "name"
-        self.fields["postal_code"].widget.attrs["inputmode"] = "numeric"
+        self.fields["postal_code"].widget.attrs.update({"inputmode": "numeric", "autocomplete": "postal-code"})
+        self.fields["phone"].widget.attrs["placeholder"] = "09123456789"
+        en = is_english()
+        self.fields["province"].choices = [("", "—")] + iran.province_choices(en)
+        self.fields["province"].required = not en
+        self.fields["postal_code"].required = not en
 
     def clean_phone(self):
-        phone = self.cleaned_data["phone"].strip()
-        digits = "".join(ch for ch in phone if ch.isdigit())
-        if len(digits) < 10:
-            raise forms.ValidationError(t("شماره تلفن همراه را کامل بنویسید.", "Please enter a full phone number."))
-        return phone
+        # Orders ship inside Iran, so the buyer's mobile is Iranian (SMS updates go to it).
+        return iran.clean_mobile(self.cleaned_data["phone"], is_english(), allow_foreign=is_english())
+
+    def clean_postal_code(self):
+        return iran.clean_postal_code(self.cleaned_data["postal_code"], is_english())
+
+    def clean_buyer_name(self):
+        return iran.normalize_text(self.cleaned_data["buyer_name"])
+
+    def clean_city(self):
+        return iran.normalize_text(self.cleaned_data["city"])
 
     def buyer(self):
         d = self.cleaned_data
@@ -150,3 +162,15 @@ class SellerForm(forms.ModelForm):
         for name in ("card_number", "sheba", "shipping_fee", "free_shipping_over", "order_mobile", "order_email",
                      "shipping_note_en"):
             self.fields[name].widget.attrs["dir"] = "ltr"
+        self.fields["card_number"].widget.attrs.update({"inputmode": "numeric", "placeholder": "6037 9911 2345 6789"})
+        self.fields["sheba"].widget.attrs["placeholder"] = "IR12 0170 0000 0000 0000 0000 00"
+        self.fields["order_mobile"].widget.attrs.update({"inputmode": "tel", "placeholder": "09123456789"})
+
+    def clean_card_number(self):
+        return iran.clean_card_number(self.cleaned_data["card_number"], is_english())
+
+    def clean_sheba(self):
+        return iran.clean_sheba(self.cleaned_data["sheba"], is_english())
+
+    def clean_order_mobile(self):
+        return iran.clean_mobile(self.cleaned_data["order_mobile"], is_english())

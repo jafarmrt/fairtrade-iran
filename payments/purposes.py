@@ -51,7 +51,8 @@ class ApplicationFee(Purpose):
         return application.fee_amount or 0
 
     def can_pay(self, application):
-        return application.fee_required and not application.fee_confirmed and not application.is_closed
+        return (application.fee_required and not application.fee_confirmed and not application.is_closed
+                and self.amount(application) > 0)
 
     def description(self, application):
         return f"هزینه درخواست عضویت {application.tracking_code}"

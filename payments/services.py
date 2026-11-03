@@ -87,6 +87,10 @@ def complete(payment, params):
             payment.raw = result.raw
             payment.save()
             purposes.run_on_paid(payment)
+        elif result is not None and not result.final:
+            # Not the gateway's return for this payment: keep it open for the real one.
+            payment.error = result.error[:255]
+            payment.save(update_fields=["error"])
         elif result is not None:
             payment.status = Payment.Status.FAILED
             payment.error = result.error[:255]

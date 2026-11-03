@@ -91,7 +91,7 @@ class PublicPagesTests(MembershipTestCase):
 
     def test_page_shows_fees_and_deadlines_from_settings(self):
         response = self.client.get("/fa/membership/")
-        self.assertContains(response, "۵,۰۰۰,۰۰۰")
+        self.assertContains(response, "۵٬۰۰۰٬۰۰۰")
         self.assertContains(response, "ظرف ۷ روز")
         ms = MembershipSettings.load()
         ms.secretariat_review_days = 10
@@ -163,7 +163,7 @@ class ApplicationFormTests(MembershipTestCase):
         self.assertFalse(MembershipApplication.objects.exists())
 
     def test_english_form_keeps_language_and_names(self):
-        data = {"name": "Jane Doe", "name_en": "جین", "email": "jane@example.org", "phone": "+44 1",
+        data = {"name": "Jane Doe", "name_en": "جین", "email": "jane@example.org", "phone": "+44 7700 900123",
                 "city": "London", "agreed_principles": "on", "receipt": pdf()}
         for q in ApplicationQuestion.for_type("individual"):
             if q.required:

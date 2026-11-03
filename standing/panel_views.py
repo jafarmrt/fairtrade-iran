@@ -12,6 +12,11 @@ from .models import Dues
 from .services import StandingError, submit_receipt
 
 
+def _int(value):
+    """A POSTed id, or 0 (no match, so a 404) when it is not a number."""
+    return int(value) if str(value or "").isdigit() else 0
+
+
 @member_view(editing=False)
 def membership(request, member):
     from payments.models import PaymentSettings
@@ -19,7 +24,7 @@ def membership(request, member):
 
     online = online_enabled("dues")  # suspended members may pay too: paying lifts a suspension for unpaid dues
     if request.method == "POST" and request.POST.get("step") == "pay_dues":
-        dues = get_object_or_404(member.dues.all(), pk=request.POST.get("dues"))
+        dues = get_object_or_404(member.dues.all(), pk=_int(request.POST.get("dues")))
         return start_payment(request, "dues", dues, reverse("panel:membership", kwargs={"member_id": member.pk}))
     form = ReceiptForm(request.POST or None, request.FILES or None, member=member)
     if request.method == "POST" and form.is_valid():
