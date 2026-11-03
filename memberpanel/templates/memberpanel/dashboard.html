@@ -25,7 +25,7 @@
         </dl>
         {% if m.open_dues %}
         <div class="notice panel-dues{% if m.open_dues.is_overdue %} notice--error{% endif %}">
-            <p>{% if IS_EN %}Membership fee {{ m.open_dues.year }}: {{ m.open_dues.amount|money }} rials, due by {{ m.open_dues.due_date|jdate }}{% else %}حق عضویت سال {{ m.open_dues.year|fa_digits }}: {{ m.open_dues.amount|money|fa_digits }} ریال، مهلت {{ m.open_dues.due_date|jdate }}{% endif %} · <strong>{{ m.open_dues.status_display }}</strong></p>
+            <p>{% if IS_EN %}Membership fee {{ m.open_dues.year }}: {{ m.open_dues.amount|amount }}, due by {{ m.open_dues.due_date|jdate }}{% else %}حق عضویت سال {{ m.open_dues.year|fa_digits }}: {{ m.open_dues.amount|amount }}، مهلت {{ m.open_dues.due_date|jdate }}{% endif %} · <strong>{{ m.open_dues.status_display }}</strong></p>
             {% if m.open_dues.can_pay %}<p><a href="{% url 'panel:membership' m.pk %}">{% if IS_EN %}Pay and send the receipt{% else %}پرداخت و ارسال رسید{% endif %}</a></p>{% endif %}
         </div>
         {% endif %}

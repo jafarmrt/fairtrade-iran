@@ -95,7 +95,7 @@ class DirectoryPageTests(TestCase):
         self.assertContains(self.client.get("/en/shop/dates/"), "Order now")
 
     def test_prices_hidden_in_english_by_default(self):
-        self.assertContains(self.client.get("/fa/shop/dates/"), "۱٬۵۰۰٬۰۰۰")
+        self.assertContains(self.client.get("/fa/shop/dates/"), "۱۵۰٬۰۰۰ تومان")
         self.assertNotContains(self.client.get("/en/shop/dates/"), "1,500,000")
 
     def test_language_switch_on_detail_page(self):

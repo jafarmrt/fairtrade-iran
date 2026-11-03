@@ -22,7 +22,7 @@
         </section>
         {% endfor %}
         <div class="cart-summary">
-            <p class="cart-summary__total"><span>{% if IS_EN %}Total{% else %}جمع کل{% endif %}</span> <strong>{{ cart_total|money|fa_digits }} {% tr shop "currency_label" %}</strong></p>
+            <p class="cart-summary__total"><span>{% if IS_EN %}Total{% else %}جمع کل{% endif %}</span> <strong>{{ cart_total|amount }}</strong></p>
             <div class="panel-actions">
                 <button class="btn btn--outline" type="submit">{% if IS_EN %}Update cart{% else %}به‌روزرسانی سبد{% endif %}</button>
                 <a class="btn btn--primary btn--large" href="{% routablepageurl page 'checkout' %}">{% if IS_EN %}Checkout{% else %}ادامه و ثبت سفارش{% endif %}</a>

@@ -67,6 +67,13 @@ class SiteSettings(BaseGenericSetting):
     footer_text = models.TextField(_("متن پانویس (فارسی)"), blank=True)
     footer_text_en = models.TextField(_("متن پانویس (انگلیسی)"), blank=True)
 
+    price_display = models.CharField(
+        _("نمایش مبلغ‌ها"), max_length=10, default="toman",
+        choices=[("toman", _("تومان")), ("rial", _("ریال")), ("both", _("تومان، با ریال در پرانتز"))],
+        help_text=_("مبلغ‌ها همیشه به ریال ذخیره و به درگاه فرستاده می‌شوند؛ این گزینه فقط شیوه نمایش را تعیین می‌کند. "
+                    "خانه‌های ورود مبلغ در پنل همچنان ریالی‌اند."),
+    )
+
     notification_email = models.EmailField(
         _("ایمیل دبیرخانه برای اعلان‌ها"), blank=True,
         help_text=_("درخواست‌های عضویت و پیام‌های تماس به این نشانی خبر داده می‌شوند"),
@@ -88,6 +95,7 @@ class SiteSettings(BaseGenericSetting):
             heading=_("شبکه‌های اجتماعی"),
         ),
         MultiFieldPanel([FieldPanel("footer_text"), FieldPanel("footer_text_en")], heading=_("پانویس")),
+        FieldPanel("price_display"),
     ]
 
     class Meta:

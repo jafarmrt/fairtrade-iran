@@ -10,13 +10,13 @@
             <span class="badge">{% if order.is_house %}{% if IS_EN %}Paid to the House{% else %}پرداخت به خانه{% endif %}{% else %}{% if IS_EN %}Paid to you directly{% else %}پرداخت مستقیم به شما{% endif %}{% endif %}</span></p>
         <div class="table-scroll">
         <table class="cart-table">
-            <tbody>{% for item in order.items.all %}<tr><td>{{ item.tr_name }}</td><td class="num">{{ item.quantity|fa_digits }} × {{ item.unit_price|money|fa_digits }}</td><td class="num">{{ item.line_total|money|fa_digits }}</td></tr>{% endfor %}</tbody>
+            <tbody>{% for item in order.items.all %}<tr><td>{{ item.tr_name }}</td><td class="num">{{ item.quantity|fa_digits }} × {{ item.unit_price|money }}</td><td class="num">{{ item.line_total|money }}</td></tr>{% endfor %}</tbody>
             <tfoot>
-                <tr><td colspan="2">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}</td><td class="num">{{ order.shipping|money|fa_digits }}</td></tr>
-                <tr class="cart-table__total"><td colspan="2">{% if IS_EN %}Total{% else %}جمع{% endif %}</td><td class="num">{{ order.total|money|fa_digits }}</td></tr>
+                <tr><td colspan="2">{% if IS_EN %}Shipping{% else %}هزینه ارسال{% endif %}</td><td class="num">{{ order.shipping|money }}</td></tr>
+                <tr class="cart-table__total"><td colspan="2">{% if IS_EN %}Total{% else %}جمع{% endif %}</td><td class="num">{{ order.total|money }}</td></tr>
                 {% if order.commission %}
-                <tr><td colspan="2">{% if IS_EN %}House commission ({{ order.commission_percent|floatformat:"-2" }}%){% else %}کارمزد خانه ({{ order.commission_percent|floatformat:"-2"|fa_digits }}٪){% endif %}</td><td class="num">{{ order.commission|money|fa_digits }}</td></tr>
-                <tr><td colspan="2">{% if order.is_house %}{% if IS_EN %}Your share, paid to you by the House{% else %}سهم شما که خانه واریز می‌کند{% endif %}{% else %}{% if IS_EN %}Commission you owe the House{% else %}کارمزدی که به خانه می‌پردازید{% endif %}{% endif %}</td><td class="num">{% if order.is_house %}{{ order.producer_share|money|fa_digits }}{% else %}{{ order.commission|money|fa_digits }}{% endif %}</td></tr>
+                <tr><td colspan="2">{% if IS_EN %}House commission ({{ order.commission_percent|floatformat:"-2" }}%){% else %}کارمزد خانه ({{ order.commission_percent|floatformat:"-2"|fa_digits }}٪){% endif %}</td><td class="num">{{ order.commission|money }}</td></tr>
+                <tr><td colspan="2">{% if order.is_house %}{% if IS_EN %}Your share, paid to you by the House{% else %}سهم شما که خانه واریز می‌کند{% endif %}{% else %}{% if IS_EN %}Commission you owe the House{% else %}کارمزدی که به خانه می‌پردازید{% endif %}{% endif %}</td><td class="num">{% if order.is_house %}{{ order.producer_share|money }}{% else %}{{ order.commission|money }}{% endif %}</td></tr>
                 {% endif %}
             </tfoot>
         </table>

@@ -7,6 +7,7 @@ from django.urls import reverse
 from django.utils import translation
 from wagtail.models import Locale
 
+from core import money
 from core.models import SiteSettings
 from membership.jalali import persian_digits
 from membership.notifications import base_url, recipients_for, send
@@ -17,8 +18,7 @@ from standing.notifications import member_phone, member_recipients
 
 
 def amount_text(value, lang):
-    text = f"{int(value or 0):,}"
-    return f"{text} rials" if lang == "en" else f"{persian_digits(text).replace(',', '٬')} ریال"
+    return money.amount(value or 0, lang)
 
 
 def shop_url(lang, suffix=""):

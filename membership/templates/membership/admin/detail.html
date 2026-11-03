@@ -1,5 +1,5 @@
 {% extends "wagtailadmin/generic/base.html" %}
-{% load membership_tags site_tags %}
+{% load membership_tags site_tags date_tags %}
 {% block main_content %}
 <p><a href="{% url 'membership_applications:index' %}">← فهرست پرونده‌ها</a></p>
 
@@ -28,7 +28,7 @@
             <input type="hidden" name="action" value="{{ item.action.key }}">
             {% if item.action.help %}<p class="help">{{ item.action.help }}</p>{% endif %}
             {% if item.action.key == 'record_visit' %}
-                <label>تاریخ بازدید <input type="date" name="field_visit_date" required value="{{ application.field_visit_date|date:'Y-m-d' }}"></label>
+                <label>تاریخ بازدید (شمسی) <input type="text" name="field_visit_date" required dir="ltr" inputmode="numeric" placeholder="1405/08/12" value="{{ application.field_visit_date|jinput }}"></label>
                 <label>خلاصه گزارش بازدید <textarea name="field_visit_report" rows="3">{{ application.field_visit_report }}</textarea></label>
             {% else %}
                 {% if item.action.target %}
@@ -64,7 +64,7 @@
         {% if application.website %}<dt>وب‌سایت / اینستاگرام</dt><dd dir="ltr">{{ application.website }}</dd>{% endif %}
         {% if application.referred_by %}<dt>معرف</dt><dd>{{ application.referred_by }}</dd>{% endif %}
         <dt>زبان فرم</dt><dd>{% if application.language == 'en' %}انگلیسی{% else %}فارسی{% endif %}</dd>
-        <dt>هزینه درخواست</dt><dd>{% if application.fee_amount %}{{ application.fee_amount|money }} ریال · شماره پیگیری: {{ application.payment_reference|default:"-" }} ·
+        <dt>هزینه درخواست</dt><dd>{% if application.fee_amount %}{{ application.fee_amount|amount }} · شماره پیگیری: {{ application.payment_reference|default:"-" }} ·
             {% if application.fee_confirmed %}<strong>دریافت تأیید شد ({{ application.fee_confirmed_at|jdate_fa }})</strong>{% else %}<span class="ms-overdue">هنوز تأیید نشده</span>{% endif %}{% else %}ندارد{% endif %}</dd>
         <dt>تعهد به اصول ده‌گانه</dt><dd>{{ application.agreed_principles|yesno:"پذیرفته,نپذیرفته" }}</dd>
         {% if application.is_producer %}<dt>پذیرش بازرسی</dt><dd>{{ application.agreed_inspections|yesno:"پذیرفته,نپذیرفته" }}</dd>

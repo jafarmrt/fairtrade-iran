@@ -2,7 +2,8 @@ from django import template
 from django.utils.translation import get_language
 from wagtail.models import Locale, Page
 
-from core.iran import format_card, persian_digits
+from core import money as money_lib
+from core.iran import format_card
 from core.models import is_english
 
 register = template.Library()
@@ -24,13 +25,20 @@ def tr(obj, field):
 
 @register.filter
 def money(value):
-    """A rial amount with thousands separators: ۱۲٬۴۵۰٬۰۰۰ on Persian pages, 12,450,000 on English ones."""
-    if value in (None, ""):
-        return ""
-    text = f"{int(value):,}"
-    if is_english():
-        return text
-    return persian_digits(text).replace(",", "٬")
+    """A rial amount as a number in the display unit (tomans or rials), without the unit."""
+    return money_lib.number(value, money_lib.primary_unit())
+
+
+@register.filter
+def amount(value):
+    """A rial amount with its unit, as chosen in the site settings: ۱٬۲۰۰٬۰۰۰ تومان."""
+    return money_lib.amount(value)
+
+
+@register.simple_tag
+def currency():
+    """The display unit's name: تومان or ریال (tomans/rials in English)."""
+    return money_lib.unit_label()
 
 
 @register.filter

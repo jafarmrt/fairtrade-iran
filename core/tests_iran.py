@@ -83,10 +83,17 @@ class IdentifierTests(SimpleTestCase):
 
 class DisplayTests(SimpleTestCase):
     def test_money(self):
+        from core import money as money_lib
+
+        token = money_lib._mode.set("rial")
+        self.addCleanup(money_lib._mode.reset, token)
         with translation.override("fa"):
             self.assertEqual(money(12_450_000), "۱۲٬۴۵۰٬۰۰۰")
         with translation.override("en"):
             self.assertEqual(money(12_450_000), "12,450,000")
+        money_lib._mode.set("toman")
+        with translation.override("fa"):
+            self.assertEqual(money(12_450_000), "۱٬۲۴۵٬۰۰۰")
 
     def test_card_and_sheba(self):
         self.assertEqual(card_format("3041144269420809"), "3041 1442 6942 0809")

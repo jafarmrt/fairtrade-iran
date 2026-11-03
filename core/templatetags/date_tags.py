@@ -44,3 +44,13 @@ def jtime(value):
         return ""
     text = f"{_local(value):%H:%M}"
     return text if is_english() else to_persian_digits(text)
+
+
+@register.filter
+def jinput(value):
+    """1405/08/12 (Latin digits) for the value of a Jalali date input."""
+    if not value:
+        return ""
+    from core.widgets import jalali_text
+
+    return jalali_text(_local(value).date() if isinstance(value, datetime.datetime) else value)
