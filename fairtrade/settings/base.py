@@ -19,10 +19,10 @@ def env_list(name, default=""):
     return [item.strip() for item in os.environ.get(name, default).split(",") if item.strip()]
 
 
-# On Render (the free test copy, see render.yaml) the public address is only known
-# at runtime: use it as SITE_URL unless one is set.
-if os.environ.get("RENDER_EXTERNAL_URL"):
-    os.environ.setdefault("SITE_URL", os.environ["RENDER_EXTERNAL_URL"])
+# On Hugging Face Spaces (the free test copy, deploy/huggingface) the public address is
+# only known at runtime, in SPACE_HOST: use it as SITE_URL unless one is set.
+if os.environ.get("SPACE_HOST"):
+    os.environ.setdefault("SITE_URL", "https://" + os.environ["SPACE_HOST"])
 
 # DEMO_MODE=1 marks a test copy: a banner on every page, noindex, demo data (seed_demo).
 DEMO_MODE = os.environ.get("DEMO_MODE", "") == "1"

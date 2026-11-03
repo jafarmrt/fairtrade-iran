@@ -8,9 +8,9 @@ DEBUG = False
 SECRET_KEY = os.environ["SECRET_KEY"]
 ALLOWED_HOSTS = env_list("ALLOWED_HOSTS")
 CSRF_TRUSTED_ORIGINS = env_list("CSRF_TRUSTED_ORIGINS")
-if os.environ.get("RENDER_EXTERNAL_HOSTNAME"):  # Render's own *.onrender.com address
-    ALLOWED_HOSTS.append(os.environ["RENDER_EXTERNAL_HOSTNAME"])
-    CSRF_TRUSTED_ORIGINS.append("https://" + os.environ["RENDER_EXTERNAL_HOSTNAME"])
+if os.environ.get("SPACE_HOST"):  # Hugging Face Spaces: <user>-<space>.hf.space
+    ALLOWED_HOSTS.append(os.environ["SPACE_HOST"])
+    CSRF_TRUSTED_ORIGINS.append("https://" + os.environ["SPACE_HOST"])
 
 SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 USE_HTTPS = os.environ.get("USE_HTTPS", "1") == "1"
