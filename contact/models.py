@@ -22,6 +22,7 @@ from wagtail.fields import RichTextField
 from wagtail.models import Page
 
 from core.models import SiteSettings, is_english
+from sms import notify_role as sms_notify_role
 
 from .storage import complaint_storage
 
@@ -100,6 +101,7 @@ class ContactPage(AbstractEmailForm):
                 to=addresses,
                 reply_to=reply_to[:1] or None,
             ).send(fail_silently=True)
+        sms_notify_role("contact_new", "secretariat", {"form": self.title, "site_name": SiteSettings.load().site_name})
         return submission
 
 
@@ -254,10 +256,11 @@ class ComplaintPage(Page):
         return sorted(emails)
 
     def notify_commission(self, complaint):
+        link = site_root_url() + reverse("complaints:edit", args=[complaint.pk])
+        sms_notify_role("complaint_new", "commission", {"code": complaint.tracking_code, "admin_url": link})
         to = self.recipients()
         if not to:
             return
-        link = site_root_url() + reverse("complaints:edit", args=[complaint.pk])
         EmailMessage(
             subject=f"شکایت تازه ثبت شد: {complaint.tracking_code}",
             body=(

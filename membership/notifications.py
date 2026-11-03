@@ -13,6 +13,8 @@ from django.utils import translation
 from wagtail.models import Locale
 
 from core.models import SiteSettings
+from sms import notify as sms_notify
+from sms import notify_role as sms_notify_role
 
 from .email_defaults import DEFAULT_EMAILS
 from .jalali import format_jalali
@@ -131,11 +133,22 @@ def send(event, to, lang, context):
 
 def to_applicant(application, event, message=""):
     lang = application.language if application.language in ("fa", "en") else "fa"
-    return send(event, [application.email], lang, application_context(application, lang, message))
+    context = application_context(application, lang, message)
+    sent = send(event, [application.email], lang, context)
+    sms_notify(f"membership_{event}", application.phone, context, lang)
+    return sent
+
+
+def sms_event_for_role(role, event):
+    """SMS texts for staff are per role, since the two groups get different, shorter messages."""
+    return f"membership_{event}_{role}" if event == "staff_resubmitted" else f"membership_{event}"
 
 
 def to_role(role, application, event):
-    return send(event, recipients_for(role), "fa", application_context(application, "fa"))
+    context = application_context(application, "fa")
+    sent = send(event, recipients_for(role), "fa", context)
+    sms_notify_role(sms_event_for_role(role, event), role, context)
+    return sent
 
 
 # ---- workflow hooks ----
