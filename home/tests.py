@@ -1,6 +1,9 @@
+import os
+from unittest import mock
+
 from django.contrib.auth.models import AnonymousUser, Group
-from django.core.management import call_command
-from django.test import TestCase
+from django.core.management import CommandError, call_command
+from django.test import TestCase, override_settings
 from wagtail.models import Collection, CollectionViewRestriction, Locale, Page
 
 from core.models import MembershipSettings, SiteSettings
@@ -71,3 +74,58 @@ class PageRenderingTests(TestCase):
         site_settings.phone = "021-12345678"
         site_settings.save()
         self.assertContains(self.client.get("/fa/"), "021-12345678")
+
+
+DEMO_MEDIA = __import__("tempfile").mkdtemp(prefix="ft-demo-media-")
+
+
+@override_settings(MEDIA_ROOT=DEMO_MEDIA)
+class SeedDemoTests(TestCase):
+    """seed_demo fills a test copy (Dockerfile.demo / render.yaml) and refuses on a real site."""
+
+    def run_demo(self, *args, password="demo-pass-123"):
+        with mock.patch.dict(os.environ, {"DEMO_PASSWORD": password}):
+            call_command("seed_demo", *args, stdout=open("/dev/null", "w"))
+
+    def test_refuses_without_demo_mode(self):
+        with self.assertRaises(CommandError):
+            self.run_demo()
+
+    @override_settings(DEMO_MODE=True)
+    def test_refuses_short_password(self):
+        with self.assertRaises(CommandError):
+            self.run_demo(password="short")
+
+    @override_settings(DEMO_MODE=True)
+    def test_demo_content_logins_and_banner(self):
+        from django.contrib.auth import get_user_model
+
+        from core.models import SeoSettings
+        from payments.models import PaymentSettings
+        from products.models import Product
+
+        self.run_demo()
+        products = Product.objects.count()
+        self.assertGreaterEqual(products, 5)
+        self.assertFalse(SeoSettings.load().allow_indexing)
+        self.assertEqual(PaymentSettings.load().provider, PaymentSettings.Provider.TEST)
+
+        User = get_user_model()
+        self.assertTrue(User.objects.get(username="demo-admin").check_password("demo-pass-123"))
+        member_user = User.objects.get(username="demo-member")
+        self.assertFalse(member_user.is_staff)
+        self.assertTrue(member_user.managed_members.exists())
+
+        # Idempotent, and --passwords-only only resets passwords.
+        self.run_demo()
+        self.run_demo("--passwords-only", password="another-pass-456")
+        self.assertEqual(Product.objects.count(), products)
+        self.assertTrue(User.objects.get(username="demo-admin").check_password("another-pass-456"))
+
+        html = self.client.get("/fa/").content.decode()
+        self.assertIn("demo-banner", html)
+        self.assertIn('content="noindex, nofollow"', html)
+
+    def test_no_banner_on_real_site(self):
+        call_command("seed_content", stdout=open("/dev/null", "w"))
+        self.assertNotIn("demo-banner", self.client.get("/fa/").content.decode())

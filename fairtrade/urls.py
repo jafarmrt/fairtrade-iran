@@ -1,7 +1,7 @@
 from django.conf import settings
 from django.conf.urls.i18n import i18n_patterns
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtailadmin_urls
 from wagtail.contrib.sitemaps.views import sitemap
@@ -33,6 +33,11 @@ if settings.DEBUG:
 
     urlpatterns += staticfiles_urlpatterns()
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+elif settings.DEMO_MODE:
+    # The free test copy (Dockerfile.demo) has no nginx in front: Django serves the pictures itself.
+    from django.views.static import serve
+
+    urlpatterns += [re_path(r"^media/(?P<path>.*)$", serve, {"document_root": settings.MEDIA_ROOT})]
 
 urlpatterns += i18n_patterns(
     path("search/", search_views.search, name="search"),
