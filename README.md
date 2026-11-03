@@ -102,11 +102,7 @@ Staff work under **عضویت › پرونده‌های عضویت**. The proces
 
 Only users in a group with the permission «اقدامات دبیرخانه» or «ثبت رأی کمیسیون» can act; `seed_content` gives these to the دبیرخانه and کمیسیون نظارتی groups. Uploaded files go to `PRIVATE_MEDIA_ROOT/membership/` and are downloaded only through the admin.
 
-E-mail texts are editable under **عضویت › ایمیل‌ها**. For deadline reminders, run this once a day (cron):
-
-```bash
-python manage.py membership_reminders
-```
+E-mail texts are editable under **عضویت › ایمیل‌ها**. Deadline reminders (`python manage.py membership_reminders`) run once a day in the `scheduler` service of `docker-compose.yml`, at `DAILY_JOBS_TIME` (default 08:00 Tehran time). Without Docker, run that command from cron.
 
 When the secretariat registers a full member, the signal `membership.workflow.member_registered` is sent (with `application` and `certificate`) so a members directory can create the public profile.
 

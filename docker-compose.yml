@@ -25,6 +25,7 @@ services:
       retries: 10
 
   web:
+    image: fairtrade-web
     build:
       context: .
       args:
@@ -52,6 +53,26 @@ services:
       - ./deploy/nginx.conf:/etc/nginx/conf.d/default.conf:ro
       - media:/app/media:ro
       - certbot-www:/var/www/certbot:ro
+
+  # Daily site jobs (membership deadline reminders), same image as web.
+  scheduler:
+    image: fairtrade-web
+    build:
+      context: .
+      args:
+        PIP_INDEX_URL: ${PIP_INDEX_URL:-https://pypi.org/simple}
+    restart: unless-stopped
+    env_file: .env
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-fairtrade}:${POSTGRES_PASSWORD}@db:5432/${POSTGRES_DB:-fairtrade}
+      TZ: ${DAILY_JOBS_TZ:-Asia/Tehran}
+      DAILY_JOBS_TIME: ${DAILY_JOBS_TIME:-08:00}
+    depends_on:
+      web:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "/app/deploy/scheduler.sh"]
+    healthcheck:
+      disable: true
 
   # Daily dump of the database plus both upload volumes into ./backups.
   # Copy ./backups off the server regularly (see docs/deploy-fa.md).
