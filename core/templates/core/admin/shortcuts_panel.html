@@ -1,17 +1,20 @@
-{% load wagtailadmin_tags membership_tags %}
-{% if shortcuts %}
+{% load wagtailadmin_tags %}
 <section class="ft-shortcuts" aria-labelledby="ft-shortcuts-title">
-    <h2 id="ft-shortcuts-title" class="w-h2" dir="auto">کارهای پرکاربرد</h2>
+    {% if shortcuts %}
+    <h2 id="ft-shortcuts-title" class="w-h2">کارهای پرکاربرد</h2>
     <ul class="ft-shortcuts__grid">
         {% for s in shortcuts %}
         <li class="ft-shortcuts__item">
-            <a href="{{ s.url }}"{% if s.new_tab %} target="_blank" rel="noopener"{% endif %}>
+            <a href="{{ s.url }}">
                 {% icon name=s.icon %}
-                <span dir="auto">{{ s.label }}{% if s.hint %}<small>{{ s.hint }}</small>{% endif %}</span>
-                {% if s.badge %}<span class="ft-shortcuts__badge">{{ s.badge|fa_digits }}<span class="w-sr-only"> مورد منتظر رسیدگی</span></span>{% endif %}
+                <span>{{ s.label }}{% if s.hint %}<small>{{ s.hint }}</small>{% endif %}</span>
             </a>
         </li>
         {% endfor %}
     </ul>
+    {% endif %}
+    <p class="ft-shortcuts__links">
+        <a href="/fa/" target="_blank" rel="noopener">{% icon name="site" %} دیدن سایت (زبانهٔ تازه)</a>
+        <a href="{% url 'ft_admin_guide' %}">{% icon name="help" %} راهنمای پنل: کارهای روزمره قدم‌به‌قدم</a>
+    </p>
 </section>
-{% endif %}

@@ -11,6 +11,8 @@ from wagtail.admin.panels import FieldPanel, MultiFieldPanel, ObjectList, Tabbed
 from wagtail.contrib.settings.models import BaseGenericSetting, register_setting
 from wagtail.fields import RichTextField
 
+from .admin_panels import technical_note
+
 
 def is_english():
     return (get_language() or "fa").startswith("en")
@@ -402,6 +404,7 @@ class SeoSettings(BaseGenericSetting):
     )
 
     panels = [
+        technical_note(_("اینکه سایت در گوگل و هنگام فرستادن پیوند در تلگرام و واتس‌اپ چطور دیده شود، کد آمار بازدید و نمادهای اعتماد مثل اینماد. معمولاً یک بار تنظیم می‌شود.")),
         MultiFieldPanel([FieldPanel("allow_indexing"), FieldPanel("default_description"),
                          FieldPanel("default_description_en")], heading=_("موتورهای جستجو")),
         MultiFieldPanel([FieldPanel("share_image"), FieldPanel("site_icon")], heading=_("تصویرها")),
@@ -455,6 +458,7 @@ class SecuritySettings(BaseGenericSetting):
     )
 
     panels = [
+        technical_note(_("ورود دومرحله‌ای کارکنان و سیاست امنیت محتوا. تغییر نادرست این‌جا می‌تواند ورود به پنل یا نمایش سایت را خراب کند؛ فقط مسئول فنی تغییر دهد.")),
         MultiFieldPanel([FieldPanel("two_factor"), FieldPanel("two_factor_remember_days"),
                          FieldPanel("two_factor_code_minutes")], heading=_("ورود دومرحله‌ای کارکنان")),
         MultiFieldPanel([FieldPanel("csp_mode"), FieldPanel("csp_extra_sources")],
@@ -564,6 +568,7 @@ class PwaSettings(BaseGenericSetting):
     )
 
     panels = [
+        technical_note(_("نسخه‌ای از سایت که بازدیدکننده می‌تواند مثل یک برنامه روی گوشی نصب کند: نام، آیکن، رنگ‌ها و صفحهٔ بدون اینترنت.")),
         FieldPanel("enabled"),
         MultiFieldPanel(
             [FieldPanel("app_name"), FieldPanel("app_name_en"), FieldPanel("short_name"), FieldPanel("short_name_en"),

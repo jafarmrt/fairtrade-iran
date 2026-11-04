@@ -658,7 +658,35 @@ html[lang="en"] .step::before { content: counter(step); }
 }
 .panel-link:hover { background: var(--gold-light); color: var(--navy); }
 .panel-nav { margin: 16px 0 0; align-items: center; }
-.panel-nav__logout { margin-inline-start: auto; }
+/* «بیشتر» and «حساب من» folds of the member panel menu (memberpanel/base.html) */
+.panel-nav__more { position: relative; }
+.panel-nav__account { margin-inline-start: auto; }
+.panel-nav__more summary {
+  list-style: none; cursor: pointer; padding: 6px 16px; border-radius: 999px; border: 1px solid var(--line);
+  background: var(--surface); color: var(--navy); font-weight: 500;
+}
+.panel-nav__more summary::-webkit-details-marker { display: none; }
+.panel-nav__more summary::after { content: "▾"; margin-inline-start: 6px; font-size: 0.8em; }
+.panel-nav__more[open] summary::after { content: "▴"; }
+.panel-nav__more summary.is-current { background: var(--navy); border-color: var(--navy); color: #fff; }
+.panel-nav__menu {
+  position: absolute; z-index: 20; inset-block-start: calc(100% + 6px); inset-inline-start: 0; min-width: 17.5rem;
+  display: flex; flex-direction: column; padding: 6px; background: var(--surface); border: 1px solid var(--line);
+  border-radius: var(--radius); box-shadow: var(--shadow);
+}
+.panel-nav__account .panel-nav__menu { inset-inline-start: auto; inset-inline-end: 0; }
+.filter-tabs .panel-nav__menu a, .panel-nav__menu .linklike {
+  display: block; padding: 8px 12px; border: 0; border-radius: 8px; background: none; text-align: start; width: 100%;
+  color: var(--navy); text-decoration: none; font-weight: 500;
+}
+.filter-tabs .panel-nav__menu a:hover, .panel-nav__menu .linklike:hover { background: var(--tint); }
+.filter-tabs .panel-nav__menu a[aria-current] { background: var(--navy); color: #fff; }
+.panel-nav__menu form { margin: 0; border-top: 1px solid var(--line); margin-top: 4px; padding-top: 4px; }
+@media (max-width: 600px) {
+  .panel-nav__menu { position: static; margin-top: 6px; box-shadow: none; }
+  .panel-nav__more[open] { flex-basis: 100%; }
+  .panel-nav__account { margin-inline-start: 0; }
+}
 .panel-layout { display: grid; gap: 32px; }
 @media (min-width: 1000px) { .panel-layout { grid-template-columns: minmax(0, 720px) minmax(0, 1fr); align-items: start; } }
 .panel-help { font-size: 0.95rem; }

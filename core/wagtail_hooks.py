@@ -13,7 +13,7 @@ from django.templatetags.static import static
 from django.urls import path, reverse
 from django.utils.html import format_html
 from wagtail import hooks
-from wagtail.admin.menu import MenuItem
+from wagtail.admin.menu import Menu, MenuItem, SubmenuMenuItem
 from wagtail.admin.ui.components import Component
 
 from . import admin_views
@@ -107,10 +107,36 @@ def _settings_name(item):
     return model._meta.label_lower if model is not None else item.name
 
 
+# Settings that only the technical person changes: gathered in one fold at the end of the
+# settings menu, so a volunteer looking for the logo or the fees doesn't land on the gateway
+# key or the security policy. Each of the house's pages opens with a one-line note
+# (core.admin_panels.technical_note).
+TECHNICAL_SETTINGS = {
+    "payments.paymentsettings",
+    "sms.smssettings",
+    "core.seosettings",
+    "core.pwasettings",
+    "core.securitysettings",
+    "redirects",
+    "sites",
+    "locales",
+}
+TECHNICAL_LABEL = "تنظیمات فنی"
+
+
 @hooks.register("construct_settings_menu")
 def arrange_settings_menu(request, menu_items):
     for item in menu_items:
         item.order = SETTINGS_MENU_ORDER.get(_settings_name(item), item.order)
+    technical = [item for item in menu_items if _settings_name(item) in TECHNICAL_SETTINGS]
+    if technical:
+        for item in technical:
+            menu_items.remove(item)
+        menu_items.append(
+            SubmenuMenuItem(
+                TECHNICAL_LABEL, Menu(items=technical), name="technical", icon_name="cogs", order=9000
+            )
+        )
 
 
 # ---- reports and help ----
@@ -151,8 +177,27 @@ def guide_url():
 # ---- dashboard ----
 
 
+class PendingPanel(Component):
+    """«کارهای منتظر شما»: what waits for this person, counted, first thing on the dashboard."""
+
+    name = "ft_pending"
+    order = 5
+    template_name = "core/admin/pending_panel.html"
+
+    def __init__(self, request):
+        self.request = request
+
+    def get_context_data(self, parent_context=None):
+        return {"items": admin_views.pending_for(self.request.user)}
+
+
+@hooks.register("construct_homepage_panels")
+def add_pending_panel(request, panels):
+    panels.append(PendingPanel(request))
+
+
 class ShortcutsPanel(Component):
-    """«کارهای پرکاربرد»: tiles for the things each person does most, at the top of the dashboard."""
+    """«کارهای پرکاربرد»: tiles for the few things each person starts most often."""
 
     name = "ft_shortcuts"
     order = 10

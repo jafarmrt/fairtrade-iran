@@ -4,6 +4,8 @@ from django.db import models
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.contrib.settings.models import BaseGenericSetting, register_setting
 
+from core.admin_panels import technical_note
+
 from .phone import mobile_list
 from .registry import AUDIENCES, event_choices, get
 
@@ -38,6 +40,7 @@ class SmsSettings(BaseGenericSetting):
     )
 
     panels = [
+        technical_note("سامانهٔ پیامک برای کد ورود اعضا و خبر دادن به دبیرخانه و کمیسیون. کلید و شمارهٔ فرستنده را شرکت پیامکی می‌دهد."),
         FieldPanel("enabled"),
         MultiFieldPanel(
             [FieldPanel("provider"),

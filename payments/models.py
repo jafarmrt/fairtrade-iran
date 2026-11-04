@@ -8,6 +8,7 @@ from django.db import models
 from wagtail.admin.panels import FieldPanel, MultiFieldPanel
 from wagtail.contrib.settings.models import BaseGenericSetting, register_setting
 
+from core.admin_panels import technical_note
 from core.models import BilingualMixin
 
 
@@ -50,6 +51,7 @@ class PaymentSettings(BaseGenericSetting):
     )
 
     panels = [
+        technical_note("درگاه بانکی سایت را وصل می‌کند تا خریداران و اعضا با کارت بانکی پرداخت کنند. کد پذیرنده را شرکت درگاه می‌دهد؛ تا پرداخت آزمایشی موفق نشده، پرداخت آنلاین را روشن نکنید."),
         FieldPanel("enabled"),
         MultiFieldPanel(
             [FieldPanel("provider"),
