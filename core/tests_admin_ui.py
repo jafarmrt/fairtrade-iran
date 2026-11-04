@@ -201,3 +201,72 @@ class AdminForVolunteersTests(TestCase):
 
     def test_root_page_title(self):
         self.assertEqual(Page.get_first_root_node().title, data.ROOT_TITLE)
+
+
+class SeoLengthCountTests(TestCase):
+    """Counts under «عنوان سئو» and «توضیحات جست‌وجو» in the page editor (core/admin_panels.py, admin-seo.js)."""
+
+    @classmethod
+    def setUpTestData(cls):
+        call_command("seed_content", stdout=io.StringIO())
+        cls.admin = User.objects.create_superuser("root", "root@example.org", "pw")
+        cls.home_fa = Page.objects.get(depth=2, locale__language_code="fa")
+        cls.home_en = Page.objects.get(depth=2, locale__language_code="en")
+        cls.about_fa = cls.home_fa.get_children().get(slug=data.ABOUT["fa"]["slug"])
+
+    def setUp(self):
+        self.client.force_login(self.admin)
+
+    def field(self, response, name):
+        match = re.search(r'<(?:input|textarea)[^>]*name="%s"[^>]*>' % name, response.content.decode())
+        self.assertIsNotNone(match, name)
+        return match.group(0)
+
+    def test_editor_fields_carry_the_counting_data(self):
+        response = self.client.get(f"/admin/pages/{self.home_fa.pk}/edit/")
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "js/admin-seo.js")
+        title = self.field(response, "seo_title")
+        self.assertIn('data-ft-seo="title"', title)
+        self.assertIn('data-ft-seo-site="خانه تجارت عادلانه ایران"', title)
+        self.assertIn('data-ft-seo-max="60"', title)
+        description = self.field(response, "search_description")
+        self.assertIn('data-ft-seo="description"', description)
+        self.assertIn('data-ft-seo-default="1"', description)
+        # The home page's summary fields, in the order the site uses them for the description.
+        fallback = re.search(r'data-ft-seo-fallback="([^"]*)"', description).group(1)
+        self.assertEqual([name for name, _ in json.loads(fallback.replace("&quot;", '"'))], ["intro", "hero_text"])
+
+    def test_site_name_in_the_page_language(self):
+        response = self.client.get(f"/admin/pages/{self.home_en.pk}/edit/")
+        self.assertIn('data-ft-seo-site="Fair Trade House of Iran"', self.field(response, "seo_title"))
+        # A new page takes its parent's language.
+        response = self.client.get(f"/admin/pages/add/pages/standardpage/{self.home_en.pk}/")
+        self.assertEqual(response.status_code, 200)
+        self.assertIn('data-ft-seo-site="Fair Trade House of Iran"', self.field(response, "seo_title"))
+
+    def test_every_page_type_has_the_counts(self):
+        from wagtail.models import get_page_models
+
+        from core.admin_panels import SeoLengthPanel
+
+        def panels(panel):
+            yield panel
+            for child in getattr(panel, "children", ()):
+                yield from panels(child)
+
+        for model in get_page_models():
+            if model is Page:
+                continue
+            counted = [p.field_name for p in panels(model.get_edit_handler()) if isinstance(p, SeoLengthPanel)]
+            self.assertEqual(counted, ["seo_title", "search_description"], model.__name__)
+
+    def test_page_title_as_counted(self):
+        """The <title> the counter describes: the site name once on the home page, added after other pages."""
+        self.client.logout()
+        response = self.client.get(self.home_fa.url)
+        self.assertContains(response, "<title>خانه تجارت عادلانه ایران</title>", html=False)
+        response = self.client.get(self.home_en.url)
+        self.assertContains(response, "<title>Fair Trade House of Iran</title>", html=False)
+        response = self.client.get(self.about_fa.url)
+        self.assertContains(response, "<title>درباره ما | خانه تجارت عادلانه ایران</title>", html=False)
