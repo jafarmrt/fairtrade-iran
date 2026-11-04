@@ -4128,7 +4128,7 @@ msgid "The name '%(duplicate_clean_name)s' is already assigned to this field and
 msgstr "نام «%(duplicate_clean_name)s» قبلاً به این فیلد داده شده و تغییرپذیر نیست. برای فیلدی که با آن هم‌نام است برچسب دیگری بنویسید."
 
 msgid "The name of the page as it will appear in URLs e.g http://domain.com/blog/[my-slug]/"
-msgstr "نام صفحه در نشانی اینترنتی، مثلاً http://domain.com/blog/[my-slug]/ (بهتر است کوتاه و با حروف لاتین یا فارسی بدون فاصله باشد)"
+msgstr "بخشی از نشانی صفحه که پس از نشانی بخش بالاتر می‌آید؛ مثلاً «about» در ‎/fa/about/‎. کوتاه و بدون فاصله بنویسید (به‌جای فاصله خط تیره بگذارید)."
 
 msgid "The name of the page displayed on search engine results as the clickable headline."
 msgstr "عنوانی که موتورهای جست‌وجو (مانند گوگل) به‌عنوان سرخط قابل کلیک نشان می‌دهند. خالی بماند، عنوان صفحه به کار می‌رود."

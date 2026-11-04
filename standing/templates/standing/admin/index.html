@@ -8,10 +8,12 @@
     </label>
     <label>جست‌وجو <input type="search" name="q" value="{{ q }}" placeholder="نام عضو"></label>
     <button class="button" type="submit">نمایش</button>
+</form>
+<p class="st-links">
     <a href="?{{ export_query }}">خروجی اکسل (CSV) حق عضویت همین اعضا</a>
     <a href="{% url 'wagtailsettings:edit' 'core' 'membershipsettings' %}">تنظیمات حق عضویت و تعلیق</a>
     {% if perms.standing.view_dues or perms.standing.change_dues %}<a href="{% url 'wagtailsnippets_standing_dues:list' %}">فهرست کامل حق عضویت‌ها (برای اصلاح و خروجی)</a>{% endif %}
-</form>
+</p>
 {% if members %}
 <table class="listing">
     <thead><tr><th>عضو</th><th>نوع</th><th>وضعیت</th><th>حق عضویت</th><th>تعلیق تا</th><th>آرا</th></tr></thead>

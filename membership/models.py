@@ -184,7 +184,7 @@ class MembershipApplication(models.Model):
     trial_ends_on = models.DateField("پایان دوره آزمایشی", null=True, blank=True)
 
     submitted_at = models.DateTimeField("تاریخ ثبت", auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField("آخرین تغییر", auto_now=True)
 
     class Meta:
         verbose_name = "درخواست عضویت"

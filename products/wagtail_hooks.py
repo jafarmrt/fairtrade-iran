@@ -7,6 +7,8 @@ from wagtail.admin.filters import WagtailFilterSet
 from wagtail.admin.ui.tables import BooleanColumn
 from wagtail.snippets.views.snippets import SnippetViewSet
 
+from core.admin_columns import MoneyColumn
+
 from .models import Category, Product
 
 
@@ -21,7 +23,7 @@ class ProductViewSet(SnippetViewSet):
     icon = "tag"
     menu_label = "محصولات"
     list_display = [
-        "name", "name_en", "member", "category", "price",
+        "name", "name_en", "member", "category", MoneyColumn("price", label="قیمت"),
         BooleanColumn("in_stock", label="موجود است"),
         BooleanColumn("is_published", label="نمایش در سایت"),
         BooleanColumn("needs_review", label="در انتظار بررسی"),

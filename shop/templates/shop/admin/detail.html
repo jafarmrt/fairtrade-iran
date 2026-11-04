@@ -1,7 +1,7 @@
 {% extends "wagtailadmin/generic/base.html" %}
 {% load membership_tags site_tags %}
 {% block main_content %}
-<p><a href="{% url 'shop_orders:index' %}">← همه سفارش‌ها</a> · <a href="{% url 'wagtailsnippets_members_member:edit' order.member.pk %}">پروفایل تولیدکننده</a>
+<p><a href="{% url 'shop_orders:index' %}">→ همه سفارش‌ها</a> · <a href="{% url 'wagtailsnippets_members_member:edit' order.member.pk %}">پروفایل تولیدکننده</a>
 {% if seller.pk %} · <a href="{% url 'wagtailsnippets_shop_seller:edit' seller.pk %}">تنظیمات فروش این تولیدکننده</a>{% endif %}
 {% if order.status != 'cancelled' %} · <a href="{% url 'shop_orders:invoice' order.pk %}" target="_blank" rel="noopener">فاکتور قابل چاپ</a>{% endif %}</p>
 

@@ -24,6 +24,12 @@ def house_admin_css():
     return format_html('<link rel="stylesheet" href="{}">', static("css/admin.css"))
 
 
+@hooks.register("insert_global_admin_js")
+def file_input_js():
+    """«انتخاب فایل» instead of the browser's English "Choose File" on file fields."""
+    return format_html('<script src="{}" defer></script>', static("js/file-input.js"))
+
+
 @hooks.register("insert_editor_js")
 def seo_length_js():
     """Counts under «عنوان سئو» and «توضیحات جست‌وجو» while they are typed (core/admin_panels.py)."""

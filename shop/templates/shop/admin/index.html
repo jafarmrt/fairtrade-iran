@@ -15,11 +15,13 @@
     </label>
     <label>جست‌وجو <input type="search" name="q" value="{{ q }}" placeholder="کد سفارش، خریدار، تلفن یا تولیدکننده"></label>
     <button class="button" type="submit">نمایش</button>
+</form>
+<p class="st-links">
     <a href="?{{ export_query }}">خروجی اکسل (CSV) همین فهرست</a>
     <a href="{% url 'shop_orders:report' %}">گزارش ماهانه فروش</a>
     <a href="{% url 'wagtailsettings:edit' 'products' 'shopsettings' %}">تنظیمات فروشگاه و کارمزد</a>
     <a href="{% url 'wagtailsettings:edit' 'payments' 'paymentsettings' %}">تنظیمات پرداخت آنلاین</a>
-</form>
+</p>
 {% if orders %}
 <table class="listing">
     <thead><tr><th>سفارش</th><th>تاریخ</th><th>خریدار</th><th>تولیدکننده</th><th>پرداخت به</th><th>مبلغ ({% currency %})</th><th>کارمزد</th><th>وضعیت</th><th>تسویه</th></tr></thead>

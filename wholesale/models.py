@@ -302,7 +302,7 @@ class ProducerShare(models.Model):
     replied_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="پاسخ‌دهنده", null=True, blank=True,
                                    on_delete=models.SET_NULL, related_name="+")
     notified_at = models.DateTimeField("زمان خبر دادن", null=True, blank=True, editable=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField("تاریخ ایجاد", auto_now_add=True)
 
     panels = [FieldPanel("member"), FieldPanel("status"), FieldPanel("price_quote"),
               FieldPanel("lead_time"), FieldPanel("reply")]

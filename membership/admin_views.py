@@ -180,7 +180,9 @@ def detail(request, pk):
     ]
     ms = MembershipSettings.load()
     return TemplateResponse(request, "membership/admin/detail.html", {
-        "page_title": f"پرونده {application.tracking_code}",
+        # The code (Latin letters and digits) goes in the box below, written left to right:
+        # in the title it would come out half Persian ("FT-L۸V۸…").
+        "page_title": "پرونده عضویت",
         "page_subtitle": application.name,
         "header_icon": "group",
         "application": application,

@@ -324,7 +324,7 @@ class Assembly(BilingualMixin, models.Model):
 
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="ثبت‌کننده", null=True, blank=True,
                                    on_delete=models.SET_NULL, related_name="+")
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField("تاریخ ایجاد", auto_now_add=True)
 
     panels = [
         MultiFieldPanel([
@@ -550,8 +550,8 @@ class Participant(models.Model):
         "self", verbose_name="وکیل", null=True, blank=True, on_delete=models.SET_NULL, related_name="proxies_held",
     )
     proxy_reference = models.CharField("شماره یا تاریخ وکالت‌نامه", max_length=200, blank=True)
-    invited_at = models.DateTimeField(null=True, blank=True)
-    reminded_at = models.DateTimeField(null=True, blank=True)
+    invited_at = models.DateTimeField("زمان دعوت", null=True, blank=True)
+    reminded_at = models.DateTimeField("زمان یادآوری", null=True, blank=True)
 
     class Meta:
         verbose_name = "عضو دارای حق رأی"
@@ -630,6 +630,8 @@ class PaperTally(models.Model):
 
     class Meta:
         constraints = [models.UniqueConstraint(fields=["item", "option", "group"], name="assembly_one_tally")]
+        verbose_name = "شمارش آرای کاغذی"
+        verbose_name_plural = "شمارش‌های آرای کاغذی"
 
 
 class AssemblyLog(models.Model):
@@ -643,3 +645,5 @@ class AssemblyLog(models.Model):
 
     class Meta:
         ordering = ["-at", "-pk"]
+        verbose_name = "گزارش جلسه مجمع"
+        verbose_name_plural = "گزارش‌های جلسه مجمع"

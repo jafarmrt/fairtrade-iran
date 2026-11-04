@@ -1,4 +1,4 @@
-{% load static wagtailcore_tags wagtailimages_tags site_tags seo_tags %}
+{% load static wagtailcore_tags wagtailimages_tags site_tags seo_tags date_tags %}
 {% with s=settings.core.SiteSettings %}
 {% tr s "site_name" as site_name %}
 <footer class="site-footer">
@@ -41,7 +41,7 @@
         </div>
         {% seo_settings as seo %}{% if seo.footer_badges %}<div class="site-footer__badges">{{ seo.footer_badges|with_nonce:CSP_NONCE }}</div>{% endif %}
         <div class="site-footer__bottom">
-            <span>© {% now "Y" %} {{ site_name }}</span>
+            <span>© {% this_year %} {{ site_name }}</span>
             {% with legal=s.legal_pages %}{% if legal %}<ul class="site-footer__legal">{% for key, p in legal.items %}<li><a href="{% pageurl p %}">{{ p.title }}</a></li>{% endfor %}</ul>{% endif %}{% endwith %}
         </div>
     </div>

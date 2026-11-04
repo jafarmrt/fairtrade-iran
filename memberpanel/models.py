@@ -116,7 +116,7 @@ class LoginMobile(models.Model):
                                 related_name="login_mobile")
     mobile = models.CharField("شماره موبایل", max_length=11, unique=True, help_text="مثل ۰۹۱۲۳۴۵۶۷۸۹")
     verified_at = models.DateTimeField("تأیید با کد پیامکی", null=True, blank=True, editable=False)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField("تاریخ ایجاد", auto_now_add=True)
 
     panels = [FieldPanel("user"), FieldPanel("mobile")]
 

@@ -5,6 +5,7 @@ from wagtail.admin.ui.components import Component
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
 
+from core.admin_columns import MoneyColumn
 from members.models import Member
 
 from .models import Dues, DuesPayment
@@ -21,7 +22,7 @@ class DuesViewSet(SnippetViewSet):
     icon = "doc-full"
     menu_label = "فهرست حق عضویت‌ها"
     add_to_admin_menu = False
-    list_display = ["member", "year", "amount", "due_date", "status", "warned_on", "paid_on"]
+    list_display = ["member", "year", MoneyColumn("amount", label="مبلغ"), "due_date", "status", "warned_on", "paid_on"]
     list_filter = ["status", "year"]
     list_export = ["member", "year", "amount", "period_start", "due_date", "status", "warned_on", "paid_on"]
     search_fields = ["member__name"]
