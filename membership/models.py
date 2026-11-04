@@ -416,6 +416,7 @@ class EmailTemplate(models.Model):
         ORDER_CANCELLED = "order_cancelled", "فروشگاه، به خریدار و فروشنده: سفارش لغو شد"
         ORDER_RETURN_REQUEST = "order_return_request", "فروشگاه، به فروشنده و کارکنان: درخواست مرجوعی"
         ORDER_REFUNDED = "order_refunded", "فروشگاه، به خریدار: مرجوعی و بازپرداخت ثبت شد"
+        ORDER_PAID_CLOSED = "order_paid_closed", "فروشگاه، به کارکنان: پرداخت آنلاین برای سفارش لغوشده یا بسته رسید"
 
     event = models.CharField("رویداد", max_length=40, choices=Event.choices, unique=True)
     active = models.BooleanField("ارسال شود", default=True)

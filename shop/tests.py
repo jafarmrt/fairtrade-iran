@@ -375,3 +375,28 @@ class OnlineOrderPaymentTests(ShopTestCase):
         # coming back twice does not settle twice
         self.client.post(f"/pay/{payment.uid}/return/", {"result": "ok", "authority": payment.authority})
         self.assertEqual(house.events.filter(action="paid_online").count(), 1)
+
+    def test_money_for_a_cancelled_order_alerts_the_staff(self):
+        from django.core import mail
+
+        from shop import services
+
+        self.add(self.mat)
+        self.checkout()
+        purchase = Purchase.objects.get()
+        self.client.post(f"/fa/shop/order/{purchase.code}/", {"step": "pay_online"})
+        payment = Payment.objects.get()
+        house = purchase.orders.get(member=self.house_member)
+        # The buyer is at the bank while the daily job cancels the overdue order.
+        with self.captureOnCommitCallbacks(execute=True):
+            services.cancel(house, None, "مهلت پرداخت سفارش به پایان رسید.", by=services.SYSTEM)
+        mail.outbox.clear()
+        with self.captureOnCommitCallbacks(execute=True):
+            self.client.post(f"/pay/{payment.uid}/return/", {"result": "ok", "authority": payment.authority})
+        house.refresh_from_db()
+        self.assertEqual(house.status, Order.Status.CANCELLED)
+        self.assertIn(payment.ref_id, house.staff_note)
+        alert = [m for m in mail.outbox if m.to == ["orders@example.org"]]
+        self.assertEqual(len(alert), 1)
+        self.assertIn(house.code, alert[0].subject)
+        self.assertIn(payment.ref_id, alert[0].body)

@@ -175,6 +175,7 @@ def paid_online(purchase, payment):
                 f"هشدار: پرداخت آنلاین {payment.ref_id} برای این سفارش در وضعیت «{order.get_status_display()}» رسید.")
             order.save(update_fields=["staff_note"])
             log(order, "note", SYSTEM, message="پرداخت آنلاین برای سفارشی که منتظر پرداخت نبود رسید؛ بررسی شود.")
+            transaction.on_commit(lambda o=order: notifications.paid_closed(o, payment.ref_id))
 
 
 # ---------------------------------------------------------------------------
