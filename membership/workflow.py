@@ -179,6 +179,9 @@ def perform(application, action_key, user, message="", internal_note="", decisio
         raise WorkflowError(reason)
     if action.note_required and not message.strip():
         raise WorkflowError("برای این اقدام، نوشتن پیام به متقاضی لازم است.")
+    if action.role == COMMISSION and action.target and not decision_reference.strip():
+        # Section 3.7: admission decisions are collective; no single member, the secretary included, issues them.
+        raise WorkflowError("رأی کمیسیون جمعی است؛ شماره یا تاریخ صورتجلسه‌ای را که این رأی در آن گرفته شد بنویسید.")
 
     ms = MembershipSettings.load()
     today = timezone.localdate()

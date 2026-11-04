@@ -225,6 +225,17 @@ COLLECTIONS = [
     ("تصاویر اعضا", []),  # photos members upload from the member panel
 ]
 
+# Which document collections each group may upload to and edit in the admin.
+# Kept to the collections the group may also open: someone who can edit a
+# document can move it to another collection, so edit rights on a private
+# collection would let them publish its files.
+DOCUMENT_EDITORS = {
+    PR: ["اسناد عمومی"],
+    BOARD: ["اسناد عمومی", "اسناد اعضا", "اسناد هیئت مدیره"],
+    SECRETARIAT: ["اسناد عمومی", "اسناد اعضا", "اسناد هیئت مدیره"],
+    COMMISSION: ["اسناد کمیسیون نظارتی"],
+}
+
 
 # ---- news, documents, contact ----
 

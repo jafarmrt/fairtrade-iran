@@ -23,6 +23,9 @@ register("order_cancelled", "فروشگاه، به خریدار و فروشند�
 register("order_refunded", "فروشگاه، به خریدار: مرجوعی و بازپرداخت ثبت شد",
          "{name} گرامی، بازپرداخت سفارش {code} ({member}) ثبت شد." + S,
          "Dear {name}, the refund for order {code} ({member}) is recorded." + S_EN)
+register("order_paid_closed", "فروشگاه، به دبیرخانه: پرداخت آنلاین برای سفارش لغوشده",
+         "پرداخت آنلاین سفارش {code} رسید ولی سفارش «{status}» بود؛ بازپرداخت یا بازگشایی کنید.\n{admin_url}",
+         audience="secretariat")
 register("order_return_request", "فروشگاه، به فروشنده و دبیرخانه: درخواست مرجوعی",
          "خریدار برای سفارش {code} درخواست مرجوعی داد: {message}", audience="secretariat")
 register("order_seller_new", "فروشگاه، به فروشنده: سفارش تازه",

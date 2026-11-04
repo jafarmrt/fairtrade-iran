@@ -219,6 +219,8 @@ EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = os.environ.get("EMAIL_USE_TLS", "1") == "1"
 DEFAULT_FROM_EMAIL = os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@localhost")
+# Without a timeout a slow or blocked mail server holds the visitor's page until gunicorn kills it.
+EMAIL_TIMEOUT = int(os.environ.get("EMAIL_TIMEOUT", "15"))
 
 # SMS: provider, sender line and texts are set in the admin (Settings > تنظیمات پیامک).
 # SMS_API_KEY keeps the provider key out of the database if you prefer;

@@ -46,6 +46,37 @@ class SeedContentTests(TestCase):
         self.assertEqual(list(restriction.groups.values_list("name", flat=True)), ["کمیسیون نظارتی"])
         self.assertTrue(Group.objects.filter(name="دبیرخانه").exists())
 
+    def test_editors_cannot_reach_confidential_documents(self):
+        """Edit rights on a document allow moving it to the public collection, so they follow view rights."""
+        from django.contrib.auth import get_user_model
+        from django.core.files.base import ContentFile
+        from django.test import Client
+        from wagtail.models import GroupCollectionPermission
+
+        from archive.models import ArchiveDocument
+
+        root = Collection.get_first_root_node()
+        for name in ("روابط عمومی", "هیئت مدیره"):
+            self.assertFalse(GroupCollectionPermission.objects.filter(
+                group__name=name, collection=root, permission__content_type__app_label="wagtaildocs").exists())
+        commission = Collection.objects.get(name="اسناد کمیسیون نظارتی")
+        public = Collection.objects.get(name="اسناد عمومی")
+        secret = ArchiveDocument(title="گزارش محرمانه", collection=commission)
+        secret.file.save("secret.txt", ContentFile(b"confidential"), save=True)
+        user = get_user_model().objects.create_user("pr-volunteer", "pr@example.org", "x-pass-12345")
+        user.groups.add(Group.objects.get(name="روابط عمومی"))
+        client = Client()
+        client.force_login(user)
+        self.assertNotContains(client.get("/admin/documents/"), "گزارش محرمانه")
+        client.post(f"/admin/documents/edit/{secret.pk}/", {"title": secret.title, "collection": public.pk})
+        secret.refresh_from_db()
+        self.assertEqual(secret.collection, commission)
+        # They still manage public documents, and the commission manages its own.
+        self.assertTrue(GroupCollectionPermission.objects.filter(
+            group__name="کمیسیون نظارتی", collection=commission, permission__codename="change_document").exists())
+        self.assertTrue(GroupCollectionPermission.objects.filter(
+            group__name="روابط عمومی", collection=public, permission__codename="add_document").exists())
+
 
 class PageRenderingTests(TestCase):
     @classmethod

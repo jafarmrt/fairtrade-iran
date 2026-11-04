@@ -119,6 +119,39 @@ def export_applications(qs):
     return csv_response(f"applications-{y}{m:02d}{d:02d}.csv", header, (row(a) for a in qs))
 
 
+def reapply_waits(application):
+    """
+    Cancelled members whose waiting time before a new application (section 1.8: one year, three
+    after a serious violation) has not ended and who share this applicant's e-mail or mobile.
+    Shown to the staff as a warning; the decision stays with the secretariat and the commission.
+    """
+    from django.db.models import Q
+    from django.utils import timezone
+
+    from core.iran import only_digits
+    from members.models import Member
+
+    email = (application.email or "").strip()
+    phone = only_digits(application.phone or "")[-10:]
+    if not email and len(phone) < 10:
+        return []
+    match = Q()
+    if email:
+        match |= Q(application__email__iexact=email) | Q(public_email__iexact=email)
+    if len(phone) == 10:
+        match |= Q(application__phone__endswith=phone[-7:])  # narrowed in Python below (0912… / +98912…)
+    candidates = (Member.objects.filter(match, status=Member.CANCELLED, reapply_after__gt=timezone.localdate())
+                  .exclude(application=application).select_related("application"))
+    found = []
+    for member in candidates:
+        same_email = email and email.lower() in {(member.public_email or "").lower(),
+                                                  ((member.application and member.application.email) or "").lower()}
+        same_phone = len(phone) == 10 and member.application and only_digits(member.application.phone)[-10:] == phone
+        if same_email or same_phone:
+            found.append(member)
+    return found
+
+
 def detail(request, pk):
     require_view(request)
     application = get_object_or_404(MembershipApplication, pk=pk)
@@ -157,6 +190,7 @@ def detail(request, pk):
         "roles": user_roles(request.user),
         "ms": ms,
         "certificate": application.certificate_or_none,
+        "reapply_waits": reapply_waits(application) if not application.is_closed else [],
     })
 
 

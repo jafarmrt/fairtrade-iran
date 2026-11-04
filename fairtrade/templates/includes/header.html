@@ -13,7 +13,7 @@
                     <img src="{% static 'img/logo-navy.png' %}" alt="{{ site_name }}" height="48" width="89">
                 {% endif %}
             {% endwith %}
-            <span class="site-logo__text">{{ site_name }}</span>
+            <span class="site-logo__text" aria-hidden="true">{{ site_name }}</span>
         </a>
 
         <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="main-nav">

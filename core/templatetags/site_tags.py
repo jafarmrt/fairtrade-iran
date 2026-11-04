@@ -54,7 +54,21 @@ def sheba_format(value):
     return " ".join(s[i:i + 4] for i in range(0, len(s), 4)) if s.startswith("IR") and len(s) == 26 else s
 
 
+def _per_request(request, name, build):
+    """Compute something once per request and language (the header and footer both need the menu)."""
+    key = f"_ft_{name}_{(get_language() or 'fa')[:2]}"
+    if request is None:
+        return build()
+    if not hasattr(request, key):
+        setattr(request, key, build())
+    return getattr(request, key)
+
+
 def _localized_home(request):
+    return _per_request(request, "home", lambda: _find_localized_home(request))
+
+
+def _find_localized_home(request):
     site = getattr(request, "_wagtail_site", None)
     from wagtail.models import Site
 
@@ -75,10 +89,11 @@ def localized_home(context):
 
 @register.simple_tag(takes_context=True)
 def nav_pages(context):
-    home = _localized_home(context["request"])
+    request = context["request"]
+    home = _localized_home(request)
     if not home:
         return []
-    return home.get_children().live().in_menu().specific()
+    return _per_request(request, "menu", lambda: list(home.get_children().live().in_menu().specific()))
 
 
 @register.simple_tag(takes_context=True)

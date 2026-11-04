@@ -798,8 +798,7 @@ html[lang="en"] .step::before { content: counter(step); }
 .wh-errors { margin: 0; padding-inline-start: 1.2em; }
 .wh-producer { margin: 0 0 16px; padding: 16px 20px; min-width: 0; }
 .wh-producer__name { float: inline-start; width: 100%; padding: 0; margin-bottom: 4px; font-weight: 700; font-size: 1.1rem; }
-.wh-producer__name a { color: var(--navy); text-decoration: none; }
-.wh-producer__name a:hover { text-decoration: underline; }
+.wh-producer__name a { color: var(--navy); }  /* underlined: the name sits next to plain text */
 .wh-producer__summary { clear: both; margin: 0 0 8px; font-size: 0.95rem; }
 .wh-items { clear: both; list-style: none; margin: 0; padding: 0; }
 .wh-item {

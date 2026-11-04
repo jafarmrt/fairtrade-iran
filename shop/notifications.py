@@ -189,6 +189,11 @@ def paid(order):
     to_seller(order, "order_seller_paid")
 
 
+def paid_closed(order, ref_id):
+    """The bank confirmed money for an order that was cancelled or already paid: staff must act."""
+    to_staff("order_paid_closed", order.purchase, order, ref_id)
+
+
 def rejected(order, message):
     to_buyer(order.purchase, "order_rejected", order, message)
 

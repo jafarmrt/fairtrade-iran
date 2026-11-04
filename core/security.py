@@ -13,6 +13,9 @@ import secrets
 from urllib.parse import urlsplit
 
 SKIP_PREFIXES = ("/admin/", "/static/", "/media/")
+# The site never uses the camera, microphone, location or browser payments, so no page
+# (nor a script pasted into the admin, nor an embedded frame) may ask for them.
+PERMISSIONS_POLICY = "camera=(), microphone=(), geolocation=(), payment=(), usb=(), browsing-topics=()"
 URL_IN_CODE = re.compile(r"""(?:src|href|action)\s*=\s*["']?(https://[^"'\s>]+)""", re.I)
 SCRIPT_TAG = re.compile(r"<script(?![^>]*\bnonce\s*=)", re.I)
 
@@ -76,6 +79,7 @@ class ContentSecurityPolicyMiddleware:
     def __call__(self, request):
         request.csp_nonce = secrets.token_urlsafe(16)
         response = self.get_response(request)
+        response.headers.setdefault("Permissions-Policy", PERMISSIONS_POLICY)
         if request.path.startswith(SKIP_PREFIXES) or "Content-Security-Policy" in response:
             return response
         if not response.get("Content-Type", "").startswith("text/html"):
