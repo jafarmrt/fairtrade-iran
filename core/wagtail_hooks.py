@@ -24,6 +24,12 @@ def house_admin_css():
     return format_html('<link rel="stylesheet" href="{}">', static("css/admin.css"))
 
 
+@hooks.register("insert_editor_js")
+def seo_length_js():
+    """Counts under «عنوان سئو» and «توضیحات جست‌وجو» while they are typed (core/admin_panels.py)."""
+    return format_html('<script src="{}" defer></script>', static("js/admin-seo.js"))
+
+
 # ---- main menu ----
 
 # Top to bottom (Wagtail shows menu items by their `order`). Content first, for the PR

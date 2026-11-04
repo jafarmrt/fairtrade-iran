@@ -9,7 +9,7 @@ class CoreConfig(AppConfig):
         from django.db import models
         from wagtail.admin.forms.models import register_form_field_override
 
-        from . import jalali_dates
+        from . import admin_panels, jalali_dates
         from . import throttle  # noqa: F401  (connects the sign-in signals)
         from .widgets import JalaliDateInput, JalaliDateTimeInput
 
@@ -19,3 +19,6 @@ class CoreConfig(AppConfig):
         # Every date and date-time in the Wagtail admin (snippets, settings, page "go live" schedule) is Jalali.
         register_form_field_override(models.DateField, override={"widget": JalaliDateInput})
         register_form_field_override(models.DateTimeField, override={"widget": JalaliDateTimeInput})
+
+        # Length counts under the SEO title and search description in every page's «سئو و منو» tab.
+        admin_panels.install()

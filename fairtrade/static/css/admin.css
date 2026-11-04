@@ -106,3 +106,18 @@ html[dir="ltr"] .sidebar-menu-item--active > button { box-shadow: inset 4px 0 0 
 .ft-guide .ft-guide__toc li { margin: 0; line-height: 1.9; }
 .ft-guide table.listing { max-width: 40rem; margin-block: .5rem 1rem; }
 .ft-guide kbd { padding: 0 .35em; border: 1px solid var(--w-color-border-field-default); border-radius: .25rem; font-family: inherit; }
+
+/* Length counts under «عنوان سئو» and «توضیحات جست‌وجو» (static/js/admin-seo.js) */
+.ft-seo-count { margin-top: .5rem; font-size: .875rem; line-height: 1.8; color: var(--w-color-text-meta); }
+.ft-seo-count p { margin: 0; }
+.ft-seo-count__status::before {
+  content: ""; display: inline-block; width: .6em; height: .6em; margin-inline-end: .45em;
+  border-radius: 50%; background: var(--w-color-text-meta); vertical-align: .05em;
+}
+.ft-seo-count[data-state="ok"] .ft-seo-count__status::before { background: var(--w-color-positive-100); }
+.ft-seo-count[data-state="warn"] .ft-seo-count__status::before { background: var(--w-color-warning-100); }
+.ft-seo-count[data-state="long"] .ft-seo-count__status { color: var(--w-color-text-error); }
+.ft-seo-count[data-state="long"] .ft-seo-count__status::before { background: var(--w-color-critical-200); }
+.ft-seo-count__preview span { font-weight: 600; }
+.ft-seo-count__preview bdi { color: var(--w-color-text-context); }
+.ft-seo-count__preview s { color: var(--w-color-text-error); opacity: .75; }
