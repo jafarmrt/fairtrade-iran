@@ -272,11 +272,24 @@ class Command(BaseCommand):
                 for code in codes:
                     GroupPagePermission.objects.get_or_create(group=group, page=home, permission=page_perm[code])
         root = Collection.get_first_root_node()
-        for app, model in (("wagtailimages", "image"), ("wagtaildocs", "document")):
-            for code in (f"add_{model}", f"change_{model}", f"choose_{model}"):
-                perm = Permission.objects.get(content_type__app_label=app, codename=code)
-                for group in (pr, board):
-                    GroupCollectionPermission.objects.get_or_create(group=group, collection=root, permission=perm)
+        # Images are all public, so the editors may use every collection.
+        for code in ("add_image", "change_image", "choose_image"):
+            perm = Permission.objects.get(content_type__app_label="wagtailimages", codename=code)
+            for group in (pr, board):
+                GroupCollectionPermission.objects.get_or_create(group=group, collection=root, permission=perm)
+        # Documents: only the collections each group may open (seed_data.DOCUMENT_EDITORS).
+        doc_perms = [Permission.objects.get(content_type__app_label="wagtaildocs", codename=code)
+                     for code in ("add_document", "change_document", "choose_document")]
+        # Earlier versions gave the PR group and the board these rights on the root collection,
+        # which let them see confidential commission files and move them to the public collection.
+        GroupCollectionPermission.objects.filter(group__in=(pr, board), collection=root,
+                                                 permission__in=doc_perms).delete()
+        for group_name, collection_names in data.DOCUMENT_EDITORS.items():
+            group = Group.objects.get(name=group_name)
+            for collection in root.get_children().filter(name__in=collection_names):
+                for perm in doc_perms:
+                    GroupCollectionPermission.objects.get_or_create(group=group, collection=collection,
+                                                                    permission=perm)
 
         workflow, created = Workflow.objects.get_or_create(name=data.EDITORIAL_WORKFLOW)
         if created:
