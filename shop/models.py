@@ -53,7 +53,7 @@ class Seller(BilingualMixin, ClusterableModel):
     order_email = models.EmailField("ایمیل برای اعلان سفارش", blank=True,
                                     help_text="جز مدیران پنل این عضو، سفارش‌ها به این نشانی هم خبر داده می‌شود")
 
-    updated_at = models.DateTimeField(auto_now=True)
+    updated_at = models.DateTimeField("آخرین تغییر", auto_now=True)
 
     panels = [
         FieldPanel("member"),
@@ -356,7 +356,7 @@ class OrderEvent(models.Model):
     """History of an order, shown to staff and (when it has a message) to the seller and buyer."""
 
     order = models.ForeignKey(Order, on_delete=models.CASCADE, related_name="events")
-    created_at = models.DateTimeField(default=timezone.now)
+    created_at = models.DateTimeField("تاریخ ایجاد", default=timezone.now)
     user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL,
                              related_name="+")
     by = models.CharField("انجام‌دهنده", max_length=20, blank=True)  # buyer, seller, staff, system
@@ -366,6 +366,8 @@ class OrderEvent(models.Model):
 
     class Meta:
         ordering = ["created_at"]
+        verbose_name = "رویداد سفارش"
+        verbose_name_plural = "رویدادهای سفارش"
 
     ACTIONS = {
         "placed": ("سفارش ثبت شد", "Order placed"),

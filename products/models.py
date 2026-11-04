@@ -89,8 +89,8 @@ class Product(BilingualMixin, index.Indexed, ClusterableModel):
     )
     is_featured = models.BooleanField("نمایش در صفحه اصلی", default=False)
     sort_order = models.PositiveSmallIntegerField("ترتیب نمایش", default=100)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField("تاریخ ایجاد", auto_now_add=True)
+    updated_at = models.DateTimeField("آخرین تغییر", auto_now=True)
 
     search_fields = [
         index.SearchField("name"),

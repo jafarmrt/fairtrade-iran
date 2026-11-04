@@ -75,3 +75,7 @@ class Principle(Orderable):
         FieldPanel("title"), FieldPanel("description"),
         MultiFieldPanel([FieldPanel("colour"), FieldPanel("icon_key"), FieldPanel("icon")], heading="رنگ و آیکون"),
     ]
+
+    class Meta(Orderable.Meta):
+        verbose_name = "اصل"
+        verbose_name_plural = "اصول"

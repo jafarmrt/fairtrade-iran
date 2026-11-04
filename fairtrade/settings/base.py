@@ -79,7 +79,7 @@ MIDDLEWARE = [
     "core.security.ContentSecurityPolicyMiddleware",
     "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
-    "django.middleware.locale.LocaleMiddleware",
+    "core.locale.PersianFirstLocaleMiddleware",
     "core.money.PriceDisplayMiddleware",
     "django.middleware.common.CommonMiddleware",
     "django.middleware.csrf.CsrfViewMiddleware",
@@ -151,6 +151,8 @@ LOCALE_PATHS = [os.path.join(BASE_DIR, "locale")]
 TIME_ZONE = "Asia/Tehran"
 USE_I18N = True
 USE_TZ = True
+# Every date in the admin is in Iran time: the account page then has no list of 600 time zones in English.
+WAGTAIL_USER_TIME_ZONES = [TIME_ZONE]
 
 
 # Static and media files

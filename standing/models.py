@@ -76,7 +76,7 @@ class Dues(models.Model):
     closed_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="تأیید یا بخشودگی توسط", null=True,
                                   blank=True, on_delete=models.SET_NULL, related_name="+")
     internal_note = models.TextField("یادداشت داخلی", blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField("تاریخ ایجاد", auto_now_add=True)
 
     class Meta:
         verbose_name = "حق عضویت سالانه"
@@ -231,7 +231,7 @@ class Decision(models.Model):
     to_status = models.CharField("وضعیت جدید", max_length=20, blank=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, verbose_name="ثبت‌کننده", null=True, blank=True,
                                    on_delete=models.SET_NULL, related_name="+")
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField("تاریخ ایجاد", auto_now_add=True)
 
     class Meta:
         verbose_name = "رأی و اقدام انضباطی"

@@ -98,6 +98,10 @@ class DocumentsSection(Orderable):
         FieldPanel("include_subcollections"), FieldPanel("show_when_locked"),
     ]
 
+    class Meta(Orderable.Meta):
+        verbose_name = "بخش اسناد"
+        verbose_name_plural = "بخش‌های اسناد"
+
     def user_can_view(self, request, collection=None):
         collection = collection or self.collection
         return all(r.accept_request(request) for r in collection.get_view_restrictions())

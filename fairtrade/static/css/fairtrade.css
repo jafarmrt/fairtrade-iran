@@ -23,6 +23,34 @@
   font-display: swap;
 }
 
+/* Persian digits: Latin digits 0-9 typed or stored in the database are drawn as ۰-۹ on
+   Persian pages, wherever they come from (Wagtail's own counts and page numbers, prices,
+   dates). It is a 4 KB cut of Vazirmatn's "Farsi digits" variant that holds only 0-9,
+   so every other character still comes from the next font. The text stays 0-9, so a
+   copied number or a code pasted into a form still works. Things that are Latin by
+   nature (dir="ltr": codes, Sheba, phone, e-mail, URL) keep Latin digits. */
+@font-face {
+  font-family: "FtFaDigits";
+  src: url("../fonts/Vazirmatn-FD-digits-Regular.woff2") format("woff2");
+  font-weight: 100 400;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: "FtFaDigits";
+  src: url("../fonts/Vazirmatn-FD-digits-Medium.woff2") format("woff2");
+  font-weight: 500 600;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: "FtFaDigits";
+  src: url("../fonts/Vazirmatn-FD-digits-Bold.woff2") format("woff2");
+  font-weight: 700 900;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+
 :root {
   /* Brand guide colours (source-docs/brand-guide.pdf). Gold is the main
      colour, with navy and white; cyan, blue and gray are accents. The guide's
@@ -51,7 +79,8 @@
 
   /* IRANSans is the brand typeface. If the house has a licence, drop the
      font files in static/fonts and put "IRANSans" first in this list. */
-  --font-fa: "IRANSans", "Vazirmatn", Tahoma, sans-serif;
+  --font-fa: "FtFaDigits", "IRANSans", "Vazirmatn", Tahoma, sans-serif;
+  --font-fa-latin-digits: "IRANSans", "Vazirmatn", Tahoma, sans-serif;
   --font-en: Arial, "Helvetica Neue", sans-serif;
 
   --radius: 12px;
@@ -74,6 +103,8 @@ body {
   background: var(--bg);
 }
 html[lang="en"] body { font-family: var(--font-en); line-height: 1.65; }
+/* Codes, Sheba, phone, e-mail and links written left to right keep Latin digits. */
+html[lang="fa"] :is([dir="ltr"], code, kbd, samp, .ft-latin) { font-family: var(--font-fa-latin-digits); }
 
 img { max-width: 100%; height: auto; display: block; }
 a { color: var(--navy); text-decoration-color: var(--gold); text-decoration-thickness: 1px; text-underline-offset: 3px; }
@@ -484,6 +515,15 @@ html[lang="en"] .step::before { content: counter(step); }
 .contact-details dt { font-size: 0.85rem; color: var(--text-muted); }
 .contact-details dd { margin: 0 0 10px; }
 .form input[type="file"] { font: inherit; max-width: 100%; }
+/* Persian «انتخاب فایل» button for file fields (static/js/file-input.js) */
+.ft-file { display: inline-flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; position: relative; max-width: 100%; }
+.ft-file__button {
+  padding: 8px 18px; border: 1px solid var(--field-border); border-radius: 10px; background: #fff;
+  color: var(--navy); font: inherit; font-weight: 700; cursor: pointer;
+}
+.ft-file__button:hover, .ft-file__button:focus-visible { border-color: var(--gold); }
+.ft-file__name { color: var(--text-muted); overflow-wrap: anywhere; }
+.ft-file__input { position: absolute; inset-inline-start: 0; inset-block-end: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
 .form input[type="date"], .form input[type="datetime-local"] {
   padding: 10px 12px; border: 1px solid var(--field-border); border-radius: 10px; font: inherit;
 }

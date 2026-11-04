@@ -54,3 +54,14 @@ def jinput(value):
     from core.widgets import jalali_text
 
     return jalali_text(_local(value).date() if isinstance(value, datetime.datetime) else value)
+
+
+@register.simple_tag
+def this_year():
+    """This year for a footer: '۱۴۰۵' on Persian pages, '2026' on English pages."""
+    today = timezone.localdate()
+    if is_english():
+        return str(today.year)
+    from core.jalali import gregorian_to_jalali
+
+    return to_persian_digits(gregorian_to_jalali(today.year, today.month, today.day)[0])

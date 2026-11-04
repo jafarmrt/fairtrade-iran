@@ -1,7 +1,7 @@
 {% extends "wagtailadmin/generic/base.html" %}
 {% load assembly_tags membership_tags %}
 {% block main_content %}
-<p><a href="{% url 'assembly_control:index' %}">← همه مجامع</a>
+<p><a href="{% url 'assembly_control:index' %}">→ همه مجامع</a>
     {% if can_run %} · <a href="{% url 'assemblies:edit' assembly.pk %}">ویرایش مجمع، دعوت‌نامه و صورتجلسه</a>{% endif %}</p>
 
 <div class="as-summary">

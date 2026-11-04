@@ -1,7 +1,7 @@
 {% extends "wagtailadmin/generic/base.html" %}
 {% load membership_tags site_tags %}
 {% block main_content %}
-<p><a href="{% url 'shop_orders:index' %}">← همه سفارش‌ها</a></p>
+<p><a href="{% url 'shop_orders:index' %}">→ همه سفارش‌ها</a></p>
 <form method="get" class="st-filters">
     <a class="button button-secondary" href="?month={{ prev_key }}">ماه قبل</a>
     <label>ماه (سال-ماه شمسی) <input type="text" name="month" value="{{ month_key }}" dir="ltr" size="8" placeholder="1405-08"></label>

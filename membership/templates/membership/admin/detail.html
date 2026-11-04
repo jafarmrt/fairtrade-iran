@@ -1,9 +1,10 @@
 {% extends "wagtailadmin/generic/base.html" %}
 {% load membership_tags site_tags date_tags %}
 {% block main_content %}
-<p><a href="{% url 'membership_applications:index' %}">← فهرست پرونده‌ها</a></p>
+<p><a href="{% url 'membership_applications:index' %}">→ فهرست پرونده‌ها</a></p>
 
 <div class="ms-summary">
+    <div><strong>کد پیگیری:</strong> <span dir="ltr">{{ application.tracking_code }}</span></div>
     <div><strong>وضعیت:</strong> {{ application.get_status_display }}</div>
     <div><strong>نوع عضویت:</strong> {{ application.get_member_type_display }}</div>
     <div><strong>مهلت اقدام:</strong>

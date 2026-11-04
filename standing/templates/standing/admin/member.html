@@ -1,7 +1,7 @@
 {% extends "wagtailadmin/generic/base.html" %}
 {% load membership_tags site_tags %}
 {% block main_content %}
-<p><a href="{% url 'standing:index' %}">← فهرست اعضا</a> · <a href="{% url 'wagtailsnippets_members_member:edit' member.pk %}">ویرایش پروفایل عضو</a>
+<p><a href="{% url 'standing:index' %}">→ فهرست اعضا</a> · <a href="{% url 'wagtailsnippets_members_member:edit' member.pk %}">ویرایش پروفایل عضو</a>
 {% if member.application %} · <a href="{% url 'membership_applications:detail' member.application.pk %}">پرونده عضویت</a>{% endif %}</p>
 
 <div class="st-summary">

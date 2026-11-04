@@ -164,8 +164,8 @@ class Member(BilingualMixin, index.Indexed, ClusterableModel):
         help_text="پرونده‌ای که این پروفایل از آن ساخته شده؛ وضعیت عضویت با تغییر وضعیت پرونده به‌روز می‌شود",
     )
 
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
+    created_at = models.DateTimeField("تاریخ ایجاد", auto_now_add=True)
+    updated_at = models.DateTimeField("آخرین تغییر", auto_now=True)
 
     search_fields = [
         index.SearchField("name"),

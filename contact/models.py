@@ -41,6 +41,10 @@ def site_root_url():
 class ContactFormField(AbstractFormField):
     page = ParentalKey("ContactPage", on_delete=models.CASCADE, related_name="form_fields")
 
+    class Meta(AbstractFormField.Meta):
+        verbose_name = "پرسش فرم تماس"
+        verbose_name_plural = "پرسش‌های فرم تماس"
+
 
 class ContactPage(AbstractEmailForm):
     intro = RichTextField("متن بالای فرم", blank=True)

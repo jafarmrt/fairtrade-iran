@@ -257,7 +257,7 @@ class Command(BaseCommand):
 
     def ensure_editorial_workflow(self, home_fa, home_en):
         from wagtail.models import (
-            GroupApprovalTask, GroupCollectionPermission, GroupPagePermission, Workflow, WorkflowPage,
+            GroupApprovalTask, GroupCollectionPermission, GroupPagePermission, Task, Workflow, WorkflowPage,
             WorkflowTask,
         )
 
@@ -297,6 +297,10 @@ class Command(BaseCommand):
             task.groups.set([board])
             WorkflowTask.objects.create(workflow=workflow, task=task, sort_order=0)
             self.stdout.write(f"Created workflow {workflow.name}")
+        # Wagtail's own starter workflow and task are called "Moderators approval"; they show in the
+        # «گردش کار» lists and the editor's «ارسال برای …» button, so give them a Persian name.
+        Workflow.objects.filter(name="Moderators approval").update(name="تأیید گروه ناظران")
+        Task.objects.filter(name="Moderators approval").update(name="تأیید گروه ناظران")
         for home in (home_fa, home_en):
             # An admin may later pick another workflow for a page; keep that choice.
             if not WorkflowPage.objects.filter(page=home).exists():

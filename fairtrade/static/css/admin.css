@@ -26,6 +26,34 @@
   font-display: swap;
 }
 
+/* Persian digits: Latin digits 0-9 typed or stored in the database are drawn as ۰-۹ on
+   Persian pages, wherever they come from (Wagtail's own counts and page numbers, prices,
+   dates). It is a 4 KB cut of Vazirmatn's "Farsi digits" variant that holds only 0-9,
+   so every other character still comes from the next font. The text stays 0-9, so a
+   copied number or a code pasted into a form still works. Things that are Latin by
+   nature (dir="ltr": codes, Sheba, phone, e-mail, URL) keep Latin digits. */
+@font-face {
+  font-family: "FtFaDigits";
+  src: url("../fonts/Vazirmatn-FD-digits-Regular.woff2") format("woff2");
+  font-weight: 100 400;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: "FtFaDigits";
+  src: url("../fonts/Vazirmatn-FD-digits-Medium.woff2") format("woff2");
+  font-weight: 500 600;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+@font-face {
+  font-family: "FtFaDigits";
+  src: url("../fonts/Vazirmatn-FD-digits-Bold.woff2") format("woff2");
+  font-weight: 700 900;
+  font-display: swap;
+  unicode-range: U+0030-0039;
+}
+
 :root {
   /* IRANSans first, as on the site: it is used if the house adds the licensed font files. */
   --w-font-sans: "IRANSans", "Vazirmatn", Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Arial, sans-serif;
@@ -47,6 +75,18 @@
   --w-login-fullscreen-background:
     radial-gradient(120% 120% at 100% 0%, #2b2f6b 0%, var(--ft-navy) 55%, #14163a 100%);
 }
+
+/* Persian digits on Persian admin pages (see FtFaDigits above); Latin ones in what is LTR by nature. */
+html[lang="fa"] {
+  --w-font-sans: "FtFaDigits", "IRANSans", "Vazirmatn", Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Arial, sans-serif;
+}
+html[lang="fa"] :is([dir="ltr"], code, kbd, pre, samp, .ft-latin) {
+  --w-font-sans: "IRANSans", "Vazirmatn", Tahoma, -apple-system, BlinkMacSystemFont, "Segoe UI", system-ui, Roboto, Arial, sans-serif;
+  font-family: var(--w-font-sans);
+}
+/* A Latin value (English name, phone, code) shown on its own line of a Persian page lines up
+   with the Persian text on the right, instead of jumping to the far left edge. */
+html[dir="rtl"] :is(dd, td, p, li, div)[dir="ltr"] { text-align: right; }
 
 /* Persian text needs a little more line height than Wagtail's Latin default. */
 html[dir="rtl"] body { line-height: 1.7; }
@@ -121,3 +161,20 @@ html[dir="ltr"] .sidebar-menu-item--active > button { box-shadow: inset 4px 0 0 
 .ft-seo-count__preview span { font-weight: 600; }
 .ft-seo-count__preview bdi { color: var(--w-color-text-context); }
 .ft-seo-count__preview s { color: var(--w-color-text-error); opacity: .75; }
+
+/* Filter bars above our own admin lists (orders, dues, sales report): fields keep their width,
+   so a long placeholder no longer runs under the «نمایش» button. */
+.st-filters label { flex: 1 1 14rem; max-width: 24rem; }
+.st-filters :is(input, select) { width: 100%; min-width: 0; height: 2.75rem; padding-block: 0; }
+td.ft-nowrap { white-space: nowrap; }
+.st-links { display: flex; flex-wrap: wrap; gap: .5rem 1.5rem; margin-block: -.5rem 1.5rem; }
+
+/* Persian «انتخاب فایل» button for file fields (static/js/file-input.js) */
+.ft-file { display: inline-flex; flex-wrap: wrap; align-items: center; gap: .5rem .75rem; position: relative; max-width: 100%; }
+.ft-file__button {
+  padding: .45rem 1rem; border: 1px solid var(--w-color-border-field-default); border-radius: .3rem;
+  background: var(--w-color-surface-field-inactive); color: var(--w-color-text-label); font: inherit; font-weight: 600; cursor: pointer;
+}
+.ft-file__button:hover, .ft-file__button:focus-visible { border-color: var(--w-color-secondary); }
+.ft-file__name { color: var(--w-color-text-meta); overflow-wrap: anywhere; }
+.ft-file__input { position: absolute; inset-inline-start: 0; inset-block-end: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }

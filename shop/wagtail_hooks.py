@@ -5,6 +5,7 @@ from wagtail.admin.viewsets.base import ViewSetGroup
 from wagtail.snippets.models import register_snippet
 from wagtail.snippets.views.snippets import SnippetViewSet
 
+from core.admin_columns import MoneyColumn
 from payments.wagtail_hooks import PaymentViewSet
 from products.wagtail_hooks import CategoryViewSet, ProductViewSet
 from wholesale.wagtail_hooks import inquiry_viewset
@@ -17,7 +18,7 @@ class SellerViewSet(SnippetViewSet):
     model = Seller
     icon = "group"
     menu_label = "فروشندگان"
-    list_display = ["member", "mode", "commission_percent", "shipping_fee", "updated_at"]
+    list_display = ["member", "mode", "commission_percent", MoneyColumn("shipping_fee", label="هزینه ارسال"), "updated_at"]
     list_filter = ["mode"]
     search_fields = ["member__name"]
 
