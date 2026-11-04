@@ -1,0 +1,182 @@
+/* Shared print style for the two guides of the Fair Trade House of Iran.
+   Brand: gold #cf9d2b, navy #1c1f4a, white (brand-guide.pdf). Font: Vazirmatn, as on the site. */
+@font-face { font-family: "Vazirmatn"; src: url("assets/Vazirmatn-Regular.woff2") format("woff2"); font-weight: 400; }
+@font-face { font-family: "Vazirmatn"; src: url("assets/Vazirmatn-Medium.woff2") format("woff2"); font-weight: 500; }
+@font-face { font-family: "Vazirmatn"; src: url("assets/Vazirmatn-Bold.woff2") format("woff2"); font-weight: 700; }
+
+:root {
+  --gold: #cf9d2b; --gold-dark: #a87d1c; --gold-text: #8a6512; --gold-soft: #f7efdc;
+  --navy: #1c1f4a; --tint: #eef0f7; --tint-line: #d5d9e7;
+  --text: #1f2033; --muted: #5d6062; --line: #e2e5ec;
+  --green: #067647; --green-soft: #e6f4ec; --red: #b42318; --red-soft: #fdecea;
+}
+
+@page {
+  size: A4;
+  margin: 20mm 18mm 22mm 18mm;
+  @bottom-left { content: counter(page, persian); font: 500 9pt "Vazirmatn"; color: var(--navy); }
+  @bottom-right { content: string(guide-name); font: 400 8pt "Vazirmatn"; color: var(--muted); }
+  @top-right { content: string(chapter); font: 500 8pt "Vazirmatn"; color: var(--gold-text); }
+}
+@page full { margin: 0; @bottom-left { content: none; } @bottom-right { content: none; } @top-right { content: none; } }
+@page toc { @top-right { content: none; } }
+
+* { box-sizing: border-box; }
+html { direction: rtl; }
+body {
+  margin: 0; font-family: "Vazirmatn", Tahoma, sans-serif; font-size: 10.5pt; line-height: 1.9;
+  color: var(--text); letter-spacing: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.guide-name { string-set: guide-name content(); display: none; }
+p { margin: 0 0 .7em; }
+a { color: var(--navy); text-decoration: none; }
+b, strong { font-weight: 700; color: var(--navy); }
+.ui { /* a label exactly as it appears on screen */
+  font-weight: 500; color: var(--navy); background: var(--tint); border: 1px solid var(--tint-line);
+  border-radius: 5px; padding: 0 .35em; white-space: nowrap; font-size: .95em;
+}
+.ltr { direction: ltr; unicode-bidi: isolate; font-family: "Vazirmatn", Arial, sans-serif; }
+code, .url { direction: ltr; unicode-bidi: isolate; font-family: "Vazirmatn", monospace; font-size: .92em;
+  background: #f4f5f8; border-radius: 4px; padding: 0 .3em; color: var(--navy); }
+
+/* ---------- full-bleed brand pages (cover and part dividers) ---------- */
+.full { page: full; break-before: page; break-after: page; width: 210mm; height: 297mm; position: relative;
+  background: var(--gold); overflow: hidden; }
+.full .frame { position: absolute; inset: 14mm; border: 2.2mm solid #fff; border-radius: 9mm; }
+.cover .logo { position: absolute; top: 40mm; left: 0; right: 0; margin: auto; width: 118mm; }
+.cover .titles { position: absolute; right: 30mm; left: 30mm; bottom: 46mm; color: #fff; }
+.cover .kicker { font-size: 13pt; font-weight: 500; opacity: .95; margin-bottom: 2mm; }
+.cover h1 { font-size: 40pt; line-height: 1.25; margin: 0 0 5mm; font-weight: 700; color: #fff; }
+.cover .sub { font-size: 13.5pt; line-height: 1.8; max-width: 125mm; }
+.cover .meta { position: absolute; left: 30mm; bottom: 26mm; color: var(--navy); font-size: 10pt; font-weight: 500;
+  background: #fff; border-radius: 99px; padding: 1.5mm 6mm; }
+.cover .audience { position: absolute; right: 30mm; top: 26mm; color: var(--navy); font-weight: 700; font-size: 10pt;
+  background: #fff; border-radius: 99px; padding: 1.5mm 6mm; }
+.part .num { position: absolute; top: 34mm; right: 30mm; font-size: 120pt; line-height: 1; font-weight: 700; color: rgba(255,255,255,.35); }
+.part .titles { position: absolute; right: 30mm; left: 30mm; bottom: 34mm; color: #fff; }
+.part h1 { font-size: 34pt; margin: 0 0 4mm; line-height: 1.3; color: #fff; }
+.part ul { margin: 0; padding: 0; list-style: none; font-size: 12.5pt; line-height: 2; }
+.part ul li::before { content: "◂ "; color: var(--navy); }
+.part .mark { position: absolute; left: 26mm; top: 30mm; width: 46mm; opacity: .9; }
+
+/* ---------- table of contents ---------- */
+.toc { page: toc; break-after: page; }
+.toc h2 { font-size: 20pt; color: var(--navy); margin: 0 0 6mm; border: 0; }
+.toc ol { list-style: none; margin: 0; padding: 0; }
+.toc li { display: flex; align-items: baseline; gap: 2mm; padding: 1mm 0; }
+.toc li .t { flex: none; }
+.toc li .dots { flex: 1; border-bottom: 1.2px dotted #b9bdcc; transform: translateY(-1.2mm); }
+.toc li .pg { flex: none; font-weight: 700; color: var(--navy); min-width: 8mm; text-align: left; }
+.toc li.part-row { margin-top: 4mm; font-weight: 700; color: var(--gold-text); font-size: 11.5pt; }
+.toc li.part-row .dots { border-color: var(--gold); }
+.toc li.ch { padding-inline-start: 5mm; }
+.toc .howto { margin-top: 8mm; background: var(--tint); border-radius: 4mm; padding: 5mm 6mm; font-size: 9.5pt; }
+.toc .howto h3 { margin: 0 0 2mm; font-size: 11pt; color: var(--navy); }
+
+/* ---------- chapters ---------- */
+.chapter { break-before: page; }
+.chapter-head { display: flex; align-items: flex-end; gap: 5mm; border-bottom: 1.2mm solid var(--gold); padding-bottom: 3mm; margin-bottom: 6mm; }
+.chapter-head .n { font-size: 34pt; font-weight: 700; line-height: 1; color: var(--gold); }
+.chapter-head h2 { string-set: chapter content(); margin: 0; font-size: 20pt; line-height: 1.35; color: var(--navy); }
+.chapter-head .lead { flex-basis: 100%; }
+.lead { font-size: 11.5pt; color: #3b3d55; margin-bottom: 5mm; }
+h3 { font-size: 13pt; color: var(--navy); margin: 7mm 0 2.5mm; break-after: avoid; }
+h3::before { content: ""; display: inline-block; width: 2.4mm; height: 2.4mm; background: var(--gold); border-radius: 50%;
+  margin-inline-end: 2.2mm; transform: translateY(-.6mm); }
+h4 { font-size: 11pt; color: var(--navy); margin: 4mm 0 1.5mm; break-after: avoid; }
+.who { display: inline-flex; flex-wrap: wrap; gap: 1.5mm; margin: 0 0 4mm; font-size: 8.5pt; }
+.who span { background: var(--navy); color: #fff; border-radius: 99px; padding: 0 3mm; font-weight: 500; }
+.who span.label { background: none; color: var(--muted); padding: 0; }
+
+/* numbered steps with gold discs */
+ol.steps { list-style: none; counter-reset: s; margin: 0 0 4mm; padding: 0; }
+ol.steps > li { counter-increment: s; position: relative; padding-inline-start: 10mm; margin-bottom: 2.2mm; break-inside: avoid; }
+ol.steps > li::before { content: counter(s, persian); position: absolute; inset-inline-start: 0; top: .3mm;
+  width: 6.6mm; height: 6.6mm; border-radius: 50%; background: var(--gold); color: #fff; font-weight: 700;
+  font-size: 9.5pt; line-height: 6.6mm; text-align: center; }
+ul.plain { margin: 0 0 4mm; padding-inline-start: 5mm; }
+ul.plain li { margin-bottom: 1.2mm; }
+ul.plain li::marker { color: var(--gold); }
+
+/* callouts */
+.note, .tip, .warn, .ok { border-radius: 3.5mm; padding: 3.5mm 5mm 3mm; margin: 3mm 0 5mm; break-inside: avoid; font-size: 10pt; }
+.note::before, .tip::before, .warn::before, .ok::before { display: block; font-weight: 700; margin-bottom: 1mm; font-size: 9.5pt; }
+.note { background: var(--tint); border-inline-start: 1.4mm solid var(--navy); }
+.note::before { content: "یادداشت"; color: var(--navy); }
+.tip { background: var(--gold-soft); border-inline-start: 1.4mm solid var(--gold); }
+.tip::before { content: "نکته"; color: var(--gold-text); }
+.warn { background: var(--red-soft); border-inline-start: 1.4mm solid var(--red); }
+.warn::before { content: "مراقب باشید"; color: var(--red); }
+.ok { background: var(--green-soft); border-inline-start: 1.4mm solid var(--green); }
+.ok::before { content: "خیالتان راحت"; color: var(--green); }
+.note p:last-child, .tip p:last-child, .warn p:last-child, .ok p:last-child { margin: 0; }
+
+/* screenshots */
+figure.shot { margin: 3mm 0 6mm; break-inside: avoid; }
+figure.shot .img { border: 1px solid var(--tint-line); border-radius: 3mm; overflow: hidden; background: #fff;
+  box-shadow: 0 .6mm 2.5mm rgba(28,31,74,.12); }
+figure.shot img { display: block; width: 100%; }
+figure.shot figcaption { font-size: 8.8pt; color: var(--muted); margin-top: 2mm; }
+figure.shot figcaption b { color: var(--gold-text); }
+figure.phone { width: 62mm; }
+.row { display: flex; gap: 6mm; align-items: flex-start; break-inside: avoid; }
+.row > * { flex: 1; min-width: 0; }
+.row > figure.phone { flex: none; }
+.key { display: inline-block; min-width: 5.2mm; height: 5.2mm; line-height: 5.2mm; border-radius: 50%; background: var(--navy);
+  color: #fff; text-align: center; font-size: 8pt; font-weight: 700; margin: 0 .5mm; transform: translateY(-.3mm); }
+
+/* tables */
+table { width: 100%; border-collapse: separate; border-spacing: 0; margin: 2mm 0 5mm; font-size: 9.5pt; break-inside: auto; }
+thead th { background: var(--navy); color: #fff; font-weight: 500; text-align: start; padding: 2mm 3mm; }
+thead th:first-child { border-start-start-radius: 2.5mm; }
+thead th:last-child { border-start-end-radius: 2.5mm; }
+tbody td { padding: 2mm 3mm; border-bottom: 1px solid var(--line); vertical-align: top; }
+tbody tr { break-inside: avoid; }
+tbody tr:nth-child(even) td { background: #fafbfd; }
+td.k { font-weight: 700; color: var(--navy); white-space: nowrap; }
+
+/* workflow / flow diagram */
+.flow { display: flex; flex-wrap: wrap; gap: 2mm; align-items: stretch; margin: 3mm 0 5mm; break-inside: avoid; }
+.flow .st { flex: 1 1 0; min-width: 25mm; background: var(--tint); border-radius: 3mm; padding: 2.5mm 3mm; font-size: 8.8pt; line-height: 1.6;
+  position: relative; border-top: 1.2mm solid var(--navy); }
+.flow .st b { display: block; font-size: 9.5pt; margin-bottom: .8mm; }
+.flow .st.g { border-top-color: var(--gold); background: var(--gold-soft); }
+.flow .st.ok { border-top-color: var(--green); background: var(--green-soft); padding: 2.5mm 3mm; margin: 0; }
+.flow .st.ok::before { content: none; }
+.flow .st.no { border-top-color: var(--red); background: var(--red-soft); }
+.flow .arrow { flex: none; align-self: center; color: var(--gold); font-size: 14pt; font-weight: 700; }
+.badge { display: inline-block; border-radius: 99px; padding: 0 2.5mm; font-size: 8.5pt; font-weight: 500; white-space: nowrap; }
+.badge.wait { background: var(--gold-soft); color: var(--gold-text); }
+.badge.good { background: var(--green-soft); color: var(--green); }
+.badge.bad { background: var(--red-soft); color: var(--red); }
+.badge.info { background: var(--tint); color: var(--navy); }
+
+.cards { display: grid; grid-template-columns: 1fr 1fr; gap: 3.5mm; margin: 3mm 0 5mm; }
+.cards.three { grid-template-columns: 1fr 1fr 1fr; }
+.card { border: 1px solid var(--tint-line); border-radius: 3.5mm; padding: 3.5mm 4mm; break-inside: avoid; font-size: 9.6pt; line-height: 1.75; }
+.card h4 { margin: 0 0 1mm; font-size: 10.5pt; }
+.card .ic { display: inline-block; width: 7mm; height: 7mm; border-radius: 2mm; background: var(--gold); color: #fff; text-align: center;
+  line-height: 7mm; font-weight: 700; margin-inline-end: 2mm; font-size: 10pt; }
+.checklist { list-style: none; padding: 0; margin: 0 0 4mm; }
+.checklist li { position: relative; padding-inline-start: 7mm; margin-bottom: 1.4mm; break-inside: avoid; }
+.checklist li::before { content: ""; position: absolute; inset-inline-start: 0; top: 1.6mm; width: 3.8mm; height: 3.8mm; border: 1.4px solid var(--navy); border-radius: 1mm; }
+.keep { break-inside: avoid; }
+.pb { break-before: page; }
+.small { font-size: 9pt; color: var(--muted); }
+.end { break-inside: avoid; margin-top: 3mm; text-align: center; color: var(--muted); font-size: 9pt; }
+.end img { width: 22mm; display: block; margin: 0 auto 2mm; }
+.end p { margin: 0 0 1mm; }
+body { counter-reset: fig; }
+figure.shot { counter-increment: fig; }
+figure.shot figcaption::before { content: "تصویر " counter(fig, persian) ". "; font-weight: 700; color: var(--gold-text); }
+.card .h { font-size: 10.5pt; font-weight: 700; color: var(--navy); margin: 0 0 1mm; }
+figure.shot img { max-height: 128mm; object-fit: cover; object-position: top; }
+.row figure.shot img { max-height: 150mm; }
+.toc li { padding: .35mm 0; font-size: 10pt; }
+.toc li.part-row { margin-top: 2.2mm; font-size: 10.5pt; }
+.toc h2 { margin-bottom: 3mm; }
+.toc .howto { margin-top: 5mm; }
+ul:has(> li > .key:first-child) { list-style: none; padding-inline-start: 0; }
+.toc.dense li { padding: 0; font-size: 9.6pt; line-height: 1.55; }
+.toc.dense li.part-row { margin-top: 1.6mm; font-size: 10.2pt; }
+.toc.dense .howto { margin-top: 4mm; padding: 4mm 5mm; }

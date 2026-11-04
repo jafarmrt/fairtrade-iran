@@ -18,6 +18,7 @@ The plan and requirements are in the project's plan document; the governance doc
 - **CSS:** one file for the site, `fairtrade/static/css/fairtrade.css` (the admin has its own theme, `admin.css`). Use the existing tokens (`--gold`, `--navy`, `--brown`, …) and logical properties (`margin-inline-start`, not `margin-left`) so RTL and LTR both work. Reuse `.section`, `.page-header`, `.grid`, `.card`, `.btn`, `.form`.
 - **Private files** (application documents, receipts) go to `settings.PRIVATE_MEDIA_ROOT` through a storage of their own and are served only by a staff-checked view, never from `MEDIA_ROOT`.
 - **Access levels** use the groups and document collections created by `seed_content` (see `home/management/commands/seed_data.py`).
+- **PDF guides** (`docs/guides/`, admin and user): when a change alters what a volunteer or member sees or does, update the text in `admin.html` / `user.html` and run `bash docs/guides/make.sh` to retake the screenshots and rebuild both PDFs.
 - **Seed data:** extend `seed_content` so a fresh install has sensible content; it must stay idempotent.
 
 ## Checks before pushing
