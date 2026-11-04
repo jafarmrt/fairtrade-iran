@@ -16,6 +16,13 @@
         {% if certificate.revoked %}<span class="ms-overdue">(باطل شده)</span>{% endif %}</div>{% endif %}
 </div>
 
+{% for member in reapply_waits %}
+<p class="help-block help-warning ms-overdue" role="alert">
+    هشدار: ایمیل یا تلفن این متقاضی با «{{ member.name }}» یکی است که عضویتش در {{ member.cancelled_on|jdate_fa|default:"-" }} لغو شده
+    و طبق بند ۱.۸ سند ارکان تا {{ member.reapply_after|jdate_fa }} نمی‌تواند دوباره درخواست بدهد. پیش از ارسال به کمیسیون بررسی کنید.
+</p>
+{% endfor %}
+
 {% if actions %}
 <section class="ms-box">
     <h2>اقدام‌های شما</h2>
@@ -37,7 +44,7 @@
                     <small>در ایمیل متقاضی و صفحه پیگیری او نمایش داده می‌شود</small></label>
                 {% endif %}
                 {% if 'decision_reference' in item.action.fields %}
-                <label>شماره یا تاریخ صورتجلسه کمیسیون <input type="text" name="decision_reference"></label>
+                <label>شماره یا تاریخ صورتجلسه کمیسیون (لازم) <input type="text" name="decision_reference" required></label>
                 {% endif %}
             {% endif %}
             <label>یادداشت داخلی <textarea name="internal_note" rows="2"></textarea><small>فقط دبیرخانه و کمیسیون می‌بینند</small></label>

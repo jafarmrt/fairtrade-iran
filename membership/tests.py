@@ -201,12 +201,14 @@ class WorkflowTests(MembershipTestCase):
         self.assertEqual(application.status, Status.TRIAL)
         self.assertEqual(application.trial_ends_on, add_months(timezone.localdate(), 3))
 
-        perform(application, "extend_trial", self.commissioner)
+        perform(application, "extend_trial", self.commissioner, decision_reference="صورتجلسه ۶")
         self.assertEqual(application.trial_ends_on, add_months(timezone.localdate(), 6))
         with self.assertRaises(WorkflowError):  # extension is one-off
-            perform(application, "extend_trial", self.commissioner)
+            perform(application, "extend_trial", self.commissioner, decision_reference="صورتجلسه ۷")
 
-        perform(application, "make_member", self.commissioner)
+        with self.assertRaises(WorkflowError):  # a commission verdict names the minutes it was taken in
+            perform(application, "make_member", self.commissioner, decision_reference="  ")
+        perform(application, "make_member", self.commissioner, decision_reference="صورتجلسه ۸")
         mail.outbox.clear()
         with self.captureOnCommitCallbacks(execute=True):
             perform(application, "register", self.secretary)
@@ -230,7 +232,7 @@ class WorkflowTests(MembershipTestCase):
         perform(application, "to_commission", self.secretary)
         with self.assertRaises(WorkflowError):
             perform(application, "reject", self.commissioner, message="  ")
-        perform(application, "reject", self.commissioner, message="فعالیت مستند نیست")
+        perform(application, "reject", self.commissioner, message="فعالیت مستند نیست", decision_reference="صورتجلسه ۹")
         self.assertTrue(application.is_closed)
         self.assertIsNone(application.deadline)
 
@@ -306,6 +308,22 @@ class AdminTests(MembershipTestCase):
         self.assertEqual(response.status_code, 302)
         application.refresh_from_db()
         self.assertEqual(application.status, Status.COMMISSION)
+
+    def test_warning_when_a_cancelled_member_applies_again_too_soon(self):
+        from members.models import Member
+
+        old = self.submit_producer()
+        Member.objects.create(name="کارگاه لغوشده", slug="cancelled-workshop", member_type="producer",
+                              status=Member.CANCELLED, application=old,
+                              cancelled_on=timezone.localdate(),
+                              reapply_after=timezone.localdate() + datetime.timedelta(days=200))
+        again = self.submit_producer(email="other@example.org", phone="+98 912 000 0000")
+        fresh = self.submit_producer(email="new@example.org", phone="09121111111")
+        self.client.force_login(self.secretary)
+        warning = "نمی‌تواند دوباره درخواست بدهد"
+        self.assertContains(self.client.get(reverse("membership_applications:detail", args=[again.pk])), warning)
+        self.assertNotContains(self.client.get(reverse("membership_applications:detail", args=[fresh.pk])), warning)
+        self.assertNotContains(self.client.get(reverse("membership_applications:detail", args=[old.pk])), warning)
 
     def test_applications_csv_export(self):
         application = self.submit_producer()
