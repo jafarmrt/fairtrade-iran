@@ -35,6 +35,8 @@ On a fresh Ubuntu server, after cloning: `sudo ./deploy/install.sh` installs Doc
 
 A test copy with demo data on your own computer, incl. WSL (`bash deploy/local/run-demo.sh`, `python manage.py seed_demo`): [docs/demo-fa.md](docs/demo-fa.md)
 
+PDF guides with screenshots, in Persian: [admin panel](docs/guides/admin-guide-fa.pdf) (staff and volunteers) and [site and member panel](docs/guides/user-guide-fa.pdf) (visitors, buyers, applicants, members). How to make them again after a UI change: [docs/guides/README-fa.md](docs/guides/README-fa.md)
+
 ```bash
 cp .env.example .env      # fill in SECRET_KEY, hosts, database password, email
 docker compose up -d --build --wait
