@@ -143,6 +143,13 @@ async function step(name, fn) {
     await annotate(p, [{ text: 'پیشخوان', within: 'nav a, .tabs a, a', n: 1 }, { sel: '.member-card, .panel-card, .card', n: 2 }]);
     await shot(p, 'p03-dashboard', { full: true });
   });
+  await step('p03b', async () => {
+    // the two folds of the member-panel menu, «بیشتر» open
+    await go('/fa/panel/1/orders/');
+    await p.evaluate(() => { const d = document.querySelector('.panel-nav__more:not(.panel-nav__account)'); if (d) d.open = true; });
+    await annotate(p, [{ sel: '.panel-nav__more:not(.panel-nav__account) summary', n: 1 }, { sel: '.panel-nav__account summary', n: 2, side: 'left' }]);
+    await shot(p, 'p03b-menu', { from: 'main h1', h: 520 });
+  });
   await step('p04', async () => { await go('/fa/panel/1/profile/'); await shot(p, 'p04-profile'); });
   await step('p05', async () => { await go('/fa/panel/1/products/'); await shot(p, 'p05-products', { from: 'main h1', h: 760 }); });
   await step('p06', async () => { await go('/fa/panel/1/products/new/'); await shot(p, 'p06-product-form'); });
@@ -180,7 +187,7 @@ async function step(name, fn) {
   await step('a02', async () => {
     await go('/admin/');
     await p.setViewportSize({ width: 1280, height: 1100 });
-    await annotate(p, [{ sel: '.sidebar-main-menu, nav[aria-label] ul', n: 1, side: 'left', pad: 2, inSidebar: true }, { sel: '#wagtail-sidebar form, aside form', n: 2, side: 'left', pad: 2, inSidebar: true }, { sel: '.ft-shortcuts__grid', n: 3 }, { text: 'پرونده‌های عضویت نیازمند', within: 'h2,h3', n: 4 }]);
+    await annotate(p, [{ sel: '.sidebar-main-menu, nav[aria-label] ul', n: 1, side: 'left', pad: 2, inSidebar: true }, { sel: '#wagtail-sidebar form, aside form', n: 2, side: 'left', pad: 2, inSidebar: true }, { sel: '.ft-pending', n: 3 }, { sel: '.ft-shortcuts__grid', n: 4 }]);
     await shot(p, 'a02-dashboard');
     await p.setViewportSize({ width: 1280, height: 820 });
   });
