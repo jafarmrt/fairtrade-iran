@@ -43,20 +43,78 @@ def news_index_for(user):
     return None
 
 
-def shortcuts_for(user):
-    """The dashboard tiles: (label, hint, url, icon, badge, opens in a new tab), only those the user can use."""
-    from contact.models import Complaint
+def pending_for(user):
+    """
+    «کارهای منتظر شما» at the top of the dashboard: one line per kind of waiting work the user
+    can act on, with how many and a link to that filtered list. Empty when nothing waits.
+    """
+    from django.utils import timezone
+
     from appeals.models import Appeal
+    from contact.models import Complaint
+    from members.models import Member
     from membership.admin_views import VIEW_PERM, files_needing_action
+    from products.models import Product
     from shop.admin_views import FILTERS as ORDER_FILTERS, can_manage
     from shop.models import Order
-    from standing.services import can_view as can_view_standing
+    from standing.models import Dues, DuesPayment
+    from standing.services import COMMISSION, SECRETARIAT, user_bodies
     from wholesale.models import WholesaleInquiry
+
+    items = []
+
+    def add(count, label, url):
+        if count:
+            items.append({"count": count, "label": label, "url": url})
+
+    if user.has_perm(VIEW_PERM):
+        add(_count(files_needing_action(user)), "پرونده عضویت منتظر اقدام شما",
+            reverse("membership_applications:index") + "?status=mine")
+    bodies = user_bodies(user)
+    today = timezone.localdate()
+    standing = reverse("standing:index")
+    if SECRETARIAT in bodies:
+        add(_count(DuesPayment.objects.filter(status=DuesPayment.Status.PENDING)),
+            "رسید حق عضویت منتظر بررسی", standing + "?show=pending")
+        add(_count(Dues.objects.filter(status=Dues.Status.UNPAID, due_date__lt=today)),
+            "حق عضویت گذشته از مهلت", standing + "?show=overdue")
+    if bodies & {SECRETARIAT, COMMISSION}:
+        add(_count(Member.objects.filter(status=Member.SUSPENDED, suspended_until__lte=today)),
+            "عضو با مدت تعلیق تمام‌شده (رفع تعلیق یا لغو)", standing + "?show=ended")
+    if can_manage(user):
+        orders = reverse("shop_orders:index")
+        conditions = {key: condition for key, _, condition in ORDER_FILTERS}
+        for key, label in (("todo", "رسید پرداخت سفارش منتظر بررسی"), ("ship", "سفارش پرداخت‌شده منتظر ارسال"),
+                           ("returns", "درخواست مرجوعی بررسی‌نشده"), ("settle", "سفارش تسویه‌نشده با تولیدکننده")):
+            add(_count(Order.objects.filter(conditions[key])), label, f"{orders}?show={key}")
+    if user.has_perm("products.change_product"):
+        add(_count(Product.objects.filter(needs_review=True)), "محصول تازهٔ اعضا منتظر بررسی",
+            reverse("wagtailsnippets_products_product:list") + "?needs_review=true")
+    if user.has_perm("wholesale.change_wholesaleinquiry"):
+        add(_count(WholesaleInquiry.objects.filter(status=WholesaleInquiry.Status.NEW)),
+            "درخواست خرید عمدهٔ تازه", reverse("wholesale_inquiries:index"))
+    if user.has_perm("contact.change_complaint"):
+        add(_count(Complaint.objects.filter(status=Complaint.Status.RECEIVED)), "شکایت تازه",
+            reverse("complaints:index"))
+    if user.has_perm("appeals.change_appeal"):
+        add(_count(Appeal.objects.filter(status=Appeal.Status.RECEIVED)), "اعتراض تازه", reverse("appeals:index"))
+    return items
+
+
+def shortcuts_for(user):
+    """
+    The dashboard tiles: the few things each person starts most often, only those the user can
+    use (a PR volunteer sees four, the secretariat two or three). Waiting work is counted in
+    «کارهای منتظر شما» above them, and everything else is in the menu.
+    """
+    from membership.admin_views import VIEW_PERM
+    from shop.admin_views import can_manage
+    from standing.services import can_view as can_view_standing
 
     tiles = []
 
-    def add(label, url, icon, hint="", badge=0, new_tab=False):
-        tiles.append({"label": label, "url": url, "icon": icon, "hint": hint, "badge": badge, "new_tab": new_tab})
+    def add(label, url, icon, hint=""):
+        tiles.append({"label": label, "url": url, "icon": icon, "hint": hint})
 
     news_index = news_index_for(user)
     if news_index:
@@ -70,31 +128,15 @@ def shortcuts_for(user):
         add("بارگذاری عکس", reverse("wagtailimages:add_multiple"), "image", "چند عکس با هم")
     if documents:
         add("بارگذاری سند", reverse("wagtaildocs:add_multiple"), "doc-full-inverse", "گزارش، صورت‌جلسه، اساسنامه، …")
-
     if user.has_perm(VIEW_PERM):
-        add("پرونده‌های عضویت", reverse("membership_applications:index"), "group", "درخواست‌ها و مهلت‌ها",
-            _count(files_needing_action(user)))
+        add("پرونده‌های عضویت", reverse("membership_applications:index"), "group", "درخواست‌ها و مهلت‌ها")
     if can_view_standing(user):
         add("وضعیت اعضا و حق عضویت", reverse("standing:index"), "user", "رسیدها، بدهی، تعلیق")
     if can_manage(user):
-        todo = dict((key, condition) for key, _, condition in ORDER_FILTERS)["todo"]
-        add("سفارش‌های فروشگاه", reverse("shop_orders:index"), "clipboard-list", "رسیدها، ارسال، تسویه",
-            _count(Order.objects.filter(todo)))
-    if user.has_perm("wholesale.change_wholesaleinquiry"):
-        add("سفارش‌های عمده", reverse("wholesale_inquiries:index"), "list-ul", "درخواست خریداران عمده و خارجی",
-            _count(WholesaleInquiry.objects.filter(status=WholesaleInquiry.Status.NEW)))
-    if user.has_perm("contact.change_complaint"):
-        add("شکایات", reverse("complaints:index"), "warning", "",
-            _count(Complaint.objects.filter(status=Complaint.Status.RECEIVED)))
-    if user.has_perm("appeals.change_appeal"):
-        add("اعتراض‌ها", reverse("appeals:index"), "resubmit", "",
-            _count(Appeal.objects.filter(status=Appeal.Status.RECEIVED)))
-
+        add("سفارش‌های فروشگاه", reverse("shop_orders:index"), "clipboard-list", "رسیدها، ارسال، تسویه")
     if user.has_perm("core.change_sitesettings"):
         add("تنظیمات سایت", reverse("wagtailsettings:edit", args=("core", "sitesettings")), "cogs",
             "لوگو، نام، راه‌های تماس، شبکه‌های اجتماعی")
-    add("دیدن سایت", "/fa/", "site", "در زبانهٔ تازه", new_tab=True)
-    add("راهنمای پنل", reverse("ft_admin_guide"), "help", "کارهای روزمره قدم‌به‌قدم")
     return tiles
 
 

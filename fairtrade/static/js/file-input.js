@@ -4,6 +4,9 @@
  * On Persian pages each visible file field gets a «انتخاب فایل» button and the chosen
  * file's name beside it; the real input stays in the form (hidden) and is what is sent.
  * Loaded by the site (templates/base.html) and the admin (core/wagtail_hooks.py).
+ *
+ * Also: a drop-down whose items start with a Latin code («FT-CUPZK5WL | کارگاه …») is drawn
+ * with Latin digits (.ft-latin), so the code doesn't come out half Persian («FT-CUPZK۵WL»).
  */
 (function () {
   "use strict";
@@ -33,6 +36,8 @@
 
     function show() {
       var files = input.files || [];
+      // A Latin file name keeps its order ("receipt.pdf", not "pdf.receipt").
+      name.dir = files.length === 1 ? "auto" : "";
       if (!files.length) name.textContent = "فایلی انتخاب نشده";
       else if (files.length === 1) name.textContent = files[0].name;
       else name.textContent = digits(files.length) + " فایل انتخاب شد";
@@ -56,9 +61,19 @@
     show();
   }
 
+  var CODE = /^[A-Z]{2,}-[A-Z0-9-]{3,}/;
+
+  function latinCodes(select) {
+    for (var i = 0; i < select.options.length; i++) {
+      if (CODE.test(select.options[i].text.trim())) { select.classList.add("ft-latin"); return; }
+    }
+  }
+
   function scan(root) {
     if (root.matches && root.matches('input[type="file"]')) enhance(root);
     if (root.querySelectorAll) root.querySelectorAll('input[type="file"]').forEach(enhance);
+    if (root.matches && root.matches("select")) latinCodes(root);
+    if (root.querySelectorAll) root.querySelectorAll("select").forEach(latinCodes);
   }
 
   function start() {

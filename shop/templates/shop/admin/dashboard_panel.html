@@ -1,9 +1,0 @@
-{% load membership_tags %}
-<section class="panel summary nice-padding">
-    <h2>سفارش‌های فروشگاه</h2>
-    <ul>
-        {% for count, label, show in items %}
-        <li><a href="{% url 'shop_orders:index' %}?show={{ show }}">{{ count|fa_digits }} {{ label }}</a></li>
-        {% endfor %}
-    </ul>
-</section>

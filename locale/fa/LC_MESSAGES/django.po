@@ -19,6 +19,18 @@ msgid "%(action)s by <b>%(who)s</b> at <b>%(at)s</b>"
 msgstr "%(action)s به‌دست <b>%(who)s</b> در <b>%(at)s</b>"
 
 #, python-format
+msgid "%s KB"
+msgstr "%s کیلوبایت"
+
+#, python-format
+msgid "%s MB"
+msgstr "%s مگابایت"
+
+#, python-format
+msgid "%s GB"
+msgstr "%s گیگابایت"
+
+#, python-format
 msgid "%(classname)s object (%(id)s)"
 msgstr "%(classname)s شمارهٔ %(id)s"
 
@@ -2665,7 +2677,7 @@ msgstr "خیر"
 
 #, python-format
 msgid "No %(model_name)s match your query."
-msgstr "هیچ %(model_name)s با جست‌وجوی شما پیدا نشد."
+msgstr "در %(model_name)s چیزی با جست‌وجوی شما پیدا نشد."
 
 msgid "No collections have been created. Why not <a href=\"%(add_collection_url)s\">add one</a>?"
 msgstr "هنوز هیچ مجموعه‌ای ساخته نشده است. <a href=\"%(add_collection_url)s\">یکی بسازید</a>."

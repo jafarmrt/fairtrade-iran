@@ -107,3 +107,20 @@ def install():
         ),
         MultiFieldPanel([FieldPanel("show_in_menus")], _("For site menus")),
     ]
+
+
+def technical_note(text):
+    """
+    A short note at the top of a technical settings page («تنظیمات فنی (مسئول فنی)» in the
+    settings menu, see core/wagtail_hooks.py): what the page is for, in one plain sentence.
+    """
+    from django.utils.html import format_html
+    from wagtail.admin.panels import HelpPanel
+
+    return HelpPanel(
+        content=format_html(
+            '<div class="help-block help-info"><svg class="icon icon-help icon" aria-hidden="true">'
+            '<use href="#icon-help"></use></svg><p>{}</p></div>',
+            text,
+        )
+    )

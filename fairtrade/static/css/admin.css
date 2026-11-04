@@ -131,10 +131,26 @@ html[dir="ltr"] .sidebar-menu-item--active > button { box-shadow: inset 4px 0 0 
 .ft-shortcuts__item a:focus-visible { border-color: var(--ft-gold); background: var(--w-color-surface-field-inactive); }
 .ft-shortcuts__item .icon { width: 1.5rem; height: 1.5rem; flex: none; color: var(--w-color-secondary); }
 .ft-shortcuts__item small { display: block; font-weight: 400; font-size: .8rem; color: var(--w-color-text-meta); }
-.ft-shortcuts__badge {
-  margin-inline-start: auto; min-width: 1.6rem; padding: 0 .45rem; border-radius: 1rem;
-  background: var(--ft-gold); color: var(--ft-navy); font-size: .8rem; font-weight: 700; text-align: center;
-}
+.ft-shortcuts__links { display: flex; flex-wrap: wrap; gap: .5rem 2rem; margin: 1rem 0 0; font-size: .9rem; }
+.ft-shortcuts__links a { display: inline-flex; align-items: center; gap: .4rem; }
+.ft-shortcuts__links .icon { width: 1rem; height: 1rem; }
+
+/* Dashboard: «کارهای منتظر شما» (core/admin_views.pending_for), the first panel */
+.ft-pending { margin-bottom: 2rem; padding: 1rem 1.25rem; border: 1px solid var(--w-color-border-furniture);
+  border-inline-start: 4px solid var(--ft-gold); border-radius: .5rem; background: var(--w-color-surface-page); }
+.ft-pending--clear { border-inline-start-color: var(--w-color-positive-100); }
+.ft-pending h2 { font-size: 1.125rem; margin: 0 0 .75rem; }
+.ft-pending p { display: flex; align-items: center; gap: .5rem; margin: 0; color: var(--w-color-text-meta); }
+.ft-pending p .icon { color: var(--w-color-positive-100); }
+.ft-pending__list { display: grid; gap: .5rem; margin: 0; padding: 0; list-style: none;
+  grid-template-columns: repeat(auto-fill, minmax(18rem, 1fr)); }
+.ft-pending__list a { display: flex; align-items: center; gap: .75rem; padding: .6rem .75rem; border-radius: .4rem;
+  background: var(--w-color-surface-field-inactive); color: var(--w-color-text-label); text-decoration: none; font-weight: 600; }
+.ft-pending__list a:hover, .ft-pending__list a:focus-visible { outline: 2px solid var(--ft-gold); outline-offset: 0; }
+.ft-pending__count { min-width: 2rem; padding: .1rem .5rem; border-radius: 1rem; background: var(--ft-gold);
+  color: var(--ft-navy); font-weight: 700; text-align: center; }
+.ft-pending__go { width: 1rem; height: 1rem; margin-inline-start: auto; color: var(--w-color-text-meta); }
+html[dir="ltr"] .ft-pending__go { transform: scaleX(-1); }
 
 /* Persian guide (/admin/guide/) */
 .ft-guide { max-width: 52rem; line-height: 2; }

@@ -1,0 +1,14 @@
+{% load wagtailadmin_tags membership_tags %}
+{% comment %}«کارهای منتظر شما»: core.admin_views.pending_for, first panel of the dashboard.{% endcomment %}
+<section class="ft-pending{% if not items %} ft-pending--clear{% endif %}" aria-labelledby="ft-pending-title">
+    <h2 id="ft-pending-title" class="w-h2">کارهای منتظر شما</h2>
+    {% if items %}
+    <ul class="ft-pending__list">
+        {% for item in items %}
+        <li><a href="{{ item.url }}"><span class="ft-pending__count">{{ item.count|fa_digits }}</span><span>{{ item.label }}</span>{% icon name="arrow-left" classname="ft-pending__go" %}</a></li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>{% icon name="success" %} کاری منتظر شما نیست.</p>
+    {% endif %}
+</section>
