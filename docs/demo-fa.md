@@ -61,7 +61,23 @@ RESET=1 bash ~/fairtrade-iran/deploy/local/run-demo.sh
 ## اگر کار نکرد
 
 - اگر `localhost:8000` در مرورگر باز نشد، بررسی کنید پنجره Ubuntu هنوز باز است و خطایی نشان نمی‌دهد.
-- اگر نصب بسته‌ها (pip) خطا داد یا خیلی طول کشید، VPN را روشن کنید و دوباره اجرا کنید.
+- اگر نصب بسته‌ها (pip) خطا داد و در خطا `Temporary failure in name resolution` آمد، Ubuntu به سرور بسته‌های پایتون (`files.pythonhosted.org`) نمی‌رسد. این از داخل ایران زیاد پیش می‌آید و VPNهای ویندوزی (مثل v2rayN) معمولاً ترافیک WSL را عبور نمی‌دهند. راه‌حل:
+
+  1. DNS را روی سرورهای ایرانی بگذارید:
+
+     ```
+     sudo bash -c 'printf "nameserver 178.22.122.100\nnameserver 78.157.42.100\n" > /etc/resolv.conf'
+     ```
+
+     اگر بعد از ری‌استارت ویندوز دوباره عوض شد، یک بار این را هم بزنید تا WSL آن را بازنویسی نکند: `sudo bash -c 'printf "[network]\ngenerateResolvConf = false\n" >> /etc/wsl.conf'`
+
+  2. اسکریپت را یک بار با آینه ایرانی بسته‌ها اجرا کنید. آینه به خاطر سپرده می‌شود و دفعه‌های بعد همان دستور همیشگی کافی است:
+
+     ```
+     PIP_INDEX_URL=https://mirror-pypi.runflare.com/simple bash ~/fairtrade-iran/deploy/local/run-demo.sh
+     ```
+
+- بسته‌ها فقط بار اول (و هر وقت فهرست بسته‌ها در کد عوض شود) دانلود می‌شوند؛ دفعه‌های بعد سایت بدون دانلود بالا می‌آید.
 - چند خط آخر پنجره Ubuntu را برای تیم فنی بفرستید.
 
 ## جزئیات فنی

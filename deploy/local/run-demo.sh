@@ -47,11 +47,33 @@ if [ ! -x "$VENV/bin/python" ]; then
     fi
 fi
 
-say "Installing Python packages (a few minutes the first time)"
+# A package mirror given once (PIP_INDEX_URL=...) is remembered in the venv, so
+# later runs use it too. Useful in Iran, where files.pythonhosted.org is often
+# unreachable.
+if [ -n "${PIP_INDEX_URL:-}" ]; then
+    printf '[global]\nindex-url = %s\n' "$PIP_INDEX_URL" > "$VENV/pip.conf"
+fi
+
 # psycopg (PostgreSQL) is not needed: the test copy uses SQLite.
 grep -v -i '^psycopg' requirements.txt > "$VENV/requirements-demo.txt"
-"$VENV/bin/pip" install --quiet --upgrade pip
-"$VENV/bin/pip" install --quiet -r "$VENV/requirements-demo.txt"
+# Packages are installed only when requirements.txt changed, so later runs
+# start without the internet.
+STAMP="$VENV/requirements-demo.installed"
+if ! cmp -s "$VENV/requirements-demo.txt" "$STAMP"; then
+    say "Installing Python packages (a few minutes the first time)"
+    "$VENV/bin/pip" install --quiet --upgrade pip || true
+    if ! "$VENV/bin/pip" install --quiet -r "$VENV/requirements-demo.txt"; then
+        cat <<'HELP'
+
+Could not download the Python packages. If the errors say "name resolution",
+use an Iranian mirror (only needed once; it is remembered):
+    PIP_INDEX_URL=https://mirror-pypi.runflare.com/simple bash ~/fairtrade-iran/deploy/local/run-demo.sh
+Guide (Persian): docs/demo-fa.md, section "اگر کار نکرد".
+HELP
+        exit 1
+    fi
+    cp "$VENV/requirements-demo.txt" "$STAMP"
+fi
 
 export DJANGO_SETTINGS_MODULE=fairtrade.settings.dev
 export DEMO_MODE=1
