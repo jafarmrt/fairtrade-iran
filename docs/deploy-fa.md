@@ -202,6 +202,7 @@ openssl rand -hex 24       # برای POSTGRES_PASSWORD (فقط حروف و عد
 | `POSTGRES_PASSWORD` | رشتهٔ تصادفی دوم |
 | `EMAIL_HOST`، `EMAIL_PORT`، `EMAIL_HOST_USER`، `EMAIL_HOST_PASSWORD`، `EMAIL_USE_TLS` | اطلاعات SMTP از بخش ۱ (معمولاً درگاه `587` با `EMAIL_USE_TLS=1`) |
 | `DEFAULT_FROM_EMAIL` | نشانی فرستنده، مثلاً `no-reply@example.ir` |
+| `ADMINS` | ایمیل مسئول فنی؛ خطاهای سرور (خطای ۵۰۰) به این نشانی فرستاده می‌شود |
 | `BACKUP_TIME`، `BACKUP_KEEP_DAYS` | ساعت پشتیبان روزانه (پیش‌فرض `03:30`) و چند روز روی سرور بماند (پیش‌فرض `14`) |
 | `DAILY_JOBS_TIME` | ساعت کارهای روزانه (پیش‌فرض `08:00`) |
 | `PUBLISH_EVERY_MINUTES` | هر چند دقیقه صفحه‌های زمان‌بندی‌شده منتشر شوند (پیش‌فرض `10`) |

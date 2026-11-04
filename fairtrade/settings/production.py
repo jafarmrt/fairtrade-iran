@@ -25,6 +25,11 @@ CACHES = {
     }
 }
 
+# Server errors (HTTP 500) are e-mailed to these addresses, e.g. ADMINS=tech@example.ir,
+# so the technical person hears about a broken page before the visitors complain.
+ADMINS = [("", email) for email in env_list("ADMINS")]
+SERVER_EMAIL = os.environ.get("SERVER_EMAIL", os.environ.get("DEFAULT_FROM_EMAIL", "no-reply@localhost"))
+
 LOGGING = {
     "version": 1,
     "disable_existing_loggers": False,

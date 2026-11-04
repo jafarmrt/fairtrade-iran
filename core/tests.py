@@ -175,6 +175,8 @@ class CspTests(TestCase):
         self.assertTrue(scripts)
         for attrs in scripts:
             self.assertIn(f'nonce="{nonce}"', attrs)
+        self.assertIn("camera=()", response["Permissions-Policy"])
+        self.assertIn("geolocation=()", self.client.get("/admin/login/")["Permissions-Policy"])
 
     def test_admin_snippets_get_the_nonce_and_their_origins_are_allowed(self):
         seo = SeoSettings.load()
