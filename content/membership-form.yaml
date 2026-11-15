@@ -1,0 +1,286 @@
+# Questions of the membership application form (/fa/membership/apply/).
+#
+# The form's fixed parts (name, contact details, documents, payment receipt, commitment)
+# are always there; these are the extra questions, asked by member type.
+#
+#   label / label_en       the question
+#   help / help_en         a hint under the question (optional)
+#   type                   text, textarea, number, email, url, date, select, checkbox, file,
+#                          mobile, national_id, legal_id, postal_code, sheba, province
+#   required               true or false
+#   for                    which member types are asked: producer, institution, network, individual
+#   choices / choices_en   for "select": the options, in the same order in both languages
+#
+# A question is matched by its Persian label: if you reword a label here, the import adds it as a
+# new question; switch off the old one in the admin panel (پرسش‌های فرم عضویت → «فعال»).
+#
+# Sources: the governance document (membership conditions) and the booklet's appendix 4
+# (fair trade self-assessment for producers) and appendix 6 (facilitating organisations).
+questions:
+
+# ---- about the applicant ----
+- label: شرح فعالیت و محصولات یا خدمات
+  label_en: Describe your work and your products or services
+  help: چه می‌سازید، از کی، و برای چه کسانی
+  help_en: What you make, since when, and for whom
+  type: textarea
+  required: true
+  for: [producer]
+- label: شکل فعالیت
+  label_en: Type of organisation
+  type: select
+  required: true
+  for: [producer]
+  choices: [فرد, کارگاه, تعاونی, شرکت, گروه غیررسمی]
+  choices_en: [Individual, Workshop, Cooperative, Company, Informal group]
+- label: محل انجام کار
+  label_en: Where the work is done
+  type: select
+  required: true
+  for: [producer]
+  choices: [در کارگاه یا محل کار مجموعه, بخشی در کارگاه و بخشی در خانه همکاران, در خانه همکاران]
+  choices_en: [In our own workshop or premises, Partly in our workshop and partly in workers' homes, In workers' homes]
+- label: سال شروع فعالیت
+  label_en: Year you started
+  type: text
+  required: true
+  for: [producer, institution, network]
+- label: تعداد افراد شاغل و تعداد زنان در میان آن‌ها
+  label_en: Number of people working, and how many are women
+  type: text
+  required: true
+  for: [producer]
+
+# ---- principle 1: opportunities for disadvantaged producers ----
+- label: هدف اصلی مجموعه شما چیست و چه کسانی از کار شما سود می‌برند؟
+  label_en: What is the main aim of your organisation, and who benefits from your work?
+  help: اگر این هدف در اساسنامه یا گزارش‌های شما آمده است، بنویسید کجا
+  help_en: If this aim is written in your statutes or reports, say where
+  type: textarea
+  required: true
+  for: [producer]
+- label: چه سهمی از همکاران شما از گروه‌های به حاشیه رانده‌شده‌اند؟
+  label_en: What share of the people you work with come from marginalised groups?
+  help: مثلاً زنان سرپرست خانوار، روستاییان، افراد دارای معلولیت یا مهاجران؛ درصد تقریبی و توضیح کوتاه
+  help_en: For example women who head their households, rural people, people with disabilities or migrants; an approximate percentage and a short note
+  type: text
+  required: true
+  for: [producer]
+
+# ---- principle 2: transparency and accountability ----
+- label: آیا حساب‌وکتاب مالی مجموعه منظم ثبت می‌شود و قابل بررسی است؟
+  label_en: Are your accounts kept regularly and open to checking?
+  type: select
+  required: true
+  for: [producer]
+  choices: [بله, تا حدی, خیر]
+  choices_en: ['Yes', Partly, 'No']
+- label: آیا مشتریان و مردم راهی برای پرسش، شکایت یا پیشنهاد به شما دارند؟
+  label_en: Can customers and the public reach you with questions, complaints or suggestions?
+  type: select
+  required: true
+  for: [producer]
+  choices: [بله، چند راه مشخص داریم, داریم اما خیلی فعال نیست, فعلاً نداریم]
+  choices_en: ['Yes, we have clear channels', 'We have one, but it is not very active', 'Not yet']
+
+# ---- principle 4: fair payment ----
+- label: شیوه تعیین دستمزد و پرداخت به کارکنان یا تولیدکنندگان
+  label_en: How wages and payments to workers or producers are set
+  help: شفافیت درباره دستمزد از شرایط پذیرش تولیدکنندگان است؛ اگر می‌دانید، بنویسید چه درصدی از بهای فروش به تولیدکننده می‌رسد
+  help_en: Transparency on wages is a condition for producers; if you know it, say what share of the sale price goes to the maker
+  type: textarea
+  required: true
+  for: [producer]
+- label: دستمزد همکاران شما در مقایسه با حداقل دستمزد اعلام‌شده وزارت کار چگونه است؟
+  label_en: How do your workers' wages compare with the legal minimum wage?
+  type: select
+  required: true
+  for: [producer]
+  choices: [همه بیشتر از حداقل دستمزد می‌گیرند, همه برابر حداقل دستمزد می‌گیرند, برخی کمتر از حداقل دستمزد می‌گیرند, تعاونی هستیم یا شیوه پرداخت ما متفاوت است]
+  choices_en: [Everyone earns more than the minimum wage, Everyone earns the minimum wage, Some earn less than the minimum wage, 'We are a cooperative, or we pay in another way']
+- label: زمان پرداخت دستمزد
+  label_en: When wages are paid
+  type: select
+  required: true
+  for: [producer]
+  choices: [ماهانه و منظم, گاهی با تأخیر, با تأخیرهای چندماهه]
+  choices_en: [Monthly and on time, Sometimes late, Often months late]
+- label: آیا با همکاران قرارداد کتبی دارید و آن‌ها بیمه هستند؟
+  label_en: Do your workers have written contracts and insurance?
+  help: اگر بیمه ممکن نیست، آیا معادل سهم بیمه کارفرما را افزون بر دستمزد می‌پردازید؟
+  help_en: If insurance is not possible, do you pay the employer's share of insurance on top of wages?
+  type: textarea
+  required: true
+  for: [producer]
+
+# ---- principle 5: no child labour, no forced labour ----
+- label: آیا کودک زیر ۱۵ سال در مجموعه شما کار می‌کند؟
+  label_en: Does any child under 15 work in your organisation?
+  type: select
+  required: true
+  for: [producer]
+  choices: [خیر, بله]
+  choices_en: ['No', 'Yes']
+- label: اگر نوجوان ۱۵ تا ۱۸ ساله با شما کار می‌کند، یا کودکانی در کار خانگی همکاران کمک می‌کنند، شرایط آن را بنویسید
+  label_en: If teenagers aged 15 to 18 work with you, or children help in home-based work, describe the conditions
+  help: نوع و ساعت کار، و اینکه آیا به مدرسه می‌روند
+  help_en: The kind of work, the hours, and whether they go to school
+  type: textarea
+  required: false
+  for: [producer]
+- label: آیا مدارک هویتی، چک یا سفته از همکاران نزد خود نگه می‌دارید؟
+  label_en: Do you keep workers' identity papers, cheques or promissory notes?
+  type: select
+  required: true
+  for: [producer]
+  choices: [خیر, بله]
+  choices_en: ['No', 'Yes']
+
+# ---- principle 6: non-discrimination, gender equity, freedom of association ----
+- label: آیا زنان و مردان برای کار برابر دستمزد برابر می‌گیرند؟
+  label_en: Do women and men receive equal pay for equal work?
+  type: select
+  required: true
+  for: [producer]
+  choices: [بله, خیر, همه همکاران ما زن هستند]
+  choices_en: ['Yes', 'No', All of our workers are women]
+- label: آیا در میان مدیران مجموعه شما زن هست؟
+  label_en: Are there women among your managers?
+  type: select
+  required: true
+  for: [producer]
+  choices: [بله، برابر یا بیشتر از مردان, بله، اما کمتر از مردان, خیر]
+  choices_en: ['Yes, as many as men or more', 'Yes, but fewer than men', 'No']
+- label: آیا راهی امن برای گزارش آزار و خشونت در محیط کار دارید؟
+  label_en: Is there a safe way to report harassment or violence at work?
+  type: select
+  required: true
+  for: [producer]
+  choices: [بله, خیر]
+  choices_en: ['Yes', 'No']
+
+# ---- principle 7: good working conditions ----
+- label: آیا ایمنی، بهداشت و ساعت کار، مرخصی و تعطیلات طبق قانون کار رعایت می‌شود؟
+  label_en: Are health and safety, working hours, leave and holidays in line with labour law?
+  type: select
+  required: true
+  for: [producer]
+  choices: [بله, تا حدی, خیر]
+  choices_en: ['Yes', Partly, 'No']
+
+# ---- principle 8: capacity building ----
+- label: چه آموزش‌هایی برای همکاران خود فراهم کرده‌اید؟
+  label_en: What training have you offered the people you work with?
+  help: مهارت تولید و کسب‌وکار، ایمنی و بهداشت، اصول تجارت عادلانه، محیط زیست و …
+  help_en: Production and business skills, health and safety, fair trade principles, the environment …
+  type: textarea
+  required: false
+  for: [producer]
+
+# ---- principle 10: the environment ----
+- label: 'زنجیره تأمین: مواد اولیه از کجا و چگونه تأمین می‌شود؟'
+  label_en: 'Supply chain: where and how do you source raw materials?'
+  type: textarea
+  required: true
+  for: [producer]
+- label: برای کاهش اثرات زیست‌محیطی کار خود چه می‌کنید؟
+  label_en: What do you do to reduce your environmental impact?
+  help: مواد اولیه و بسته‌بندی، ضایعات و زباله، مصرف آب و انرژی، بازیافت
+  help_en: Materials and packaging, waste, water and energy use, recycling
+  type: textarea
+  required: true
+  for: [producer]
+
+# ---- documents (producers) ----
+- label: نمونه کار یا کاتالوگ محصولات
+  label_en: Product samples or catalogue
+  help: عکس یا PDF
+  help_en: Photos or a PDF
+  type: file
+  required: false
+  for: [producer]
+- label: مجوز یا مدرک ثبت (اگر دارید)
+  label_en: Licence or registration document (if any)
+  type: file
+  required: false
+  for: [producer]
+- label: نمونه اسناد پرداخت دستمزد (اختیاری)
+  label_en: Sample payroll records (optional)
+  help: مثلاً فیش حقوق یا فهرست پرداخت یک ماه؛ فقط دبیرخانه و کمیسیون نظارتی آن را می‌بینند
+  help_en: For example one month's payslips or payment list; only the secretariat and the Supervisory Commission see it
+  type: file
+  required: false
+  for: [producer]
+
+# ---- institutions and networks ----
+- label: شماره و محل ثبت
+  label_en: Registration number and place
+  type: text
+  required: true
+  for: [institution, network]
+- label: فعالیت‌های شما در حمایت از تجارت عادلانه
+  label_en: How you support fair trade
+  help: آموزش، تأمین مالی، پژوهش، حمایتگری و …
+  help_en: Training, funding, research, advocacy …
+  type: textarea
+  required: true
+  for: [institution]
+- label: گروه‌های تولیدکننده‌ای که همراهی می‌کنید و محصولات آن‌ها
+  label_en: The producer groups you support, and their products
+  help: نام هر گروه، محصولاتش و سهم تقریبی تولیدکنندگان به حاشیه رانده‌شده در آن
+  help_en: Each group's name, its products and the approximate share of marginalised producers in it
+  type: textarea
+  required: false
+  for: [institution]
+- label: برای آماده شدن این گروه‌ها برای عضویت در خانه چه می‌کنید؟
+  label_en: How do you help these groups prepare to join the House?
+  help: آموزش اصول تجارت عادلانه، توانمندسازی، همراهی در ارزیابی و …
+  help_en: Training in fair trade principles, capacity building, support through the assessment …
+  type: textarea
+  required: false
+  for: [institution]
+- label: اعضای شبکه
+  label_en: Members of the network
+  help: نام سازمان‌ها یا تولیدکنندگان عضو
+  help_en: Names of member organisations or producers
+  type: textarea
+  required: true
+  for: [network]
+- label: هدف و فعالیت‌های شبکه
+  label_en: Aims and activities of the network
+  type: textarea
+  required: true
+  for: [network]
+- label: اساسنامه یا مدرک ثبت
+  label_en: Statutes or registration document
+  type: file
+  required: true
+  for: [institution, network]
+
+# ---- individual supporters ----
+- label: حرفه یا زمینه فعالیت
+  label_en: Profession or field
+  type: text
+  required: true
+  for: [individual]
+- label: چگونه از تجارت عادلانه حمایت می‌کنید یا می‌خواهید حمایت کنید؟
+  label_en: How do you (or will you) support fair trade?
+  help: با دانش، وقت یا منابع مالی
+  help_en: With knowledge, time or money
+  type: textarea
+  required: true
+  for: [individual]
+
+# ---- everyone ----
+- label: مستندات فعالیت (لینک یا توضیح)
+  label_en: Evidence of your activity (links or description)
+  help: فعالیت واقعی و مستند از شرایط پذیرش است
+  help_en: Real, documented activity is a condition of membership
+  type: textarea
+  required: false
+  for: [producer, institution, network, individual]
+- label: آمادگی مشارکت در برنامه‌های آموزشی و ترویجی خانه را داریم
+  label_en: We are willing to take part in the House's training and promotion activities
+  type: checkbox
+  required: false
+  for: [producer, institution, network, individual]

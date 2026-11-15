@@ -23,7 +23,8 @@ class SeedTests(TestCase):
     def test_seed_is_idempotent_and_keeps_edits(self):
         Member.objects.filter(slug="armoz").update(summary="ویرایش ادمین")
         seed()
-        self.assertEqual(Member.objects.filter(is_founding=True).count(), 9)
+        # Seven producer groups and Haftdast House (content/members.yaml).
+        self.assertEqual(Member.objects.filter(is_founding=True).count(), 8)
         self.assertEqual(Member.objects.get(slug="armoz").summary, "ویرایش ادمین")
         self.assertEqual(Region.objects.count(), 31)
 
@@ -40,6 +41,7 @@ class DirectoryPageTests(TestCase):
         seed()
         cls.armoz = Member.objects.get(slug="armoz")
         cls.armoz.instagram_url = "https://instagram.com/armoz"
+        cls.armoz.website_url = ""
         cls.armoz.save()
         Member.objects.create(name="عضو بی‌نام انگلیسی", slug="fa-only", status=Member.TRIAL)
         Member.objects.create(name="عضو معلق", name_en="Suspended one", slug="suspended", status=Member.SUSPENDED)
@@ -105,11 +107,11 @@ class DirectoryPageTests(TestCase):
     def test_home_shows_featured_sections(self):
         response = self.client.get("/fa/")
         self.assertContains(response, "خرما")
-        self.assertContains(response, DirectorySettings.load().home_title)
         conf = DirectorySettings.load()
+        self.assertContains(response, conf.home_text)  # the section's own sentence (its title also appears in page texts)
         conf.show_on_home = False
         conf.save()
-        self.assertNotContains(self.client.get("/fa/"), conf.home_title)
+        self.assertNotContains(self.client.get("/fa/"), conf.home_text)
 
     def test_auto_slug(self):
         member = Member.objects.create(name="گروه تازه", name_en="New Group")

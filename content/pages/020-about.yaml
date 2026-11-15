@@ -1,0 +1,157 @@
+# About us. Sources: the booklet «نگاهی به خانه تجارت عادلانه ایران» (Shahrivar 1405, section 4),
+# the introduction «معرفی خانه تجارت عادلانه و مؤسسین» and the governance document (v2, Mehr 1405).
+key: about
+type: pages.StandardPage
+parent: home
+fa:
+  title: درباره ما
+  slug: about
+  intro: شبکه‌ای ملی برای ترویج، حمایت و توسعه اصول تجارت عادلانه در ایران
+  body:
+  - paragraph: >-
+      <p>«خانه تجارت عادلانه ایران» شبکه‌ای ملی برای ترویج، حمایت و توسعه اصول تجارت عادلانه در ایران است.
+      طرح ایجاد این شبکه در زمستان ۱۴۰۳، بر پایه شناخت نیاز کسب‌وکارهای خرد به فرهنگ‌سازی و تسهیل فروش بر اساس
+      اصول ده‌گانه تجارت عادلانه، از سوی «خانه هفت دست» و «گروه پاپیتال» مطرح شد. چون این راه به نیرو و امکانات
+      مادی و معنوی نیاز داشت، گروه‌هایی که فعالیت یا دغدغه‌ای نزدیک به این اصول داشتند شناسایی و برای
+      پایه‌گذاری خانه دعوت شدند.</p>
+  - heading: بنیان‌گذاران
+  - paragraph: >-
+      <p>هفت گروه تولیدی و یک نهاد توانمندساز، به همراه دو فرد حقیقی، خانه را بنیان گذاشتند:</p>
+      <ul>
+      <li><b>ارموز</b>: فرآورده‌های خوراکی سالم و بومی میناب، با کشت پایدار</li>
+      <li><b>گالری پاپیتال</b>: زیورآلات دست‌ساز با الهام از کاشی‌کاری ایرانی</li>
+      <li><b>پروندبوم</b>: محصولات بومی جنوب فارس و احیای صنایع دستی رو به فراموشی</li>
+      <li><b>صنایع دستی تیدا</b>: سوزن‌دوزی زنان و دختران ترکمن</li>
+      <li><b>چاگرد</b>: محصولات زنان بلوچ</li>
+      <li><b>گروه هنری لنا</b>: رودوزی‌های سنتی ایرانی و توانمندسازی زنان کرمان</li>
+      <li><b>مهرباف</b>: جمعی زنانه برای کارآفرینی اجتماعی و تولید پوشاک</li>
+      <li><b>خانه هفت دست</b>: شتاب‌دهنده صنایع دستی و بوم‌گردی</li>
+      </ul>
+      <p>معرفی کامل هر یک را در صفحه <a href="/fa/members/?status=founding">اعضا</a> بخوانید.</p>
+  - paragraph: >-
+      <p>از همان آغاز دو بال کار خانه، یعنی ترویج اصول ده‌گانه تجارت عادلانه برای شناخت و قوام عملی آن‌ها و
+      تسهیل فروش محصولات اعضا، با هم دنبال شد. ساختاری اولیه شکل گرفت و کارگروه‌های عضویت و نظارت، تسهیل فروش،
+      آموزش و ترویج، مالی و روابط عمومی به تدوین اساسنامه و آیین‌نامه‌ها، متن‌های پایه، هویت بصری، شرایط عضویت
+      و فعالیت در فضای مجازی پرداختند.</p>
+      <p>شرایط جنگ، مشکلات اقتصادی و محدودیت‌های فضای مجازی، در کنار محدودیت‌های مالی، حجم کار و ناشناخته‌های
+      کاری تازه، دورانی پرتلاطم برای خانه رقم زد؛ و تنها همت اعضا و کار داوطلبانه آنان چراغ خانه را روشن نگه داشته است.</p>
+  - heading: چشم‌انداز
+  - paragraph: >-
+      <p>خانه تجارت عادلانه به دنبال آن است که تولیدکنندگان، به‌ویژه از جوامع محلی و گروه‌های حاشیه‌ای، در
+      محیطی منصفانه و پایدار کار کنند و از حقوق عادلانه برخوردار باشند. در چشم‌انداز ما تجارت ابزاری برای تقویت
+      عدالت اجتماعی، حفاظت از محیط زیست و گسترش فرصت‌ها برای گروه‌های به حاشیه رانده‌شده است. ما به دنبال جهانی
+      هستیم که در آن حقوق تولیدکنندگان، مصرف‌کنندگان و نسل‌های آینده با هم حفظ شود؛ جهانی که در آن رعایت حقوق
+      انسان‌ها و حفظ محیط زیست بر سود مادی اولویت داشته باشد.</p>
+  - heading: مأموریت
+  - paragraph: >-
+      <p>خانه تجارت عادلانه ایران مرجع ترویج و اجرای اصول ده‌گانه تجارت عادلانه در ایران خواهد بود. این مجموعه
+      با ترویج تجارت عادلانه در میان مردم و ایجاد همکاری و هم‌افزایی میان اعضای خود، شامل تولیدکنندگان،
+      توزیع‌کنندگان، فروشندگان و تسهیلگران این حوزه، می‌کوشد شرایط کاری مناسب، پرداخت عادلانه و دسترسی به
+      بازارهای داخلی و بین‌المللی را برای جوامع محلی و گروه‌های حاشیه‌ای فراهم کند، و همواره بر اجرای اصول
+      تجارت عادلانه در همه سازمان‌های عضو نظارت دارد.</p>
+      <p>به این ترتیب، خانه و همه اعضای آن از راه همکاری با افراد و گروه‌های به حاشیه رانده‌شده، شفافیت،
+      مسئولیت‌پذیری، حذف کار کودک، پرداخت دستمزد عادلانه، مقابله با هر نوع تبعیض در محیط کار (بر پایه جنسیت،
+      قومیت، معلولیت و…)، ایجاد شرایط کاری مناسب، ظرفیت‌سازی از راه آموزش و حفاظت از محیط زیست، به بهبود پایدار
+      کیفیت زندگی تولیدکنندگان و تقویت جایگاه آنان متعهدند و به سوی جامعه‌ای سالم‌تر و عادلانه‌تر برای همه حرکت می‌کنند.</p>
+  - cards:
+      heading: هدف‌های عملیاتی
+      cards:
+      - title: شناخت بیشتر
+        text: آشنایی بیشتر جامعه و کسب‌وکارها با اصول تجارت عادلانه.
+      - title: ترویج اصول
+        text: ترویج اصول تجارت عادلانه میان تولیدکنندگان و خریداران.
+      - title: گسترش شبکه
+        text: شناسایی گروه‌های همسو و پیوستن آن‌ها به خانه.
+      - title: تعامل و هم‌افزایی
+        text: همکاری، تبادل تجربه و پروژه‌های مشترک میان اعضا.
+      - title: فروش داخلی و خارجی
+        text: کمک به فروش محصولات اعضا در بازارهای داخلی و خارجی.
+      - title: ارزیابی
+        text: تدوین فهرست ارزیابی اصول تجارت عادلانه برای اعضا.
+  - heading: ساختار
+  - paragraph: >-
+      <p>بر پایه سند ارکان، <b>مجمع عمومی</b> اعضا بالاترین مرجع تصمیم‌گیری است و <b>هیئت مدیره</b>،
+      <b>دبیر مجمع</b> و <b>کمیسیون نظارتی مستقل</b> را برمی‌گزیند. <b>دبیر اجرایی و دبیرخانه</b> کار روزانه
+      را پیش می‌برند و کارگروه‌های آموزش و ترویج، توسعه بازار، روابط عمومی، مالی و پایداری، و مستندسازی و
+      برنامه‌ریزی را هماهنگ می‌کنند. کمیسیون نظارتی مستقل از هیئت مدیره کار می‌کند و پذیرش اعضا، ارزیابی و
+      رسیدگی به شکایات را بر عهده دارد.</p>
+      <p>همه این کارها تاکنون با کار داوطلبانه اعضا پیش رفته است. اگر می‌خواهید به ما بپیوندید یا همکاری کنید،
+      صفحه <a href="/fa/membership/">عضویت</a> را ببینید یا از صفحه <a href="/fa/contact/">تماس با ما</a> برایمان بنویسید.</p>
+en:
+  title: About us
+  slug: about
+  intro: A national network promoting, supporting and developing fair trade in Iran
+  body:
+  - paragraph: >-
+      <p>The Fair Trade House of Iran is a national network for promoting, supporting and developing the principles
+      of fair trade in Iran. The idea was put forward in the winter of 2024–25 by Haftdast House and the Papital group,
+      who saw that small businesses needed both public awareness and help with selling, grounded in the ten principles
+      of fair trade. Because this needed people and resources, groups whose work or concerns matched these principles
+      were identified and invited to found the House.</p>
+  - heading: Founders
+  - paragraph: >-
+      <p>Seven producer groups and one capacity-building organisation, together with two individuals, founded the House:</p>
+      <ul>
+      <li><b>Ormuz</b>: healthy local food from Minab, grown sustainably</li>
+      <li><b>Papital Gallery</b>: handmade jewellery inspired by Iranian tilework</li>
+      <li><b>Parvandboom</b>: local products of southern Fars and the revival of endangered crafts</li>
+      <li><b>Teeda Craft</b>: needlework by Turkmen women and girls</li>
+      <li><b>Chagerd</b>: products made by Baluch women</li>
+      <li><b>Lena Art Group</b>: traditional Iranian needlework and support for women in Kerman</li>
+      <li><b>Mehrbaf</b>: a women's collective for social entrepreneurship and clothing</li>
+      <li><b>Haftdast House</b>: a handicrafts and ecotourism accelerator</li>
+      </ul>
+      <p>Read about each of them on the <a href="/en/members/?status=founding">Members</a> page.</p>
+  - paragraph: >-
+      <p>From the start, the House pursued both of its wings together: promoting the ten principles so that they are
+      understood and practised, and helping members sell. An initial structure was set up, and working groups on
+      membership and oversight, sales, training and promotion, finance, and public relations drafted the statutes and
+      regulations, the core texts, the visual identity, the membership conditions and our online presence.</p>
+      <p>War, economic hardship and restrictions on the internet, on top of limited funds, a heavy workload and much
+      that was new, made for a turbulent time. It is only thanks to the commitment and volunteer work of our members
+      that the House has kept its light on.</p>
+  - heading: Vision
+  - paragraph: >-
+      <p>We want producers, especially from local communities and marginalised groups, to work in a fair and
+      sustainable environment and to enjoy fair rights. We see trade as a tool for strengthening social justice,
+      protecting the environment and widening opportunities for marginalised groups. We seek a world where the rights
+      of producers, consumers and future generations are protected together; a world where human rights and the
+      environment come before material profit.</p>
+  - heading: Mission
+  - paragraph: >-
+      <p>The Fair Trade House of Iran aims to be the reference point for promoting and applying the ten principles of
+      fair trade in Iran. By promoting fair trade among the public and building cooperation among its members
+      (producers, distributors, retailers and facilitators), it works to secure good working conditions, fair pay
+      and access to domestic and international markets for local communities and marginalised groups, and it
+      monitors how every member organisation applies the principles.</p>
+      <p>In this way the House and all its members, working with marginalised people and groups, commit to
+      transparency and accountability, to ending child labour, to fair wages, to fighting every kind of
+      discrimination at work (based on gender, ethnicity, disability or anything else), to good working conditions,
+      to building skills through training, and to protecting the environment: lasting improvements in producers'
+      lives and a stronger position for them, on the way to a healthier and fairer society for all of us.</p>
+  - cards:
+      heading: Operational goals
+      cards:
+      - title: Better understanding
+        text: Helping the public and businesses learn more about the principles of fair trade.
+      - title: Promoting the principles
+        text: Spreading the principles of fair trade among producers and buyers.
+      - title: A growing network
+        text: Finding like-minded groups and welcoming them into the House.
+      - title: Working together
+        text: Cooperation, shared experience and joint projects among members.
+      - title: Sales at home and abroad
+        text: Helping members sell their products in Iran and in other countries.
+      - title: Assessment
+        text: Drawing up a fair trade assessment checklist for members.
+  - heading: Structure
+  - paragraph: >-
+      <p>Under our governance document, the <b>General Assembly</b> of members is the highest decision-making body.
+      It elects the <b>Board</b>, the <b>Assembly Secretary</b> and an independent <b>Supervisory Commission</b>.
+      The <b>Executive Secretary and secretariat</b> run day-to-day work and coordinate the working groups on
+      education and promotion, market development, public relations, finance and sustainability, and documentation
+      and planning. The Supervisory Commission works independently of the Board and handles admission of members,
+      assessments and complaints.</p>
+      <p>All of this has so far been carried by our members' volunteer work. If you would like to join or work with
+      us, see the <a href="/en/membership/">Membership</a> page or write to us from the
+      <a href="/en/contact/">Contact</a> page.</p>

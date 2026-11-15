@@ -1,0 +1,140 @@
+# What is fair trade? The concept, the World Fair Trade Organization and fair trade in Iran.
+# Source: the booklet, sections 1, 2 and 4.1 (figures as given there; WFTO publishes current figures at wfto.com).
+key: fair-trade
+type: pages.StandardPage
+parent: home
+fa:
+  title: تجارت عادلانه چیست؟
+  slug: fair-trade
+  intro: مفهوم تجارت عادلانه، سازمان جهانی تجارت عادلانه و جایگاه ایران در این جنبش
+  body:
+  - paragraph: >-
+      <p>«تجارت منصفانه» و «تجارت عادلانه» هر دو ترجمه Fair Trade هستند. «تجارت منصفانه» بیشتر در اسناد
+      بین‌المللی و متون دانشگاهی دیده می‌شود، اما «تجارت عادلانه» بر عدالت، برابری فرصت‌ها و حقوق
+      تولیدکنندگان تأکید بیشتری دارد و برای مخاطب فارسی‌زبان روشن‌تر است؛ به همین دلیل ما این واژه را
+      برگزیده‌ایم.</p>
+      <p>تجارت عادلانه به دادوستد و کسب‌وکاری گفته می‌شود که بر پایه قیمت منصفانه برای تولیدکننده، شفافیت،
+      احترام به حقوق کارگران، پایداری محیط زیست و روابط تجاری بلندمدت و عادلانه استوار است.</p>
+  - heading: سازمان جهانی تجارت عادلانه (WFTO)
+  - paragraph: >-
+      <p>سازمان جهانی تجارت عادلانه انجمنی بین‌المللی از بنگاه‌های کوچک و متوسط پیشرو است که برای ساختن
+      اقتصادی عادلانه و پایدار شکل گرفته است. این سازمان از کارآفرینانی حمایت می‌کند که مدل‌های تجاری
+      اخلاقی را جایگزین الگوهای استثمارگرانه می‌کنند و می‌کوشد با ترویج توسعه پایدار، جنبه‌های اجتماعی و
+      زیست‌محیطی را در کنار رشد اقتصادی ببیند.</p>
+      <p>WFTO مهم‌ترین شبکه جهانی سازمان‌های تجارت عادلانه است و صدها سازمان تولیدی، بازاریابی، شبکه‌های ملی و
+      سازمان‌های حمایتی را در ده‌ها کشور گرد هم آورده است؛ از خوراکی و صنایع دستی تا پوشاک و محصولات آرایشی.
+      دبیرخانه جهانی آن در شهر کولمبرگ هلند است.</p>
+  - heading: از تجارت جایگزین تا سازمان جهانی
+  - paragraph: >-
+      <ul>
+      <li><b>دهه‌های ۱۹۴۰ تا ۱۹۶۰ میلادی؛ ریشه‌ها:</b> پس از جنگ جهانی دوم گروه‌های مذهبی، خیریه‌ها و فعالان توسعه
+      دریافتند کمک بشردوستانه به‌تنهایی فقر را کم نمی‌کند و تولیدکنندگان فقیر باید به بازار راه پیدا کنند. در ۱۹۵۸
+      نخستین فروشگاه رسمی محصولات تجارت عادلانه در آمریکا باز شد و در ۱۹۶۴ آکسفام بریتانیا فروش محصولات
+      تولیدکنندگان محروم را آغاز کرد.</li>
+      <li><b>دهه‌های ۱۹۷۰ و ۱۹۸۰؛ شکل‌گیری جنبش:</b> سازمان‌های تجارت عادلانه در اروپا، آمریکای شمالی، آسیا، آفریقا و
+      آمریکای لاتین زیاد شدند و با نشست‌های مشترک تجربه‌های خود را به اشتراک گذاشتند.</li>
+      <li><b>۱۹۸۹؛ فدراسیون بین‌المللی تجارت جایگزین (IFAT):</b> نمایندگان سازمان‌های تجارت جایگزین در هلند این
+      فدراسیون را بنیان گذاشتند؛ نخستین شبکه جهانی مستقل سازمان‌های تجارت عادلانه.</li>
+      <li><b>دهه ۱۹۹۰؛ گسترش همکاری‌ها:</b> با همکاری شبکه‌های اروپایی و سازمان برچسب‌گذاری تجارت عادلانه، ائتلاف
+      FINE در ۱۹۹۸ پدید آمد و استانداردهای مشترک برای اعضا تدوین شد.</li>
+      <li><b>از محصول به سازمان:</b> برخلاف نظام‌هایی که فقط یک محصول را گواهی می‌کنند، این فدراسیون کل سازمان را
+      ارزیابی می‌کرد؛ اعضا باید در همه کارشان به اصول پایبند باشند. این ویژگی هنوز مهم‌ترین تفاوت WFTO است.</li>
+      <li><b>۲۰۰۸؛ تغییر نام:</b> IFAT به «سازمان جهانی تجارت عادلانه» (WFTO) تغییر نام داد.</li>
+      <li><b>۲۰۱۱؛ نظام تضمین:</b> در مجمع عمومی مومباسا (کنیا) نظامی رسمی برای ارزیابی پایبندی اعضا به ده اصل بر سه
+      پایه ساخته شد: خودارزیابی، ارزیابی همتایان و ارزیابی مستقل بیرونی؛ با هدف بهبود مستمر، نه فقط کنترل.</li>
+      <li><b>امروز:</b> WFTO با اصل «یک عضو، یک رأی»، شبکه‌های منطقه‌ای در آفریقا، آسیا، اروپا، آمریکای لاتین و
+      اقیانوسیه دارد و بیشتر اعضایش تعاونی‌ها، سازمان‌های زنان، گروه‌های صنایع دستی و کسب‌وکارهای اجتماعی‌اند.</li>
+      </ul>
+  - heading: سازمان جهانی و سازمان بین‌المللی تجارت عادلانه
+  - paragraph: >-
+      <p>در فارسی دو نهاد متفاوت اغلب با یک نام خوانده می‌شوند. <b>سازمان بین‌المللی تجارت عادلانه</b>
+      (Fairtrade International) برای محصولات خاصی مانند قهوه، موز و کاکائو استاندارد تعیین می‌کند و به محصولی
+      که آن را رعایت کند برچسب Fairtrade می‌دهد. <b>سازمان جهانی تجارت عادلانه</b> (WFTO) کل سازمان و مدل
+      کسب‌وکار آن را می‌سنجد، نه فقط یک محصول را. این دو نهاد در شبکه جهانی تجارت عادلانه با هم همکاری
+      نزدیک دارند. اصول ده‌گانه خانه تجارت عادلانه ایران همان اصول WFTO است.</p>
+  - heading: تجارت عادلانه در ایران
+  - paragraph: >-
+      <p>جنبش تجارت عادلانه در ایران هنوز به شکل رسمی و گسترده نهادینه نشده و سابقه آن بیشتر به فعالیت‌های
+      پراکنده در صنایع دستی، تعاونی‌ها، توانمندسازی زنان و توسعه روستایی محدود بوده است. با این حال برخی
+      ارزش‌های تجارت عادلانه در سنت اقتصادی ایران ریشه‌ای دیرینه دارند: نظام‌های صنفی و پیشه‌وری شهرهای تاریخی،
+      تعاونی‌های تولید و توزیع روستایی، بازارهای محلی متکی بر اعتماد و اعتبار، و حمایت از تولیدکنندگان خرد
+      مانند قالیبافان، سفالگران، سوزن‌دوزان و بافندگان.</p>
+      <p>از دهه ۱۳۶۰ تعاونی‌های روستایی، زنان و صنایع دستی گسترش یافتند و هدف‌هایی نزدیک به تجارت عادلانه
+      داشتند: کاهش واسطه‌ها، سهم بیشتر تولیدکننده از ارزش محصول، اشتغال زنان و مناطق محروم و حفظ مهارت‌های
+      بومی. از دهه ۱۳۸۰، با ارتباط سازمان‌های مردم‌نهاد ایرانی با شبکه‌های بین‌المللی، خود مفهوم تجارت عادلانه
+      وارد ادبیات توسعه در ایران شد و در دهه ۱۴۰۰، با رشد کسب‌وکارهای اجتماعی و برندهای صنایع دستی، به
+      قیمت‌گذاری منصفانه، روایت‌گری محصولات محلی، شفافیت زنجیره تأمین و شبکه‌های تولیدکنندگان زن توجه بیشتری شد.</p>
+      <p>ایران تاکنون حضور بسیار محدودی در WFTO داشته است. در سال‌های گذشته یک تعاونی زعفران در تربت حیدریه و
+      گروه پاپیتال کار با سازمان جهانی تجارت عادلانه را آغاز کردند و گروه «دستادست» نیز در ترویج تجارت عادلانه
+      فعال بود. شکل‌گیری خانه تجارت عادلانه ایران را می‌توان از نخستین تلاش‌های جدی برای ساختن یک شبکه ملی
+      تجارت عادلانه دانست؛ جایی که برای نخستین بار ده اصل تجارت عادلانه به‌طور منسجم در یک شبکه ملی ترویج و
+      نهادینه می‌شود.</p>
+en:
+  title: What is fair trade?
+  slug: fair-trade
+  intro: The idea of fair trade, the World Fair Trade Organization, and where Iran stands
+  body:
+  - paragraph: >-
+      <p>In Persian, Fair Trade is translated both as «تجارت منصفانه» and as «تجارت عادلانه». The first is common in
+      international documents and academic texts; the second, which we use, puts more weight on justice, equal
+      opportunity and producers' rights, and is clearer to Persian readers.</p>
+      <p>Fair trade means trade and business built on a fair price for the producer, transparency, respect for
+      workers' rights, environmental sustainability and long-term, fair trading relationships.</p>
+  - heading: The World Fair Trade Organization (WFTO)
+  - paragraph: >-
+      <p>The World Fair Trade Organization is an international community of pioneering small and medium-sized
+      enterprises working for a fair and sustainable economy. It supports entrepreneurs who replace exploitative
+      business models with ethical ones, and promotes sustainable development that weighs social and environmental
+      concerns alongside economic growth.</p>
+      <p>WFTO is the main global network of fair trade organisations, bringing together hundreds of producers,
+      marketing organisations, national networks and support organisations in dozens of countries, in sectors from
+      food and handicrafts to clothing and cosmetics. Its global secretariat is in Culemborg, the Netherlands.</p>
+  - heading: From alternative trade to a world organisation
+  - paragraph: >-
+      <ul>
+      <li><b>1940s to 1960s, the roots:</b> after the Second World War, faith groups, charities and development
+      workers realised that aid alone would not end poverty: poor producers needed access to markets. The first
+      fair trade shop opened in the United States in 1958, and in 1964 Oxfam in Britain began selling products made
+      by disadvantaged producers.</li>
+      <li><b>1970s and 1980s, a movement forms:</b> fair trade organisations multiplied in Europe, North America, Asia,
+      Africa and Latin America and began meeting to share experience.</li>
+      <li><b>1989, IFAT:</b> alternative trade organisations met in the Netherlands and founded the International
+      Federation for Alternative Trade, the first independent global network of fair trade organisations.</li>
+      <li><b>1990s, wider cooperation:</b> together with European networks and the fair trade labelling organisation,
+      the FINE alliance was formed in 1998, and common standards for members were drawn up.</li>
+      <li><b>From product to organisation:</b> unlike schemes that certify a single product, the federation assessed
+      the whole organisation: members had to follow the principles in everything they did. This is still WFTO's
+      defining feature.</li>
+      <li><b>2008, a new name:</b> IFAT became the World Fair Trade Organization (WFTO).</li>
+      <li><b>2011, a guarantee system:</b> at its General Assembly in Mombasa, Kenya, WFTO set up a formal system for
+      checking members' compliance with the ten principles, resting on self-assessment, peer review and independent
+      external audit, aimed at continuous improvement rather than control alone.</li>
+      <li><b>Today:</b> WFTO keeps the rule of "one member, one vote", has regional networks in Africa, Asia, Europe,
+      Latin America and the Pacific, and most of its members are cooperatives, women's organisations, craft groups
+      and social enterprises.</li>
+      </ul>
+  - heading: WFTO and Fairtrade International
+  - paragraph: >-
+      <p>Two different bodies are often given the same name in Persian. <b>Fairtrade International</b> sets standards
+      for particular products, such as coffee, bananas and cocoa, and lets products that meet them carry the Fairtrade
+      label. The <b>World Fair Trade Organization</b> assesses the whole organisation and its business model, not a
+      single product. The two work closely together in the global fair trade movement. The ten principles of the Fair
+      Trade House of Iran are WFTO's principles.</p>
+  - heading: Fair trade in Iran
+  - paragraph: >-
+      <p>The fair trade movement has not yet been formally established in Iran on a large scale; its history has
+      mostly been scattered work in handicrafts, cooperatives, women's empowerment and rural development. Yet some of
+      its values have deep roots in Iran's economic traditions: the guilds and crafts of historic cities, rural
+      production and distribution cooperatives, local bazaars built on trust and reputation, and support for small
+      producers such as carpet weavers, potters, embroiderers and weavers.</p>
+      <p>From the 1980s, rural, women's and handicraft cooperatives grew, with aims close to fair trade: fewer
+      middlemen, a larger share of value for producers, jobs for women and deprived areas, and the preservation of
+      local skills. From the 2000s, as Iranian NGOs connected with international networks, the idea of fair trade
+      itself entered Iran's development vocabulary, and in the 2020s, with the growth of social enterprises and craft
+      brands, fair pricing, storytelling around local products, supply-chain transparency and networks of women
+      producers gained more attention.</p>
+      <p>Iran has so far had a very limited presence in WFTO. In recent years a saffron cooperative in Torbat-e
+      Heydarieh and the Papital group began working with WFTO, and the Dastadast group was active in promoting fair
+      trade. The Fair Trade House of Iran can be seen as one of the first serious efforts to build a national fair
+      trade network: for the first time, the ten principles are being promoted and embedded consistently through a
+      national network.</p>

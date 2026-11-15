@@ -1,10 +1,12 @@
 """
-Load the starting content of the site: languages, home pages, About and
-Ten Principles pages (Persian and English), logos and site settings, user
-groups, and document collections with their privacy rules.
+Load the starting content of the site: languages, home pages, user groups,
+document collections with their privacy rules, logos, and then everything in
+the content package (`content/` folder: pages in Persian and English, members,
+form questions, e-mails, SMS texts and settings; see content/README-fa.md).
 
 Safe to run more than once: anything that already exists is left alone,
-so edits made in the admin panel are never overwritten.
+so edits made in the admin panel are never overwritten. To replace texts with
+the package's, use `python manage.py import_content --update`.
 
     python manage.py seed_content
 """
@@ -20,49 +22,43 @@ from django.db import transaction
 from wagtail.images.models import Image
 from wagtail.models import Collection, CollectionViewRestriction, Locale, Page, Site
 
-from archive.models import DocumentsPage, DocumentsSection
-from contact.models import ComplaintPage, ContactFormField, ContactPage
 from core.models import MembershipSettings, SiteSettings
+from home.content_import import Importer, fresh
+from home.content_package import ContentPackage
 from home.models import HomePage
-from news.models import NewsIndexPage, NewsPage
 from members.seed import seed_directory
-from pages.models import Principle, PrinciplesPage, StandardPage
 from sms.seed import ensure_sms_templates
 from wholesale.seed import ensure_wholesale
 
 from . import seed_data as data
 
 
-def fresh(page):
-    """Reload a page so treebeard's child counters are current before adding or copying."""
-    return type(page).objects.get(pk=page.pk)
-
-
 class Command(BaseCommand):
     help = "Load starting content (idempotent)."
 
+    def add_arguments(self, parser):
+        parser.add_argument("--content", help="Content package folder or .zip (default: the content/ folder)")
+
     @transaction.atomic
     def handle(self, *args, **options):
+        self.seed(ContentPackage(options.get("content")), update=False)
+        self.stdout.write(self.style.SUCCESS("Starting content is in place."))
+
+    def seed(self, package, update=False):
+        """Everything seed_content does; import_content calls this with update=True. Returns the report."""
+        self.package = package
         fa, en = self.ensure_locales()
         home_fa, home_en = self.ensure_home_pages(fa, en)
-        about_fa, about_en = self.ensure_page(home_fa, home_en, StandardPage, data.ABOUT, order_hint="about")
-        for home, about in ((fresh(home_fa), about_fa), (fresh(home_en), about_en)):
-            if home.hero_cta_page_id is None:
-                home.hero_cta_page = about
-                home.save_revision().publish()
-        self.ensure_principles(home_fa, home_en)
-        self.ensure_settings()
-        self.ensure_legal_pages(home_fa, home_en)
+        self.ensure_logos()
         self.ensure_groups_and_collections()
         self.ensure_editorial_workflow(home_fa, home_en)
-        self.ensure_news(home_fa, home_en)
-        self.ensure_documents_page(home_fa, home_en)
-        self.ensure_contact_pages(home_fa, home_en)
-        seed_directory(self, home_fa, home_en)
-        self.ensure_membership(home_fa, home_en)
-        ensure_wholesale(self, home_fa, home_en)
+        report = Importer(package, update=update, stdout=self.stdout).run(fresh(home_fa), fresh(home_en))
+        MembershipSettings.load()
+        seed_directory(self)
+        self.ensure_membership()
+        ensure_wholesale(self)
         ensure_sms_templates(self.stdout)
-        self.stdout.write(self.style.SUCCESS("Starting content is in place."))
+        return report
 
     # ---- languages and home pages ----
 
@@ -70,6 +66,9 @@ class Command(BaseCommand):
         fa, _ = Locale.objects.get_or_create(language_code="fa")
         en, _ = Locale.objects.get_or_create(language_code="en")
         return fa, en
+
+    def package_values(self, page, lang):
+        Importer(self.package)._apply(page, self.package.page("home"), lang)
 
     def ensure_home_pages(self, fa, en):
         root = Page.get_first_root_node()
@@ -87,7 +86,8 @@ class Command(BaseCommand):
                         site.save()
                     child.delete()
             root = Page.objects.get(pk=root.pk)  # refresh tree counters after the delete
-            home_fa = HomePage(locale=fa, **data.HOME["fa"])
+            home_fa = HomePage(locale=fa)
+            self.package_values(home_fa, "fa")
             root.add_child(instance=home_fa)
             home_fa.save_revision().publish()
             self.stdout.write("Created Persian home page")
@@ -112,49 +112,14 @@ class Command(BaseCommand):
         if home_en is None:
             home_en = home_fa.copy_for_translation(en)
             home_en = home_en.specific
-            for field, value in data.HOME["en"].items():
-                setattr(home_en, field, value)
+            self.package_values(home_en, "en")
             home_en.save_revision().publish()
             self.stdout.write("Created English home page")
         return home_fa, home_en.specific
 
-    def ensure_page(self, home_fa, home_en, model, content, order_hint="", in_menu=True):
-        page_fa = model.objects.filter(locale=home_fa.locale, slug=content["fa"]["slug"]).first()
-        if page_fa is None:
-            page_fa = model(show_in_menus=in_menu, **content["fa"])
-            fresh(home_fa).add_child(instance=page_fa)
-            page_fa.save_revision().publish()
-            self.stdout.write(f"Created {order_hint} page (fa)")
-        page_fa = fresh(page_fa)
-        page_en = page_fa.get_translation_or_none(home_en.locale)
-        if page_en is None:
-            page_en = page_fa.copy_for_translation(home_en.locale).specific
-            for field, value in content["en"].items():
-                setattr(page_en, field, value)
-            page_en.save_revision().publish()
-            self.stdout.write(f"Created {order_hint} page (en)")
-        return page_fa, page_en
-
-    def ensure_principles(self, home_fa, home_en):
-        page_fa = PrinciplesPage.objects.filter(locale=home_fa.locale).first()
-        if page_fa is None:
-            page_fa = PrinciplesPage(show_in_menus=True, **data.PRINCIPLES_PAGE["fa"])
-            page_fa.principles = [Principle(title=t, description=d, sort_order=i) for i, (t, d) in enumerate(data.PRINCIPLES_FA)]
-            fresh(home_fa).add_child(instance=page_fa)
-            page_fa.save_revision().publish()
-            self.stdout.write("Created principles page (fa)")
-        page_fa = fresh(page_fa)
-        if page_fa.get_translation_or_none(home_en.locale) is None:
-            page_en = page_fa.copy_for_translation(home_en.locale).specific
-            for field, value in data.PRINCIPLES_PAGE["en"].items():
-                setattr(page_en, field, value)
-            page_en.principles = [Principle(title=t, description=d, sort_order=i) for i, (t, d) in enumerate(data.PRINCIPLES_EN)]
-            page_en.save_revision().publish()
-            self.stdout.write("Created principles page (en)")
-
     # ---- settings and logos ----
 
-    def ensure_settings(self):
+    def ensure_logos(self):
         site_settings = SiteSettings.load()
         changed = False
         if site_settings.logo_id is None:
@@ -162,26 +127,6 @@ class Command(BaseCommand):
             changed = True
         if site_settings.logo_light_id is None:
             site_settings.logo_light = self.load_image("logo-white.png", "لوگو - نسخه روشن")
-            changed = True
-        for field, value in data.SITE_SETTINGS.items():
-            if not getattr(site_settings, field):
-                setattr(site_settings, field, value)
-                changed = True
-        if changed:
-            site_settings.save()
-        MembershipSettings.load()
-
-    def ensure_legal_pages(self, home_fa, home_en):
-        """Privacy, terms and returns pages (outside the menu), linked from SiteSettings unless staff chose others."""
-        site_settings = SiteSettings.load()
-        changed = False
-        for field, content in (("privacy_page", data.PRIVACY), ("terms_page", data.TERMS),
-                               ("returns_page", data.RETURNS)):
-            if getattr(site_settings, f"{field}_id") is not None:
-                continue
-            page_fa, _ = self.ensure_page(fresh(home_fa), fresh(home_en), StandardPage, content,
-                                          order_hint=content["fa"]["slug"], in_menu=False)
-            setattr(site_settings, field, page_fa)
             changed = True
         if changed:
             site_settings.save()
@@ -198,10 +143,10 @@ class Command(BaseCommand):
 
     # ---- membership (page, form questions, e-mails, permissions) ----
 
-    def ensure_membership(self, home_fa, home_en):
+    def ensure_membership(self):
         from membership.seed import ensure_membership, ensure_permissions
 
-        ensure_membership(home_fa, home_en, self.stdout, fresh=fresh)
+        ensure_membership(self.stdout)
         ensure_permissions(*(Group.objects.filter(name=n).first()
                              for n in (data.SECRETARIAT, data.COMMISSION, data.BOARD)))
 
@@ -305,80 +250,3 @@ class Command(BaseCommand):
             # An admin may later pick another workflow for a page; keep that choice.
             if not WorkflowPage.objects.filter(page=home).exists():
                 WorkflowPage.objects.create(page=home, workflow=workflow)
-
-    # ---- news, documents, contact ----
-
-    def ensure_translation(self, page_fa, locale_en, values, label):
-        """English copy of a Persian page, with the given fields replaced."""
-        page_fa = fresh(page_fa)
-        page_en = page_fa.get_translation_or_none(locale_en)
-        if page_en is not None:
-            return page_en.specific
-        page_en = page_fa.copy_for_translation(locale_en).specific
-        for field, value in values.items():
-            setattr(page_en, field, value)
-        page_en.save_revision().publish()
-        self.stdout.write(f"Created {label} (en)")
-        return page_en
-
-    def ensure_news(self, home_fa, home_en):
-        index_fa, index_en = self.ensure_page(home_fa, home_en, NewsIndexPage, data.NEWS_INDEX, order_hint="news")
-        item = NewsPage.objects.filter(locale=home_fa.locale, slug=data.FIRST_NEWS["fa"]["slug"]).first()
-        if item is None and not NewsPage.objects.exists():
-            item = NewsPage(**data.FIRST_NEWS["fa"])
-            fresh(index_fa).add_child(instance=item)
-            item.save_revision().publish()
-            self.stdout.write("Created first news item (fa)")
-        if item is not None:
-            self.ensure_translation(item, home_en.locale, data.FIRST_NEWS["en"], "first news item")
-
-    def ensure_documents_page(self, home_fa, home_en):
-        page_fa = DocumentsPage.objects.filter(locale=home_fa.locale).first()
-        if page_fa is None:
-            page_fa = DocumentsPage(show_in_menus=True, **data.DOCUMENTS_PAGE["fa"])
-            page_fa.sections = self.document_sections(lang=0)
-            fresh(home_fa).add_child(instance=page_fa)
-            page_fa.save_revision().publish()
-            self.stdout.write("Created documents page (fa)")
-        values = dict(data.DOCUMENTS_PAGE["en"], sections=self.document_sections(lang=1))
-        self.ensure_translation(page_fa, home_en.locale, values, "documents page")
-
-    def document_sections(self, lang):
-        root = Collection.get_first_root_node()
-        sections = []
-        for name, heading_fa, heading_en, desc_fa, desc_en, show_locked in data.DOCUMENT_SECTIONS:
-            collection = root.get_children().filter(name=name).first()
-            if collection is None:
-                continue
-            sections.append(DocumentsSection(
-                collection=collection,
-                heading=(heading_fa, heading_en)[lang],
-                description=(desc_fa, desc_en)[lang],
-                show_when_locked=show_locked,
-            ))
-        return sections
-
-    def ensure_contact_pages(self, home_fa, home_en):
-        complaint_fa = ComplaintPage.objects.filter(locale=home_fa.locale).first()
-        if complaint_fa is None:
-            complaint_fa = ComplaintPage(show_in_menus=False, **data.COMPLAINT_PAGE["fa"])
-            fresh(home_fa).add_child(instance=complaint_fa)
-            complaint_fa.save_revision().publish()
-            self.stdout.write("Created complaint page (fa)")
-        complaint_en = self.ensure_translation(complaint_fa, home_en.locale, data.COMPLAINT_PAGE["en"], "complaint page")
-
-        contact_fa = ContactPage.objects.filter(locale=home_fa.locale).first()
-        if contact_fa is None:
-            contact_fa = ContactPage(show_in_menus=True, complaint_page=complaint_fa, **data.CONTACT_PAGE["fa"])
-            contact_fa.form_fields = self.contact_fields(lang=0)
-            fresh(home_fa).add_child(instance=contact_fa)
-            contact_fa.save_revision().publish()
-            self.stdout.write("Created contact page (fa)")
-        values = dict(data.CONTACT_PAGE["en"], complaint_page=complaint_en, form_fields=self.contact_fields(lang=1))
-        self.ensure_translation(contact_fa, home_en.locale, values, "contact page")
-
-    def contact_fields(self, lang):
-        return [
-            ContactFormField(label=(label_fa, label_en)[lang], field_type=field_type, required=required)
-            for label_fa, label_en, field_type, required in data.CONTACT_FIELDS
-        ]

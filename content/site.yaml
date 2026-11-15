@@ -1,0 +1,54 @@
+# Site-wide texts. Each block is one settings page of the admin panel
+# (تنظیمات); field names are those of the model. Logos, bank accounts,
+# fees and technical settings are not here: set them in the admin panel.
+#
+# On a normal import a value is only filled in if the field is still empty
+# (or still has its built-in default). With --update it replaces what is there.
+settings:
+  core.SiteSettings:
+    site_name: خانه تجارت عادلانه ایران
+    site_name_en: Fair Trade House of Iran
+    tagline: شبکه ملی ترویج تجارت عادلانه
+    tagline_en: A national network for fair trade
+    footer_text: >-
+      خانه تجارت عادلانه ایران؛ شبکه‌ای از تولیدکنندگان، نهادها و حامیانی که به اصول ده‌گانه تجارت
+      عادلانه پایبندند.
+    footer_text_en: >-
+      The Fair Trade House of Iran: a network of producers, organisations and supporters committed to the
+      ten principles of fair trade.
+    # Public contact details, from the House's catalogue (Catalog 2).
+    email: fairtradeiran@gmail.com
+    instagram_url: https://www.instagram.com/fairtradeiran/
+    telegram_url: https://t.me/fairtradeiran
+
+  core.SeoSettings:
+    default_description: >-
+      خانه تجارت عادلانه ایران؛ شبکه ملی تولیدکنندگان، صنعتگران و نهادهایی که به اصول ده‌گانه تجارت عادلانه
+      پایبندند. معرفی اعضا، فروشگاه محصولات دست‌ساز، اخبار و عضویت.
+    default_description_en: >-
+      The Fair Trade House of Iran: a national network of producers, artisans and organisations committed to the
+      ten principles of fair trade. Members, handmade products, news and membership.
+
+  core.PwaSettings:
+    description: محصولات دست‌ساز اعضا، اخبار و عضویت در خانه تجارت عادلانه ایران
+    description_en: Handmade products by our members, news and membership of the Fair Trade House of Iran
+
+  core.MembershipSettings:
+    certificate_text: >-
+      بدین‌وسیله گواهی می‌شود {name} پس از طی مراحل پذیرش و دوره آزمایشی، در گروه «{type}» به عضویت رسمی
+      خانه تجارت عادلانه ایران درآمده و به رعایت اصول ده‌گانه تجارت عادلانه متعهد است.
+    certificate_text_en: >-
+      This is to certify that {name}, having completed the admission process and trial period, is a full member
+      of the Fair Trade House of Iran in the group "{type}" and is committed to the ten principles of fair trade.
+
+  members.DirectorySettings:
+    home_title: اعضای خانه
+    home_title_en: Our members
+    home_text: تولیدکنندگان و نهادهایی که خانه تجارت عادلانه ایران را بنیان گذاشتند و با آن کار می‌کنند.
+    home_text_en: The producers and organisations who founded the Fair Trade House of Iran and work with it.
+
+  products.ShopSettings:
+    home_title: محصولات اعضا
+    home_title_en: Members' products
+    home_text: دست‌ساز، با دستمزد منصفانه و احترام به طبیعت؛ هر خرید مستقیم از تولیدکننده‌ای عضو خانه است.
+    home_text_en: Handmade, fairly paid and kind to nature; every purchase comes straight from a member producer.

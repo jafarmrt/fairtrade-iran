@@ -1,0 +1,123 @@
+# The ten principles of fair trade (WFTO). Each principle: title and description;
+# a line break in the description starts a new line on the page (used for the practical example).
+# Source: the booklet, section 3.
+key: principles
+type: pages.PrinciplesPage
+parent: home
+fa:
+  title: اصول ده‌گانه
+  slug: principles
+  intro: >-
+    <p>تجارت عادلانه رویکردی اقتصادی و اجتماعی است که هدفش عدالت بیشتر در تجارت، حمایت از تولیدکنندگان کوچک و
+    ترویج توسعه پایدار است. سازمان جهانی تجارت عادلانه (WFTO) این رویکرد را در ده اصل تعریف کرده است. همه اعضای
+    خانه به رعایت این اصول متعهد می‌شوند و کمیسیون نظارتی بر اجرای آن‌ها نظارت می‌کند.</p>
+  principles:
+  - title: ایجاد فرصت برای تولیدکنندگان محروم
+    description: |-
+      سازمان‌های تجارت عادلانه برای کسانی فرصت اقتصادی می‌سازند که به‌دلیل فقر، موقعیت جغرافیایی، جنسیت یا شرایط اجتماعی از دسترسی عادلانه به بازار محروم مانده‌اند، تا با فعالیت اقتصادی پایدار زندگی خود و خانواده‌شان را بهتر کنند.
+      نمونه عملی: خرید مستقیم از زنان سوزن‌دوز روستایی یا گروه‌های تولیدی کوچک به‌جای واسطه‌های متعدد.
+  - title: شفافیت و پاسخگویی
+    description: |-
+      تصمیم‌گیری، مدیریت مالی، قیمت‌گذاری و گزارش‌دهی شفاف است و اعضا، تولیدکنندگان و دیگر ذی‌نفعان به اطلاعات عملکرد سازمان دسترسی دارند.
+      نمونه عملی: ارائه گزارش مالی سالانه به اعضا و مشارکت دادن تولیدکنندگان در تصمیم‌های مهم.
+  - title: رویه‌های تجاری منصفانه
+    description: |-
+      روابط تجاری بر پایه احترام، اعتماد، گفت‌وگو و همکاری بلندمدت است؛ هیچ طرفی از موقعیت برتر خود برای فشار بر تولیدکننده استفاده نمی‌کند و در شرایط دشوار تا جای ممکن از شریک تولیدی حمایت می‌شود.
+      نمونه عملی: پیش‌پرداخت بخشی از هزینه سفارش برای کمک به تأمین مواد اولیه.
+  - title: پرداخت منصفانه
+    description: |-
+      قیمت منصفانه با گفت‌وگو و توافق دو طرف تعیین می‌شود و هزینه واقعی تولید، دستمزد منصفانه، توسعه کسب‌وکار و زندگی شرافتمندانه تولیدکننده را پوشش می‌دهد؛ هدف «ارزان خریدن» نیست، بلکه تقسیم عادلانه ارزش در زنجیره تأمین است.
+      نمونه عملی: پرداخت مبلغی که افزون بر مواد اولیه و دستمزد، سرمایه‌گذاری دوباره در کار را هم ممکن کند.
+  - title: منع کار کودک و کار اجباری
+    description: |-
+      هیچ کار اجباری، برده‌داری نوین یا بهره‌کشی از کودکان پذیرفته نیست و از حق کودکان برای تحصیل، رشد و زندگی سالم حمایت می‌شود. مشارکت خانوادگی کودکان در کارهای سنتی ممنوع نیست، اما هر کاری که به سلامت، آموزش یا رشد کودک آسیب بزند ممنوع است.
+      نمونه عملی: اطمینان از اینکه کودکان خانواده‌های تولیدکننده به مدرسه می‌روند و در شرایط استثماری کار نمی‌کنند.
+  - title: عدم تبعیض، برابری جنسیتی و آزادی تشکل
+    description: |-
+      همه، صرف‌نظر از جنسیت، قومیت، مذهب، سن یا معلولیت، فرصت و حقوق برابر دارند و کارکنان و تولیدکنندگان حق تشکیل یا عضویت در تشکل‌ها و انجمن‌های صنفی را دارند. این اصل به‌ویژه بر توانمندسازی زنان و مشارکت آنان در تصمیم‌گیری تأکید دارد.
+      نمونه عملی: حضور زنان در هیئت مدیره تعاونی‌ها و دستمزد برابر برای کار برابر.
+  - title: شرایط کاری ایمن و مناسب
+    description: |-
+      محیط کار ایمن، سالم و درخور شأن انسانی است؛ از سلامت جسمی و روانی کارکنان و تولیدکنندگان محافظت و خطرهای محیط کار به کمترین اندازه رسانده می‌شود.
+      نمونه عملی: تجهیزات ایمنی و بهداشتی، نور و تهویه مناسب در کارگاه‌های صنایع دستی.
+  - title: ظرفیت‌سازی
+    description: |-
+      تجارت عادلانه فقط خرید و فروش نیست؛ سازمان‌ها برای مهارت، دانش فنی، مدیریت کسب‌وکار و دسترسی تولیدکنندگان به بازار سرمایه‌گذاری می‌کنند تا آنان در بلندمدت مستقل‌تر و توانمندتر شوند.
+      نمونه عملی: آموزش طراحی محصول، بازاریابی، بسته‌بندی، برندسازی و فروش آنلاین.
+  - title: ترویج تجارت عادلانه
+    description: |-
+      اعضا آگاهی عمومی را درباره عدالت در تجارت، مصرف مسئولانه و شرایط تولیدکنندگان بالا می‌برند تا خریدار بداند محصولی که می‌خرد چگونه و به دست چه کسانی ساخته شده است.
+      نمونه عملی: برگزاری نمایشگاه، کمپین‌های آموزشی و روایت داستان تولیدکنندگان برای مشتریان.
+  - title: احترام به محیط زیست
+    description: |-
+      اثرات زیست‌محیطی کار کاهش می‌یابد و از منابع طبیعی مسئولانه استفاده می‌شود: کاهش ضایعات، مواد اولیه پایدار و مدیریت مصرف آب و انرژی.
+      نمونه عملی: رنگ‌های طبیعی، بسته‌بندی بازیافت‌پذیر و مواد اولیه محلی و پایدار.
+  outro: >-
+    <h2>چهار هدف کلان</h2>
+    <p>این ده اصل را می‌توان در چهار هدف کلان خلاصه کرد:</p>
+    <ul>
+    <li><b>عدالت اقتصادی:</b> قیمت منصفانه، فرصت‌های برابر و روابط تجاری عادلانه.</li>
+    <li><b>عدالت اجتماعی:</b> حقوق کار، برابری جنسیتی، عدم تبعیض و توانمندسازی.</li>
+    <li><b>حکمرانی خوب:</b> شفافیت، پاسخگویی و مشارکت ذی‌نفعان.</li>
+    <li><b>پایداری زیست‌محیطی:</b> حفاظت از طبیعت و استفاده مسئولانه از منابع.</li>
+    </ul>
+    <p>برای خانه تجارت عادلانه ایران این اصول مبنای ارزیابی اعضا، شرایط عضویت، آموزش تولیدکنندگان و نظام تضمین داخلی است.</p>
+en:
+  title: The ten principles
+  slug: principles
+  intro: >-
+    <p>Fair trade is an economic and social approach that seeks greater justice in trade, supports small producers
+    and promotes sustainable development. The World Fair Trade Organization (WFTO) defines it in ten principles.
+    Every member of the House commits to them, and the Supervisory Commission monitors how they are applied.</p>
+  principles:
+  - title: Creating opportunities for economically disadvantaged producers
+    description: |-
+      Fair trade organisations create economic opportunities for people kept from fair access to markets by poverty, geography, gender or social circumstances, so that sustainable work can improve their lives and their families'.
+      In practice: buying directly from rural women embroiderers or small producer groups instead of through a chain of middlemen.
+  - title: Transparency and accountability
+    description: |-
+      Decisions, finances, pricing and reporting are transparent, and members, producers and other stakeholders can see how the organisation performs.
+      In practice: an annual financial report to members, and producers taking part in important decisions.
+  - title: Fair trading practices
+    description: |-
+      Trade is built on respect, trust, dialogue and long-term partnership. No one uses a stronger position to pressure producers, and partners are supported as far as possible when times are hard.
+      In practice: paying part of an order in advance to help producers buy raw materials.
+  - title: Fair payment
+    description: |-
+      A fair price is agreed through dialogue and covers the real cost of production, fair wages, business development and a dignified living. The aim is not to buy cheap but to share value fairly along the supply chain.
+      In practice: paying enough to cover materials and labour and still leave room to reinvest in the business.
+  - title: No child labour and no forced labour
+    description: |-
+      There is no forced labour, modern slavery or exploitation of children, and children's right to education, growth and a healthy life is protected. Children helping their families in traditional work is not banned, but any work that harms a child's health, schooling or development is.
+      In practice: making sure the children of producer families go to school and are never in exploitative work.
+  - title: Non-discrimination, gender equity and freedom of association
+    description: |-
+      Everyone has equal opportunities and rights whatever their gender, ethnicity, religion, age or disability, and workers and producers may form or join unions and associations. Women's empowerment and their part in decision-making are given particular weight.
+      In practice: women on the boards of cooperatives, and equal pay for equal work.
+  - title: Good working conditions
+    description: |-
+      The workplace is safe, healthy and respectful of human dignity. The physical and mental health of workers and producers is protected and workplace risks are kept to a minimum.
+      In practice: safety and hygiene equipment, good light and ventilation in craft workshops.
+  - title: Capacity building
+    description: |-
+      Fair trade is more than buying and selling. Organisations invest in producers' skills, technical knowledge, business management and market access, so that over time they become more independent and capable.
+      In practice: training in product design, marketing, packaging, branding and online sales.
+  - title: Promoting fair trade
+    description: |-
+      Members raise public awareness of justice in trade, responsible consumption and producers' conditions, so that buyers know how, and by whom, what they buy was made.
+      In practice: exhibitions, awareness campaigns and telling producers' stories to customers.
+  - title: Respect for the environment
+    description: |-
+      The environmental impact of the work is reduced and natural resources are used responsibly: less waste, sustainable materials, and careful use of water and energy.
+      In practice: natural dyes, recyclable packaging and local, sustainable raw materials.
+  outro: >-
+    <h2>Four overall goals</h2>
+    <p>The ten principles can be summed up in four goals:</p>
+    <ul>
+    <li><b>Economic justice:</b> fair prices, equal opportunities and fair trading relations.</li>
+    <li><b>Social justice:</b> labour rights, gender equity, non-discrimination and empowerment.</li>
+    <li><b>Good governance:</b> transparency, accountability and stakeholder participation.</li>
+    <li><b>Environmental sustainability:</b> protecting nature and using resources responsibly.</li>
+    </ul>
+    <p>For the Fair Trade House of Iran, these principles are the basis for assessing members, setting membership
+    conditions, training producers and running our internal guarantee system.</p>

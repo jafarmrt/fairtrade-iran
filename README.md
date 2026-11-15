@@ -21,6 +21,18 @@ python manage.py runserver
 
 `seed_content` is safe to run again: it only creates what is missing and never overwrites edits made in the admin panel.
 
+## Content package (texts of the site)
+
+All texts of the site, in Persian and English, are kept apart from the code in [`content/`](content/README-fa.md) as YAML: pages, founding members, membership form questions, e-mail and SMS texts, and text settings. `seed_content` loads what is missing from it; to load a reviewed set of texts in one go, replacing the current ones:
+
+```bash
+python manage.py import_content --update --dry-run   # preview, saves nothing
+python manage.py import_content --update
+python manage.py import_content --check              # phrases that must no longer appear (content/checks.yaml)
+```
+
+Superusers can do the same from the admin panel: Settings › «درون‌ریزی محتوا» (with an optional .zip of the folder). Instructions and how to check the result: [content/README-fa.md](content/README-fa.md).
+
 ## Run tests
 
 ```bash
@@ -69,7 +81,8 @@ Pages (home, about, principles, and later news, members, shop) are edited under 
 | --- | --- |
 | `fairtrade/` | Settings, URLs, base templates, CSS, fonts, default logos |
 | `core/` | Site and membership settings, shared StreamField blocks, `tr` template tag for bilingual fields |
-| `home/` | Home page model and the `seed_content` command |
+| `home/` | Home page model, the `seed_content` and `import_content` commands, the content package reader (`content_package.py`) and importer (`content_import.py`) |
+| `content/` | The bilingual texts of the site (YAML), see [content/README-fa.md](content/README-fa.md) |
 | `pages/` | General content page and the Ten Principles page |
 | `search/` | Site search, limited to the current language |
 | `membership/` | Membership page, application forms, tracking, secretariat/commission workflow, certificates |

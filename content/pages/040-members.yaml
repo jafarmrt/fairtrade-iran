@@ -1,0 +1,15 @@
+key: members
+type: members.MemberIndexPage
+parent: home
+fa:
+  title: اعضا
+  slug: members
+  intro: >-
+    <p>تولیدکنندگان، نهادها و حامیانی که به اصول ده‌گانه تجارت عادلانه پایبندند و عضو خانه تجارت عادلانه ایران
+    هستند. با گزینه «اعضای مؤسس» گروه‌هایی را ببینید که خانه را بنیان گذاشتند.</p>
+en:
+  title: Members
+  slug: members
+  intro: >-
+    <p>The producers, organisations and supporters who are committed to the ten principles of fair trade and belong
+    to the Fair Trade House of Iran. Choose "Founding members" to see the groups who founded the House.</p>

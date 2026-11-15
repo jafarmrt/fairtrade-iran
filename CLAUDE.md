@@ -19,7 +19,8 @@ The plan and requirements are in the project's plan document; the governance doc
 - **Private files** (application documents, receipts) go to `settings.PRIVATE_MEDIA_ROOT` through a storage of their own and are served only by a staff-checked view, never from `MEDIA_ROOT`.
 - **Access levels** use the groups and document collections created by `seed_content` (see `home/management/commands/seed_data.py`).
 - **PDF guides** (`docs/guides/`, admin and user): when a change alters what a volunteer or member sees or does, update the text in `admin.html` / `user.html` and run `bash docs/guides/make.sh` to retake the screenshots and rebuild both PDFs.
-- **Seed data:** extend `seed_content` so a fresh install has sensible content; it must stay idempotent.
+- **Texts live in the content package, not in code:** pages, founding members, form questions, e-mail/SMS texts and text settings are YAML files in `content/` (see `content/README-fa.md`), loaded by `seed_content` (missing items only, idempotent) and `import_content --update` (replaces texts). A new page type, setting or member field the package should fill needs a line in `home/content_package.py` / `home/content_import.py`; the text itself goes in `content/`.
+- **Former founding members:** the Foundation for Entrepreneurship Development of Women and Youth (بنیاد توسعه کارآفرینی زنان و جوانان) is no longer a founding member. Never list it as one; it is under `withdrawn` in `content/members.yaml` and in `content/checks.yaml`.
 
 ## Checks before pushing
 

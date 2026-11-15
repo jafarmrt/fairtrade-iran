@@ -23,11 +23,11 @@ for f, v in [("bank_name", "بانک نمونه"),
         setattr(ms, f, v)
 ms.save()
 
-armoz = Member.objects.get(name="ارموز")
+armoz = Member.objects.get(slug="armoz")
 today = datetime.date.today()
 if not Dues.objects.filter(member=armoz).exists():
     st.create_dues(armoz, 1405, today - datetime.timedelta(days=20), ms, due_date=today + datetime.timedelta(days=10))
-papital = Member.objects.get(name="پاپیتال")
+papital = Member.objects.get(slug="papital")
 if not Dues.objects.filter(member=papital).exists():
     d, _ = st.create_dues(papital, 1405, today - datetime.timedelta(days=40), ms, due_date=today - datetime.timedelta(days=5))
 

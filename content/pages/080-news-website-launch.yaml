@@ -1,0 +1,26 @@
+# First news item. Added only to a site that has no news yet.
+key: news-website-launch
+type: news.NewsPage
+parent: news
+only_on_new_site: true
+fa:
+  title: وب‌سایت خانه تجارت عادلانه ایران راه‌اندازی شد
+  slug: website-launch
+  kind: news
+  intro: از این پس خبرها، اسناد، محصولات اعضا و فراخوان عضویت خانه را در این سایت منتشر می‌کنیم.
+  body:
+  - paragraph: >-
+      <p>وب‌سایت خانه تجارت عادلانه ایران راه‌اندازی شد. در این سایت می‌توانید با مفهوم تجارت عادلانه و
+      اصول ده‌گانه آن آشنا شوید، داستان اعضای مؤسس خانه را بخوانید، محصولات دست‌ساز آنان را بخرید، اسناد عمومی را
+      ببینید و برای عضویت درخواست دهید.</p>
+      <p>خبرها و برنامه‌های خانه را در همین بخش و در اینستاگرام و تلگرام خانه با نشانی fairtradeiran دنبال کنید.</p>
+en:
+  title: The Fair Trade House of Iran website is live
+  slug: website-launch
+  intro: From now on we will publish the House's news, documents, members' products and membership calls here.
+  body:
+  - paragraph: >-
+      <p>The Fair Trade House of Iran has launched its website. Here you can learn what fair trade means and read its
+      ten principles, meet the groups who founded the House, buy their handmade products, read our public documents
+      and apply for membership.</p>
+      <p>Follow our news and events here, and on Instagram and Telegram at fairtradeiran.</p>

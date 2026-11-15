@@ -212,7 +212,7 @@ class SeoLengthCountTests(TestCase):
         cls.admin = User.objects.create_superuser("root", "root@example.org", "pw")
         cls.home_fa = Page.objects.get(depth=2, locale__language_code="fa")
         cls.home_en = Page.objects.get(depth=2, locale__language_code="en")
-        cls.about_fa = cls.home_fa.get_children().get(slug=data.ABOUT["fa"]["slug"])
+        cls.about_fa = cls.home_fa.get_children().get(slug="about")
 
     def setUp(self):
         self.client.force_login(self.admin)
