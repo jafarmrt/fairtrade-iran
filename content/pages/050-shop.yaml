@@ -1,0 +1,15 @@
+key: shop
+type: products.ProductIndexPage
+parent: home
+fa:
+  title: فروشگاه
+  slug: shop
+  intro: >-
+    <p>محصولات تولیدکنندگان عضو خانه؛ دست‌ساز، با دستمزد منصفانه و احترام به انسان و طبیعت. هر محصول را خود
+    تولیدکننده می‌فرستد و نام او روی محصول و فاکتور آمده است.</p>
+en:
+  title: Shop
+  slug: shop
+  intro: >-
+    <p>Products made by member producers: handmade, fairly paid and respectful of people and nature. Each producer
+    ships their own products and is named on the product page and the invoice.</p>

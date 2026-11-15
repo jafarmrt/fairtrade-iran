@@ -1,0 +1,45 @@
+key: contact
+type: contact.ContactPage
+parent: home
+fa:
+  title: تماس با ما
+  slug: contact
+  intro: <p>پرسش، پیشنهاد یا درخواست همکاری دارید؟ پیامتان را بفرستید؛ دبیرخانه پاسخ می‌دهد.</p>
+  thank_you_text: <p>سپاس؛ پیام شما به دبیرخانه رسید و به‌زودی پاسخ می‌دهیم.</p>
+  subject: پیام تازه از فرم تماس سایت
+  form_fields:
+  - label: نام
+    field_type: singleline
+    required: true
+  - label: ایمیل
+    field_type: email
+    required: true
+  - label: موضوع
+    field_type: singleline
+    required: false
+  - label: پیام
+    field_type: multiline
+    required: true
+  complaint_page:
+    page: complaint
+en:
+  title: Contact us
+  slug: contact
+  intro: <p>A question, a suggestion or an idea for working together? Send us a message and the secretariat will reply.</p>
+  thank_you_text: <p>Thank you, your message has reached the secretariat. We will reply soon.</p>
+  subject: New message from the website contact form (English)
+  form_fields:
+  - label: Name
+    field_type: singleline
+    required: true
+  - label: Email
+    field_type: email
+    required: true
+  - label: Subject
+    field_type: singleline
+    required: false
+  - label: Message
+    field_type: multiline
+    required: true
+  complaint_page:
+    page: complaint

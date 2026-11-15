@@ -17,7 +17,7 @@
                 <div class="principle__body">
                     <p class="principle__number">{% if IS_EN %}Principle {{ forloop.counter }}{% else %}اصل {{ forloop.counter|fa_digits }}{% endif %}</p>
                     <h3>{{ p.title }}</h3>
-                    {% if p.description %}<p>{{ p.description }}</p>{% endif %}
+                    {% if p.description %}<p>{{ p.description|linebreaksbr }}</p>{% endif %}
                 </div>
             </li>
             {% endfor %}

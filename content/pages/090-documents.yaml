@@ -1,0 +1,45 @@
+key: documents
+type: archive.DocumentsPage
+parent: home
+fa:
+  title: اسناد
+  slug: documents
+  intro: اساسنامه، آیین‌نامه‌ها، گزارش‌ها و دیگر اسناد خانه تجارت عادلانه ایران.
+  sections:
+  - collection: اسناد عمومی
+    heading: اسناد عمومی
+    description: اسنادی که همه می‌توانند بخوانند.
+    show_when_locked: false
+  - collection: اسناد اعضا
+    heading: ویژه اعضا
+    description: صورت‌جلسه‌ها و اسنادی که فقط اعضای خانه می‌بینند.
+    show_when_locked: true
+  - collection: اسناد هیئت مدیره
+    heading: هیئت مدیره
+    description: اسناد هیئت مدیره.
+    show_when_locked: false
+  - collection: اسناد کمیسیون نظارتی
+    heading: کمیسیون نظارتی
+    description: اسناد کمیسیون نظارتی.
+    show_when_locked: false
+en:
+  title: Documents
+  slug: documents
+  intro: Statutes, regulations, reports and other documents of the Fair Trade House of Iran.
+  sections:
+  - collection: اسناد عمومی
+    heading: Public documents
+    description: Documents anyone can read.
+    show_when_locked: false
+  - collection: اسناد اعضا
+    heading: For members
+    description: Minutes and documents for members of the House.
+    show_when_locked: true
+  - collection: اسناد هیئت مدیره
+    heading: Board
+    description: Board documents.
+    show_when_locked: false
+  - collection: اسناد کمیسیون نظارتی
+    heading: Supervisory Commission
+    description: Supervisory Commission documents.
+    show_when_locked: false

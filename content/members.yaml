@@ -1,0 +1,291 @@
+regions:
+- name: آذربایجان شرقی
+  name_en: East Azerbaijan
+- name: آذربایجان غربی
+  name_en: West Azerbaijan
+- name: اردبیل
+  name_en: Ardabil
+- name: اصفهان
+  name_en: Isfahan
+- name: البرز
+  name_en: Alborz
+- name: ایلام
+  name_en: Ilam
+- name: بوشهر
+  name_en: Bushehr
+- name: تهران
+  name_en: Tehran
+- name: چهارمحال و بختیاری
+  name_en: Chaharmahal and Bakhtiari
+- name: خراسان جنوبی
+  name_en: South Khorasan
+- name: خراسان رضوی
+  name_en: Razavi Khorasan
+- name: خراسان شمالی
+  name_en: North Khorasan
+- name: خوزستان
+  name_en: Khuzestan
+- name: زنجان
+  name_en: Zanjan
+- name: سمنان
+  name_en: Semnan
+- name: سیستان و بلوچستان
+  name_en: Sistan and Baluchestan
+- name: فارس
+  name_en: Fars
+- name: قزوین
+  name_en: Qazvin
+- name: قم
+  name_en: Qom
+- name: کردستان
+  name_en: Kurdistan
+- name: کرمان
+  name_en: Kerman
+- name: کرمانشاه
+  name_en: Kermanshah
+- name: کهگیلویه و بویراحمد
+  name_en: Kohgiluyeh and Boyer-Ahmad
+- name: گلستان
+  name_en: Golestan
+- name: گیلان
+  name_en: Gilan
+- name: لرستان
+  name_en: Lorestan
+- name: مازندران
+  name_en: Mazandaran
+- name: مرکزی
+  name_en: Markazi
+- name: هرمزگان
+  name_en: Hormozgan
+- name: همدان
+  name_en: Hamadan
+- name: یزد
+  name_en: Yazd
+categories:
+- name: زیورآلات
+  name_en: Jewellery
+  slug: jewellery
+- name: صنایع دستی
+  name_en: Handicrafts
+  slug: handicrafts
+- name: پوشاک و منسوجات
+  name_en: Textiles and clothing
+  slug: textiles
+- name: خوراکی‌های بومی
+  name_en: Local food products
+  slug: food
+- name: خانه و دکور
+  name_en: Home and decor
+  slug: home-decor
+
+# ---------------------------------------------------------------------------
+# Founding members of the Fair Trade House of Iran.
+#
+# Sources: the House's booklet «نگاهی به خانه تجارت عادلانه ایران» (Shahrivar 1405),
+# the introduction «معرفی خانه تجارت عادلانه و مؤسسین» and the English catalogue
+# (fairtradeiran Catalog 2). Years: the catalogue gives Gregorian years; the Persian
+# text gives the matching Iranian year.
+#
+# slug: the end of the member's web address; do not change it once published.
+# Fields left out (logo, photos, phone) are added by the secretariat in the admin panel.
+# ---------------------------------------------------------------------------
+members:
+- slug: haft-dast
+  name: خانه هفت دست
+  name_en: Haftdast House
+  member_type: institution
+  is_founding: true
+  summary: شتاب‌دهنده صنایع دستی و بوم‌گردی؛ بستری برای توان‌افزایی و ارتقای زنان هنرمند جوامع محلی
+  summary_en: A handicrafts and ecotourism accelerator that helps women artisans in local communities grow
+  story: |
+    <p>خانه هفت دست از سال ۱۳۹۸ فعالیت خود را آغاز کرد؛ خانه‌ای برای توان‌افزایی و ارتقای هنر زنان هنرمند محلی در حوزه صنایع دستی و بوم‌گردی.</p>
+    <p>کار در جوامع محلی به ما آموخت که قهرمان زندگی مردم کسی جز خودشان نیست و ما تنها بهانه‌ای برای پیدا شدن این قهرمانان هستیم. در کوچه‌های مناطق محروم و محله‌های حاشیه‌ای، زنانی را دیدیم که سرپرست خانوار بودند و فرزندان خردسال داشتند؛ هنرهای بومی زیبایی در دست داشتند اما نمی‌دانستند گوهری گران‌بها در دست دارند و با رنج بسیار و نتیجه‌ای اندک، چشم‌انتظار راهی برای رهایی بودند.</p>
+    <p>خانه هفت دست با این ایده متولد شد که بستری برای دیده شدن هنر این زنان باشد و زندگی‌هایی را که با زیبایی آفرینش هنری ارزشمند می‌شوند بهبود دهد؛ هنرهایی که زیر فشار فرهنگ غالب بازار رو به نابودی‌اند و هنرمندانی که عزت‌نفسشان در برابر ارزش‌های مصرف‌گرایانه آسیب می‌بیند. از این رو خانه‌ای ساختیم برای سه‌گانه هنرمند، متخصص و مصرف‌کننده‌ای که رابطه‌ای دیگرگونه با خود، دیگران و جهان پیرامونش می‌خواهد، و مأموریت خود را پیوند میان آن‌ها تعریف کردیم.</p>
+    <p>طرح ایجاد خانه تجارت عادلانه ایران در زمستان ۱۴۰۳ از سوی خانه هفت دست و گروه پاپیتال مطرح شد.</p>
+  story_en: |
+    <p>Haftdast House began its work in 2019 as a place for empowering local women artists and raising the profile of their crafts, in handicrafts and in ecotourism.</p>
+    <p>Working in local communities taught us that people are the heroes of their own lives; we are only an excuse for those heroes to emerge. In the alleys of deprived areas and marginalised neighbourhoods we met women who headed their households and cared for young children. They held beautiful local crafts in their hands without knowing how precious they were, working very hard for very little and waiting for a way out.</p>
+    <p>Haftdast House was born to give these women's crafts visibility and to improve lives that shine through the beauty of making: crafts that are disappearing under the dominant market culture, and artists whose self-esteem is worn down by consumerist values. So we built a house for three groups: artists, specialists, and consumers who want a different relationship with themselves, with others and with the world. Our mission is to connect them.</p>
+    <p>In winter 2024–25 Haftdast House and the Papital group put forward the idea of the Fair Trade House of Iran.</p>
+  website_url: https://www.haftdast.com
+  instagram_url: https://www.instagram.com/haftdasthouse/
+- slug: papital
+  name: گالری پاپیتال
+  name_en: Papital Gallery
+  member_type: producer
+  is_founding: true
+  region: تهران
+  city: تهران
+  city_en: Tehran
+  summary: زیورآلات دست‌ساز و مدرن با الهام از کاشی‌کاری سنتی ایرانی، با رویکردی پایدار و عادلانه
+  summary_en: Modern handmade jewellery inspired by traditional Iranian tilework, made sustainably and fairly
+  story: |
+    <p>گالری پاپیتال در سال ۱۳۹۶ پایه‌گذاری شد و طراحی و ساخت زیورآلاتی را آغاز کرد که از هنر کاشی‌کاری ایرانی الهام گرفته‌اند. گروه پنج‌نفره پاپیتال، که همه ساکن محله سرآسیاب تهران‌اند، از همان آغاز تصمیم گرفتند کاشی‌سازی را به زنان دیگر محله بیاموزند و زنان خلاق و علاقه‌مند را در ساخت کاشی و زیورآلات دست‌ساز آموزش دهند.</p>
+    <p>تاکنون، با همه فراز و فرودها، افزون بر آموزش ۶۰ زن محلی و توانمند کردن آن‌ها برای ساخت آثار قابل فروش، از راه طراحی، ساخت و فروش زیورآلات برای ۲۰ نفر به‌طور مستقیم درآمد ایجاد کرده است.</p>
+    <p>طرح زیورآلات پاپیتال بیشتر بر پایه کاشی‌کاری زیبای ایرانی‌اسلامی است و می‌کوشد با پیوند سنت و مدرنیته هنری ناب بیافریند. همه مراحل تولید، از آماده‌سازی گل و ساخت قطعه‌های سرامیکی تا مونتاژ و بسته‌بندی، کاملاً دستی انجام می‌شود و نقش‌ها و طرح‌های ایرانی و یاد بناهای تاریخی و معماری سنتی در همه آثار این گروه پیداست.</p>
+    <h3>ویژگی‌های کار پاپیتال</h3>
+    <ul>
+    <li><b>تولید دست‌ساز:</b> زیورآلات مدرن و دست‌ساز با الهام از طرح‌های سنتی کاشی‌کاری ایرانی.</li>
+    <li><b>پایداری و محیط زیست:</b> بسته‌بندی بدون پلاستیک و تولید کم‌کربن.</li>
+    <li><b>تجارت عادلانه:</b> حمایت از زنان هنرمند و درآمد منصفانه برای آنان.</li>
+    <li><b>اخلاق:</b> تولید مسئولانه و ترویج مد پایدار.</li>
+    </ul>
+    <p>پاپیتال پیش از تشکیل خانه، کار با سازمان جهانی تجارت عادلانه (WFTO) را آغاز کرده بود و طرح ایجاد خانه تجارت عادلانه ایران را همراه خانه هفت دست مطرح کرد.</p>
+  story_en: |
+    <p>Papital Gallery was founded in 2017 and began designing and making jewellery inspired by Iranian tilework. The five-person Papital team, all living in the Saraseb neighbourhood of Tehran, decided from the start to teach tile-making to other women in the neighbourhood, training creative and interested women to make tiles and handmade jewellery.</p>
+    <p>Through all the ups and downs, it has trained 60 local women to make work they can sell, and has directly created income for 20 people through the design, making and sale of jewellery.</p>
+    <p>Papital's designs draw mainly on the beautiful tilework of Iranian-Islamic architecture and aim to create a pure art that links tradition and modernity. Every step, from preparing the clay and making the ceramic pieces to assembling and packing, is done by hand, and every piece recalls historic buildings and traditional Iranian patterns.</p>
+    <h3>What defines Papital's work</h3>
+    <ul>
+    <li><b>Handmade:</b> modern handmade jewellery inspired by traditional Iranian tile designs.</li>
+    <li><b>Sustainability:</b> plastic-free packaging and low-carbon production.</li>
+    <li><b>Fair trade:</b> support for women artisans and a fair income for them.</li>
+    <li><b>Ethics:</b> responsible production and sustainable fashion.</li>
+    </ul>
+    <p>Papital had already started working with the World Fair Trade Organization (WFTO) before the House was formed, and proposed the Fair Trade House of Iran together with Haftdast House.</p>
+  website_url: https://www.papital.gallery
+  instagram_url: https://www.instagram.com/papital.gallery/
+- slug: parvand-boom
+  name: پروندبوم
+  name_en: Parvandboom
+  member_type: producer
+  is_founding: true
+  region: فارس
+  summary: عرضه محصولات بومی جنوب فارس، از صنایع دستی تا خوراکی، و شناسایی و احیای صنایع دستی رو به فراموشی
+  summary_en: Local products of southern Fars, from crafts to food, and the revival of endangered handicrafts
+  story: |
+    <p>شرکت پروندبوم زاگرس از سال ۱۴۰۱ فعالیت خود را آغاز کرد. پروندبوم می‌کوشد با بهره‌گیری از ظرفیت گردشگری و با نگاهی اجتماعی و زیست‌محیطی، محصولات بومی جنوب فارس، از خوراکی تا صنایع دستی، را شناسایی و عرضه کند تا اشتغال بسازد و از مهاجرت روستاییان بکاهد.</p>
+    <p>فعالیت‌های پروندبوم در سه حوزه خلاصه می‌شود:</p>
+    <ol>
+    <li>بوم‌گردی</li>
+    <li>شناسایی و احیای صنایع دستی در حال نابودی</li>
+    <li>عرضه محصولات بومی</li>
+    </ol>
+  story_en: |
+    <p>Parvandboom Zagros began its work in 2022. Drawing on the potential of tourism, and with a social and environmental outlook, it identifies and sells local products from southern Fars, both food and handicrafts, to create jobs and slow migration away from the villages.</p>
+    <p>Parvandboom works in three areas:</p>
+    <ol>
+    <li>Ecotourism</li>
+    <li>Identifying and reviving endangered handicrafts</li>
+    <li>Supplying local products</li>
+    </ol>
+  website_url: https://parvandboom.com
+  instagram_url: https://www.instagram.com/parvand.group/
+- slug: tida
+  name: صنایع دستی تیدا
+  name_en: Teeda Craft
+  member_type: producer
+  is_founding: true
+  region: گلستان
+  city: ترکمن صحرا
+  city_en: Turkmen Sahra
+  summary: سوزن‌دوزی دختران ترکمن صحرا؛ محصولاتی کاربردی برای زندگی شهری و اشتغال برای زنان روستایی ترکمن
+  summary_en: Needlework by the girls of Turkmen Sahra; everyday products for city life and jobs for rural Turkmen women
+  story: |
+    <p>گروه صنایع دستی تیدا از تیر ۱۳۹۱ فعالیت خود را آغاز کرد. تیدا با هدف اشتغال‌زایی برای زنان و دختران روستایی ترکمن و شناساندن صنایع دستی ناشناخته و فراموش‌شده، تولید محصولاتی با کاربرد در زندگی شهری را آغاز کرد و بیش از یک دهه است که در زمینه سوزن‌دوزی ترکمن فعالیت می‌کند.</p>
+    <p>در همه این سال‌ها، رعایت اصول حفاظت از محیط زیست در سراسر چرخه تولید و بسته‌بندی محصولات نیز همواره یکی از دغدغه‌های گروه تیدا بوده است.</p>
+  story_en: |
+    <p>Teeda Craft Group started in July 2012. It began making products for everyday city life in order to create jobs for rural Turkmen women and girls and to bring little-known and forgotten crafts back into view, and it has worked in Turkmen needlework for more than a decade.</p>
+    <p>Throughout these years, protecting the environment across the whole cycle of production and packaging has always been one of Teeda's concerns.</p>
+  website_url: https://www.teedacraft.com
+  instagram_url: https://www.instagram.com/teeda_craft/
+- slug: chagerd
+  name: چاگرد
+  name_en: Chagerd
+  member_type: producer
+  is_founding: true
+  summary: محصولات زنان بلوچ
+  summary_en: Products made by Baluch women
+  story: |
+    <p>چاگرد یکی از هفت گروه تولیدی بنیان‌گذار خانه تجارت عادلانه ایران است و محصولات زنان بلوچ را عرضه می‌کند.</p>
+  story_en: |
+    <p>Chagerd is one of the seven producer groups that founded the Fair Trade House of Iran. It offers products made by Baluch women.</p>
+- slug: lena
+  name: گروه هنری لنا
+  name_en: Lena Art Group
+  member_type: producer
+  is_founding: true
+  region: کرمان
+  city: کرمان
+  city_en: Kerman
+  summary: طراحی و عرضه محصولات با به‌کارگیری رودوزی‌های سنتی ایرانی، و توانمندسازی زنان مناطق حاشیه‌ای و روستاها
+  summary_en: Products designed with traditional Iranian needlework, and support for women in marginalised areas and villages
+  story: |
+    <p>«گروه هنری لنا» در سال ۱۳۹۴ با همکاری زهره، مطهره و مهدیه در حوزه صنایع دستی ایرانی آغاز به کار کرد. تمرکز اصلی لنا از ابتدا بر رودوزی‌های اصیل و سنتی ایرانی مانند پته‌دوزی کرمان و سوزن‌دوزی بلوچ بوده و یکی از هدف‌های مهم آن طراحی و عرضه محصولات کاربردی و امروزی با بهره‌گیری از هنرهای اصیل ایرانی است.</p>
+    <p>یکی از اقدام‌های مهم لنا در سال ۱۳۹۷، حمایت از راه‌اندازی «کارگاه پته‌دوزی صبا» در کرمان برای پشتیبانی از زنان سرپرست خانوار بود؛ تا افزون بر آموزش درست و اصولی پته‌دوزی، با فروش آثار این زنان، توانمندی و سطح زندگی آن‌ها بهتر شود. دغدغه اشتغال زنان کرمان سبب شد کلاس‌های رایگان پته‌دوزی به‌طور دوره‌ای و با همکاری تسهیلگران و خیریه‌های استان کرمان برگزار شود. در پایان هر دوره طرح و همه مواد اولیه در اختیار هنرجویان قرار می‌گیرد تا با دوخت پته در کارگاه درآمد داشته باشند.</p>
+    <p>اکنون ۴۵ نفر در این مجموعه کار می‌کنند. دست‌دوزهای آنان را گروه لنا در قالب محصولاتی مانند جعبه چوبی، زیورآلات و کوسن طراحی و به‌کار می‌گیرد و در گالری‌ها و فروشگاه‌های تهران، شیراز، رشت و شهرهای دیگر عرضه می‌کند.</p>
+    <p>از دیگر کارهای لنا برای بهبود کیفیت زندگی همکاران: برگزاری جلسه‌های مشاوره برای کارکنان، اختصاص بودجه مشخص برای سلامت کارکنان و وضعیت تحصیلی فرزندانشان، اهدای دوره‌ای بسته‌های غذایی، و آموزش نکات ایمنی برای پیشگیری از آسیب‌های شغلی.</p>
+    <p>محصولات لنا به‌دلیل اصالت هنری تا حد زیادی دوستدار محیط زیست‌اند: پارچه پشمی و نخ‌های رنگ‌شده با رنگ طبیعی و چوب طبیعی در طراحی محصول به‌کار می‌رود و در بسته‌بندی نیز از مواد بازیافت‌پذیر استفاده می‌شود. لنا که با سه نفر آغاز شد، امروز از مجموعه‌ای ۴۵ نفره پشتیبانی می‌کند و می‌کوشد در کنار معرفی رودوزی‌های سنتی ایرانی، با توانمندسازی زنان کارگاه به ساختن جامعه‌ای پویاتر کمک کند.</p>
+  story_en: |
+    <p>Lena Art Group began working in Iranian handicrafts in 2015, founded by Zohreh, Motahareh and Mahdieh. From the start it has focused on authentic traditional Iranian needlework such as Kerman's pateh-doozi and Baluchi needlework, and one of its main aims is to design practical, modern products using these crafts.</p>
+    <p>In 2018 Lena helped set up the Saba pateh-doozi workshop in Kerman to support women who head their households: as well as proper training in pateh, the sale of their work raises their income and standard of living. Concern for women's employment in Kerman led to regular free pateh classes, run with facilitators and charities in Kerman province. At the end of each course participants receive the designs and all the materials, so they can earn by stitching pateh in the workshop.</p>
+    <p>Today 45 people work with Lena. Their embroidery is designed into products such as wooden boxes, jewellery and cushions, sold in galleries and shops in Tehran, Shiraz, Rasht and other cities.</p>
+    <p>To improve the lives of the people it works with, Lena also holds counselling sessions for staff, sets aside a budget for their health and for their children's education, provides food packages from time to time, and trains staff in safety to prevent injuries.</p>
+    <p>Lena's products are largely environmentally friendly: naturally dyed wool fabric and threads and natural wood are used in the designs, and packaging is made from recyclable materials. Lena started with three people and now supports a team of 45, working to introduce traditional Iranian needlework while empowering the women in its workshop.</p>
+  website_url: https://lenaland.ir
+- slug: mehrbaf
+  name: مهرباف
+  name_en: Mehrbaf
+  member_type: producer
+  is_founding: true
+  region: تهران
+  city: تهران
+  city_en: Tehran
+  summary: تولیدکننده پوشاک؛ جمعی زنانه برای کارآفرینی اجتماعی بر پایه آموزش و توسعه
+  summary_en: A clothing maker; a women's collective for social entrepreneurship built on training and development
+  story: |
+    <p>مهرباف (گروه رنگین تهران، از سال ۱۳۹۱) جمعی زنانه برای کارآفرینی اجتماعی بر پایه آموزش و توسعه است. با تکیه بر ظرفیت‌های بومی جامعه ایران در تولید و اشتغال، بافندگی را که در حافظه جمعی ایرانیان جای دارد برای آغاز کار برگزیدیم و با آموزش زنان، از هنر بافندگی برای ایجاد شغل بهره گرفتیم.</p>
+    <p>در گام نخست، فضای آموزشی برای یادگیری و رشد مهارت‌های حرفه‌ای زنان ساختیم و در گام دوم آموزش مهارت‌های اجتماعی، مانند حقوق فردی، سلامت و آزادی تجمع را فراهم کردیم.</p>
+    <p>مهرباف در حال گسترش است: افزون بر بافندگی، کارگاه خیاطی نیز راه انداخته و در آینده تولید پارچه و صنایع دستی دیگر را نیز در برنامه دارد.</p>
+  story_en: |
+    <p>Mehrbaf (Tehran Rangin Group, since 2012) is a women's collective for social entrepreneurship built on training and development. Relying on the local strengths of Iranian society in production and employment, we chose weaving, which lives in Iranians' collective memory, as our starting point, and trained women so that the craft could create jobs.</p>
+    <p>First we created a space where women could learn and develop professional skills; then we offered training in social skills such as individual rights, health and freedom of assembly.</p>
+    <p>Mehrbaf is growing: alongside weaving it has opened a sewing workshop, and it plans to make fabric and other crafts in the future.</p>
+  website_url: https://www.mehrbaf.com
+  instagram_url: https://www.instagram.com/mehrbaf/
+- slug: armoz
+  name: ارموز
+  name_en: Ormuz
+  member_type: producer
+  is_founding: true
+  region: هرمزگان
+  city: میناب
+  city_en: Minab
+  summary: تولیدکننده محصولات خوراکی سالم محلی از میناب، با کشت پایدار و دوستدار محیط زیست
+  summary_en: Healthy local food from Minab, grown sustainably and with care for the environment
+  story: |
+    <p>ارموز کسب‌وکاری خانوادگی است که با احیای باغ پدربزرگ مادری در میناب آغاز شد؛ باغی که ۱۵ سال رها مانده بود. در سال ۱۳۹۶ تصمیم گرفتیم با روش‌های کشاورزی پایدار آن را دوباره زنده کنیم و پس از چهار سال کار سخت، باغ دوباره جان گرفت. بیش از نیاز خود انبه، لیمو و خرما برداشت می‌کردیم؛ پس در سال ۱۴۰۰ برند ارموز را راه انداختیم تا مازاد محصول را به فرآورده‌های سالم و بی‌افزودنی تبدیل کنیم و با دیگران قسمت کنیم.</p>
+    <p>ارموز می‌خواهد بهانه‌ای برای آهسته‌تر زیستن و ترویج سبک زندگی آرام باشد؛ با در نظر گرفتن ظرفیت چشمه‌های میناب از آن‌ها برداشت کند، آگاهی خود را درباره حفظ تنوع زیستی و فرهنگ محلی میناب و راه‌های احیای آن‌ها بیشتر کند و از این راه مردم را به طبیعت نزدیک‌تر کند. یکی از کارهای ما در این مسیر، نگه داشتن بسته‌بندی محصولات در چرخه مصرف است.</p>
+    <h3>هدف‌های ارموز</h3>
+    <ol>
+    <li>احیای باغ‌های رهاشده میناب با روش‌های پایدار</li>
+    <li>تولید فرآورده‌های خوراکی سالم و طبیعی</li>
+    <li>بسته‌بندی دوستدار محیط زیست که مصرف مسئولانه را تقویت کند</li>
+    </ol>
+    <p>هنوز نتوانسته‌ایم نیروی کار ثابتی برای باغ و کارگاه ارموز داشته باشیم، زیرا در جنوب نیروی کار بسیار کم است و درآمد بیشتر مردم به سمت قاچاق سوخت کشیده می‌شود. دستمزدی که برای کارگران فصلی در نظر می‌گیریم همیشه بیشتر از حداقل قانون کار است، اما با این حال یافتن این نیروها دشوار است.</p>
+  story_en: |
+    <p>Ormuz is a family business that began by reviving our maternal grandfather's orchard in Minab, which had been left untouched for 15 years. In 2017 we decided to bring it back to life with sustainable farming, and after four years of hard work the orchard was thriving again. We were harvesting more mangoes, lemons and dates than we could use, so in 2021 we launched the Ormuz brand to share our surplus as healthy, additive-free products.</p>
+    <p>Ormuz wants to be a reason to slow down and to promote a slower way of living: to harvest within what the springs of Minab can give, to learn more about protecting Minab's biodiversity and local culture and how to revive them, and so bring people closer to nature. One of our practices on this path is keeping product packaging in use.</p>
+    <h3>With Ormuz we aim to</h3>
+    <ol>
+    <li>Revive neglected orchards in Minab through sustainable practices</li>
+    <li>Make healthy, natural food products</li>
+    <li>Use eco-friendly packaging that supports responsible consumption</li>
+    </ol>
+    <p>We have not yet been able to keep a stable workforce for the Ormuz orchard and workshop: there is very little labour in the south, and most people's income is drawn towards fuel smuggling. The wages we pay seasonal workers are always above the legal minimum, yet these workers are still hard to find.</p>
+  website_url: https://www.ormuz.ir
+  instagram_url: https://www.instagram.com/ormuz.ecofriendly/
+
+# ---------------------------------------------------------------------------
+# Members who are no longer founding members of the House.
+# On every import they lose the "founding member" mark and are taken off the
+# home page; with hide: true they are also hidden from the members page.
+# Matched by slug or by name (Persian or English).
+# ---------------------------------------------------------------------------
+withdrawn:
+- slugs: [women-youth-entrepreneurship-foundation]
+  names:
+  - بنیاد توسعه کارآفرینی زنان و جوانان
+  - Women and Youth Entrepreneurship Development Foundation
+  - Foundation for Entrepreneurship Development of Women and Youth
+  hide: true

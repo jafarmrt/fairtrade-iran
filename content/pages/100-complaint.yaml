@@ -1,0 +1,16 @@
+key: complaint
+type: contact.ComplaintPage
+parent: home
+in_menu: false
+fa:
+  title: ثبت شکایت محرمانه
+  slug: complaint
+  intro: <p>اگر از رفتار یکی از اعضا یا از عملکرد خود خانه شکایتی دارید، آن را این‌جا ثبت کنید. طبق سند ارکان، رسیدگی به شکایات با <b>کمیسیون نظارتی</b> است که مستقل از هیئت مدیره کار می‌کند.</p>
+  privacy_note: <p>شکایت شما فقط برای اعضای کمیسیون نظارتی قابل مشاهده است؛ نه هیئت مدیره، نه دبیرخانه و نه عضوی که از او شکایت کرده‌اید آن را نمی‌بینند.</p><p>می‌توانید بی‌نام شکایت کنید. اگر راه تماسی بگذارید، کمیسیون نتیجه را به شما خبر می‌دهد.</p>
+  thank_you_text: <p>شکایت شما ثبت شد و به کمیسیون نظارتی رسید. سپاس از این‌که به بهتر شدن خانه کمک می‌کنید.</p>
+en:
+  title: Make a confidential complaint
+  slug: complaint
+  intro: <p>If you have a complaint about one of our members or about the House itself, you can make it here. Under our governance document, complaints are handled by the <b>Supervisory Commission</b>, which works independently of the Board.</p>
+  privacy_note: <p>Only members of the Supervisory Commission can read your complaint. The Board, the secretariat and the member you complain about cannot see it.</p><p>You may stay anonymous. If you leave contact details, the commission will tell you the outcome.</p>
+  thank_you_text: <p>Your complaint has been received by the Supervisory Commission. Thank you for helping the House improve.</p>

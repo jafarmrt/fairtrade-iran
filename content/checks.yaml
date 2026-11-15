@@ -1,0 +1,11 @@
+# Phrases that must not appear on the live site any more. After every import, and with
+# `python manage.py import_content --check`, the site's pages, published members and
+# settings are searched for them and every place found is listed.
+#
+# The Foundation for Entrepreneurship Development of Women and Youth is no longer a founding
+# member of the House; older documents (booklet, introduction, catalogue) still name it.
+forbidden_phrases:
+- بنیاد توسعه کارآفرینی
+- Entrepreneurship Development Foundation
+- Foundation for Entrepreneurship
+- foundationed

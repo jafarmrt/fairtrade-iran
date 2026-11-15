@@ -1,0 +1,19 @@
+key: wholesale
+type: wholesale.WholesalePage
+parent: home
+in_menu: false
+fa:
+  title: خرید عمده و صادرات
+  slug: wholesale
+  intro: <p>فروشگاه، واردکننده یا سازمان تجارت عادلانه هستید؟ محصولات اعضای خانه را به‌صورت عمده سفارش دهید. خانه درخواست شما را با تولیدکنندگان هماهنگ می‌کند و پیشنهاد قیمت می‌فرستد.</p>
+  form_intro: <p>این اطلاعات فقط برای پاسخ به درخواست شما به‌کار می‌رود.</p>
+  side_note: <ul><li>کمترین مقدار سفارش برای هر محصول متفاوت است و در پیشنهاد قیمت می‌آید.</li><li>بیشتر محصولات دست‌ساز است و چند هفته زمان آماده‌سازی دارد.</li><li>معمولاً ظرف چند روز کاری پاسخ می‌دهیم.</li></ul>
+  thank_you_text: <p>سپاس؛ درخواست شما به خانه تجارت عادلانه ایران رسید. موجودی، قیمت و زمان آماده‌سازی را با تولیدکنندگان بررسی می‌کنیم و به‌زودی پاسخ می‌دهیم.</p>
+en:
+  title: Wholesale and export
+  slug: wholesale
+  intro: <p>Are you a shop, an importer or a fair trade organisation? Order our members' handmade products wholesale. The House coordinates your enquiry with the producers and sends you a quotation.</p>
+  form_intro: <p>We use these details only to answer your enquiry.</p>
+  side_note: <ul><li>Minimum order quantities vary by product and are given in the quotation.</li><li>Most products are handmade and need a few weeks to prepare.</li><li>We usually reply within a few working days.</li></ul>
+  thank_you_text: <p>Thank you. Your enquiry has reached the Fair Trade House of Iran. We will check availability, prices and lead times with the producers and get back to you soon.</p>
+  show_in_menus: true

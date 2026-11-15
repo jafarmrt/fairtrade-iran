@@ -1,0 +1,383 @@
+# SMS texts, Persian (text) and English (text_en). One block per event; the event name and
+# "label" (how it is listed in the admin panel) are fixed. Words in {braces} are filled in
+# when the SMS is sent: keep them exactly as they are. Keep messages short (one SMS is
+# about 70 Persian characters).
+# These texts can also be edited in the admin panel: پیامک → متن‌های پیامک.
+assembly_invitation:
+  label: 'مجمع عمومی، به عضو: دعوت‌نامه'
+  text: |-
+    {name} گرامی، به {assembly} در {date} دعوت شده‌اید. دستور جلسه و رأی‌گیری در پنل اعضا:
+    {panel_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, you are invited to the {assembly} on {date}. Agenda and voting in the member panel:
+    {panel_url}
+    Fair Trade House of Iran
+assembly_reminder:
+  label: 'مجمع عمومی، به عضو: یادآوری پیش از جلسه'
+  text: |-
+    {name} گرامی، {assembly} در {date} برگزار می‌شود.
+    {panel_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, the {assembly} takes place on {date}.
+    {panel_url}
+    Fair Trade House of Iran
+assembly_results:
+  label: 'مجمع عمومی، به عضو: اعلام نتایج'
+  text: |-
+    {name} گرامی، نتایج {assembly} در پنل اعضا منتشر شد.
+    {panel_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, the results of the {assembly} are in the member panel.
+    {panel_url}
+    Fair Trade House of Iran
+assembly_voting:
+  label: 'مجمع عمومی، به عضو: آغاز رأی‌گیری'
+  text: |-
+    {name} گرامی، رأی‌گیری «{item}» آغاز شد{closes}.
+    {panel_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, voting on "{item}" is open{closes}.
+    {panel_url}
+    Fair Trade House of Iran
+complaint_new:
+  label: 'شکایت، به کمیسیون: شکایت تازه'
+  text: |-
+    شکایت محرمانه تازه با کد {code} ثبت شد. متن آن فقط در پنل مدیریت است.
+    {admin_url}
+  text_en: ''
+contact_new:
+  label: 'تماس، به دبیرخانه: پیام تازه از فرم تماس'
+  text: پیام تازه از فرم «{form}» در سایت رسید. متن آن به ایمیل دبیرخانه فرستاده شد.
+  text_en: ''
+dues_confirmed:
+  label: 'حق عضویت، به عضو: پرداخت تأیید شد'
+  text: |-
+    {name} گرامی، پرداخت حق عضویت سال {year} تأیید شد. سپاس.
+    {site_name}
+  text_en: |-
+    Dear {name}, your membership fee for {year} has been confirmed. Thank you.
+    Fair Trade House of Iran
+dues_issued:
+  label: 'حق عضویت، به عضو: صورت‌حساب سالانه'
+  text: |-
+    {name} گرامی، حق عضویت سال {year}: {amount}، مهلت پرداخت {due_date}.
+    {panel_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, membership fee {year}: {amount}, due by {due_date}.
+    {panel_url}
+    Fair Trade House of Iran
+dues_receipt_staff:
+  label: 'حق عضویت، به دبیرخانه: رسید تازه'
+  text: |-
+    رسید حق عضویت سال {year} «{member}» رسید و منتظر تأیید است.
+    {admin_url}
+  text_en: ''
+dues_rejected:
+  label: 'حق عضویت، به عضو: رسید پذیرفته نشد'
+  text: |-
+    {name} گرامی، رسید حق عضویت سال {year} پذیرفته نشد. جزئیات در ایمیل و پنل شماست.
+    {panel_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, your receipt for {year} was not accepted. Details are in your e-mail.
+    {panel_url}
+    Fair Trade House of Iran
+dues_reminder:
+  label: 'حق عضویت، به عضو: یادآوری پرداخت'
+  text: |-
+    {name} گرامی، مهلت پرداخت حق عضویت سال {year} تا {due_date} است.
+    {panel_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, your membership fee for {year} is due by {due_date}.
+    {panel_url}
+    Fair Trade House of Iran
+dues_warning:
+  label: 'حق عضویت، به عضو: اخطار کتبی'
+  text: |-
+    {name} گرامی، حق عضویت سال {year} پرداخت نشده است. اخطار کتبی به ایمیل شما فرستاده شد؛ اگر تا {suspend_date} پرداخت نشود، عضویت تعلیق می‌شود.
+    {panel_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, your membership fee for {year} is unpaid. A written warning was e-mailed to you; without payment by {suspend_date} your membership will be suspended.
+    {panel_url}
+    Fair Trade House of Iran
+membership_commission_new:
+  label: 'عضویت، به کمیسیون: پرونده برای ارزیابی'
+  text: |-
+    پرونده عضویت {name} ({type}) برای ارزیابی به کمیسیون رسید. مهلت: {deadline}
+    {admin_url}
+  text_en: ''
+membership_received:
+  label: 'عضویت، به متقاضی: درخواست دریافت شد'
+  text: |-
+    {name} گرامی، درخواست عضویت شما با کد پیگیری {code} دریافت شد.
+    {site_name}
+  text_en: |-
+    Dear {name}, we received your membership application. Tracking code: {code}
+    Fair Trade House of Iran
+membership_reminder_commission:
+  label: 'عضویت، به کمیسیون: یادآوری مهلت‌ها'
+  text: |-
+    {count} پرونده عضویت در کمیسیون نزدیک یا گذشته از مهلت است.
+    {admin_url}
+  text_en: ''
+membership_reminder_secretariat:
+  label: 'عضویت، به دبیرخانه: یادآوری مهلت‌ها'
+  text: |-
+    {count} پرونده عضویت نزدیک یا گذشته از مهلت است.
+    {admin_url}
+  text_en: ''
+membership_staff_new:
+  label: 'عضویت، به دبیرخانه: درخواست تازه'
+  text: |-
+    درخواست عضویت تازه: {name} ({type})، کد {code}. مهلت بررسی: {deadline}
+    {admin_url}
+  text_en: ''
+membership_staff_resubmitted_commission:
+  label: 'عضویت، به کمیسیون: متقاضی اصلاحات را فرستاد'
+  text: |-
+    متقاضی {name} ({code}) اصلاحات خواسته‌شده را فرستاد.
+    {admin_url}
+  text_en: ''
+membership_staff_resubmitted_secretariat:
+  label: 'عضویت، به دبیرخانه: متقاضی مدارک تکمیلی فرستاد'
+  text: |-
+    متقاضی {name} ({code}) مدارک تکمیلی را فرستاد.
+    {admin_url}
+  text_en: ''
+membership_status_approved:
+  label: 'عضویت، به متقاضی: تأیید عضویت رسمی'
+  text: |-
+    {name} گرامی، عضویت رسمی شما در خانه تجارت عادلانه تأیید شد. گواهی به‌زودی صادر می‌شود.
+    {site_name}
+  text_en: |-
+    Dear {name}, your full membership was approved. Your certificate will be issued soon.
+    Fair Trade House of Iran
+membership_status_commission:
+  label: 'عضویت، به متقاضی: ارسال به کمیسیون'
+  text: |-
+    {name} گرامی، پرونده شما ({code}) کامل است و برای ارزیابی به کمیسیون نظارتی رفت.
+    {site_name}
+  text_en: |-
+    Dear {name}, your file ({code}) is complete and has gone to the Supervisory Commission.
+    Fair Trade House of Iran
+membership_status_fix_requested:
+  label: 'عضویت، به متقاضی: درخواست اصلاح'
+  text: |-
+    {name} گرامی، کمیسیون برای پرونده {code} اصلاحاتی خواسته است. جزئیات در ایمیل شماست.
+    {track_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, the Commission asked for changes to file {code}. Details are in your e-mail.
+    {track_url}
+    Fair Trade House of Iran
+membership_status_incomplete:
+  label: 'عضویت، به متقاضی: نقص مدارک'
+  text: |-
+    {name} گرامی، پرونده عضویت شما ({code}) کامل نیست. جزئیات به ایمیل شما فرستاده شد.
+    {track_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, your membership file ({code}) is incomplete. Details were e-mailed to you.
+    {track_url}
+    Fair Trade House of Iran
+membership_status_member:
+  label: 'عضویت، به متقاضی: ثبت عضویت و صدور گواهی'
+  text: |-
+    {name} گرامی، گواهی عضویت شما با شماره {certificate_number} صادر شد.
+    {certificate_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, your membership certificate {certificate_number} has been issued.
+    {certificate_url}
+    Fair Trade House of Iran
+membership_status_not_accepted:
+  label: 'عضویت، به متقاضی: عدم پذیرش پس از دوره آزمایشی'
+  text: |-
+    {name} گرامی، نتیجه دوره آزمایشی عضویت شما ({code}) به ایمیل‌تان فرستاده شد.
+    {site_name}
+  text_en: |-
+    Dear {name}, the outcome of your trial membership ({code}) was e-mailed to you.
+    Fair Trade House of Iran
+membership_status_rejected:
+  label: 'عضویت، به متقاضی: رد مستدل'
+  text: |-
+    {name} گرامی، نتیجه بررسی درخواست عضویت شما ({code}) به ایمیل‌تان فرستاده شد.
+    {site_name}
+  text_en: |-
+    Dear {name}, the result of your membership application ({code}) was e-mailed to you.
+    Fair Trade House of Iran
+membership_status_trial:
+  label: 'عضویت، به متقاضی: پذیرش آزمایشی'
+  text: |-
+    {name} گرامی، تبریک! عضویت آزمایشی شما ({code}) پذیرفته شد. جزئیات در ایمیل شماست.
+    {site_name}
+  text_en: |-
+    Dear {name}, congratulations! You were accepted as a trial member ({code}). Details are in your e-mail.
+    Fair Trade House of Iran
+membership_status_trial_extended:
+  label: 'عضویت، به متقاضی: تمدید دوره آزمایشی'
+  text: |-
+    {name} گرامی، دوره آزمایشی عضویت شما ({code}) تا {deadline} تمدید شد.
+    {site_name}
+  text_en: |-
+    Dear {name}, your trial membership ({code}) was extended until {deadline}.
+    Fair Trade House of Iran
+membership_status_withdrawn:
+  label: 'عضویت، به متقاضی: بایگانی پرونده'
+  text: |-
+    {name} گرامی، پرونده عضویت {code} بایگانی شد.
+    {site_name}
+  text_en: |-
+    Dear {name}, membership file {code} was archived.
+    Fair Trade House of Iran
+order_cancelled:
+  label: 'فروشگاه، به خریدار و فروشنده: سفارش لغو شد'
+  text: |-
+    سفارش {code} ({member}) لغو شد: {message}
+    {site_name}
+  text_en: |-
+    Order {code} ({member}) was cancelled: {message}
+    Fair Trade House of Iran
+order_paid:
+  label: 'فروشگاه، به خریدار: پرداخت تأیید شد'
+  text: |-
+    {name} گرامی، پرداخت سفارش {code} ({member}) تأیید شد و آماده ارسال می‌شود.
+    {site_name}
+  text_en: |-
+    Dear {name}, payment for order {code} ({member}) is confirmed; it is being prepared.
+    Fair Trade House of Iran
+order_paid_closed:
+  label: 'فروشگاه، به دبیرخانه: پرداخت آنلاین برای سفارش لغوشده'
+  text: |-
+    پرداخت آنلاین سفارش {code} رسید ولی سفارش «{status}» بود؛ بازپرداخت یا بازگشایی کنید.
+    {admin_url}
+  text_en: ''
+order_placed:
+  label: 'فروشگاه، به خریدار: سفارش ثبت شد'
+  text: |-
+    {name} گرامی، سفارش {code} ثبت شد. مبلغ: {total}. راهنمای پرداخت:
+    {order_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, your order {code} is placed. Total: {total}. How to pay:
+    {order_url}
+    Fair Trade House of Iran
+order_receipt:
+  label: 'فروشگاه، به دبیرخانه یا فروشنده: رسید پرداخت تازه'
+  text: |-
+    رسید پرداخت سفارش {code} رسید و منتظر تأیید است.
+    {admin_url}
+  text_en: ''
+order_refunded:
+  label: 'فروشگاه، به خریدار: مرجوعی و بازپرداخت ثبت شد'
+  text: |-
+    {name} گرامی، بازپرداخت سفارش {code} ({member}) ثبت شد.
+    {site_name}
+  text_en: |-
+    Dear {name}, the refund for order {code} ({member}) is recorded.
+    Fair Trade House of Iran
+order_rejected:
+  label: 'فروشگاه، به خریدار: پرداخت تأیید نشد'
+  text: |-
+    {name} گرامی، پرداخت سفارش {code} تأیید نشد: {message}
+    {order_url}
+    {site_name}
+  text_en: |-
+    Dear {name}, payment for order {code} could not be confirmed: {message}
+    {order_url}
+    Fair Trade House of Iran
+order_return_request:
+  label: 'فروشگاه، به فروشنده و دبیرخانه: درخواست مرجوعی'
+  text: 'خریدار برای سفارش {code} درخواست مرجوعی داد: {message}'
+  text_en: ''
+order_seller_new:
+  label: 'فروشگاه، به فروشنده: سفارش تازه'
+  text: |-
+    سفارش تازه {code} در سایت خانه: {total}، پرداخت به {payment_mode}.
+    {panel_url}
+  text_en: ''
+order_seller_paid:
+  label: 'فروشگاه، به فروشنده: پرداخت شد، ارسال کنید'
+  text: |-
+    پرداخت سفارش {code} تأیید شد؛ لطفاً ارسال کنید و کد رهگیری را در پنل ثبت کنید.
+    {panel_url}
+  text_en: ''
+order_seller_receipt:
+  label: 'فروشگاه، به فروشنده: خریدار پرداخت را خبر داد'
+  text: |-
+    خریدار سفارش {code} اطلاعات پرداخت را فرستاد؛ پس از دیدن واریز، در پنل تأیید کنید.
+    {panel_url}
+  text_en: ''
+order_shipped:
+  label: 'فروشگاه، به خریدار: سفارش ارسال شد'
+  text: |-
+    {name} گرامی، سفارش {code} ({member}) ارسال شد. کد رهگیری: {tracking}
+    {site_name}
+  text_en: |-
+    Dear {name}, order {code} ({member}) has been shipped. Tracking: {tracking}
+    Fair Trade House of Iran
+order_staff_new:
+  label: 'فروشگاه، به دبیرخانه: سفارش تازه'
+  text: |-
+    سفارش تازه {code} در فروشگاه: {total}.
+    {admin_url}
+  text_en: ''
+panel_login_code:
+  label: 'پنل اعضا: کد ورود یا تأیید موبایل'
+  text: |-
+    کد ورود به پنل اعضای {site_name}: {code}
+    این کد تا {minutes} دقیقه معتبر است. آن را به کسی ندهید.
+  text_en: |-
+    Your Fair Trade House member panel code: {code}
+    Valid for {minutes} minutes. Do not share it.
+standing_cancel:
+  label: 'وضعیت عضو، به عضو: لغو عضویت'
+  text: |-
+    {name} گرامی، عضویت شما لغو شد. جزئیات و مهلت اعتراض در ایمیل شماست.
+    {site_name}
+  text_en: |-
+    Dear {name}, your membership has been cancelled. Details and the appeal deadline are in your e-mail.
+    Fair Trade House of Iran
+standing_lift:
+  label: 'وضعیت عضو، به عضو: رفع تعلیق'
+  text: |-
+    {name} گرامی، تعلیق عضویت شما رفع شد.
+    {site_name}
+  text_en: |-
+    Dear {name}, the suspension of your membership has been lifted.
+    Fair Trade House of Iran
+standing_suspend:
+  label: 'وضعیت عضو، به عضو: تعلیق عضویت'
+  text: |-
+    {name} گرامی، عضویت شما تا {until} تعلیق شد. جزئیات و مهلت اعتراض در ایمیل شماست.
+    {site_name}
+  text_en: |-
+    Dear {name}, your membership is suspended until {until}. Details and the appeal deadline are in your e-mail.
+    Fair Trade House of Iran
+wholesale_new:
+  label: 'سفارش عمده، به دبیرخانه: درخواست تازه'
+  text: |-
+    درخواست سفارش عمده {code} از {company} ({country}) رسید.
+    {admin_url}
+  text_en: ''
+wholesale_producer:
+  label: 'سفارش عمده، به تولیدکننده: درخواست تازه برای محصولات شما'
+  text: |-
+    {name} گرامی، درخواست سفارش عمده {code} از {country} برای محصولات شما رسید. لطفاً در پنل اعضا پاسخ دهید:
+    {panel_url}
+  text_en: |-
+    Dear {name}, wholesale enquiry {code} from {country} includes your products. Please reply in the member panel:
+    {panel_url}
+wholesale_reply:
+  label: 'سفارش عمده، به دبیرخانه: پاسخ تولیدکننده'
+  text: |-
+    {name} به درخواست سفارش عمده {code} پاسخ داد: {status}.
+    {admin_url}
+  text_en: ''

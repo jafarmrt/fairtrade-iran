@@ -171,7 +171,20 @@ def simplify_help_menu(request, menu_items):
 
 @hooks.register("register_admin_urls")
 def guide_url():
-    return [path("guide/", admin_views.guide, name="ft_admin_guide")]
+    return [path("guide/", admin_views.guide, name="ft_admin_guide"),
+            path("content-import/", admin_views.content_import, name="ft_content_import")]
+
+
+class SuperuserMenuItem(MenuItem):
+    def is_shown(self, request):
+        return request.user.is_superuser
+
+
+@hooks.register("register_settings_menu_item")
+def content_import_menu_item():
+    """«درون‌ریزی محتوا»: load the bilingual content package (content/ folder or .zip). Superusers only."""
+    return SuperuserMenuItem("درون‌ریزی محتوا", reverse("ft_content_import"), name="ft-content-import",
+                             icon_name="download", order=4000)
 
 
 # ---- dashboard ----

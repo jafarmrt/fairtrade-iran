@@ -1,0 +1,11 @@
+key: news
+type: news.NewsIndexPage
+parent: home
+fa:
+  title: اخبار و رویدادها
+  slug: news
+  intro: تازه‌ترین خبرها، رویدادها و نوشته‌های خانه تجارت عادلانه ایران و اعضایش.
+en:
+  title: News and events
+  slug: news
+  intro: The latest news, events and articles from the Fair Trade House of Iran and its members.

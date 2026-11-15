@@ -56,7 +56,7 @@ class UsabilityTests(TestCase):
         self.client.force_login(self.admin)
         response = self.client.get("/admin/snippets/members/member/")
         self.assertContains(response, "ترجمهٔ انگلیسی")
-        self.assertNotContains(response, "Armoz")  # no column of English names
+        self.assertNotContains(response, "Ormuz")  # no column of English names
         response = self.client.get("/admin/snippets/members/member/?english=false")
         self.assertEqual(list(response.context["object_list"]), [Member.objects.get(pk=self.armoz.pk)])
         self.assertContains(response, "ندارد")  # the active-filter chip, not "False"

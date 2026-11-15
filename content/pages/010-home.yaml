@@ -1,0 +1,76 @@
+# Home page (/fa/ and /en/). The member, product and news sections of the home
+# page fill themselves from the members, shop and news; their headings are in
+# site.yaml (members.DirectorySettings, products.ShopSettings).
+key: home
+type: home.HomePage
+parent: null
+fa:
+  title: خانه تجارت عادلانه ایران
+  slug: fa
+  hero_title: تجارت عادلانه؛ فرصتی برابر برای تولیدکنندگان محلی
+  hero_text: >-
+    خانه تجارت عادلانه ایران شبکه‌ای ملی برای ترویج، حمایت و توسعه اصول ده‌گانه تجارت عادلانه است.
+    از کسب‌وکارهای خرد، زنان هنرمند و جوامع محلی پشتیبانی می‌کنیم تا در محیطی منصفانه و پایدار کار کنند
+    و محصولاتشان به دست مصرف‌کنندگان آگاه برسد.
+  hero_cta_text: آشنایی با خانه
+  hero_cta_page: {page: about}
+  intro: >-
+    <p>کار خانه دو بال دارد: <b>ترویج اصول ده‌گانه تجارت عادلانه</b> تا این اصول شناخته شوند و در عمل جا بیفتند،
+    و <b>تسهیل فروش</b> محصولات اعضا در بازارهای داخلی و بین‌المللی. هر خریدی که از اعضای خانه می‌کنید،
+    دستمزدی منصفانه، کار بی‌تبعیض و احترام به طبیعت را پشتیبانی می‌کند.</p>
+  body:
+  - cards:
+      heading: چرا عضو خانه تجارت عادلانه شویم؟
+      cards:
+      - title: تجمیع توان و منابع
+        text: بهره‌مندی از نمایشگاه‌ها، آموزش‌ها و امکانات مشترکی که دسترسی به آن‌ها به‌تنهایی دشوار است.
+      - title: نشان معتبر
+        text: معرفی مؤثرتر در جامعه و جلب اعتماد عمومی با نشان تجارت عادلانه.
+      - title: بازارهای تازه
+        text: پیوند با مصرف‌کنندگانی که به اثرات اجتماعی و زیست‌محیطی خریدشان اهمیت می‌دهند، و فرصت‌های صادراتی.
+      - title: شبکه‌سازی و یادگیری
+        text: تبادل تجربه، نوآوری و همکاری‌های مشترک میان اعضا.
+      - title: کاهش هزینه و ریسک
+        text: تقسیم بخشی از هزینه‌های تبلیغات، آموزش و تأمین مواد اولیه از راه سازوکارهای جمعی.
+      - title: تغییر اجتماعی
+        text: نقش‌آفرینی در ترویج مصرف آگاهانه و حرکت به سوی اقتصادی انسانی‌تر، سبزتر و منصفانه‌تر.
+  - quote:
+      text: >-
+        ما به دنبال جهانی هستیم که در آن حقوق تولیدکنندگان، مصرف‌کنندگان و نسل‌های آینده با هم حفظ شود؛
+        جهانی که در آن رعایت حقوق انسان‌ها و حفظ محیط زیست بر سود مادی اولویت داشته باشد.
+      author: از چشم‌انداز خانه تجارت عادلانه ایران
+en:
+  title: Fair Trade House of Iran
+  slug: en
+  hero_title: Fair trade, an equal chance for local producers
+  hero_text: >-
+    The Fair Trade House of Iran is a national network that promotes, supports and develops the ten principles
+    of fair trade. We stand with small businesses, women artisans and local communities so they can work in fair,
+    sustainable conditions and reach people who care how things are made.
+  hero_cta_text: About the House
+  hero_cta_page: {page: about}
+  intro: >-
+    <p>Our work has two wings: <b>promoting the ten principles of fair trade</b> so that they are understood and
+    put into practice, and <b>helping our members sell</b> in Iran and abroad. Every purchase from a member of the
+    House supports fair pay, work without discrimination and respect for nature.</p>
+  body:
+  - cards:
+      heading: Why join the Fair Trade House?
+      cards:
+      - title: Pooled strength
+        text: Shared exhibitions, training and resources that are hard to reach alone.
+      - title: A trusted mark
+        text: The fair trade mark helps members become better known and earn public trust.
+      - title: New markets
+        text: Links with buyers who care about social and environmental impact, and export opportunities.
+      - title: Network and learning
+        text: Exchange of experience, new ideas and joint projects among members.
+      - title: Lower costs and risks
+        text: Shared ways of paying for advertising, training and raw materials.
+      - title: Social change
+        text: A part in promoting conscious consumption and a more humane, greener and fairer economy.
+  - quote:
+      text: >-
+        We want a world where the rights of producers, consumers and future generations are protected together;
+        a world where human rights and the environment come before material profit.
+      author: From the vision of the Fair Trade House of Iran

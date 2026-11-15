@@ -1,0 +1,934 @@
+# Membership, member-panel, dues, standing and shop e-mails, Persian and English.
+# One block per event (the name before the colon is fixed; do not change it).
+# Words in {braces} are filled in when the e-mail is sent: keep them exactly as they are.
+# An empty English text means the Persian text is sent (staff e-mails are Persian only).
+# These texts can also be edited in the admin panel: عضویت → متن ایمیل‌ها.
+received:
+  subject: درخواست عضویت شما دریافت شد ({code})
+  body: |-
+    {name} گرامی،
+
+    درخواست عضویت شما در گروه «{type}» دریافت شد. کد پیگیری شما {code} است؛ آن را نگه دارید.
+
+    دبیرخانه تا {deadline} کامل بودن پرونده را بررسی می‌کند. وضعیت پرونده را هر زمان با کد پیگیری و ایمیل خود در این نشانی ببینید:
+    {track_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: We received your membership application ({code})
+  body_en: |-
+    Dear {name},
+
+    We received your application to join as "{type}". Your tracking code is {code}; please keep it.
+
+    The secretariat will check your file by {deadline}. You can follow its status at any time with your tracking code and e-mail here:
+    {track_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+staff_new:
+  subject: 'درخواست عضویت تازه: {name} ({type})'
+  body: |-
+    درخواست عضویت تازه‌ای ثبت شد.
+
+    متقاضی: {name}
+    نوع عضویت: {type}
+    کد پیگیری: {code}
+    مهلت کنترل مدارک: {deadline}
+
+    بررسی پرونده:
+    {admin_url}
+  subject_en: ''
+  body_en: ''
+staff_resubmitted:
+  subject: 'متقاضی مدارک تکمیلی فرستاد: {name} ({code})'
+  body: |-
+    متقاضی {name} (کد {code}) به درخواست شما پاسخ داد و مدارک یا اصلاحات را فرستاد.
+
+    وضعیت فعلی: {status}
+    مهلت: {deadline}
+
+    بررسی پرونده:
+    {admin_url}
+  subject_en: ''
+  body_en: ''
+commission_new:
+  subject: 'پرونده عضویت برای ارزیابی: {name} ({type})'
+  body: |-
+    دبیرخانه پرونده زیر را کامل اعلام کرد و برای ارزیابی کمیسیون نظارتی فرستاد.
+
+    متقاضی: {name}
+    نوع عضویت: {type}
+    کد پیگیری: {code}
+    مهلت ارزیابی: {deadline}
+
+    بررسی پرونده:
+    {admin_url}
+  subject_en: ''
+  body_en: ''
+staff_reminder:
+  subject: یادآوری مهلت پرونده‌های عضویت
+  body: |-
+    این پرونده‌های عضویت به پایان مهلت نزدیک‌اند یا از مهلت گذشته‌اند:
+
+    {list}
+
+    فهرست کامل:
+    {admin_url}
+  subject_en: ''
+  body_en: ''
+status_incomplete:
+  subject: پرونده عضویت شما کامل نیست ({code})
+  body: |-
+    {name} گرامی،
+
+    دبیرخانه پرونده شما را بررسی کرد و این موارد لازم است:
+
+    {message}
+
+    لطفاً از صفحه پیگیری، با کد {code}، مدارک را بفرستید:
+    {track_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Your membership file is incomplete ({code})
+  body_en: |-
+    Dear {name},
+
+    The secretariat checked your file and needs the following:
+
+    {message}
+
+    Please send the documents from the tracking page with your code {code}:
+    {track_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+status_commission:
+  subject: پرونده شما به کمیسیون نظارتی رفت ({code})
+  body: |-
+    {name} گرامی،
+
+    پرونده شما کامل است و برای ارزیابی به کمیسیون نظارتی فرستاده شد. کمیسیون تا {deadline} ارزیابی را انجام می‌دهد. برای تولیدکنندگان، بازدید میدانی هم انجام می‌شود و برای هماهنگی با شما تماس می‌گیریم.
+    {message}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Your file has gone to the Supervisory Commission ({code})
+  body_en: |-
+    Dear {name},
+
+    Your file is complete and has been sent to the Supervisory Commission, which will evaluate it by {deadline}. For producers a field visit is part of the evaluation; we will contact you to arrange it.
+    {message}
+
+    Kind regards,
+    Secretariat, {site_name}
+status_fix_requested:
+  subject: کمیسیون نظارتی اصلاحاتی درخواست کرد ({code})
+  body: |-
+    {name} گرامی،
+
+    کمیسیون نظارتی پرونده شما را بررسی کرد و این اصلاحات را درخواست کرده است:
+
+    {message}
+
+    پس از انجام، از صفحه پیگیری پاسخ و مدارک خود را بفرستید:
+    {track_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: The Supervisory Commission requested changes ({code})
+  body_en: |-
+    Dear {name},
+
+    The Supervisory Commission reviewed your file and asks for these changes:
+
+    {message}
+
+    When they are done, send your reply and documents from the tracking page:
+    {track_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+status_rejected:
+  subject: نتیجه درخواست عضویت ({code})
+  body: |-
+    {name} گرامی،
+
+    سپاس از علاقه شما به خانه. کمیسیون نظارتی پس از بررسی، درخواست عضویت شما را به این دلیل نپذیرفت:
+
+    {message}
+
+    اگر به این رأی اعتراض دارید، می‌توانید ظرف ۳۰ روز از این ابلاغ اعتراض کتبی خود را به دبیر مجمع بفرستید.
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Result of your membership application ({code})
+  body_en: |-
+    Dear {name},
+
+    Thank you for your interest in the House. After review, the Supervisory Commission did not accept your application, for this reason:
+
+    {message}
+
+    If you disagree, you can send a written appeal to the Assembly Secretary within 30 days of this notice.
+
+    Kind regards,
+    Secretariat, {site_name}
+status_trial:
+  subject: 'خوش آمدید: پذیرش آزمایشی در خانه تجارت عادلانه ({code})'
+  body: |-
+    {name} گرامی،
+
+    کمیسیون نظارتی عضویت آزمایشی شما را پذیرفت. دوره آزمایشی تا {deadline} ادامه دارد و در این مدت به آموزش‌ها و خدمات پایه خانه دسترسی دارید. اعضای آزمایشی حق رأی، نامزدی و استفاده از نشان خانه را ندارند. در پایان دوره، کمیسیون ارزیابی پایانی را انجام می‌دهد.
+    {message}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: 'Welcome: trial membership of the Fair Trade House ({code})'
+  body_en: |-
+    Dear {name},
+
+    The Supervisory Commission accepted you as a trial member. The trial lasts until {deadline}; during it you can join the House's training and basic services. Trial members cannot vote, stand for election or use the House's mark. At the end of the trial the commission makes a final evaluation.
+    {message}
+
+    Kind regards,
+    Secretariat, {site_name}
+status_trial_extended:
+  subject: دوره آزمایشی شما تمدید شد ({code})
+  body: |-
+    {name} گرامی،
+
+    کمیسیون نظارتی دوره آزمایشی شما را یک بار تمدید کرد. دوره تازه تا {deadline} ادامه دارد.
+    {message}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Your trial period has been extended ({code})
+  body_en: |-
+    Dear {name},
+
+    The Supervisory Commission extended your trial period once. It now ends on {deadline}.
+    {message}
+
+    Kind regards,
+    Secretariat, {site_name}
+status_not_accepted:
+  subject: نتیجه ارزیابی پایانی دوره آزمایشی ({code})
+  body: |-
+    {name} گرامی،
+
+    کمیسیون نظارتی در ارزیابی پایانی، عضویت رسمی شما را نپذیرفت:
+
+    {message}
+
+    اگر به این رأی اعتراض دارید، می‌توانید ظرف ۳۰ روز اعتراض کتبی خود را به دبیر مجمع بفرستید.
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Result of your trial period ({code})
+  body_en: |-
+    Dear {name},
+
+    In its final evaluation the Supervisory Commission did not accept you as a full member:
+
+    {message}
+
+    You can send a written appeal to the Assembly Secretary within 30 days.
+
+    Kind regards,
+    Secretariat, {site_name}
+status_approved:
+  subject: 'تبریک: عضویت رسمی شما تأیید شد ({code})'
+  body: |-
+    {name} گرامی،
+
+    کمیسیون نظارتی عضویت رسمی شما را تأیید کرد. دبیرخانه به‌زودی عضویت شما را ثبت و گواهی عضویت را صادر می‌کند.
+    {message}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: 'Congratulations: your full membership is approved ({code})'
+  body_en: |-
+    Dear {name},
+
+    The Supervisory Commission approved your full membership. The secretariat will register you and issue your membership certificate shortly.
+    {message}
+
+    Kind regards,
+    Secretariat, {site_name}
+status_member:
+  subject: گواهی عضویت شما صادر شد ({certificate_number})
+  body: |-
+    {name} گرامی،
+
+    عضویت رسمی شما ثبت شد و گواهی عضویت به شماره {certificate_number} صادر شد. هر کس می‌تواند اعتبار این گواهی را در این نشانی بررسی کند:
+    {certificate_url}
+    {message}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Your membership certificate has been issued ({certificate_number})
+  body_en: |-
+    Dear {name},
+
+    Your full membership is registered and certificate number {certificate_number} has been issued. Anyone can check it here:
+    {certificate_url}
+    {message}
+
+    Kind regards,
+    Secretariat, {site_name}
+status_withdrawn:
+  subject: پرونده عضویت شما بایگانی شد ({code})
+  body: |-
+    {name} گرامی،
+
+    پرونده درخواست عضویت شما بایگانی شد:
+
+    {message}
+
+    برای درخواست دوباره، فرم عضویت را از نو پر کنید.
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Your membership file has been archived ({code})
+  body_en: |-
+    Dear {name},
+
+    Your membership application has been archived:
+
+    {message}
+
+    To apply again, please fill in the form anew.
+
+    Kind regards,
+    Secretariat, {site_name}
+panel_invite:
+  subject: حساب پنل اعضای شما ساخته شد
+  body: |-
+    {name} گرامی،
+
+    برای شما در پنل اعضای سایت {site_name} حساب کاربری ساخته شد. از این پنل می‌توانید معرفی مجموعه و محصولات خود را در سایت به‌روز کنید.
+
+    نام کاربری: {username}
+
+    برای ساختن رمز عبور این پیوند را باز کنید (پیوند تا چند روز معتبر است):
+    {set_password_url}
+
+    پس از آن از این نشانی وارد شوید:
+    {panel_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Your member panel account is ready
+  body_en: |-
+    Dear {name},
+
+    An account has been created for you in the member panel of {site_name}. There you can keep your profile and products on the website up to date.
+
+    Username: {username}
+
+    Open this link to choose your password (it is valid for a few days):
+    {set_password_url}
+
+    Then sign in here:
+    {panel_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+panel_product_review:
+  subject: 'محصول تازه در انتظار بررسی: {product} ({member})'
+  body: |-
+    عضو «{member}» از پنل اعضا محصول تازه‌ای ثبت کرد که پیش از نمایش در سایت بررسی شما را لازم دارد.
+
+    محصول: {product}
+
+    بررسی و انتشار:
+    {admin_url}
+
+    برای انتشار، تیک «در انتظار بررسی» را بردارید.
+  subject_en: ''
+  body_en: ''
+dues_issued:
+  subject: حق عضویت سالانه {year}
+  body: |-
+    {name} گرامی،
+
+    حق عضویت سالانه سال {year} شما {amount} است. لطفاً تا {due_date} آن را به حساب زیر واریز کنید و تصویر رسید را در پنل اعضا بفرستید:
+
+    {bank}
+
+    {panel_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Annual membership fee {year}
+  body_en: |-
+    Dear {name},
+
+    Your annual membership fee for {year} is {amount}. Please pay it into the account below by {due_date} and upload the receipt in the member panel:
+
+    {bank}
+
+    {panel_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+dues_reminder:
+  subject: 'یادآوری: مهلت پرداخت حق عضویت {year}'
+  body: |-
+    {name} گرامی،
+
+    یادآوری می‌کنیم که مهلت پرداخت حق عضویت سال {year} ({amount}) تا {due_date} است. اگر پرداخت کرده‌اید، رسید را در پنل اعضا بفرستید:
+    {panel_url}
+
+    {bank}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: 'Reminder: membership fee {year} is due'
+  body_en: |-
+    Dear {name},
+
+    A reminder that your membership fee for {year} ({amount}) is due by {due_date}. If you have paid, please upload the receipt in the member panel:
+    {panel_url}
+
+    {bank}
+
+    Kind regards,
+    Secretariat, {site_name}
+dues_warning:
+  subject: 'اخطار کتبی: حق عضویت {year} پرداخت نشده است'
+  body: |-
+    {name} گرامی،
+
+    مهلت پرداخت حق عضویت سال {year} ({amount}) در {due_date} به پایان رسید و پرداختی ثبت نشده است. این ایمیل اخطار کتبی موضوع بند ۱.۷ سند ارکان است.
+
+    اگر تا {suspend_date} حق عضویت پرداخت نشود، عضویت شما تعلیق می‌شود. عضو تعلیق‌شده حق رأی، استفاده از نشان و خدمات خانه را ندارد.
+
+    {message}
+
+    پرداخت و ارسال رسید:
+    {panel_url}
+
+    {bank}
+
+    اگر به این اخطار اعتراض دارید، تا {appeal_until} می‌توانید اعتراض کتبی خود را به دبیر مجمع عمومی بدهید.
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: 'Written warning: membership fee {year} not paid'
+  body_en: |-
+    Dear {name},
+
+    The deadline for your membership fee for {year} ({amount}) was {due_date} and we have not received a payment. This e-mail is the written warning under section 1.7 of the governance document.
+
+    If the fee is not paid by {suspend_date}, your membership will be suspended. A suspended member cannot vote, use the House's mark or use its services.
+
+    {message}
+
+    Pay and upload the receipt here:
+    {panel_url}
+
+    {bank}
+
+    If you disagree with this warning, you may send a written appeal to the Secretary of the General Assembly by {appeal_until}.
+
+    Kind regards,
+    Secretariat, {site_name}
+dues_receipt_staff:
+  subject: 'رسید تازه حق عضویت: {member} ({year})'
+  body: |-
+    عضو «{member}» رسید حق عضویت سال {year} ({amount}) را از پنل اعضا فرستاد.
+
+    {message}
+
+    بررسی و تأیید:
+    {admin_url}
+  subject_en: ''
+  body_en: ''
+dues_confirmed:
+  subject: پرداخت حق عضویت {year} تأیید شد
+  body: |-
+    {name} گرامی،
+
+    پرداخت حق عضویت سال {year} ({amount}) شما تأیید شد. سپاس از همراهی شما.
+
+    {message}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Membership fee {year} received
+  body_en: |-
+    Dear {name},
+
+    We have confirmed your membership fee for {year} ({amount}). Thank you.
+
+    {message}
+
+    Kind regards,
+    Secretariat, {site_name}
+dues_rejected:
+  subject: رسید حق عضویت {year} پذیرفته نشد
+  body: |-
+    {name} گرامی،
+
+    رسیدی که برای حق عضویت سال {year} فرستادید پذیرفته نشد:
+
+    {message}
+
+    لطفاً رسید درست را تا {due_date} در پنل اعضا بفرستید:
+    {panel_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Membership fee receipt {year} not accepted
+  body_en: |-
+    Dear {name},
+
+    The receipt you sent for your membership fee for {year} was not accepted:
+
+    {message}
+
+    Please upload the right receipt by {due_date} in the member panel:
+    {panel_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+standing_notice:
+  subject: تذکر کتبی خانه تجارت عادلانه
+  body: |-
+    {name} گرامی،
+
+    این ایمیل تذکر کتبی خانه به شما است.
+
+    موضوع: {reason}
+
+    {message}
+
+    اگر اعتراضی دارید، تا {appeal_until} می‌توانید آن را کتبی به دبیر مجمع عمومی بدهید.
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Written notice from the Fair Trade House
+  body_en: |-
+    Dear {name},
+
+    This e-mail is a written notice from the House.
+
+    Subject: {reason}
+
+    {message}
+
+    Kind regards,
+    Secretariat, {site_name}
+standing_warning:
+  subject: اخطار کتبی خانه تجارت عادلانه
+  body: |-
+    {name} گرامی،
+
+    این ایمیل اخطار کتبی خانه به شما است.
+
+    موضوع: {reason}
+
+    {message}
+
+    اگر به این اخطار اعتراض دارید، تا {appeal_until} می‌توانید اعتراض کتبی خود را به دبیر مجمع عمومی بدهید.
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Written warning from the Fair Trade House
+  body_en: |-
+    Dear {name},
+
+    This e-mail is a written warning from the House.
+
+    Subject: {reason}
+
+    {message}
+
+    If you disagree, you may send a written appeal to the Secretary of the General Assembly by {appeal_until}.
+
+    Kind regards,
+    Secretariat, {site_name}
+standing_suspend:
+  subject: تعلیق عضویت شما
+  body: |-
+    {name} گرامی،
+
+    عضویت شما در خانه تا {until} تعلیق شد.
+
+    دلیل: {reason}
+    {message}
+
+    طبق بند ۱.۷ سند ارکان، عضو تعلیق‌شده حق رأی، استفاده از نشان و خدمات خانه را ندارد. تعلیق حداکثر شش ماه است و پس از آن به رفع تعلیق یا لغو عضویت می‌انجامد.
+
+    اگر به این رأی اعتراض دارید، تا {appeal_until} می‌توانید اعتراض کتبی خود را به دبیر مجمع عمومی بدهید. اعتراض، اجرای تعلیق را متوقف نمی‌کند.
+
+    {panel_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Your membership has been suspended
+  body_en: |-
+    Dear {name},
+
+    Your membership of the House is suspended until {until}.
+
+    Reason: {reason}
+    {message}
+
+    Under section 1.7 of the governance document, a suspended member cannot vote, use the House's mark or use its services. A suspension lasts at most six months and then ends with the suspension being lifted or the membership cancelled.
+
+    If you disagree, you may send a written appeal to the Secretary of the General Assembly by {appeal_until}. An appeal does not pause the suspension.
+
+    {panel_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+standing_lift:
+  subject: رفع تعلیق عضویت
+  body: |-
+    {name} گرامی،
+
+    تعلیق عضویت شما رفع شد و از امروز دوباره از همه حقوق عضویت برخوردارید.
+
+    {message}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Your suspension has been lifted
+  body_en: |-
+    Dear {name},
+
+    The suspension of your membership has been lifted; from today you have all the rights of membership again.
+
+    {message}
+
+    Kind regards,
+    Secretariat, {site_name}
+standing_cancel:
+  subject: لغو عضویت
+  body: |-
+    {name} گرامی،
+
+    عضویت شما در خانه لغو شد.
+
+    دلیل: {reason}
+    {message}
+
+    اگر به این رأی اعتراض دارید، تا {appeal_until} می‌توانید اعتراض کتبی خود را به دبیر مجمع عمومی بدهید؛ تا صدور رأی اعتراض، عضویت شما در وضعیت تعلیق می‌ماند.
+
+    درخواست دوباره عضویت از {reapply_after} ممکن است.
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Your membership has been cancelled
+  body_en: |-
+    Dear {name},
+
+    Your membership of the House has been cancelled.
+
+    Reason: {reason}
+    {message}
+
+    If you disagree, you may send a written appeal to the Secretary of the General Assembly by {appeal_until}.
+
+    You may apply for membership again from {reapply_after}.
+
+    Kind regards,
+    Secretariat, {site_name}
+standing_reinstate:
+  subject: بازگشت عضویت
+  body: |-
+    {name} گرامی،
+
+    رأی لغو عضویت شما در رسیدگی به اعتراض نقض شد و عضویت شما برقرار است.
+
+    {message}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Your membership has been reinstated
+  body_en: |-
+    Dear {name},
+
+    The decision to cancel your membership was overturned on appeal and your membership continues.
+
+    {message}
+
+    Kind regards,
+    Secretariat, {site_name}
+standing_digest:
+  subject: گزارش روزانه حق عضویت و وضعیت اعضا
+  body: |-
+    این موارد به اقدام شما نیاز دارند:
+
+    {list}
+
+    فهرست کامل:
+    {admin_url}
+  subject_en: ''
+  body_en: ''
+order_placed:
+  subject: سفارش {code} ثبت شد
+  body: |-
+    {name} گرامی،
+
+    سفارش شما با کد {code} ثبت شد. سپاس که از تولیدکنندگان تجارت عادلانه خرید می‌کنید.
+
+    {details}
+
+    جمع کل: {total}
+
+    هر تولیدکننده سهم خود را جداگانه آماده و ارسال می‌کند. برای پرداخت، فرستادن رسید و پیگیری سفارش:
+    {order_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Order {code} placed
+  body_en: |-
+    Dear {name},
+
+    Your order {code} has been placed. Thank you for buying from fair trade producers.
+
+    {details}
+
+    Total: {total}
+
+    Each producer prepares and ships its part separately. To pay, send your receipt and follow your order:
+    {order_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+order_seller_new:
+  subject: سفارش تازه {code} از سایت خانه
+  body: |-
+    سفارش تازه‌ای برای «{member}» در سایت خانه ثبت شد.
+
+    {details}
+
+    خریدار: {buyer}
+    نشانی: {address}
+    پرداخت: {payment_mode}
+
+    {message}
+
+    پس از تأیید پرداخت خبرتان می‌کنیم. جزئیات در پنل اعضا:
+    {panel_url}
+  subject_en: ''
+  body_en: ''
+order_staff_new:
+  subject: 'سفارش تازه در فروشگاه: {code}'
+  body: |-
+    سفارش تازه‌ای در فروشگاه ثبت شد.
+
+    خریدار: {buyer}
+    نشانی: {address}
+
+    {details}
+
+    جمع کل: {total}
+
+    فهرست سفارش‌ها:
+    {admin_url}
+  subject_en: ''
+  body_en: ''
+order_receipt:
+  subject: رسید پرداخت سفارش {code}
+  body: |-
+    خریدار سفارش {code} ({member}) اطلاعات پرداخت را فرستاد و منتظر تأیید است.
+
+    {message}
+
+    بررسی و تأیید:
+    {admin_url}
+  subject_en: ''
+  body_en: ''
+order_seller_receipt:
+  subject: خریدار سفارش {code} پرداخت را خبر داد
+  body: |-
+    خریدار سفارش {code} اطلاعات واریز به حساب شما را فرستاد.
+
+    {message}
+
+    پس از دیدن واریز در حساب، پرداخت را در پنل اعضا تأیید کنید تا خریدار خبردار شود:
+    {panel_url}
+  subject_en: ''
+  body_en: ''
+order_paid:
+  subject: پرداخت سفارش {code} تأیید شد
+  body: |-
+    {name} گرامی،
+
+    پرداخت سفارش {code} از «{member}» تأیید شد و سفارش آماده ارسال می‌شود.
+
+    {details}
+
+    پیگیری سفارش:
+    {order_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Payment for order {code} confirmed
+  body_en: |-
+    Dear {name},
+
+    Payment for order {code} from {member} is confirmed; the order is being prepared.
+
+    {details}
+
+    Follow your order:
+    {order_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+order_seller_paid:
+  subject: سفارش {code} پرداخت شد؛ لطفاً ارسال کنید
+  body: |-
+    پرداخت سفارش {code} تأیید شد. لطفاً سفارش را آماده و ارسال کنید و کد رهگیری را در پنل اعضا ثبت کنید.
+
+    {details}
+
+    خریدار: {buyer}
+    نشانی: {address}
+
+    {panel_url}
+  subject_en: ''
+  body_en: ''
+order_rejected:
+  subject: پرداخت سفارش {code} تأیید نشد
+  body: |-
+    {name} گرامی،
+
+    پرداختی که برای سفارش {code} فرستادید تأیید نشد:
+
+    {message}
+
+    لطفاً اطلاعات درست را از صفحه سفارش بفرستید:
+    {order_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Payment for order {code} not confirmed
+  body_en: |-
+    Dear {name},
+
+    The payment you reported for order {code} could not be confirmed:
+
+    {message}
+
+    Please send the right details from your order page:
+    {order_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+order_shipped:
+  subject: سفارش {code} ارسال شد
+  body: |-
+    {name} گرامی،
+
+    سفارش {code} از «{member}» ارسال شد.
+    کد رهگیری مرسوله: {tracking}
+
+    {message}
+
+    پیگیری سفارش:
+    {order_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Order {code} shipped
+  body_en: |-
+    Dear {name},
+
+    Order {code} from {member} has been shipped.
+    Tracking code: {tracking}
+
+    {message}
+
+    Follow your order:
+    {order_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+order_cancelled:
+  subject: سفارش {code} لغو شد
+  body: |-
+    سفارش {code} ({member}) لغو شد.
+
+    {message}
+
+    اگر مبلغی پرداخت شده باشد، بازگردانده می‌شود. پیگیری:
+    {order_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Order {code} cancelled
+  body_en: |-
+    Order {code} ({member}) has been cancelled.
+
+    {message}
+
+    Any amount already paid will be refunded. Details:
+    {order_url}
+
+    Kind regards,
+    Secretariat, {site_name}
+order_return_request:
+  subject: درخواست مرجوعی سفارش {code}
+  body: |-
+    خریدار برای سفارش {code} ({member}) درخواست مرجوعی داده است.
+
+    دلیل:
+    {message}
+
+    پس از دریافت کالا، بازپرداخت را در صفحه سفارش ثبت کنید:
+    {panel_url}
+    {admin_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: ''
+  body_en: ''
+order_paid_closed:
+  subject: 'بررسی فوری: پرداخت آنلاین برای سفارش {code} که منتظر پرداخت نبود'
+  body: |-
+    بانک پرداخت آنلاین سفارش {code} ({member}) را تأیید کرد، اما این سفارش در وضعیت «{status}» بود (مثلاً پس از پایان مهلت پرداخت لغو شده بود).
+
+    شماره پیگیری بانکی: {message}
+
+    پول به حساب خانه رسیده است: سفارش را دوباره باز کنید یا مبلغ را به خریدار برگردانید.
+    {admin_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: ''
+  body_en: ''
+order_refunded:
+  subject: بازپرداخت سفارش {code}
+  body: |-
+    {name} گرامی،
+
+    مرجوعی سفارش {code} ({member}) ثبت و مبلغ آن بازپرداخت شد.
+
+    {message}
+
+    جزئیات:
+    {order_url}
+
+    با احترام،
+    دبیرخانه {site_name}
+  subject_en: Refund for order {code}
+  body_en: |-
+    Dear {name},
+
+    The return of order {code} ({member}) is recorded and the amount has been refunded.
+
+    {message}
+
+    Details:
+    {order_url}
+
+    Kind regards,
+    Secretariat, {site_name}

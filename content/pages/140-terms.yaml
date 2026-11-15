@@ -1,0 +1,25 @@
+key: terms
+type: pages.StandardPage
+parent: home
+in_menu: false
+site_settings_link: terms_page
+fa:
+  title: قوانین و مقررات
+  slug: terms
+  intro: شرایط استفاده از سایت و خرید از فروشگاه خانه تجارت عادلانه ایران
+  body:
+  - paragraph: <h2>فروشنده کیست</h2><p>محصولات فروشگاه را اعضای تولیدکننده خانه تجارت عادلانه می‌سازند و می‌فروشند. نام تولیدکننده روی هر محصول و در فاکتور آمده است. در بعضی سفارش‌ها مبلغ به حساب خانه و در بعضی مستقیم به حساب تولیدکننده پرداخت می‌شود؛ این را پیش از پرداخت در صفحه سفارش می‌بینید.</p>
+  - paragraph: <h2>قیمت و پرداخت</h2><p>قیمت‌ها به تومان (یا ریال) و با هزینه ارسال جدا نوشته شده‌اند. سفارش پس از تأیید پرداخت آماده و ارسال می‌شود. اگر سفارش در مهلت اعلام‌شده پرداخت نشود، به‌طور خودکار لغو می‌شود.</p>
+  - paragraph: <h2>ارسال</h2><p>هر تولیدکننده سفارش خود را جداگانه و با روشی که هنگام سفارش انتخاب کرده‌اید می‌فرستد و کد رهگیری را برایتان پیامک یا ایمیل می‌کند. زمان آماده‌سازی هر تولیدکننده در صفحه سبد خرید آمده است.</p>
+  - paragraph: <h2>بازگشت کالا و شکایت</h2><p>شرایط بازگشت کالا در صفحه «شرایط بازگشت کالا» آمده است. اگر از خرید یا رفتار یک عضو ناراضی هستید، از صفحه شکایت به کمیسیون نظارتی بنویسید. حقوق شما طبق قانون حمایت از حقوق مصرف‌کنندگان محفوظ است.</p>
+  - paragraph: <h2>محتوای سایت</h2><p>متن‌ها و تصاویر سایت از آنِ خانه تجارت عادلانه و اعضای آن است؛ استفاده از آن‌ها با ذکر منبع آزاد است، مگر برای فروش. این شرایط ممکن است به‌روز شود.</p>
+en:
+  title: Terms and conditions
+  slug: terms
+  intro: Terms of using the site and buying from the Fair Trade House of Iran's shop
+  body:
+  - paragraph: <h2>Who sells</h2><p>The products in the shop are made and sold by producer members of the Fair Trade House. The producer is named on every product and on the invoice. For some orders you pay the House, for others the producer directly; the order page shows which before you pay.</p>
+  - paragraph: <h2>Prices and payment</h2><p>Prices are in tomans (or rials), with shipping shown separately. An order is prepared and shipped once its payment is confirmed. An order not paid within the stated time is cancelled automatically.</p>
+  - paragraph: <h2>Shipping</h2><p>Each producer ships their part of your order separately, by the method you chose at checkout, and sends you the tracking code by SMS or e-mail. Each producer's preparation time is shown in the cart.</p>
+  - paragraph: <h2>Returns and complaints</h2><p>See the Returns page for how to return an item. If you are unhappy with a purchase or with a member's conduct, write to the Supervisory Commission from the complaints page. Your rights under Iran's consumer protection law are not affected.</p>
+  - paragraph: <h2>Site content</h2><p>The texts and pictures on the site belong to the Fair Trade House and its members; you may use them with credit, but not to sell. These terms may be updated.</p>

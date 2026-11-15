@@ -1,0 +1,25 @@
+key: privacy
+type: pages.StandardPage
+parent: home
+in_menu: false
+site_settings_link: privacy_page
+fa:
+  title: حریم خصوصی
+  slug: privacy
+  intro: خانه تجارت عادلانه ایران با اطلاعات شما چه می‌کند
+  body:
+  - paragraph: '<h2>چه اطلاعاتی می‌گیریم</h2><p>فقط اطلاعاتی را که خودتان در فرم‌ها می‌نویسید نگه می‌داریم: در خرید از فروشگاه نام، شماره موبایل، ایمیل و نشانی ارسال؛ در درخواست عضویت اطلاعات مجموعه، پاسخ پرسش‌ها و مدارک؛ در فرم تماس و شکایت متن پیام و راه تماس شما. شماره کارت بانکی شما را نمی‌گیریم؛ پرداخت آنلاین در درگاه بانک انجام می‌شود.</p>'
+  - paragraph: <h2>برای چه کاری</h2><p>برای رساندن سفارش، فرستادن رسید و خبر وضعیت سفارش (با ایمیل و پیامک)، بررسی درخواست عضویت طبق سند ارکان، و پاسخ به پیام‌ها و شکایت‌ها. اطلاعات شما را نمی‌فروشیم و برای تبلیغ به دیگران نمی‌دهیم.</p>
+  - paragraph: <h2>چه کسی آن را می‌بیند</h2><p>اطلاعات ارسال سفارش را تولیدکننده‌ای که از او خرید کرده‌اید و دبیرخانه می‌بینند. مدارک عضویت را دبیرخانه و کمیسیون نظارتی، و شکایت‌های محرمانه را فقط کمیسیون نظارتی می‌بیند. این فایل‌ها در بخش جداگانه‌ای از سرور نگه داشته می‌شوند و نشانی عمومی ندارند.</p>
+  - paragraph: '<h2>کوکی‌ها</h2><p>سایت فقط کوکی‌های لازم برای کار خود را دارد: سبد خرید، ورود به پنل و زبان صفحه. ابزار ردیابی تبلیغاتی به‌کار نمی‌بریم.</p>'
+  - paragraph: <h2>دسترسی و حذف</h2><p>می‌توانید دیدن، اصلاح یا حذف اطلاعات خود را از دبیرخانه بخواهید؛ از صفحه «تماس با ما» پیام بفرستید. اطلاعاتی که قانون یا حساب‌رسی نگه‌داشتن آن را لازم می‌داند (مثل سابقه سفارش‌ها) تا زمان لازم نگه داشته می‌شود.</p>
+en:
+  title: Privacy
+  slug: privacy
+  intro: What the Fair Trade House of Iran does with your information
+  body:
+  - paragraph: '<h2>What we collect</h2><p>Only what you type into our forms: for an order, your name, mobile number, e-mail and delivery address; for a membership application, details of your organisation, your answers and documents; for the contact and complaint forms, your message and how to reach you. We never receive your card number: online payments are made on the bank''s own payment page.</p>'
+  - paragraph: <h2>What for</h2><p>To deliver your order and keep you informed about it (by e-mail and SMS), to review membership applications as our governance document requires, and to answer messages and complaints. We do not sell your information or give it to others for advertising.</p>
+  - paragraph: <h2>Who sees it</h2><p>Your delivery details are seen by the producer you bought from and by the secretariat. Membership documents are seen by the secretariat and the Supervisory Commission; confidential complaints only by the Supervisory Commission. These files are kept apart on the server and have no public address.</p>
+  - paragraph: '<h2>Cookies</h2><p>The site only uses the cookies it needs to work: your cart, signing in to the member panel, and the page language. We use no advertising trackers.</p>'
+  - paragraph: <h2>Access and deletion</h2><p>You can ask the secretariat to show, correct or delete your information; write to us from the Contact page. Information the law or our accounts require us to keep (such as order records) is kept for as long as needed.</p>

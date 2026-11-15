@@ -197,3 +197,45 @@ def guide(request):
         "membership_settings": MembershipSettings.load(request_or_site=request) if sections["membership"] else None,
         "news_index": news_index_for(user),
     })
+
+
+# ---- content import («درون‌ریزی محتوا», superusers only) ----
+
+def content_import(request):
+    """
+    Import the bilingual content package (content/ folder, or an uploaded .zip of it) from the
+    admin panel: the same as `python manage.py import_content`. A dry run comes first by default.
+    """
+    import io
+
+    from django.core.exceptions import PermissionDenied
+
+    from home.content_import import find_phrases
+    from home.content_package import ContentPackage, PackageError
+    from home.management.commands.import_content import run_import
+
+    if not request.user.is_superuser:
+        raise PermissionDenied
+    context = {"page_title": "درون‌ریزی محتوا", "header_title": "درون‌ریزی محتوا", "header_icon": "download"}
+    package, error = None, ""
+    try:
+        if request.method == "POST" and request.FILES.get("package"):
+            package = ContentPackage.from_upload(request.FILES["package"])
+        else:
+            package = ContentPackage()
+    except PackageError as exc:
+        error = str(exc)
+    context.update(package=package, error=error, summary=package.summary() if package else None)
+
+    if request.method == "POST" and package is not None:
+        update = request.POST.get("mode") == "update"
+        dry_run = request.POST.get("apply") != "1"
+        report = run_import(package, update=update, dry_run=dry_run, stdout=io.StringIO())
+        counts = {}
+        for action, _ in report:
+            counts[action] = counts.get(action, 0) + 1
+        context.update(ran=True, dry_run=dry_run, update=update, report=report, counts=counts,
+                       uploaded=bool(request.FILES.get("package")))
+    elif package is not None:
+        context["hits"] = find_phrases(package.checks.get("forbidden_phrases", []))
+    return TemplateResponse(request, "core/admin/content_import.html", context)

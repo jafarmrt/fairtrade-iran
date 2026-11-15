@@ -1,0 +1,23 @@
+key: returns
+type: pages.StandardPage
+parent: home
+in_menu: false
+site_settings_link: returns_page
+fa:
+  title: شرایط بازگشت کالا
+  slug: returns
+  intro: اگر کالایی که خریده‌اید سالم نرسید یا با توضیحات آن نمی‌خواند
+  body:
+  - paragraph: <h2>چه زمانی</h2><p>تا چند روز پس از ارسال یا تحویل (مهلتی که در صفحه سفارش می‌بینید) می‌توانید از همان صفحه «درخواست مرجوعی» بدهید و دلیل آن را بنویسید. تولیدکننده و دبیرخانه خبردار می‌شوند و با شما تماس می‌گیرند.</p>
+  - paragraph: <h2>چه کالایی</h2><p>کالای آسیب‌دیده، اشتباه یا متفاوت با توضیحات سایت پس گرفته می‌شود. کالای خوراکی بازشده، کالای سفارشی که به خواست شما ساخته شده و کالایی که پس از تحویل آسیب دیده، معمولاً پس گرفته نمی‌شود، مگر تولیدکننده بپذیرد.</p>
+  - paragraph: <h2>هزینه ارسال برگشت</h2><p>اگر ایراد از کالا یا ارسال باشد، هزینه برگشت با فروشنده است؛ در غیر این صورت با خریدار. پیش از فرستادن کالا با فروشنده هماهنگ کنید.</p>
+  - paragraph: <h2>بازپرداخت</h2><p>پس از رسیدن کالا و بررسی آن، مبلغ به کارت یا شبای شما بازگردانده می‌شود و نتیجه را با پیامک و ایمیل خبر می‌دهیم. سفارش‌هایی که به حساب خانه پرداخت شده‌اند را دبیرخانه و سفارش‌های پرداخت مستقیم را خود تولیدکننده بازپرداخت می‌کند.</p>
+en:
+  title: Returns
+  slug: returns
+  intro: If an item arrives damaged or is not as described
+  body:
+  - paragraph: <h2>When</h2><p>Within the days shown on your order page after shipping or delivery, use "Return this order" on that page and say why. The producer and the secretariat are told and will contact you.</p>
+  - paragraph: <h2>Which items</h2><p>Items that arrive damaged, wrong or not as described are taken back. Opened food, items made to your order and items damaged after delivery are usually not, unless the producer agrees.</p>
+  - paragraph: <h2>Return shipping</h2><p>If the fault is with the item or its delivery, the seller pays for return shipping; otherwise the buyer does. Please agree with the seller before sending anything back.</p>
+  - paragraph: <h2>Refunds</h2><p>Once the item is back and checked, the money is paid back to your card or account and we tell you by SMS and e-mail. Orders paid to the House are refunded by the secretariat; orders paid directly to a producer, by the producer.</p>

@@ -1,0 +1,56 @@
+{% extends "wagtailadmin/generic/base.html" %}
+{% comment %}
+«تنظیمات» › «درون‌ریزی محتوا» (superusers only), view: core.admin_views.content_import.
+Imports the content package (content/ folder or an uploaded .zip), as `python manage.py import_content`.
+{% endcomment %}
+{% block main_content %}
+<div class="ft-guide" dir="rtl" lang="fa">
+    <p>همهٔ متن‌های سایت به دو زبان (صفحه‌ها، معرفی اعضای مؤسس، پرسش‌های فرم عضویت، متن ایمیل‌ها و پیامک‌ها و تنظیمات متنی) در «بستهٔ محتوا» نگه داشته می‌شود: پوشهٔ <code dir="ltr">content/</code> پروژه، یا فایل zip همان پوشه. این صفحه بسته را یک‌جا در سایت می‌ریزد. راهنمای کامل: <code dir="ltr">content/README-fa.md</code>.</p>
+
+    {% if error %}
+    <div class="help-block help-critical"><p><strong>بسته خوانده نشد:</strong></p><pre dir="auto" style="white-space:pre-wrap">{{ error }}</pre></div>
+    {% endif %}
+
+    {% if ran %}
+    <h2>{% if dry_run %}پیش‌نمایش (چیزی ذخیره نشد){% else %}درون‌ریزی انجام شد{% endif %}</h2>
+    <p>
+        {% if update %}حالت: «جایگزینی متن‌ها»{% else %}حالت: «فقط افزودن موارد تازه»{% endif %}{% if uploaded %} · از فایل بارگذاری‌شده{% endif %}.
+        ساخته‌شده: {{ counts.created|default:0 }} · به‌روزشده: {{ counts.updated|default:0 }} · اصلاح عضو مؤسس: {{ counts.changed|default:0 }} · هشدار: {{ counts.warning|default:0 }}
+    </p>
+    {% if report %}
+    <ul dir="ltr" style="text-align:left;max-height:24rem;overflow:auto">
+        {% for action, what in report %}<li><strong>{{ action }}</strong>: {{ what }}</li>{% endfor %}
+    </ul>
+    {% else %}<p>هیچ تغییری لازم نبود؛ سایت با بسته یکی است.</p>{% endif %}
+    {% if dry_run %}<p>اگر فهرست بالا درست است، همان گزینه‌ها را دوباره انتخاب کنید و «درون‌ریزی» را بزنید.</p>{% endif %}
+    {% endif %}
+
+    {% if summary %}
+    <h2>بسته</h2>
+    <p>منبع: <code dir="ltr">{{ package.label }}</code> — {{ summary.pages }} صفحه (با {{ summary.news }} خبر)، {{ summary.members }} عضو، {{ summary.questions }} پرسش فرم عضویت، {{ summary.emails }} متن ایمیل، {{ summary.sms }} متن پیامک.</p>
+    {% endif %}
+    {% if hits %}
+    <div class="help-block help-warning"><p><strong>این عبارت‌ها هنوز در سایت هست</strong> (فهرست در <code dir="ltr">content/checks.yaml</code>). «جایگزینی متن‌ها» صفحه‌های بسته را درست می‌کند؛ بقیه را دستی ویرایش کنید:</p>
+        <ul>{% for hit in hits %}<li>{{ hit }}</li>{% endfor %}</ul></div>
+    {% endif %}
+
+    <h2>درون‌ریزی</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <fieldset>
+            <legend>کدام بسته؟</legend>
+            <p>اگر فایلی انتخاب نکنید، بستهٔ همراه سایت (پوشهٔ <code dir="ltr">content/</code>) به کار می‌رود.</p>
+            <input type="file" name="package" accept=".zip">
+        </fieldset>
+        <fieldset>
+            <legend>چه کند؟</legend>
+            <p><label><input type="radio" name="mode" value="missing" checked> <strong>فقط افزودن موارد تازه</strong>: صفحه، عضو یا متنی که هنوز در سایت نیست ساخته می‌شود؛ به ویرایش‌های پنل دست نمی‌زند.</label></p>
+            <p><label><input type="radio" name="mode" value="update"> <strong>جایگزینی متن‌ها</strong>: متن صفحه‌ها، اعضا، پرسش‌ها، ایمیل‌ها و تنظیماتی که در بسته هست جای متن فعلی را می‌گیرد. از هر صفحه نسخهٔ تازه منتشر می‌شود و نسخهٔ قبلی در «تاریخچه»ی همان صفحه می‌ماند.</label></p>
+        </fieldset>
+        <p>
+            <button type="submit" class="button button-secondary" name="apply" value="0">پیش‌نمایش (بدون ذخیره)</button>
+            <button type="submit" class="button" name="apply" value="1">درون‌ریزی</button>
+        </p>
+    </form>
+</div>
+{% endblock %}
