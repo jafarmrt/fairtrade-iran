@@ -65,6 +65,7 @@ jobs:
         run: |
           docker compose config -q
           docker compose -f docker-compose.yml -f docker-compose.https.yml config -q
+          docker compose -f docker-compose.yml -f docker-compose.cdn.yml config -q
       - name: Build and start
         run: docker compose up -d --build --wait --wait-timeout 180 db web nginx scheduler
       - name: Seed content
@@ -77,6 +78,19 @@ jobs:
             sleep 2
           done
           for path in /fa/ /en/ /admin/login/ /static/css/fairtrade.css; do
+            code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost$path")
+            echo "$path $code"
+            [ "$code" = 200 ] || exit 1
+          done
+      - name: Behind the Parspack CDN (docker-compose.cdn.yml)
+        run: |
+          docker compose -f docker-compose.yml -f docker-compose.cdn.yml up -d --wait --wait-timeout 120 nginx
+          docker compose -f docker-compose.yml -f docker-compose.cdn.yml exec -T nginx nginx -t
+          for i in $(seq 1 15); do
+            curl -sf -o /dev/null http://localhost/fa/ && break
+            sleep 2
+          done
+          for path in /fa/ /en/ /admin/login/; do
             code=$(curl -s -o /dev/null -w '%{http_code}' "http://localhost$path")
             echo "$path $code"
             [ "$code" = 200 ] || exit 1
