@@ -1,0 +1,11 @@
+# The site behind Parspack's CDN, which provides HTTPS to visitors with its own
+# certificate (for servers that cannot reach Let's Encrypt). Turn it on with
+#   COMPOSE_FILE=docker-compose.yml:docker-compose.cdn.yml
+# in .env, then "docker compose up -d --wait". See docs/deploy-fa.md, section 7.
+# Use this file or docker-compose.https.yml, not both.
+
+services:
+  nginx:
+    volumes:
+      - ./deploy/nginx-cdn.conf:/etc/nginx/conf.d/default.conf:ro
+      - ./deploy/cdn:/etc/nginx/cdn:ro
